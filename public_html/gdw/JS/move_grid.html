@@ -1,0 +1,226 @@
+<html>
+	<head>
+<style>
+.gridt > .LWall{
+border-left: double 6px;
+}
+.gridc > .Lwall{
+border-left: double 6px;
+}
+.gridb > .LWall{
+border-left: double 6px;
+}
+.gridt > .RWall{
+border-right: double 6px;
+}
+.gridc > .Rwall{
+border-right: double 6px;
+}
+.gridb > .RWall{
+border-right: double 6px;
+}
+body{
+background-color:lightblue;
+}
+h1{
+text-align:center;
+}
+.gridc{
+display:grid;
+grid-template-columns: auto auto auto auto auto auto;
+grid-gap: 1px;
+margin-top:1px;
+margin-bottom:1px;
+text-align:center;
+}
+.gridt{
+display:grid;
+grid-template-columns: auto auto auto auto auto auto;
+grid-gap: 1px;
+text-align:center;
+}/* to do: have the grid spaces be squares*/
+.gridb{
+display:grid;
+grid-template-columns: auto auto auto auto auto auto;
+grid-gap: 1px;
+text-align:center;
+}
+.gridt > div{
+padding: 50px 10px;
+border: solid black 2px;
+border-top: double 6px;
+}
+.gridc > div{
+padding: 50px 10px;
+border: solid black 2px;
+}
+.gridb > div{
+padding: 50px 10px;
+border: solid black 2px;
+border-bottom: double 6px;
+}
+.gridc > #EndPoint{
+background-color: rgba(255, 255, 0, .5);
+}
+.gridc > .Rdoor{
+border-right: dashed black 6px;
+}
+.gridb > #StartPoint{
+background-color: rgba(0,255,0, .5);
+}
+.center{
+text-align:center;
+}
+</style>
+<title>Basic move grid</title>
+	</head>
+	<body onkeydown="keyPress()" onLoad="hide()">
+		<h1>Movement grid</h1>
+<div class="center">(notice: This was tested on Google Chrome, if this program isn't working for you, try that browser)</div>
+		<hr>
+		<section>
+	<div  class="gridt">
+		<div class="LWall" id="11"> </div>
+		<div class="RWall" id="21"> </div>
+		<div id="31"> </div>
+		<div id="41"> </div>
+		<div id="51"> </div>
+		<div  class="RWall" id="61"> </div>
+		<!--first column-->
+	</div>
+	<div class="gridc">
+		<div id="EndPoint" class="LWall"> </div>
+		<div class="Rdoor" id="22"> </div>
+		<div id="32"> </div>
+		<div id="42"> </div>
+		<div id="52"> </div>
+		<div class="RWall" id="62"> </div>
+	</div>
+	<div class="gridb">
+		<div class="LWall" id="13"> </div>
+		<div class="RWall" id="23"> </div>
+		<div id="33"> </div>
+		<div id="43"> </div>
+		<div id="53"> </div>
+		<div id="StartPoint" class="RWall"> </div>
+	</div>
+		</section>
+		
+		<div id="endScreen"><h1>Level Clear!</h1></div>
+	<script>
+/*current issue(s):
+making the grid pieces keep a constant size; which is a CSS issue*/
+		function hide(){	
+	document.getElementById("endScreen").style.visibility = "hidden";
+	document.getElementById("StartPoint").innerHTML = "X";
+		}
+		//this above function is just to hide an element, it works
+var cords = [11, 21, 31, 41, 51, 61, 22, 32, 42, 52, 62, 13, 23, 33, 43, 53];
+function displayLocation(){
+	var a;
+	console.log("display start");
+	let locS="";
+	locS=loc[0];
+	locS=locS.toString();
+	console.log(locS);
+	locS=locS+loc[1];
+	console.log(locS);
+	document.getElementById("EndPoint").innerHTML = "";
+	document.getElementById("StartPoint").innerHTML = "";
+	for(let i=0; i<cords.length;i++){
+	document.getElementById(cords[i]).innerHTML = "";	
+	}
+	if(loc[0]==1&&loc[1]==2){
+	document.getElementById("EndPoint").innerHTML ="X";
+	} else if(loc[0]==6&&loc[1]==3){
+	document.getElementById("StartPoint").innerHTML ="X" ;
+	} else {
+	document.getElementById(locS).innerHTML ="X";
+	}
+	console.log("display end");
+}
+
+
+//[6,3] is starting point, [1,2] is the end point, which is yellow on the grid.
+//some of this code is sort of designed for this level, in theory, some of them could be replaced with variables that can be changed with each level, but that might be diificult.
+	function keyPress(){
+	key = window.event.keyCode;
+	console.log(key);
+		if(key==38||key==40){
+		downUp();
+		} else if(key==37||key==39){
+		rightLeft();
+		} else if(key==32){
+		interaction();
+		}
+		/*
+		if(key==38){
+		loc[1] = loc[1]-1;
+		} else if(key==40){
+		loc[1] = loc[1]+1;
+		} else if(key==37){
+		loc[0] = loc[0]-1;
+		} else if(key==39){
+		loc[0] = loc[0]+1;
+		}*/
+	console.log(loc);
+	displayLocation();
+	}//32 is space bar, which will be used to interact with stuff
+	function downUp(){
+		if(key==38&&loc[1]!=1){
+		loc[1] = loc[1]-1;
+		} else if(key==40&&loc[1]!=3){
+		loc[1] = loc[1]+1;
+		}
+	}
+
+	function rightLeft(){
+		if(key==39){
+			if(loc[0]!=2&&loc[0]!=6){
+			loc[0]=loc[0]+1;
+		} else {
+		//alert("you can't move through walls");
+		}
+		}
+		if(key==37){
+		if(loc[0]==1){
+				
+		}else{
+		if(loc[0]==3){
+		doorWall();
+		} else {
+		loc[0]=loc[0]-1;
+		}
+		}
+		}
+	}
+
+	function doorWall(){
+	//if loc[1]==2 then check if the door is open
+	console.log("doorWall was called");
+	if(loc[1]==2&&doorFlag==1){
+	loc[0]=loc[0]-1;
+	alert("you close the door behind you as you enter");
+	} else if(loc[1]==2&&doorFlag==0){
+	alert("the door is closed");
+	}
+	}
+
+function interaction(){
+	if(loc[0]==3&&loc[1]==2){
+	if(doorFlag==0){
+	doorFlag=1;
+	alert("you open the door.");
+	}
+	}
+	if(loc[0]==1&&loc[1]==2){
+	alert("you have reached the end.");
+	document.getElementById("endScreen").style.visibility = "visible";
+	}
+}
+	var doorFlag = 0;
+	var key = 0;
+	var loc = [6,3];
+	</script>
+	</body>
+</html>

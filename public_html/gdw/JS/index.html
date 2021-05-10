@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<title>Javascript index</title>
+<style>
+body{
+background-color:lightblue;
+}
+h1{
+text-align:center;
+}
+#secret{
+padding: 10px;
+border:1px black solid;
+}
+#secret button{
+border:2px dashed blue;
+}
+</style>
+	</head>
+<body onload="hide()">
+	<script>
+	//some of this code doesn't work, and i'm not quite sure why, i'll try to fix it later.
+	var N = 0;
+	var str = "imanok";
+	var storage1 = "imanok";
+	//konami
+	//"up up down down left right left right B A";
+	function plus(){
+	console.log(N);
+	N = N+1;
+	document.getElementById('number').innerHTML = N;
+	}
+	function checkPass(){
+	let entered = document.getElementById('entry').value;
+	let temp =  str.split("");
+	console.log(temp);
+	str = temp.reverse();
+	console.log(str);
+	temp = str.join();
+	console.log(temp);
+	for(let i = 0; i < 7; i++){
+	temp = temp.replace(",","")
+	}
+	str = temp
+	console.log(str);
+		if(entered==str){
+		//reveal code
+		document.getElementById("secret").style.display = "initial";
+		}
+	str = storage1;
+	}
+function hide(){
+	console.log("hide has been run");
+document.getElementById("secret").style.display = "none";
+}
+</script>
+	<h1>Javascript Homepage</h1>
+	<button onclick="plus()">Count up</button>
+	<p id="number"></p>
+	<hr>
+	<form>
+		<input type="password" id="entry"> </input>
+	</form>
+	<button onClick="checkPass()">Enter password</button>
+	<br><br>
+	<div id="secret">
+		up up down down left right left right A B
+	<button onClick="hide()">Press to hide the code</button>
+	</div>
+	<hr>
+	<a href="battleship.html">Battleship</a>
+</body>
+</html>

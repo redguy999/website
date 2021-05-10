@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grid 2: Headers, Footers, etc</title>
+<style type="text/css">
+body {
+    display: grid;
+    grid-template-columns: 19vw 80vw;
+    grid-template-rows: 8vw 36vw 4vw;
+    grid-gap: 0.3vw;
+    margin: 0.3vw;
+}
+header {
+    grid-area: 1 / 1 / 2 / 3;
+    background-color: #333;
+}
+header > h1 {
+    color: #FFF;
+    text-align: center;
+    font-size: 3vw;
+}
+nav {
+    grid-area: 2 / 1 / 3 / 2;
+    background-color: #78467B;
+    padding-top: 1.6vw;
+    padding-left: 1.6vw;
+}
+nav > a {
+    display: block;
+    margin-top: 0.5vw;
+}
+nav > a, nav > a:visited {
+    font-family: sans-serif;
+    font-size: 1.3vw;
+    color: #FCF;
+    text-decoration: none;
+}
+nav > a + a {
+    margin-top: 1vw;
+}
+main {
+    grid-area: 2 / 2 / 3 / 3;
+    background-color: #FF0;
+}
+main > h2 {
+    text-align: center;
+    font-size: 2.2vw;
+}
+main > p {
+     background-color: #FF9;
+     margin: 0.5vw;
+     border: 1px dotted #000;
+     padding: 0.8vw;
+     font-size: 1.5vw;
+}
+footer{
+background-color:#333;
+grid-area: 3 / 1 / 3 / 4;
+text-align:center;
+}
+/*dispite using vertical-align and adding a span tag and then trying to get it	
+to be in the very middle of the footer, i can't get the text to align vertically
+the text in the footer seems to only want to be at the center of it horizontally
+*/
+footer > a{
+color:#FF0;
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Grid 2: Headers, Footers, etc</h1>
+</header>
+
+<nav>
+<a href="https://en.wikipedia.org/wiki/CSS_grid_layout">CSS grid layout</a>
+<a href="https://gridbyexample.com">Grid by Example</a>
+<a href="https://css-tricks.com/snippets/css/complete-guide-grid/">
+A Complete Guide to Grid</a>
+<a
+href="https://alistapart.com/article/the-story-of-css-grid-from-its-creators">
+The Story of CSS Grid</a>
+</nav>
+<main>
+<h2>CSS grid layout (from Wikipedia article)</h2>
+<p>
+<b>CSS grid layout</b> or <b>CSS grid</b> is a technique in Cascading Style
+Sheets that allows web developers to create complex responsive web design
+layouts more easily and consistently across browsers. There have been other
+webpage layout methods used previously including tables, the box model, and CSS
+flex box. It is currently a W3C Candidate Recommendation despite already being
+adopted by most major browsers.
+</p>
+<p>
+CSS grid can create more asymmetrical layouts than the previous grid and layout
+options like CSS floats. It also allows for more standardized code that works
+across browsers. This is in contrast to relying on specific browser hacks or
+complicated workarounds.
+</p>
+<p>
+One issue with using floats in CSS is if content gets added to one portion of
+the page it could disrupt the flow of the page and break the layout. This is
+due to the varying heights for layout elements. Though CSS flex box supports
+flexible layouts and provides the flexibility of creating complex layouts, it
+fails when the need for creating responsive layouts in 2-dimensional space
+arises. That is where CSS grid layout shines.
+</p>
+</main>
+
+<footer>
+<a href="http://validator.w3.org/check/referer">
+<strong> HTML </strong> Valid! </a> |
+<a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
+<strong> CSS </strong> Valid! </a>
+</footer>
+</body>
+</html>
+

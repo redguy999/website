@@ -1,0 +1,69 @@
+<html>
+	<head>
+	<style>
+#standard{
+color:black;
+display:default;
+}
+#admin > div{
+display:default;
+background-color:black;
+color:green;
+}
+body{
+background-color:lightblue;
+}
+
+	</style>
+	</head>
+	<body onLoad="closePanel()">
+	<span id="standard">
+	<h1>This is the title</h1>
+	<hr>
+	<p>This is the text</p>
+	<hr><button onClick="panelOpen()">Open admin panel</button>
+	</span><span id="admin">
+		<button onClick="closePanel()">Close admin panel</button>
+		<hr>
+		<div>background variables:<br>
+		<dl>
+			<dt>background color:</dt>
+			<dd><input type="text" id="BgColor"></input></dd>
+		</dl>
+		</div><div>header variables:<br>
+		<dl>
+		<dt>background color:</dt>
+		<dd><input type="text" id="HBColor"></input></dd>
+		<dt>text color:</dt>
+		<dd><input type="text" id="HColor"></input></dd>
+		</dl>
+	</span>
+	</body>
+	<script>
+	//end goal: make the object attributes editable in the admin panel
+	//other goal(s): make object attributes visible in the admin panel
+	//current goal: make the input tags do stuff
+	var s = document.getElementById("standard");
+	var a = document.getElementById("admin");
+	function panelOpen(){
+	document.getElementById("admin").style.display = "initial";
+	document.getElementById("standard").style.display = "none";
+	document.body.style.backgroundColor = "green";
+	}
+	function closePanel(){
+	document.getElementById("standard").style.display = "initial";
+	document.getElementById("admin").style.display = "none";
+	document.body.style.backgroundColor = "lightblue";
+	}
+	var background = {
+	color: "lightblue"
+	};
+	var header = {
+	backgroung-color:"none"
+	text-color: "This is the title"
+	};
+	var para = {
+	text:"This is the text"
+	};
+	</script>
+</html>
