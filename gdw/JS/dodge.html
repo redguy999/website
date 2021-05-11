@@ -23,7 +23,7 @@ text-align:center;
 }
 	</style>
 	</head>
-	<body>
+	<body onLoad="onStart()">
 	<h1>Dodge stuff</h1><hr>
 <h2>Game board</h2><br>
 <div id="gameboard">
@@ -52,5 +52,32 @@ text-align:center;
 	</body>
 <script>
 //grid space names are row column.
+//use move_grid script as refrence
+var cords=[11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44,51,52,53,54];
+var play = false;
+var t=0;//looping timer
+var time = 0;//main clock (might be useless)
+var H1 = 1;
+var H2 = 1;
+var H3 = 1;
+var H4 = 1;//might not be needed, but its better to have an extra.
+function resetDisplay(){
+for(let i=0; i<cords.length;i++){
+document.getElementById(cords[i]).innerHTML = "";	
+}
+}//end of reset display
+function loop(){
+while(play==true){
+for(t=0;t<100;t++){
+playerMove();
+hostileMove();	
+wait(1);
+}
+scoreUp();
+}
+}//end of loop
+function onStart(){
+
+}
 </script>
 </html>
