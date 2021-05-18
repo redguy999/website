@@ -57,10 +57,13 @@ var cords=[11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44,51,52,53,54];
 var play = false;
 var t=0;//looping timer
 var time = 0;//main clock (might be useless)
+var player = [5,2];
 var H1 = 1;
 var H2 = 1;
 var H3 = 1;
 var H4 = 1;//might not be needed, but its better to have an extra.
+var alter = 0;
+var score = 0;
 function resetDisplay(){
 for(let i=0; i<cords.length;i++){
 document.getElementById(cords[i]).innerHTML = "";	
@@ -69,15 +72,43 @@ document.getElementById(cords[i]).innerHTML = "";
 function loop(){
 while(play==true){
 for(t=0;t<100;t++){
+resetDisplay();
 playerMove();
 hostileMove();	
-wait(1);
+setTimeout(1);
 }
 scoreUp();
 }
-}//end of loop
+}//end of function loop
+function playerMove(){
+let key = window.event.keyCode;
+if(key==37){
+player[1] = player[1]+1;
+} else if(key==39){
+player[1] = player[1]-1;
+} else if(key==32){
+end()
+}
+}
+function hostileMove(){
+//have them move every second, and then speed up to 1/10 of a second after a bit
+}
+function hostleSpawn(){
+//should be called every second movement of the hostiles (use var "alter")
+}
+function scoreUp(){
+score++;
+time++;
+t=0;
+}
+function end(){
+play = false;
+}
 function onStart(){
-
+H1 = [1,1];
+play = true;
+player = [5,2];
+loop();
 }
 </script>
 </html>
