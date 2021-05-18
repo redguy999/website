@@ -38,6 +38,30 @@ h1, h2:active {
 a:visited {
     color: #97ACB3;
 }
+#Block1{
+background-color: rgba(255, 0, 0, .5);
+transform:none;
+}
+#Block2{
+background-color: rgba(0, 0, 255, .5);
+}
+#Block3{
+background-color: rgba(0, 255, 0, .5);
+}
+.parent{
+display: grid;
+grid-template-columns: auto auto auto;
+justify-content: space-evenly;
+
+}
+.block{
+padding:98px;
+border: 1px solid black;
+text-align:center;
+}
+.center{
+text-align:center;
+}
 </style>
 <!--
 2021-02-28  I made several small changes to your website Patrick, the main one
@@ -54,6 +78,15 @@ Webskills.html.  ~ JE
   <li><a href=birds>Birds</a></li>
 </ul>
 <hr>
+<h2>Messing with CSS</h2>
+<div class="parent">
+<div class="block" id="Block1">Block 1</div>
+<div class="block" id="Block2">Block 2</div>
+<div class="block" id="Block3">Block 3</div>
+</div>
+<span id="center"><button onClick="Stuff()">Click for CSS stuff</button></span>
+<hr>
+<h2>Random stuff</h2>
 <div class="numbers">Pi estimate = <span id="pi">3.14159265</span>.</div>
 <footer style="text-align: center;">
 <a href="http://validator.w3.org/check/referer">
@@ -61,5 +94,13 @@ Webskills.html.  ~ JE
 <a href="http://jigsaw.w3.org/css-validator/validator?uri=https://ict.gctaa.net/sections/webdesign/goals/?profile=css3">
 <strong> CSS </strong> Valid! </a>
 </footer>
+<script>
+let t=0;
+function Stuff(){
+document.getElementById("Block1").style.transform = "rotate(20deg)";
+document.getElementById("Block2").style.transform = "skewX(20deg)";
+document.getElementById("Block3").style.transform = "skewY(20deg)";
+}
+</script>
 </body>
 </html>
