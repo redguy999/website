@@ -1,0 +1,616 @@
+<html><meta charset="UTF-8">
+<head>
+<title>October Revolution</title>
+<style>
+    body{
+        background-color:rgb(160, 60, 240);
+    }
+    p,label{
+        font-size: 19;
+    }
+    h1, h2, #preface, .center{
+        text-align: center;
+    }
+    #starting{
+        margin: 0px auto;
+    }
+    .grid > div{
+        padding: 1%;
+    }
+    .grid{
+        display:grid;
+        grid-template-columns: auto auto auto;
+        grid-gap: 5px;
+        background-color: rgb(175, 255, 175);
+        padding-top: 2ch;
+        padding-bottom: 2ch;
+    }
+    .grid > .question{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        text-align: center;
+    }
+    .answers{
+        grid-row-start: 2;
+        grid-row-end: 4;
+    }
+    .button{
+        text-align:center;
+    }
+    #gameBoard{
+        display:grid;
+        grid-template-columns: auto auto auto auto auto auto auto;
+        background-color: rgba(200,200,200,.3);
+        grid-column-gap: 1ch;
+        grid-row-gap: 1ch
+    }
+    #gameboard>.tile{
+        border:black solid 3px;
+        padding:23% 13%;
+        background-color:rgb(225, 225, 225);
+        text-align:center;
+    }
+    .centering{
+display:flex;
+justify-content: center;
+    }
+    .alignment{
+        display:flex;
+        align-items: center;
+    }
+    #yellowC{
+        background-color:rgb(219,164,3);
+    }
+    #redC{
+        background-color: rgb(171,36,30);
+    }
+    #orangeC{
+        background-color:rgb(229,93,15);
+    }
+    #purpleC{
+        background-color:rgb(126,23,106);
+    }
+    #blueC{
+        background-color:rgb(23,82,138);
+    }
+    .button > button{
+        font-size:19;
+    }
+    footer{
+        background-color: rgba(0,0,255,.7);
+        border: solid rgba(0,0,255,.4) 1px;
+    }
+</style>
+</head>
+<body onLoad="start()"> 
+<audio loop id="BGM">
+<source src="Varshavjanka.mp3" type="audio/mp3"></source>
+</audio>
+    <h1>The October Revolution</h1><hr>
+    <h2>Preface</h2>
+
+<p id="preface">Welcome to the New York times archives. I am researching 1917 Russian history. I could use your help in uncovering records related to the October Revolution. However, before we dive into the archives, it will be helpful to review some Russian history prior to October, the timeline below will help.
+As 1917 dawns over Eastern Europe World War I is raging.  It does not end, for Russia until March 3, 1918 when the Treaty of Brest-Litovsky is signed.  Compulsory military service had been mandated shortly before World War I broke out and continued throughout 1917. 
+On March 8, 1917 protest broke out in Petrograd (St. Petersburg) involving peasants, striking workers and soldiers, all of whom were protesting the lack of basic necessities. Many Russians were starving. 
+March 15, 1917 Tsar Nicholas II abdicated and his brother Grand Duke Michael refused to take the throne.  This was the end of the Romanov dynasty and the beginning of a series of provisional governments. 
+April 16 Vladamir Lenin returned to Russia. 
+July 16-20 became known as the July Days in which the workers and soldiers conducted armed demonstrations against the provisional government because of the deplorable living conditions.  Following these protests a new provisional government was established with Alekander Kerensky as the head. Lenin was accused of working with the Germans and was forced to flee to Finland. 
+Note:  Kerensky is associated with the Soviets, which is the Russian word for an elected council, much like a legislature. Lenin was associated with the Bolsheviks.  The military comprised a third group, separate from the Soviet troops which were loyal to Kerensky. 
+September 9 a military coup d’etat was attempted, led by Lavr Georgiyevich Kornilov, commander and chief of the Russian army. Kornilov was attempting to restrain the Bolsheviks.  Kerensky and his Soviet troops stopped Kornilov and his Russian troops.  Kornilov’s actions strengthened popular support for the Bolsheviks.  
+October 20 some scholars argue that Lenin, in disguise snuck back into Russia.  However, other scholars challenge this story. 
+November 7-8th the October Revolution occurred.  (It is called the October revolution because it occurred on October 24-25 of the Julian Calendar, which is the old calendar.) 
+</p><p class="center">
+    These protests and revolutions show how the Russian people resisted unfair government rules, laws and actions.
+    The protesting, strikes, and movements were fine, the Russian people were unhappy about the food shortages and wanted the government to know about it.
+    The revolution, however, was a step too far, because it was unnessesary violence (violence is almost never nessesary, this is one of those times), and
+    it was done only because the provisional government couldn't provide a solution, not because there was a better solution that the people knew.
+    The revolution was shortsighted, and didn't solve anything, in fact it just created more problems, like needing to make a new government, 
+    who runs this government, how it is run, and several other issues that no one was really ready to solve.
+</p><br>
+<div class="center">Now, mind helping me sort through the files in these cabinets?<br>
+(click the button for the questions in the matching cabinet)</div>
+<span class="centering"><img src="images.jpeg" alt="a picture of several colored cabinets, going left to right, the colors of these cabinets are: yellow, orange, red, purple, blue"></span>
+<span class="centering"><button class="alignment" id="yellowC" onclick="cabinetY()">Royal Family</button>
+<button class="alignment" id="orangeC" onclick="cabinetO()">War world I</button> 
+<button class="alignment" id="redC" onclick="cabinetR()">The Bolshevik movement</button> 
+<button class="alignment" id="purpleC" onclick="cabinetP()">The Soviets/provisional government</button> 
+<button class="alignment" id="blueC" onclick="cabinetB()">The economy of Russia</button></span><hr>
+<span id="game"><!--paste in on line below-->
+<div id="questionDisplay"> 
+    <div class="grid" id="YQ1">
+        <div class="question">
+            <h2>Who was the last Russian Tsar?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q1" id="Y1-1"><label>A. Rasputin</label><br>
+            <input type="radio" name="Q1" id="Y1-2"><label>B. Nicholas II</label><br>
+            <input type="radio" name="Q1" id="Y1-3"><label>C. Grand Duke Michael </label><br>
+            <input type="radio" name="Q1" id="Y1-4"><label>D. Alexis</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="RussianTsar()">Enter your Answer</button>
+        </div>
+    </div>
+        <div class="grid" id="YQ2">
+        <div class="question">
+            <h2>What royal house of Europe considered helping the Russian Royal family after they abdicated, but ultimately did not help?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q2" id="Y2-1"><label>A. Sweden</label><br>
+            <input type="radio" name="Q2" id="Y2-2"><label>B. Finland</label><br>
+            <input type="radio" name="Q2" id="Y2-3"><label>C. Great Britan</label><br>
+            <input type="radio" name="Q3" id="Y2-4"><label>D. Denmark</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="GreatBritian()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="YQ3">
+        <div class="question">
+            <h2>For decades people believed that one of the royal daughters had escaped, in 1994 genetic tests disproved this myth, but which daughter was it?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q3" id="Y3-1"><label>A. Tatiana</label><br>
+            <input type="radio" name="Q3" id="Y3-2"><label>B. Olga</label><br>
+            <input type="radio" name="Q3" id="Y3-3"><label>C. Anastasia </label><br>
+            <input type="radio" name="Q3" id="Y3-4"><label>D. Denmark</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Anastasia()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="YQ4">
+        <div class="question">
+            <h2>What dynasty was Tsar Nicholas II a member of?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q4" id="Y4-1"><label>A. Romanov dynasty</label><br>
+            <input type="radio" name="Q4" id="Y4-2"><label>B. Rurik dynasty</label><br>
+            <input type="radio" name="Q4" id="Y4-3"><label>C. Godunovs dynasty</label><br>
+            <input type="radio" name="Q4" id="Y4-4"><label>D. Windsor dynasty</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Romanov()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="YQ5">
+        <div class="question">
+            <h2>What nationality was Tsar Nicholas II's wife?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q5" id="Y5-1"><label>A. Swedish</label><br>
+            <input type="radio" name="Q5" id="Y5-2"><label>B. British</label><br>
+            <input type="radio" name="Q5" id="Y5-3"><label>C. German</label><br>
+            <input type="radio" name="Q5" id="Y5-4"><label>D. French</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="German()">Enter your Answer</button>
+        </div>
+    </div><!--World War I questions-->
+    <div class="grid" id="OQ1">
+        <div class="question">
+            <h2>What was the name of the agreement between Great Britian, France, and Russia that resulted in Russia joining World War I?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q6" id="O1-1"><label>A. The Triple Entente</label><br>
+            <input type="radio" name="Q6" id="O1-2"><label>B. The Paris Accord</label><br>
+            <input type="radio" name="Q6" id="O1-3"><label>C. The Treaty of Versailles</label><br>
+            <input type="radio" name="Q6" id="O1-4"><label>D. The Brest-Litovsk</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="TripleEntente()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="OQ2">
+        <div class="question">
+            <h2>How did World War I contribute to the October Revolution?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q7" id="O2-1"><label>A. Food Shortages</label><br>
+            <input type="radio" name="Q7" id="O2-2"><label>B. Conscription (forced millitary service)</label><br>
+            <input type="radio" name="Q7" id="O2-3"><label>C. Devastated Economy</label><br>
+            <input type="radio" name="Q7" id="O2-4"><label>D. All of the above</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="AllAbove()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="OQ3">
+        <div class="question">
+            <h2>In entering World War I, Tsar Nicholas promoted a belief in the superiority of Russia based on God's protection and the fact that Russia had the largest army in the world (1.5 million men). This contributed to what political sentiment?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q8" id="O3-1"><label>A. Idealism</label><br>
+            <input type="radio" name="Q8" id="O3-2"><label>B. Patriotism</label><br>
+            <input type="radio" name="Q8" id="O3-3"><label>C. Nationalism</label><br>
+            <input type="radio" name="Q8" id="O3-4"><label>D. Chauvinism</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Nationalism()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="OQ4">
+        <div class="question">
+            <h2>The Battle of Tannenberg marked a sizeable loss for the Russians and gave rise to a German conspiracy myth in Russian culture. What effect did this Russian loss have on the Russian people?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q9" id="O4-1"><label>A. They were confused</label><br>
+            <input type="radio" name="Q9" id="O4-2"><label>B. They were resolved to fight on</label><br>
+            <input type="radio" name="Q9" id="O4-3"><label>C. They were demoralized</label><br>
+            <input type="radio" name="Q9" id="O4-4"><label>D. They were resilent</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Tannenberg()">Enter your Answer</button>
+        </div>
+    </div><!-- The Bolshevik movement questions-->
+    <div class="grid" id="RQ1">
+        <div class="question">
+            <h2>Who did the Bolsheviks take power from?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q10" id="R1-1"><label>A. The Tsar</label><br>
+            <input type="radio" name="Q10" id="R1-2"><label>B. The provisional government</label><br>
+            <input type="radio" name="Q10" id="R1-3"><label>C. The Politburo</label><br>
+            <input type="radio" name="Q10" id="R1-4"><label>D. Vladimir Putin</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="powerfrom()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="RQ2">
+        <div class="question">
+            <h2>Who was the leader of the Bolshevik government?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q11" id="R2-1"><label>A. Lenin</label><br>
+            <input type="radio" name="Q11" id="R2-2"><label>B. Marx</label><br>
+            <input type="radio" name="Q11" id="R2-3"><label>C. Romanov</label><br>
+            <input type="radio" name="Q11" id="R2-4"><label>D. Rasputin</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="leader()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="RQ3">
+        <div class="question">
+            <h2>Who participated in the Bolshevik revolution of October 1917?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q12" id="R3-1"><label>A. Male workers</label><br>
+            <input type="radio" name="Q12" id="R3-2"><label>B. Female workers</label><br>
+            <input type="radio" name="Q12" id="R3-3"><label>C. Military</label><br>
+            <input type="radio" name="Q12" id="R3-4"><label>D. All of the above</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Participated()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="RQ4">
+        <div class="question">
+            <h2>After the revolution, civil war broke out in Russia between the red army representing the Bolsheviks and a second army representing monarchists, capitalists, and democratic socialists.  What was the name of the second army?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q13" id="R4-1"><label>A. Black Army</label><br>
+            <input type="radio" name="Q13" id="R4-2"><label>B. Green Army </label><br>
+            <input type="radio" name="Q13" id="R4-3"><label>C. White Army</label><br>
+            <input type="radio" name="Q13" id="R4-4"><label>D. Purple Army</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="White()">Enter your Answer</button>
+        </div>
+    </div><!--The Soviet/provisional government-->
+    <div class="grid" id="PQ1">
+        <div class="question">
+            <h2>Who was the head of The provisional government?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q14" id="P1-1"><label>A. Lenin</label><br>
+            <input type="radio" name="Q14" id="P1-2"><label>B. Kerensky</label><br>
+            <input type="radio" name="Q14" id="P1-3"><label>C. Milyukov</label><br>
+            <input type="radio" name="Q14" id="P1-4"><label>D. Kornilov</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Head()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="PQ2">
+        <div class="question">
+            <h2>How long did the provisional government last?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q15" id="P2-1"><label>A. 2 months</label><br>
+            <input type="radio" name="Q15" id="P2-2"><label>B. 6 months</label><br>
+            <input type="radio" name="Q15" id="P2-3"><label>C. 8 months</label><br>
+            <input type="radio" name="Q15" id="P2-4"><label>D. 1 year</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="long()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="PQ3">
+        <div class="question">
+            <h2>The provisional government had to form coalitions to rule, how many different coalitions were formed during the life of the provisional government?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q16" id="P3-1"><label>A. 1</label><br>
+            <input type="radio" name="Q16" id="P3-2"><label>B. 2</label><br>
+            <input type="radio" name="Q16" id="P3-3"><label>C. 3</label><br>
+            <input type="radio" name="Q16" id="P3-4"><label>D. 4</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="coalitions()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="PQ4">
+        <div class="question">
+            <h2>Within the provisional government there were multiple political parties, what was the name of the socialist party?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q17" id="P4-1"><label>A. Bolsheviks</label><br>
+            <input type="radio" name="Q17" id="P4-2"><label>B. Mensheviks</label><br>
+            <input type="radio" name="Q17" id="P4-3"><label>C. Socialist Revolution</label><br>
+            <input type="radio" name="Q17" id="P4-4"><label>D. Kadets</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="socialist()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="PQ5">
+        <div class="question">
+            <h2>Which of the following policies were adopted by the provisional government?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q18" id="P5-1"><label>A. Freedom of the press</label><br>
+            <input type="radio" name="Q18" id="P5-2"><label>B. Freedom of religion</label><br>
+            <input type="radio" name="Q18" id="P5-3"><label>C. Freedom of speech</label><br>
+            <input type="radio" name="Q18" id="P5-4"><label>D. All of the above</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="policies()">Enter your Answer</button>
+        </div>
+    </div><!--The Economy-->
+    <div class="grid" id="BQ1">
+        <div class="question">
+            <h2>After the October Revolution, Lenin came to power.  His economic principles borrowed heavily from an American economic idea involving "the scientific organization of labor." What was this economic idea?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q19" id="B1-1"><label>A. Taylorism </label><br>
+            <input type="radio" name="Q19" id="B1-2"><label>B. Productionism</label><br>
+            <input type="radio" name="Q19" id="B1-3"><label>C. Efficiency</label><br>
+            <input type="radio" name="Q19" id="B1-4"><label>D. Consumerism</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="Taylorism()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="BQ2">
+        <div class="question">
+            <h2>While record keeping during the war was poor, experts estimate that production in 1920 (the year after the revolution) was ________ percent of what it had been in 1913 (prior to World War I)?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q20" id="B2-1"><label>A. 10-15%</label><br>
+            <input type="radio" name="Q20" id="B2-2"><label>B. 25-30%</label><br>
+            <input type="radio" name="Q20" id="B2-3"><label>C. 35-50%</label><br>
+            <input type="radio" name="Q20" id="B2-4"><label>D. 60-75%</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="reduction()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="BQ3">
+        <div class="question">
+            <h2>The revolution damaged two main areas of the Russian economy, what were they?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q21" id="B3-1"><label>A. Electricity and transportation</label><br>
+            <input type="radio" name="Q21" id="B3-2"><label>B. Water and manufacuring</label><br>
+            <input type="radio" name="Q21" id="B3-3"><label>C. Health care and housing construction</label><br>
+            <input type="radio" name="Q21" id="B3-4"><label>D. Textiles and banking</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="sectors()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="BQ4">
+        <div class="question">
+            <h2>What name did Lenin's give to his economic revitalization plan?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q22" id="B4-1"><label>A. An Economy for the Workers</label><br>
+            <input type="radio" name="Q22" id="B4-2"><label>B. An Economy for the Future</label><br>
+            <input type="radio" name="Q22" id="B4-3"><label>C. A Better Economic Plan</label><br>
+            <input type="radio" name="Q22" id="B4-4"><label>D. The New Econommic Policy</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="plan()">Enter your Answer</button>
+        </div>
+    </div>
+    <div class="grid" id="BQ5">
+        <div class="question">
+            <h2>What key agency was created as part of Lenin's economic revitalization plan?</h2>
+        </div>
+        <div></div>
+        <div class="answers">
+            <form>
+            <input type="radio" name="Q23" id="B5-1"><label>A. The Price Control Panel</label><br>
+            <input type="radio" name="Q23" id="B5-2"><label>B. The Economic Stabilization Council</label><br>
+            <input type="radio" name="Q23" id="B5-3"><label>C. The State Planning Commission</label><br>
+            <input type="radio" name="Q23" id="B5-4"><label>D. None of the above</label>
+            </form>
+        </div>
+        <div></div> 
+        <div></div>
+        <div class="button">
+            <button onClick="agency()">Enter your Answer</button>
+        </div>
+    </div>
+</div><!--end pasting on line above.-->
+<hr>
+<div id="gameBoard">
+<div class="tile" id="T1"></div>
+<div></div>
+<div class="tile" id="T11"></div>
+<div class="tile" id="T12"></div>
+<div class="tile" id="T13"></div>
+<div></div>
+<div class="tile" id="T23"></div><!--row one end-->
+<div class="tile" id="T2"></div>
+<div></div>
+<div class="tile" id="T10"></div>
+<div></div>
+<div class="tile" id="T14"></div>
+<div></div>
+<div class="tile" id="T22"></div><!--row two end-->
+<div class="tile" id="T3"></div>
+<div></div>
+<div class="tile" id="T9"></div>
+<div></div>
+<div class="tile" id="T15"></div>
+<div></div>
+<div class="tile" id="T21"></div><!--row three end-->
+<div class="tile" id="T4"></div>
+<div></div>
+<div class="tile" id="T8"></div>
+<div></div>
+<div class="tile" id="T16"></div>
+<div></div>
+<div class="tile" id="T20"></div><!--row four end-->
+<div class="tile" id="T5"></div>
+<div class="tile" id="T6"></div>
+<div class="tile" id="T7"></div>
+<div></div>
+<div class="tile" id="T17"></div>
+<div class="tile" id="T18"></div>
+<div class="tile" id="T19"></div>
+</div>
+</span>
+<hr>
+<footer>
+<ol>
+    <li>https://www.history.com/topics/world-war-i/treaties-of-brest-litovsk</li>
+    <li>https://www.britannica.com/list/russian-revolution-timeline</li>
+    <li>https://encyclopedia.1914-1918-online.net/article/food_and_nutrition_russian_empire</li>
+    <li>https://www.youtube.com/watch?v=_3wDHtBY9Pc</li>
+    <li>https://www.britannica.com/list/russian-revolution-timeline</li>
+    <li>https://www.etymonline.com/word/soviet</li>
+    <li>https://www.britannica.com/list/russian-revolution-timeline</li>
+    <li>https://www.britannica.com/list/russian-revolution-timeline</li>
+    <li>https://www.youtube.com/watch?v=_3wDHtBY9Pc</li>
+    <li>https://www.britannica.com/list/russian-revolution-timeline</li>
+</ol>
+</footer>
+</body>
+<script src="questionnaire.js"></script>
+</html>
