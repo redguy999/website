@@ -12,48 +12,64 @@
 	grid-template-columns: 19% auto auto auto auto 19%;
 	margin: 10px 2%;
 	grid-gap: 1%;
-	grid-template-rows:50% 50%;
+	grid-template-rows: 40% auto auto auto auto;
+	grid-row-gap: 2px;
 	}
 	#topGrid > div{
-	padding: 19%;
+	padding: 15%;
 	border: 2px green solid;
 	}
-	#TL{
+	#topGrid>#TL{
 	grid-column:1;
-	grid-row: 1/span 2;
+	grid-row: 1/span 5;
+	padding-bottom: 2px;
 	}
-	#TR{
+	#topGrid>#TR{
 	grid-column: 6;
-	grid-row: 1 /span 2;
+	grid-row: 1 /span 5;
+	padding-bottom: 2px;
 	}
 	#TB{
 	grid-column:2/ span 4;
-	grid-row:2;
+	grid-row:5;
 	padding-top:0px;
 	padding-bottom:0px;
 	}
 	#topGrid>#TB{
-	padding-top:9%;
-	padding-bottom:0px;
+	padding-top:1%;
+	padding-bottom:1%;
 	}
 	#T1{
 	background-color:rgb(255,0,0);
+	grid-column:2;
+	grid-row:1;
 	}
 	#T2{
 	background-color:rgb(0,255,0);
+	grid-column:3;
+	grid-row:1;
 	}
 	#T3{
 	background-color:rgb(0,0,255);
+	grid-column:4;
+	grid-row:1;
 	}
 	#T4{
 	background-color:rgb(255,255,255);
+	grid-column:5;
+	grid-row:1;
 	}
 	/*TODO, find a better standard terminal color*/
+	#display{
+	margin:5px 2%;
+	border:5px green solid;
+	padding:40vh 5vw;
+	background-color:rgba(200,200,200,.1);
+	}
 	</style>
 	</head>
 	<body>
-	<div id="body">
-	
+
 	<div id="topGrid">
 		<div id="TL"></div>
 		<div id="T1"></div>
@@ -63,8 +79,11 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	test text
-		
+	<div id="display">
+	
 	</div>
+	<script>
+	
+	</script>		
 	</body>
 </html>
