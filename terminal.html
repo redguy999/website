@@ -65,6 +65,7 @@
 	border:5px green solid;
 	padding:40vh 5vw;
 	background-color:rgba(200,200,200,.1);
+	text-align:center;
 	}
 	</style>
 	</head>
@@ -82,9 +83,27 @@
 	<div id="display">	
 	</div>
 	<script>
-var Display=document.getElementById("display")
+var Display=document.getElementById("display");
+	let string;
+	let interv;
 	function stuff(){
-	
+	typeText("loading terminal...#");
+	}
+//all text sent to typeText must end in the # character, otherwise it won't work
+	function typeText(text){
+	string = text.split("");
+	console.log(string);
+	interv = setInterval(ATypeText,100);
+	}
+	function ATypeText(){
+	Display.innerHTML=Display.innerHTML + string[0];
+	string.shift();
+	if(string[0]=="#"){
+	clearInterval(interv);
+	console.log("clear was called");
+	return;
+	}
+	console.log(string[0]);
 	}
 	</script>		
 	</body>
