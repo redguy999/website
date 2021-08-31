@@ -65,7 +65,10 @@
 	border:5px green solid;
 	padding:40vh 5vw;
 	background-color:rgba(200,200,200,.1);
-	text-align:center;
+	text-align:left;
+	}
+	#text{
+	/*make terminal display text align with the top of the box*/
 	}
 	</style>
 	</head>
@@ -80,10 +83,11 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="display">	
+	<div id="display">
+	<span id="text"></span>	
 	</div>
 	<script>
-var Display=document.getElementById("display");
+var Display=document.getElementById("text");
 	let string;
 	let interv;
 	function stuff(){
