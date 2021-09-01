@@ -88,9 +88,13 @@
 	<span id="text"></span>	
 	</div>
 	<script>
+var inputOn=0; //for if it should actually check for if a key is pressed.
+//0 is no, 1 is for certain text, 2 is for Yes.
+var Step=0;//for NextStep()
 var Display=document.getElementById("text");
-	let string;
-	let interv;
+	let string;//holds the array for "typeText" and "ATypeText"
+	let interv;//holds the currently repeating function
+	let temp;//for any extra stuff that either needs held for a time.
 	function stuff(){
 	typeText("loading terminal...#");
 	}
@@ -100,15 +104,35 @@ var Display=document.getElementById("text");
 	console.log(string);
 	interv = setInterval(ATypeText,100);
 	}
+//^i made a mistake making this at first, so this function doesn't do much
 	function ATypeText(){
 	Display.innerHTML=Display.innerHTML + string[0];
 	string.shift();
 	if(string[0]=="#"){
 	clearInterval(interv);
 	console.log("clear was called");
-	return;
+	setTimeout(function(){NextStep()},2500);
+//gonna call this several times, so i just need to make a function start the next step.
 	}
-	console.log(string[0]);
+	//console.log(string[0]); was here when i was debugging
+	}//function that actually types the text out of the terminal.
+function NextStep(){
+console.log("step was called");
+Display.innerHTML=Display.innerHTML + "<br>";
+if(Step==0){
+setTimeout(function(){LComp()},500);
+} else if(Step==1){
+
+} else if(Step==2){
+console.log("Step 2 used");
+}else{
+Display.style.backgroundColor="black";
+}
+Step++;
+}
+	function LComp(){
+	typeText("Terminal Loaded, launch?#");
+	setTimeout(function(){InputOn=1)},3000);
 	}
 	</script>		
 	</body>
