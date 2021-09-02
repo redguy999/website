@@ -63,7 +63,7 @@
 	#display{
 	margin:5px 2%;
 	border:5px green solid;
-	padding:80vh 20vw;
+	/*padding:80vh 20vw;*/
 	background-color:rgba(200,200,200,.1);
 	text-align:left;
 	padding-top:0px;
@@ -86,9 +86,10 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="display">
+	<div id="display" style="padding: 0px 20vw 42em 0px">
 	</div>
 	<script>
+var skip = false; //special use.
 var inputOn=0; //for if it should actually check for if a key is pressed.
 //0 is no, 1 is for certain text, 2 is for Yes.
 var Step=0;//for NextStep()
@@ -117,26 +118,42 @@ var Display=document.getElementById("display");
 	}
 	//console.log(string[0]); was here when i was debugging
 	}//function that actually types the text out of the terminal.
-function NextStep(){
+function NextStep(){//because sleep doesn't exist and theres no delay function.
 console.log("step was called");
+console.log(Step);
+if(skip==false){
 nextLine();
+} else {
+	skip=false;
+}
 if(Step==0){
+Step=1
 setTimeout(function(){LComp()},500);
 } else if(Step==1){
 
 } else if(Step==2){
-console.log("Step 2 used");
+Step=3;
+inputOn=2;
+clearDisplay()
+
 }else{
 Display.style.backgroundColor="black";
 }
-Step++;
 }
+
+function clearDisplay(){
+	Display.innerHTML="";
+	Display.style.paddingBottom = "42em";
+}
+
 	function LComp(){
 	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){nextLine();	typeText("Y/N?#");	setTimeout(function(){inputOn=1;}
-	,3009)}
+	setTimeout(function(){Display.innerHTML= Display.innerHTML + "<br>";	skip=true; inputOn=1; typeText("Y/N#");
+	}//typeText here sometimes breaks, appears to only accord when i
+//tab away.
 	,3000);
 	}	
+
 function Typing(){
 let Key=event.keyCode;
 console.log(Key);
@@ -145,21 +162,31 @@ return;//can't type yet.
 } else if (inputOn==1){
 //currently only the launch Command is the only time that this isused
 if(Key==89){
-//launch typing terminal
+typeText("Opening terminal...#");
+Step=2;
 }else if(Key==78){
-//close and clear terminal
+Step=-1;
+typeText("Closing terminal...#");
+}
+}else if(inputOn==2){
+//function that lets you type in terminal.
+}else{
+	alert("if you see this, something went wrong.");
 }
 }
+
+function fixSize(){
+let pB = Display.style.paddingBottom;
+let t = parseInt(pB);
+t=t-1;
+pB = t+"em";
+Display.style.paddingBottom = pB;
 }
+
 function nextLine(){
-let t=0;
-t = Display.style.padding;
-console.log(t);
-console.log(Display.style.padding);
-t=t-"1vh";
-console.log(t);
+fixSize();
 Display.innerHTML= Display.innerHTML + "<br>";
-}
-	</script>		
+}//makes the terminal go to the next line.
+	</script>	
 	</body>
 </html>
