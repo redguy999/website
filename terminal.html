@@ -87,13 +87,15 @@
 		<div id="TB"></div>
 	</div>	
 	<div id="display" style="padding: 0px 20vw 42em 0px">
+		<p id="text"></p>
 	</div>
 	<script>
 var skip = false; //special use.
 var inputOn=0; //for if it should actually check for if a key is pressed.
 //0 is no, 1 is for certain text, 2 is for Yes.
 var Step=0;//for NextStep()
-var Display=document.getElementById("display");
+var Display=document.getElementById("text");
+var ack=document.getElementById("display")
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
 	let temp;//for any extra stuff that either needs held for a time.
@@ -140,14 +142,14 @@ document.onkeydown = function(){typeOnDisplay()};
 document.onkeyup = function(){shiftCheck()};
 //shiftCheck() is so that it can do capital and special characters correctly.
 }else{
-Display.style.backgroundColor="black";
+ack.style.backgroundColor="black";
 clearDisplay();
 }
 }
 
 function clearDisplay(){
 	Display.innerHTML="";
-	Display.style.paddingBottom = "42em";
+	ack.style.paddingBottom = "42em";
 }
 
 	function LComp(){
@@ -179,11 +181,11 @@ typeText("Closing terminal...#");
 }
 
 function fixSize(){
-let pB = Display.style.paddingBottom;
+let pB = ack.style.paddingBottom;
 let t = parseInt(pB);
 t=t-1;
 pB = t+"em";
-Display.style.paddingBottom = pB;
+ack.style.paddingBottom = pB;
 }
 
 function nextLine(){
@@ -196,46 +198,97 @@ Display.innerHTML= Display.innerHTML + "<br>";
 
 	<script>
 		var sP = 0;
+		var cL = 0;
 		var capLock = 0;
 		function shiftCheck(){
 			let Key=event.keyCode;
 			if(Key==16){
 				sP = 0;
+			} else if(Key==20){
+				cL = 0;
 			}
-			console.log("released: " + Key);
 		}
 		//making a new script tag so i can't get confused by the rest of the functions.
 		//might make this an entirely different file.
 		function typeOnDisplay(){
-			let Key=event.keyCode
+			let Key=event.keyCode;
 			console.log(Key);
 			if(Key==89){//y
-				if(sP=1){
-					addToDisplay("Y");
-				} else {
-					addToDisplay("y");
-				}
+				letterCheck("y","Y");
 			} else if(Key==16){//shift
 				sP=1;
-			} else if(Key==20){//caps lock is being weird, need to check something before i can do this.
-
+			} else if(Key==20){//caps lock
+				cL=1;
 			} else if(Key==78){//n
-				if(sP=1){
-					addToDisplay("N");
-				}else{
-					addToDisplay("n");
-				}	
-			} else if(Key==1){
-
-			}
+				letterCheck("n","N");
+			} else if(Key==65){//a
+				letterCheck("a","A")
+			} else if(Key==83){//s
+				letterCheck("s","S");
+			} else if(Key==81){//q
+				letterCheck("q","Q");
+			} else if(Key==87){//w
+				letterCheck("w","W");
+			} else if(Key==69){//e
+				letterCheck("e","E");
+			} else if(Key==48){//0
+				otherCheck("0",")");
+			} else if(Key==49){//1
+				otherCheck("1","!");
+			}else if(Key==50){//2
+				otherCheck("2","@");
+			}else if(Key==51){
+				otherCheck('3',"#");
+			}else if(Key==52){
+				otherCheck('4',"$");
+			}else if(Key==53){
+				otherCheck('5',"%");
+			}else if(Key==54){
+				otherCheck("6","^");
+			}else if(Key==55){
+				otherCheck('7',"&");
+			}else if(Key==56){
+				otherCheck("8","*");
+			}else if(Key==57){//9
+				otherCheck("9","(");
+			}/*else if(Key==58){
+				
+			}*/
 		}
 /* for shift character change
-				if(sP=1){
-					addToDisplay("_");
-				}else{
-					addToDisplay("_");
-				}	
+				//for letters:
+				if(sP==1&&cL==1){
+					addToDisplay("_");//lower
+				} else if(sP==1||cL==1){
+					addToDisplay("_");//upper
+				} else {
+					addToDisplay("_");//lower
+				}
+				//for the not letters:
+				if(sP==1){
+					addToDisplay("_");//alt
+				} else {
+					addToDisplay("_");//normal
+				}
+
 */
+function letterCheck(l, U){//l is the lower case character, U is the uppercase character
+				if(sP==1&&cL==1){
+					Display.innerHTML = Display.innerHTML + l;
+				} else if(sP==1||cL==1){
+					Display.innerHTML = Display.innerHTML + U;
+				} else {
+					Display.innerHTML = Display.innerHTML + l;
+				}
+}
+function otherCheck(N, S){//N is for the normal character, S is for the special character.
+				if(sP==1){
+					Display.innerHTML = Display.innerHTML + S;
+				} else {
+					Display.innerHTML = Display.innerHTML + N;
+				}
+}
+		
 		function addToDisplay(S){
 			Display.innerHTML = Display.innerHTML + S;
 
