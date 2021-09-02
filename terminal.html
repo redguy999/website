@@ -3,9 +3,9 @@
 	<style>
 	body{
 	background-color: black;
-	color:green;
+	color:rgb(0,255,0);
 	font-weight: bold;
-	border: 5px green solid;
+	border: 5px rgb(0,255,0) solid;
 	}/* for futre refrence*/
 	#topGrid{
 	display:grid;
@@ -17,7 +17,7 @@
 	}
 	#topGrid > div{
 	padding: 15%;
-	border: 2px green solid;
+	border: 2px rgb(0,255,0) solid;
 	}
 	#topGrid>#TL{
 	grid-column:1;
@@ -40,17 +40,17 @@
 	padding-bottom:1%;
 	}
 	#T1{
-	background-color:rgb(255,0,0);
+	background-color:red;
 	grid-column:2;
 	grid-row:1;
 	}
 	#T2{
-	background-color:rgb(0,255,0);
+	background-color:green;
 	grid-column:3;
 	grid-row:1;
 	}
 	#T3{
-	background-color:rgb(0,0,255);
+	background-color:blue;
 	grid-column:4;
 	grid-row:1;
 	}
@@ -62,7 +62,7 @@
 	/*TODO, find a better standard terminal color*/
 	#display{
 	margin:5px 2%;
-	border:5px green solid;
+	border:5px rgb(0,255,0) solid;
 	/*padding:80vh 20vw;*/
 	background-color:rgba(200,200,200,.1);
 	text-align:left;
@@ -86,7 +86,7 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="display" style="padding: 0px 20vw 42em 0px">
+	<div id="display" style="padding: 0px 20vw 39em 0px">
 		<p id="text"></p>
 	</div>
 	<script>
@@ -149,7 +149,7 @@ clearDisplay();
 
 function clearDisplay(){
 	Display.innerHTML="";
-	ack.style.paddingBottom = "42em";
+	ack.style.paddingBottom = "39em";
 }
 
 	function LComp(){
@@ -251,6 +251,8 @@ Display.innerHTML= Display.innerHTML + "<br>";
 				otherCheck("8","*");
 			}else if(Key==57){//9
 				otherCheck("9","(");
+			}else if(Key==8){
+				backSpace()
 			}/*else if(Key==58){
 				
 			}*/
@@ -272,6 +274,25 @@ Display.innerHTML= Display.innerHTML + "<br>";
 				}
 
 */
+function backSpace(){
+	let t=Display.innerHTML;
+	t=t.split("");
+	t.reverse();
+	t.shift();
+	t.reverse();
+	let t2;
+	console.log(t);
+	for(i=0;i<t.length;i++){
+		t2=t2+t[i];
+	}
+	console.log(t2);
+	if(Array.isArray(t2)){
+		Display.innerHTML="fatal removal error, please restart the terminal."
+		return;
+	} else {
+	Display.innerHTML=t2;
+	}
+}
 function letterCheck(l, U){//l is the lower case character, U is the uppercase character
 				if(sP==1&&cL==1){
 					Display.innerHTML = Display.innerHTML + l;
