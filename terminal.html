@@ -132,12 +132,16 @@ setTimeout(function(){LComp()},500);
 } else if(Step==1){
 
 } else if(Step==2){
+//sets up functions so that it does types properly.
 Step=3;
 inputOn=2;
 clearDisplay()
-
+document.body.onKeyDown = "typeOnDisplay()"
+document.body.onkeyup = "shiftCheck()"
+//shiftCheck() is so that it can do capital and special characters correctly.
 }else{
 Display.style.backgroundColor="black";
+clearDisplay();
 }
 }
 
@@ -187,6 +191,53 @@ function nextLine(){
 fixSize();
 Display.innerHTML= Display.innerHTML + "<br>";
 }//makes the terminal go to the next line.
-	</script>	
+	</script>
+
+
+
+	<script>
+		var sP = 0;
+		var capLock = 0;
+		function shiftCheck(){
+			let Key=event.keyCode;
+			if(Key==16){
+				sP = 0;
+			}
+			console.log("released: " + Key);
+		}
+		//making a new script tag so i can't get confused by the rest of the functions.
+		//might make this an entirely different file.
+		function typeOnDisplay(){
+			let Key=event.keyCode
+			if(Key==89){//y
+				if(sP=1){
+					addToDisplay("Y");
+				} else {
+					addToDisplay("y");
+				}
+			} else if(Key==16){//shift
+				sP=1;
+			} else if(Key==20){//caps lock is being weird, need to check something before i can do this.
+
+			} else if(Key==78){
+
+			} else if(Key==1){
+
+			}
+		}
+/* for shift caps
+if(sP=1){
+	addToDisplay("_"); //cap
+}else{
+	addToDisplay("_"); //not cap
+}
+*/
+		function addToDisplay(S){
+			Display.innerHTML = Display.innerHTML + S;
+
+		}
+	</script>
+
+
 	</body>
 </html>
