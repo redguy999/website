@@ -63,11 +63,9 @@
 	#display{
 	margin:5px 2%;
 	border:5px green solid;
-	padding:80vh 20vw;
+	padding:40vh 5vw;
 	background-color:rgba(200,200,200,.1);
 	text-align:left;
-	padding-top:0px;
-	padding-left:0px;
 	}
 	#text{
 	/*make terminal display text align with the top of the box*/
@@ -75,7 +73,7 @@
 	}
 	</style>
 	</head>
-	<body onLoad="stuff()" onKeyDown="Typing()">
+	<body onLoad="stuff()">
 
 	<div id="topGrid">
 		<div id="TL"></div>
@@ -87,18 +85,25 @@
 		<div id="TB"></div>
 	</div>	
 	<div id="display">
+	<span id="text"></span>	
 	</div>
 	<script>
 var inputOn=0; //for if it should actually check for if a key is pressed.
 //0 is no, 1 is for certain text, 2 is for Yes.
 var Step=0;//for NextStep()
-var Display=document.getElementById("display");
+var Display=document.getElementById("text");
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
 	let temp;//for any extra stuff that either needs held for a time.
 	function stuff(){
-	typeText("Loading terminal...#");
+	typeText("loading terminal...#");
+`	sleep(2000);
+	nextLine();
+	typeText("Terminal loaded, launch?#);
 	}
+function nextLine(){//for when you want to jump to the next line of the terminal
+Display.innerHTML = Display.innerHTML + "<br>";
+}
 //all text sent to typeText must end in the # character, otherwise it won't work
 	function typeText(text){
 	string = text.split("");
@@ -112,54 +117,10 @@ var Display=document.getElementById("display");
 	if(string[0]=="#"){
 	clearInterval(interv);
 	console.log("clear was called");
-	setTimeout(function(){NextStep()},2500);
 //gonna call this several times, so i just need to make a function start the next step.
 	}
 	//console.log(string[0]); was here when i was debugging
-	}//function that actually types the text out of the terminal.
-function NextStep(){
-console.log("step was called");
-nextLine();
-if(Step==0){
-setTimeout(function(){LComp()},500);
-} else if(Step==1){
-
-} else if(Step==2){
-console.log("Step 2 used");
-}else{
-Display.style.backgroundColor="black";
-}
-Step++;
-}
-	function LComp(){
-	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){nextLine();	typeText("Y/N?#");	setTimeout(function(){inputOn=1;}
-	,3009)}
-	,3000);
-	}	
-function Typing(){
-let Key=event.keyCode;
-console.log(Key);
-if(inputOn==0){
-return;//can't type yet.
-} else if (inputOn==1){
-//currently only the launch Command is the only time that this isused
-if(Key==89){
-//launch typing terminal
-}else if(Key==78){
-//close and clear terminal
-}
-}
-}
-function nextLine(){
-let t=0;
-t = Display.style.padding;
-console.log(t);
-console.log(Display.style.padding);
-t=t-"1vh";
-console.log(t);
-Display.innerHTML= Display.innerHTML + "<br>";
-}
+	}//function that actually types the text out of the terminl
 	</script>		
 	</body>
 </html>
