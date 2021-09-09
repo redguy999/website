@@ -165,7 +165,7 @@
 
         function charCodeTest() {
             let result = "";
-            let testStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let testStr = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             for (let i = 0; i < testStr.length; i++) {
                 let char = testStr[i];
                 result += "char " + char + " code " + testStr.charCodeAt(i) + "\n";
@@ -208,9 +208,12 @@
                     break;
                 case 8: //backspace
                     backSpace();
+                    break;
+                case 32: //space
+                    addStrToInnerHTML(" ")
             }
 
-            if (kma <= key && key <= 90) {
+            if (kma <= key && key <= kmz) {
                 let lower = String.fromCharCode(key + diffa);
                 let upper = String.fromCharCode(key);
                 letterCheck(lower, upper);
@@ -319,11 +322,15 @@
         }
         //END old backSpace
 
+        function addStrToInnerHTML(str) {
+            Display.innerHTML = Display.innerHTML + str;
+        }
+
         function letterCheck(lower, upper) { //l is the lower case character, U is the uppercase character
             if ((sP == 1) != (cL == 1)) {
-                Display.innerHTML = Display.innerHTML + upper;
+                addStrToInnerHTML(upper);
             } else {
-                Display.innerHTML = Display.innerHTML + lower;
+                addStrToInnerHTML(lower);
             }
         }
 
