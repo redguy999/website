@@ -60,7 +60,7 @@
 	grid-row:1;
 	}
 	/*TODO, find a better standard terminal color*/
-	#display{
+	#text{
 	margin:5px 2%;
 	border:5px rgb(0,255,0) solid;
 	/*padding:80vh 20vw;*/
@@ -68,8 +68,6 @@
 	text-align:left;
 	padding-top:0px;
 	padding-left:0px;
-	}
-	#text{
 	/*make terminal display text align with the top of the box*/
 	text-align: start;
 	word-wrap: break-word;
@@ -87,7 +85,8 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="text" style="padding: 0px 20vw 39em 0px">
+	<div id="text" style="padding: 0px auto 39em 0px">
+		<!--Current issue, theres a massive amount of empty space at the bottom of the terminal when are able to type-->
 	</div>
 	<script>
 var skip = false; //special use.
