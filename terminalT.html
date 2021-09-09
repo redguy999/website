@@ -1,0 +1,263 @@
+<html>
+	<head>
+	<style>
+	body{
+	background-color: black;
+	color:green;
+	font-weight: bold;
+	border: 5px green solid;
+	}/* for futre refrence*/
+	#topGrid{
+	display:grid;
+	grid-template-columns: 19% auto auto auto auto 19%;
+	margin: 10px 2%;
+	grid-gap: 1%;
+	grid-template-rows: 40% auto auto auto auto;
+	grid-row-gap: 2px;
+	}
+	#topGrid > div{
+	padding: 15%;
+	border: 2px green solid;
+	}
+	#topGrid>#TL{
+	grid-column:1;
+	grid-row: 1/span 5;
+	padding-bottom: 2px;
+	}
+	#topGrid>#TR{
+	grid-column: 6;
+	grid-row: 1 /span 5;
+	padding-bottom: 2px;
+	}
+	#TB{
+	grid-column:2/ span 4;
+	grid-row:5;
+	padding-top:0px;
+	padding-bottom:0px;
+	}
+	#topGrid>#TB{
+	padding-top:1%;
+	padding-bottom:1%;
+	}
+	#T1{
+	background-color:rgb(255,0,0);
+	grid-column:2;
+	grid-row:1;
+	}
+	#T2{
+	background-color:rgb(0,255,0);
+	grid-column:3;
+	grid-row:1;
+	}
+	#T3{
+	background-color:rgb(0,0,255);
+	grid-column:4;
+	grid-row:1;
+	}
+	#T4{
+	background-color:rgb(255,255,255);
+	grid-column:5;
+	grid-row:1;
+	}
+	/*TODO, find a better standard terminal color*/
+	#display{
+	margin:5px 2%;
+	border:5px green solid;
+	/*padding:80vh 20vw;*/
+	background-color:rgba(200,200,200,.1);
+	text-align:left;
+	padding-top:0px;
+	padding-left:0px;
+	}
+	#text{
+	padding-bottom: 0px;
+	} 
+	</style>
+	</head>
+	<body id="Body" onLoad="stuff()" onKeyDown="Typing()">
+
+	<div id="topGrid">
+		<div id="TL"></div>
+		<div id="T1"></div>
+		<div id="T2"></div>
+		<div id="T3"></div>
+		<div id="T4"></div>
+		<div id="TR"></div>
+		<div id="TB"></div>
+	</div>	
+	<div id="display" style="padding: 0px 20vw 42em 0px">
+		<p id="text"></p>
+	</div>
+	<script>
+var Step=0;//for NextStep()
+var Display=document.getElementById("text");
+let ack=document.getElementById("display");
+	let string;//holds the array for "typeText" and "ATypeText"
+	let interv;//holds the currently repeating function
+	let temp;//for any extra stuff that either needs held for a time.
+	function stuff(){
+	Step=2;
+	NextStep();
+	}
+function NextStep(){//because sleep doesn't exist and theres no delay function.
+if(Step==0){
+Step=1
+//setTimeout(function(){LComp()},500);
+} else if(Step==1){
+
+} else if(Step==2){
+//sets up functions so that it does types properly.
+Step=3;
+inputOn=2;
+clearDisplay()
+document.getElementById("Body").onkeydown = function(){typeOnDisplay()};
+document.getElementById("Body").onkeyup = function(){shiftCheck()};
+//shiftCheck() is so that it can do capital and special characters correctly.
+}else{
+ack.style.backgroundColor="black";
+clearDisplay();
+}
+}
+
+function clearDisplay(){
+	Display.innerHTML="";
+	ack.style.paddingBottom = "42em";
+}
+
+
+function fixSize(){
+let pB = ack.style.paddingBottom;
+let t = parseInt(pB);
+t=t-1;
+pB = t+"em";
+Display.style.paddingBottom = pB;
+}
+
+function nextLine(){
+fixSize();
+Display.innerHTML= Display.innerHTML + "<br>";
+}//makes the terminal go to the next line.
+	</script>
+
+
+
+	<script>
+		var sP = 0;
+		var cL = 0;
+		var capLock = 0;
+		function shiftCheck(){
+			let Key=event.keyCode;
+			if(Key==16){
+				sP = 0;
+			} else if(Key==20){
+				cL = 0;
+			}
+		}
+		//making a new script tag so i can't get confused by the rest of the functions.
+		//might make this an entirely different file.
+		function typeOnDisplay(){
+			let Key=event.keyCode;
+			console.log(Key);
+			if(Key==89){//y
+				letterCheck("y","Y");
+			} else if(Key==16){//shift
+				sP=1;
+			} else if(Key==20){//caps lock
+				cL=1;
+			} else if(Key==78){//n
+				letterCheck("n","N");
+			} else if(Key==65){//a
+				letterCheck("a","A")
+			} else if(Key==83){//s
+				letterCheck("s","S");
+			} else if(Key==81){//q
+				letterCheck("q","Q");
+			} else if(Key==87){//w
+				letterCheck("w","W");
+			} else if(Key==69){//e
+				letterCheck("e","E");
+			} else if(Key==48){//0
+				otherCheck("0",")");
+			} else if(Key==49){//1
+				otherCheck("1","!");
+			}else if(Key==50){//2
+				otherCheck("2","@");
+			}else if(Key==51){
+				otherCheck('3',"#");
+			}else if(Key==52){
+				otherCheck('4',"$");
+			}else if(Key==53){
+				otherCheck('5',"%");
+			}else if(Key==54){
+				otherCheck("6","^");
+			}else if(Key==55){
+				otherCheck('7',"&");
+			}else if(Key==56){
+				otherCheck("8","*");
+			}else if(Key==57){//9
+				otherCheck("9","(");
+			}else if(Key==8){
+				backSpace()
+			}/*else if(Key==58){
+				
+			}*/
+		}
+/* for shift character change
+				//for letters:
+				if(sP==1&&cL==1){
+					addToDisplay("_");//lower
+				} else if(sP==1||cL==1){
+					addToDisplay("_");//upper
+				} else {
+					addToDisplay("_");//lower
+				}
+				//for the not letters:
+				if(sP==1){
+					addToDisplay("_");//alt
+				} else {
+					addToDisplay("_");//normal
+				}
+
+*/
+function backSpace(){
+	let t=Display.innerHTML;
+	t=t.split("");
+	let t2="";
+	for(i=0;i<t.length-1;i++){
+		t2=t2+t[i];
+		console.log("T letter:"+t[i]);
+		console.log("full string:"+t2);
+	}
+	if(Array.isArray(t2)){
+		Display.innerHTML="fatal removal error, please restart the terminal."
+		return;
+	} else {
+	Display.innerHTML=t2;
+	}
+}
+function letterCheck(l, U){//l is the lower case character, U is the uppercase character
+				if(sP==1&&cL==1){
+					Display.innerHTML = Display.innerHTML + l;
+				} else if(sP==1||cL==1){
+					Display.innerHTML = Display.innerHTML + U;
+				} else {
+					Display.innerHTML = Display.innerHTML + l;
+				}
+}
+function otherCheck(N, S){//N is for the normal character, S is for the special character.
+				if(sP==1){
+					Display.innerHTML = Display.innerHTML + S;
+				} else {
+					Display.innerHTML = Display.innerHTML + N;
+				}
+}
+		
+		function addToDisplay(S){
+			Display.innerHTML = Display.innerHTML + S;
+
+		}
+	</script>
+
+
+	</body>
+</html>
