@@ -104,18 +104,18 @@ var ack=document.getElementById("display")
 	}
 //all text sent to typeText must end in the # character, otherwise it won't work
 	function typeText(text){
-	string = text.split("");
-	console.log(string);
-	interv = setInterval(ATypeText,100);
+		string = text.split("");
+		console.log(string);
+		interv = setInterval(ATypeText,100);
 	}
 //^i made a mistake making this at first, so this function doesn't do much
 	function ATypeText(){
-	Display.innerHTML=Display.innerHTML + string[0];
-	string.shift();
-	if(string[0]=="#"){
-	clearInterval(interv);
-	console.log("clear was called");
-	setTimeout(function(){NextStep()},2500);
+		Display.innerHTML=Display.innerHTML + string[0];
+		string.shift();
+		if(string[0]=="#"){
+		clearInterval(interv);
+		console.log("clear was called");
+		setTimeout(function(){NextStep()},2500);
 //gonna call this several times, so i just need to make a function start the next step.
 	}
 	//console.log(string[0]); was here when i was debugging
@@ -277,15 +277,12 @@ Display.innerHTML= Display.innerHTML + "<br>";
 function backSpace(){
 	let t=Display.innerHTML;
 	t=t.split("");
-	t.reverse();
-	t.shift();
-	t.reverse();
-	let t2;
-	console.log(t);
-	for(i=0;i<t.length;i++){
+	let t2="";
+	for(i=0;i<t.length-1;i++){
 		t2=t2+t[i];
+		console.log("T letter:"+t[i]);
+		console.log("full string:"+t2);
 	}
-	console.log(t2);
 	if(Array.isArray(t2)){
 		Display.innerHTML="fatal removal error, please restart the terminal."
 		return;
