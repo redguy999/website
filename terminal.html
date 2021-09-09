@@ -72,6 +72,7 @@
 	#text{
 	/*make terminal display text align with the top of the box*/
 	text-align: start;
+	word-wrap: break-word;
 	}
 	</style>
 	</head>
@@ -86,8 +87,7 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="display" style="padding: 0px 20vw 39em 0px">
-		<p id="text"></p>
+	<div id="text" style="padding: 0px 20vw 39em 0px">
 	</div>
 	<script>
 var skip = false; //special use.
@@ -95,7 +95,7 @@ var inputOn=0; //for if it should actually check for if a key is pressed.
 //0 is no, 1 is for certain text, 2 is for Yes.
 var Step=0;//for NextStep()
 var Display=document.getElementById("text");
-var ack=document.getElementById("display")
+//var ack=document.getElementById("display") realized i didn't need this.
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
 	let temp;//for any extra stuff that either needs held for a time.
@@ -142,14 +142,14 @@ document.onkeydown = function(){typeOnDisplay()};
 document.onkeyup = function(){shiftCheck()};
 //shiftCheck() is so that it can do capital and special characters correctly.
 }else{
-ack.style.backgroundColor="black";
+Display.style.backgroundColor="black";
 clearDisplay();
 }
 }
 
 function clearDisplay(){
 	Display.innerHTML="";
-	ack.style.paddingBottom = "39em";
+	Display.style.paddingBottom = "39em";
 }
 
 	function LComp(){
@@ -181,11 +181,11 @@ typeText("Closing terminal...#");
 }
 
 function fixSize(){
-let pB = ack.style.paddingBottom;
+let pB = Display.style.paddingBottom;
 let t = parseInt(pB);
 t=t-1;
 pB = t+"em";
-ack.style.paddingBottom = pB;
+Display.style.paddingBottom = pB;
 }
 
 function nextLine(){
