@@ -109,7 +109,7 @@ var Display=document.getElementById("text");
 	}
 //^i made a mistake making this at first, so this function doesn't do much
 	function ATypeText(){
-		Display.innerHTML=Display.innerHTML + string[0];
+		addTodisplay(string[0]);
 		string.shift();
 		if(string[0]=="#"){
 		clearInterval(interv);
@@ -153,7 +153,7 @@ function clearDisplay(){
 
 	function LComp(){
 	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){Display.innerHTML= Display.innerHTML + "<br>";	skip=true; inputOn=1; typeText("Y/N#");
+	setTimeout(function(){addToDisplay("<br>");	skip=true; inputOn=1; typeText("Y/N#");
 	}//typeText here sometimes breaks, appears to only accord when i
 //tab away.
 	,3000);
@@ -189,7 +189,7 @@ Display.style.paddingBottom = pB;
 
 function nextLine(){
 fixSize();
-Display.innerHTML= Display.innerHTML + "<br>";
+addToDisplay("<br>");
 }//makes the terminal go to the next line.
 	</script>
 
