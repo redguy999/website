@@ -210,7 +210,7 @@
                     backSpace();
                     break;
                 case 32: //space
-                    addStrToInnerHTML(" ")
+                    addToDisplay(" ")
             }
 
             if (kma <= key && key <= kmz) {
@@ -322,15 +322,11 @@
         }
         //END old backSpace
 
-        function addStrToInnerHTML(str) {
-            Display.innerHTML = Display.innerHTML + str;
-        }
-
         function letterCheck(lower, upper) { //l is the lower case character, U is the uppercase character
             if ((sP == 1) != (cL == 1)) {
-                addStrToInnerHTML(upper);
+                addToDisplay(upper);
             } else {
-                addStrToInnerHTML(lower);
+                addToDisplay(lower);
             }
         }
 
