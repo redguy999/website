@@ -199,7 +199,8 @@ Display.innerHTML= Display.innerHTML + "<br>";
 		var sP = 0;
 		var cL = 0;
 		var capLock = 0;
-		function shiftCheck(){
+		function shiftCheck(){//called when either cap locks or the shift key is pressed.
+		//needed to have capital letters work, currently at least.
 			let Key=event.keyCode;
 			if(Key==16){
 				sP = 0;
@@ -209,7 +210,7 @@ Display.innerHTML= Display.innerHTML + "<br>";
 		}
 		//making a new script tag so i can't get confused by the rest of the functions.
 		//might make this an entirely different file.
-		function typeOnDisplay(){
+		function typeOnDisplay(){//giant if statement
 			let Key=event.keyCode;
 			console.log(Key);
 			if(Key==89){//y
@@ -273,7 +274,7 @@ Display.innerHTML= Display.innerHTML + "<br>";
 				}
 
 */
-function backSpace(){
+function backSpace(){//deletes the most recent character.
 	let t=Display.innerHTML;
 	t=t.split("");
 	let t2="";
@@ -282,7 +283,7 @@ function backSpace(){
 		console.log("T letter:"+t[i]);
 		console.log("full string:"+t2);
 	}
-	if(Array.isArray(t2)){
+	if(Array.isArray(t2)){//why did i even add this?
 		Display.innerHTML="fatal removal error, please restart the terminal."
 		return;
 	} else {
@@ -291,24 +292,23 @@ function backSpace(){
 }
 function letterCheck(l, U){//l is the lower case character, U is the uppercase character
 				if(sP==1&&cL==1){
-					Display.innerHTML = Display.innerHTML + l;
+					addToDisplay(l);
 				} else if(sP==1||cL==1){
-					Display.innerHTML = Display.innerHTML + U;
+					addToDisplay(U);
 				} else {
-					Display.innerHTML = Display.innerHTML + l;
+					addToDisplay(l);
 				}
 }
 function otherCheck(N, S){//N is for the normal character, S is for the special character.
 				if(sP==1){
-					Display.innerHTML = Display.innerHTML + S;
+					addToDisplay(S);
 				} else {
-					Display.innerHTML = Display.innerHTML + N;
+					addToDisplay(N);
 				}
 }
 		
 		function addToDisplay(S){
 			Display.innerHTML = Display.innerHTML + S;
-
 		}
 	</script>
 

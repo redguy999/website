@@ -235,24 +235,23 @@ function backSpace(){
 }
 function letterCheck(l, U){//l is the lower case character, U is the uppercase character
 				if(sP==1&&cL==1){
-					Display.innerHTML = Display.innerHTML + l;
+					addToDisplay(l);
 				} else if(sP==1||cL==1){
-					Display.innerHTML = Display.innerHTML + U;
+					addToDisplay(U);
 				} else {
-					Display.innerHTML = Display.innerHTML + l;
+					addToDisplay(l);
 				}
 }
 function otherCheck(N, S){//N is for the normal character, S is for the special character.
 				if(sP==1){
-					Display.innerHTML = Display.innerHTML + S;
+					addToDisplay(S);
 				} else {
-					Display.innerHTML = Display.innerHTML + N;
+					addToDisplay(N);
 				}
 }
 		
 		function addToDisplay(S){
 			Display.innerHTML = Display.innerHTML + S;
-
 		}
 	</script>
 
