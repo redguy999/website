@@ -194,122 +194,100 @@ addToDisplay("<br>");
 <!--the above script tag if for the loading screen
 the below script tag should be edited and tested in terminalT, and then copied here.-->
 
-	<script>
-		var sP = 0;
-		var cL = 0;
-		var capLock = 0;
-		function shiftCheck(){//called when either cap locks or the shift key is pressed.
-		//needed to have capital letters work, currently at least.
-			let Key=event.keyCode;
-			if(Key==16){
-				sP = 0;
-			} else if(Key==20){
-				cL = 0;
-			}
-		}
-		//making a new script tag so i can't get confused by the rest of the functions.
-		//might make this an entirely different file.
-		function typeOnDisplay(){//giant if statement
-			let Key=event.keyCode;
-			console.log(Key);
-			if(Key==89){//y
-				letterCheck("y","Y");
-			} else if(Key==16){//shift
-				sP=1;
-			} else if(Key==20){//caps lock
-				cL=1;
-			} else if(Key==78){//n
-				letterCheck("n","N");
-			} else if(Key==65){//a
-				letterCheck("a","A")
-			} else if(Key==83){//s
-				letterCheck("s","S");
-			} else if(Key==81){//q
-				letterCheck("q","Q");
-			} else if(Key==87){//w
-				letterCheck("w","W");
-			} else if(Key==69){//e
-				letterCheck("e","E");
-			} else if(Key==48){//0
-				otherCheck("0",")");
-			} else if(Key==49){//1
-				otherCheck("1","!");
-			}else if(Key==50){//2
-				otherCheck("2","@");
-			}else if(Key==51){
-				otherCheck('3',"#");
-			}else if(Key==52){
-				otherCheck('4',"$");
-			}else if(Key==53){
-				otherCheck('5',"%");
-			}else if(Key==54){
-				otherCheck("6","^");
-			}else if(Key==55){
-				otherCheck('7',"&");
-			}else if(Key==56){
-				otherCheck("8","*");
-			}else if(Key==57){//9
-				otherCheck("9","(");
-			}else if(Key==8){
-				backSpace()
-			}/*else if(Key==58){
-				
-			}*/
-		}
-/* for shift character change
-				//for letters:
-				if(sP==1&&cL==1){
-					addToDisplay("_");//lower
-				} else if(sP==1||cL==1){
-					addToDisplay("_");//upper
-				} else {
-					addToDisplay("_");//lower
-				}
-				//for the not letters:
-				if(sP==1){
-					addToDisplay("_");//alt
-				} else {
-					addToDisplay("_");//normal
-				}
+<script>
+	var sP = 0;
+	var cL = 0;
+	var capLock = 0;
 
-*/
-function backSpace(){//deletes the most recent character.
-	let t=Display.innerHTML;
-	t=t.split("");
-	let t2="";
-	for(i=0;i<t.length-1;i++){
-		t2=t2+t[i];
-		console.log("T letter:"+t[i]);
-		console.log("full string:"+t2);
-	}
-	if(Array.isArray(t2)){//why did i even add this?
-		Display.innerHTML="fatal removal error, please restart the terminal."
-		return;
-	} else {
-	Display.innerHTML=t2;
-	}
-}
-function letterCheck(l, U){//l is the lower case character, U is the uppercase character
-				if(sP==1&&cL==1){
-					addToDisplay(l);
-				} else if(sP==1||cL==1){
-					addToDisplay(U);
-				} else {
-					addToDisplay(l);
-				}
-}
-function otherCheck(N, S){//N is for the normal character, S is for the special character.
-				if(sP==1){
-					addToDisplay(S);
-				} else {
-					addToDisplay(N);
-				}
-}
-		
-		function addToDisplay(S){
-			Display.innerHTML = Display.innerHTML + S;
+	function shiftCheck() {
+		let Key = event.keyCode;
+		if (Key == 16) {
+			sP = 0;
+		} else if (Key == 20) {
+			cL = 0;
 		}
-	</script>
+	}
+	//making a new script tag so i can't get confused by the rest of the functions.
+	//might make this an entirely different file.
+
+	const kma = 65;
+	const kmz = 90;
+	const utfa = 97;
+	const utfz = 122;
+	const utfA = 65;
+	const utfZ = 90;
+	const diffa = utfa - kma;
+
+	function typeOnDisplay() {
+		let key = event.keyCode;
+		console.log(key);
+
+		switch (key) {
+			case 16: //shift
+				sP = 1;
+				break;
+			case 20: //caps lock
+				cL = 1;
+				break;
+			case 8: //backspace
+				backSpace();
+				break;
+			case 32: //space
+				addToDisplay(" ")
+		}
+
+		if (kma <= key && key <= kmz) {
+			let lower = String.fromCharCode(key + diffa);
+			let upper = String.fromCharCode(key);
+			letterCheck(lower, upper);
+		}
+	}
+	/* for shift character change
+					//for letters:
+					if(sP==1&&cL==1){
+						addToDisplay("_");//lower
+					} else if(sP==1||cL==1){
+						addToDisplay("_");//upper
+					} else {
+						addToDisplay("_");//lower
+					}
+					//for the not letters:
+					if(sP==1){
+						addToDisplay("_");//alt
+					} else {
+						addToDisplay("_");//normal
+					}
+
+	*/
+	function backSpace() {
+		let text = Display.innerHTML;
+		//console.log(text);
+		if (text) {
+			Display.innerHTML = text.substring(0, text.length - 1);
+			console.log(text);
+		}
+	}
+
+	function letterCheck(lower, upper) { //lower is the lower case character, upper is the uppercase character
+		if ((sP == 1) != (cL == 1)) {
+			addToDisplay(upper);
+		} else {
+			addToDisplay(lower);
+		}
+	}
+
+	function otherCheck(N, S) { //N is for the normal character, S is for the special character.
+		if (sP == 1) {
+			addToDisplay(S);
+		} else {
+			addToDisplay(N);
+		}
+	}
+
+	function addToDisplay(S) {
+		Display.innerHTML = Display.innerHTML + S;
+	}
+</script>
 
 
 	</body>
