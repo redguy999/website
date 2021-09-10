@@ -220,10 +220,10 @@ function backSpace(){
 	let t2="";
 	for(i=0;i<t.length-1;i++){
 		t2=t2+t[i];
-		console.log("T letter:"+t[i]);
-		console.log("full string:"+t2);
+		/*console.log("T letter:"+t[i]);
+		console.log("full string:"+t2);*/
 	}
-	if(Array.isArray(t2)){
+	if(Array.isArray(t2)){//why did i add this?
 		Display.innerHTML="fatal removal error, please restart the terminal."
 		return;
 	} else {
