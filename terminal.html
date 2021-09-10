@@ -199,7 +199,14 @@ the below script tag should be edited and tested in terminalT, and then copied h
 	var cL = 0;
 	//making a new script tag so i can't get confused by the rest of the functions.
 	//might make this an entirely different file.
-
+	function shiftCheck() {
+		let Key = event.keyCode;
+		if (Key == 16) {
+			sP = 0;
+		} else if (Key == 20) {
+			cL = 0;
+		}
+	}
 	const kma = 65;
 	const kmz = 90;
 	const utfa = 97;
