@@ -1,77 +1,75 @@
 <html>
 	<head>
-	<style>
-	body{
-	background-color: black;
-	color:green;
-	font-weight: bold;
-	border: 5px green solid;
-	}/* for futre refrence*/
-	#topGrid{
-	display:grid;
-	grid-template-columns: 19% auto auto auto auto 19%;
-	margin: 10px 2%;
-	grid-gap: 1%;
-	grid-template-rows: 40% auto auto auto auto;
-	grid-row-gap: 2px;
-	}
-	#topGrid > div{
-	padding: 15%;
-	border: 2px green solid;
-	}
-	#topGrid>#TL{
-	grid-column:1;
-	grid-row: 1/span 5;
-	padding-bottom: 2px;
-	}
-	#topGrid>#TR{
-	grid-column: 6;
-	grid-row: 1 /span 5;
-	padding-bottom: 2px;
-	}
-	#TB{
-	grid-column:2/ span 4;
-	grid-row:5;
-	padding-top:0px;
-	padding-bottom:0px;
-	}
-	#topGrid>#TB{
-	padding-top:1%;
-	padding-bottom:1%;
-	}
-	#T1{
-	background-color:rgb(255,0,0);
-	grid-column:2;
-	grid-row:1;
-	}
-	#T2{
-	background-color:rgb(0,255,0);
-	grid-column:3;
-	grid-row:1;
-	}
-	#T3{
-	background-color:rgb(0,0,255);
-	grid-column:4;
-	grid-row:1;
-	}
-	#T4{
-	background-color:rgb(255,255,255);
-	grid-column:5;
-	grid-row:1;
-	}
-	/*TODO, find a better standard terminal color*/
-	#text{
-	margin:5px 2%;
-	border:5px green solid;
-	/*padding:80vh 20vw;*/
-	background-color:rgba(200,200,200,.1);
-	text-align:left;
-	padding-top:0px;
-	padding-left:0px;
-	padding-bottom: 0px;
-	word-wrap: break-word;
-	} 
-	</style>
+		<style>
+			body{
+			background-color: black;
+			color:rgb(0,255,0);
+			font-weight: bold;
+			border: 5px rgb(0,255,0) solid;
+			}/* for future refrence*/
+			#topGrid{
+			display:grid;
+			grid-template-columns: 19% auto auto auto auto 19%;
+			margin: 10px 2%;
+			grid-gap: 1%;
+			grid-template-rows: 40% auto auto auto auto;
+			grid-row-gap: 2px;
+			}
+			#topGrid > div{
+			padding: 15%;
+			border: 2px rgb(0,255,0) solid;
+			}
+			#topGrid>#TL{
+			grid-column:1;
+			grid-row: 1/span 5;
+			padding-bottom: 2px;
+			}
+			#topGrid>#TR{
+			grid-column: 6;
+			grid-row: 1 /span 5;
+			padding-bottom: 2px;
+			}
+			#TB{
+			grid-column:2/ span 4;
+			grid-row:5;
+			padding-top:0px;
+			padding-bottom:0px;
+			}
+			#topGrid>#TB{
+			padding-top:1%;
+			padding-bottom:1%;
+			}
+			#T1{
+			background-color:red;
+			grid-column:2;
+			grid-row:1;
+			}
+			#T2{
+			background-color:green;
+			grid-column:3;
+			grid-row:1;
+			}
+			#T3{
+			background-color:blue;
+			grid-column:4;
+			grid-row:1;
+			}
+			#T4{
+			background-color:rgb(255,255,255);
+			grid-column:5;
+			grid-row:1;
+			}
+			#text{
+			margin:5px 2%;
+			border:5px rgb(0,255,0) solid;
+			background-color:rgba(200,200,200,.1);
+			text-align:left;
+			padding-top:0px;
+			padding-left:0px;
+			text-align: start;
+			word-wrap: break-word;
+			}
+			</style>
 	</head>
 	<body id="Body" onLoad="stuff()" onKeyDown="Typing()">
 
@@ -92,7 +90,6 @@ var Display=document.getElementById("text");
 //let ack=document.getElementById("display");
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
-	let temp;//for any extra stuff that either needs held for a time.
 	function stuff(){
 	Step=2;
 	NextStep();
@@ -223,10 +220,10 @@ function backSpace(){
 	let t2="";
 	for(i=0;i<t.length-1;i++){
 		t2=t2+t[i];
-		console.log("T letter:"+t[i]);
-		console.log("full string:"+t2);
+		/*console.log("T letter:"+t[i]);
+		console.log("full string:"+t2);*/
 	}
-	if(Array.isArray(t2)){
+	if(Array.isArray(t2)){//why did i add this?
 		Display.innerHTML="fatal removal error, please restart the terminal."
 		return;
 	} else {
