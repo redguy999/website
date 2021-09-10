@@ -197,16 +197,6 @@ the below script tag should be edited and tested in terminalT, and then copied h
 <script>
 	var sP = 0;
 	var cL = 0;
-	var capLock = 0;
-
-	function shiftCheck() {
-		let Key = event.keyCode;
-		if (Key == 16) {
-			sP = 0;
-		} else if (Key == 20) {
-			cL = 0;
-		}
-	}
 	//making a new script tag so i can't get confused by the rest of the functions.
 	//might make this an entirely different file.
 
@@ -217,6 +207,7 @@ the below script tag should be edited and tested in terminalT, and then copied h
 	const utfA = 65;
 	const utfZ = 90;
 	const diffa = utfa - kma;
+	//what does this do?/why does this work?
 
 	function typeOnDisplay() {
 		let key = event.keyCode;
@@ -234,6 +225,8 @@ the below script tag should be edited and tested in terminalT, and then copied h
 				break;
 			case 32: //space
 				addToDisplay(" ")
+			//add case for enter?
+			//TODO: figure out how the display should be margined.
 		}
 		//special charaters and numbers don't work.
 		if (kma <= key && key <= kmz) {
@@ -262,9 +255,9 @@ the below script tag should be edited and tested in terminalT, and then copied h
 	function backSpace() {
 		let text = Display.innerHTML;
 		//console.log(text);
-		if (text) {
+		if (text) {//why is this needed?
 			Display.innerHTML = text.substring(0, text.length - 1);
-			console.log(text);
+			//console.log(text);
 		}
 	}
 
