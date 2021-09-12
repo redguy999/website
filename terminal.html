@@ -75,7 +75,7 @@
 	</style>
 	</head>
 	<body onLoad="stuff()" onKeyDown="Typing()">
-<!---->
+
 	<div id="topGrid">
 		<div id="TL"></div>
 		<div id="T1"></div>
@@ -88,7 +88,6 @@
 	<div id="text"></div>
 		<!--Current issue, theres a massive amount of empty space at the bottom of the terminal when are able to type-->
 	</div>
-	<!---->
 	<script>
 var skip = false; //special use.
 var inputOn=0; //for if it should actually check for if a key is pressed.
@@ -105,6 +104,7 @@ var Display=document.getElementById("text");
 //all text sent to typeText must end in the # character, otherwise it won't work
 	function typeText(text){
 		string = text.split("");
+		console.log(string);
 		interv = setInterval(ATypeText,100);
 	}
 //^i made a mistake making this at first, so this function doesn't do much
@@ -113,7 +113,7 @@ var Display=document.getElementById("text");
 		string.shift();
 		if(string[0]=="#"){
 		clearInterval(interv);
-		console.log("slow step");
+		console.log("clear was called");
 		setTimeout(function(){NextStep()},2500);
 //gonna call this several times, so i just need to make a function start the next step.
 	}
@@ -122,16 +122,13 @@ var Display=document.getElementById("text");
 function NextStep(){//because sleep doesn't exist and theres no delay function.
 console.log("step was called");
 console.log(Step);
-if((skip==false)){
+if(skip==false){
 nextLine();
-} else if(temp!=1){
-	skip=false
-} else{
-
+} else {
+	skip=false;
 }
 if(temp==1){
 	inputOn=1;//don't touch this
-	temp=0;
 }
 if(Step==0){
 Step=1
@@ -146,13 +143,9 @@ clearDisplay()
 document.onkeydown = function(){typeOnDisplay()};
 document.onkeyup = function(){shiftCheck()};
 //shiftCheck() is so that it can do capital and special characters correctly.
-}else if(Step==-1){
+}else{
 Display.style.backgroundColor="black";
 clearDisplay();
-} else {
-	// Display.style.color = "red";
-	Display.innerHTML = "I'm not sure how, but you broke it, please tell us what happened and we'll try to fix it.";
-	document.onkeydown = function(){ENull()};
 }
 }
 
@@ -162,9 +155,8 @@ function clearDisplay(){
 }
 
 	function LComp(){
-	skip = true;
 	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){nextLine(); temp=1; typeText("Y/N#");//step gets called twice after this is complete, but before you can put anything in the text
+	setTimeout(function(){addToDisplay("<br>");	skip=true; temp=1; typeText("Y/N#");//or this.
 	}//typeText here sometimes breaks, appears to only accord when i
 //tab away.
 	,3000);
@@ -175,18 +167,13 @@ let Key=event.keyCode;
 if(inputOn==0){
 return;//can't type yet.
 } else if (inputOn==1){
-inputOn=0;//prevents a bug.
-//currently only the launch Command is the only time that this is used
+//currently only the launch Command is the only time that this isused
 if(Key==89){
-nextLine();
 typeText("Opening terminal...#");
 Step=2;
 }else if(Key==78){
 Step=-1;
-nextLine();
 typeText("Closing terminal...#");
-} else{
-	inputOn=1;
 }
 }else if(inputOn==2){
 //function that lets you type in terminal. this was moved elsewhere
@@ -208,9 +195,6 @@ fixSize();
 addToDisplay("<br>");
 }//makes the terminal go to the next line.
 
-function ENull(){//should only be called if the terminal was broken, and the user attempts to make it respond while its broken.
-alert("The terminal was broken, please reload the page and try again.")
-}
 //add code to skip this entire loading sequence? (psi)
 	</script>
 
@@ -309,7 +293,7 @@ the below script tag should be edited and tested in terminalT, and then copied h
 			addToDisplay(N);
 		}
 	}
-		//the start of an HTML comment is "<!--", we'll likely need to add a safety check to prevent this from breaking the code.
+
 	function addToDisplay(S) {
 		Display.innerHTML = Display.innerHTML + S;
 	}
