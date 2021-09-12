@@ -66,8 +66,11 @@
 	text-align:left;
 	padding-top:0px;
 	padding-left:0px;
+	/* padding-right:auto;
+	padding-bottom:auto; */
 	text-align: start;
 	word-wrap: break-word;
+	height:80vh;
 	}
 	</style>
 	</head>
@@ -82,7 +85,7 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="text" style="padding: 0px auto 39em 0px">
+	<div id="text"></div>
 		<!--Current issue, theres a massive amount of empty space at the bottom of the terminal when are able to type-->
 	</div>
 	<script>
@@ -94,6 +97,7 @@ var Display=document.getElementById("text");
 //var ack=document.getElementById("display") realized i didn't need this.
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
+	let temp=0;//needed for a bug fix
 	function stuff(){
 	typeText("Loading terminal...#");
 	}
@@ -123,6 +127,9 @@ nextLine();
 } else {
 	skip=false;
 }
+if(temp==1){
+	inputOn=1;//don't touch this
+}
 if(Step==0){
 Step=1
 setTimeout(function(){LComp()},500);
@@ -144,12 +151,12 @@ clearDisplay();
 
 function clearDisplay(){
 	Display.innerHTML="";
-	Display.style.paddingBottom = "39em";
+	Display.style.height = "80vh";
 }
 
 	function LComp(){
 	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){addToDisplay("<br>");	skip=true; inputOn=1; typeText("Y/N#");
+	setTimeout(function(){addToDisplay("<br>");	skip=true; temp=1; typeText("Y/N#");//or this.
 	}//typeText here sometimes breaks, appears to only accord when i
 //tab away.
 	,3000);
@@ -179,7 +186,7 @@ function fixSize(){
 let pB = Display.style.paddingBottom;
 let t = parseInt(pB);
 t=t-1;
-pB = t+"em";
+pB = t+"vh";
 Display.style.paddingBottom = pB;
 }
 
@@ -191,7 +198,7 @@ addToDisplay("<br>");
 //add code to skip this entire loading sequence? (psi)
 	</script>
 
-<!--the above script tag if for the loading screen
+<!--the above script tag is for the loading screen
 the below script tag should be edited and tested in terminalT, and then copied here.-->
 
 <script>

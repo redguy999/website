@@ -73,16 +73,19 @@
             grid-row: 1;
         }
 
-        #text {
-            margin: 5px 2%;
-            border: 5px rgb(0, 255, 0) solid;
-            background-color: rgba(200, 200, 200, .1);
-            text-align: left;
-            padding-top: 0px;
-            padding-left: 0px;
-            text-align: start;
-            word-wrap: break-word;
-        }
+        #text{
+	        margin:5px 2%;
+	        border:5px rgb(0,255,0) solid;
+	        background-color:rgba(200,200,200,.1);
+	        text-align:left;
+	        padding-top:0px;
+	        padding-left:0px;
+	        /* padding-right:auto;
+	        padding-bottom:auto; */
+	        text-align: start;
+	        word-wrap: break-word;
+	        height:80vh;
+	    }
     </style>
 </head>
 
@@ -97,7 +100,7 @@
         <div id="TR"></div>
         <div id="TB"></div>
     </div>
-    <div id="text" style="padding: 0px auto 42em 0px">
+    <div id="text"></div>
     </div>
     <script>
         var Step = 0; //for NextStep()
@@ -136,7 +139,7 @@
 
         function clearDisplay() {
             Display.innerHTML = "";
-            Display.style.paddingBottom = "42em";
+            Display.style.height = "80vh";
         }
 
 
@@ -144,7 +147,7 @@
             let pB = Display.style.paddingBottom;
             let t = parseInt(pB);
             t = t - 1;
-            pB = t + "em";
+            pB = t + "vh";
             Display.style.paddingBottom = pB;
         }
 
