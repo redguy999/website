@@ -23,5 +23,5 @@ function XOR(c1,c2){
 return true;
 }
 function XNOR(C1,C2){
-	return !XOR(c1,c2);
+	return !XOR(C1,C2);
 }
