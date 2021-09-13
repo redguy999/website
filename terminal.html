@@ -66,8 +66,11 @@
 	text-align:left;
 	padding-top:0px;
 	padding-left:0px;
+	/* padding-right:auto;
+	padding-bottom:auto; */
 	text-align: start;
 	word-wrap: break-word;
+	height:80vh;
 	}
 	</style>
 	</head>
@@ -82,7 +85,7 @@
 		<div id="TR"></div>
 		<div id="TB"></div>
 	</div>	
-	<div id="text" style="padding: 0px auto 39em 0px">
+	<div id="text"></div>
 		<!--Current issue, theres a massive amount of empty space at the bottom of the terminal when are able to type-->
 	</div>
 	<script>
@@ -94,6 +97,7 @@ var Display=document.getElementById("text");
 //var ack=document.getElementById("display") realized i didn't need this.
 	let string;//holds the array for "typeText" and "ATypeText"
 	let interv;//holds the currently repeating function
+	let temp=0;//needed for a bug fix
 	function stuff(){
 	typeText("Loading terminal...#");
 	}
@@ -123,6 +127,9 @@ nextLine();
 } else {
 	skip=false;
 }
+if(temp==1){
+	inputOn=1;//don't touch this
+}
 if(Step==0){
 Step=1
 setTimeout(function(){LComp()},500);
@@ -144,12 +151,12 @@ clearDisplay();
 
 function clearDisplay(){
 	Display.innerHTML="";
-	Display.style.paddingBottom = "39em";
+	Display.style.height = "80vh";
 }
 
 	function LComp(){
 	typeText("Terminal loaded, launch?#");
-	setTimeout(function(){addToDisplay("<br>");	skip=true; inputOn=1; typeText("Y/N#");
+	setTimeout(function(){addToDisplay("<br>");	skip=true; temp=1; typeText("Y/N#");//or this.
 	}//typeText here sometimes breaks, appears to only accord when i
 //tab away.
 	,3000);
@@ -179,7 +186,7 @@ function fixSize(){
 let pB = Display.style.paddingBottom;
 let t = parseInt(pB);
 t=t-1;
-pB = t+"em";
+pB = t+"vh";
 Display.style.paddingBottom = pB;
 }
 
@@ -191,14 +198,14 @@ addToDisplay("<br>");
 //add code to skip this entire loading sequence? (psi)
 	</script>
 
-<!--the above script tag if for the loading screen
+<!--the above script tag is for the loading screen
 the below script tag should be edited and tested in terminalT, and then copied here.-->
 
 <script>
 	var sP = 0;
 	var cL = 0;
-	var capLock = 0;
-
+	//making a new script tag so i can't get confused by the rest of the functions.
+	//might make this an entirely different file.
 	function shiftCheck() {
 		let Key = event.keyCode;
 		if (Key == 16) {
@@ -207,9 +214,6 @@ the below script tag should be edited and tested in terminalT, and then copied h
 			cL = 0;
 		}
 	}
-	//making a new script tag so i can't get confused by the rest of the functions.
-	//might make this an entirely different file.
-
 	const kma = 65;
 	const kmz = 90;
 	const utfa = 97;
@@ -217,6 +221,7 @@ the below script tag should be edited and tested in terminalT, and then copied h
 	const utfA = 65;
 	const utfZ = 90;
 	const diffa = utfa - kma;
+	//what does this do?/why does this work?
 
 	function typeOnDisplay() {
 		let key = event.keyCode;
@@ -232,9 +237,15 @@ the below script tag should be edited and tested in terminalT, and then copied h
 			case 8: //backspace
 				backSpace();
 				break;
+			case 13: //for enter.
+				nextLine();
+				break;
 			case 32: //space
 				addToDisplay(" ")
+				break;
 		}
+		//9 is tab
+		//"0" is 48, "1" is 49, "9" is 57, and 2-8 are between 1 and 9, in order.
 		//special charaters and numbers don't work.
 		if (kma <= key && key <= kmz) {
 			let lower = String.fromCharCode(key + diffa);
@@ -262,9 +273,9 @@ the below script tag should be edited and tested in terminalT, and then copied h
 	function backSpace() {
 		let text = Display.innerHTML;
 		//console.log(text);
-		if (text) {
+		if (text) {//why is this needed?
 			Display.innerHTML = text.substring(0, text.length - 1);
-			console.log(text);
+			//console.log(text);
 		}
 	}
 
