@@ -49,31 +49,31 @@
 	</body>
 	<script src="gates.js"></script>
 	<script>
-	function Glogic(){
-	let IntO = document.getElementById("iA").value;
-	let IntT = document.getElementById("iB").value;
-	if(IntO==1){
-	IntO = true;
-	} else if(IntO==0){
-	IntO = false;
-	} else {
-	alert("invalid input");
-	return;
-	}
-	if(IntT==1){
-	IntT = true;
-	} else if(IntT==0){
-	IntT = false;
-	} else {
-	alert("invalid input");
-	return;
-	}
-	document.getElementById("andG").innerHTML = AND(IntO,IntT); 
-	document.getElementById("orG").innerHTML = OR(IntO,IntT);
-	document.getElementById("nandG").innerHTML =  NAND(IntO,IntT);
-	document.getElementById("norG").innerHTML = NOR(IntO,IntT);
-	document.getElementById("xorG").innerHTML = XOR(IntO,IntT);
-	document.getElementById("xnorG").innerHTML = XNOR(IntO,IntT);
-	}
+		function Glogic(){
+		let IntO = document.getElementById("iA").value;
+		let IntT = document.getElementById("iB").value;
+		if(IntO==1){
+			IntO = true;
+		} else if(IntO==0){
+			IntO = false;
+		} else {
+			alert("invalid input");
+			return;
+		}
+		if(IntT==1){
+			IntT = true;
+		} else if(IntT==0){
+			IntT = false;
+		} else {
+			alert("invalid input");
+			return;
+		}
+			document.getElementById("andG").innerHTML = AND(IntO,IntT); 
+			document.getElementById("orG").innerHTML = OR(IntO,IntT);
+			document.getElementById("nandG").innerHTML =  NAND(IntO,IntT);
+			document.getElementById("norG").innerHTML = NOR(IntO,IntT);
+			document.getElementById("xorG").innerHTML = XOR(IntO,IntT);
+			document.getElementById("xnorG").innerHTML = XNOR(IntO,IntT);
+		}
 	</script>
 </html>
