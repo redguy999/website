@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<style>
+		body{
+		background-color:lightblue;
+		}
+		#inContain{
+		margin: 5px auto;
+		width: 50%;
+		text-align: center;
+		border: 1px green solid;
+		}
+		.centered{
+		margin: 5px auto;
+		}
+		#table>th,td{
+		border: 1px black solid;
+		}
+		</style>
+	</head>
+	<body>
+	<div id="inContain">
+	<input id="iA"></input>
+	<input id="iB"></input>
+	</div>
+	<hr>
+	<div class="centered">
+	<button onClick="Glogic()">Get outputs</button>
+	</div>
+	<hr>
+	<table class="centered" id="table">
+	<tr>
+	<th>AND</th>
+	<th>OR</th>
+	<th>NAND</th>
+	<th>NOR</th>
+	<th>XOR</th>
+	<th>XNOR</th>
+	</tr>
+	<tr>
+	<td id="andG"></td>
+	<td id="orG"></td>
+	<td id="nandG"></td>
+	<td id="norG"></td>
+	<td id="xorG"></td>
+	<td id="xnorG"></td>
+	</tr>
+	</table>
+	</body>
+	<script src="gates.js"></script>
+	<script>
+		function Glogic(){
+		let IntO = document.getElementById("iA").value;
+		let IntT = document.getElementById("iB").value;
+		if(IntO==1){
+			IntO = true;
+		} else if(IntO==0){
+			IntO = false;
+		} else {
+			alert("invalid input");
+			return;
+		}
+		if(IntT==1){
+			IntT = true;
+		} else if(IntT==0){
+			IntT = false;
+		} else {
+			alert("invalid input");
+			return;
+		}
+			document.getElementById("andG").innerHTML = AND(IntO,IntT); 
+			document.getElementById("orG").innerHTML = OR(IntO,IntT);
+			document.getElementById("nandG").innerHTML =  NAND(IntO,IntT);
+			document.getElementById("norG").innerHTML = NOR(IntO,IntT);
+			document.getElementById("xorG").innerHTML = XOR(IntO,IntT);
+			document.getElementById("xnorG").innerHTML = XNOR(IntO,IntT);
+		}
+	</script>
+</html>
