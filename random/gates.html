@@ -20,8 +20,8 @@
 	</head>
 	<body>
 	<div id="inContain">
-	<input id="A"></input>
-	<input id="B"></input>
+	<input id="iA"></input>
+	<input id="iB"></input>
 	</div>
 	<hr>
 	<div class="centered">
@@ -50,8 +50,8 @@
 	<script src="gates.js"></script>
 	<script>
 	function Glogic(){
-	let IntO = document.getElementById("A").innerHTML;
-	let IntT = document.getElementById("B").innerHTML;
+	let IntO = document.getElementById("iA").value;
+	let IntT = document.getElementById("iB").value;
 	if(IntO==1){
 	IntO = true;
 	} else if(IntO==0){
@@ -68,8 +68,6 @@
 	alert("invalid input");
 	return;
 	}
-	console.log(IntT);
-	console.log(IntO);
 	document.getElementById("andG").innerHTML = AND(IntO,IntT); 
 	document.getElementById("orG").innerHTML = OR(IntO,IntT);
 	document.getElementById("nandG").innerHTML =  NAND(IntO,IntT);
