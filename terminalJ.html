@@ -1,0 +1,331 @@
+<html>
+
+
+<head>
+    <style>
+        body {
+            background-color: black;
+            color: rgb(0, 255, 0);
+            font-weight: bold;
+            border: 5px rgb(0, 255, 0) solid;
+        }
+
+        /* for future refrence*/
+        #topGrid {
+            display: grid;
+            grid-template-columns: 19% auto auto auto auto 19%;
+            margin: 10px 2%;
+            grid-gap: 1%;
+            grid-template-rows: 40% auto auto auto auto;
+            grid-row-gap: 2px;
+        }
+
+        #topGrid>div {
+            padding: 15%;
+            border: 2px rgb(0, 255, 0) solid;
+        }
+
+        #topGrid>#TL {
+            grid-column: 1;
+            grid-row: 1/span 5;
+            padding-bottom: 2px;
+        }
+
+        #topGrid>#TR {
+            grid-column: 6;
+            grid-row: 1 /span 5;
+            padding-bottom: 2px;
+        }
+
+        #TB {
+            grid-column: 2/ span 4;
+            grid-row: 5;
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+
+        #topGrid>#TB {
+            padding-top: 1%;
+            padding-bottom: 1%;
+        }
+
+        #T1 {
+            background-color: red;
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        #T2 {
+            background-color: green;
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        #T3 {
+            background-color: blue;
+            grid-column: 4;
+            grid-row: 1;
+        }
+
+        #T4 {
+            background-color: rgb(255, 255, 255);
+            grid-column: 5;
+            grid-row: 1;
+        }
+
+        #text {
+            margin: 5px 2%;
+            border: 5px rgb(0, 255, 0) solid;
+            background-color: rgba(200, 200, 200, .1);
+            text-align: left;
+            padding-top: 0px;
+            padding-left: 0px;
+            /* padding-right:auto;
+	        padding-bottom:auto; */
+            text-align: start;
+            word-wrap: break-word;
+            height: 80vh;
+        }
+    </style>
+</head>
+
+<body id="Body" onLoad="startPrompt()">
+
+    <div id="topGrid">
+        <div id="TL"></div>
+        <div id="T1"></div>
+        <div id="T2"></div>
+        <div id="T3"></div>
+        <div id="T4"></div>
+        <div id="TR"></div>
+        <div id="TB"></div>
+    </div>
+    <div id="text"></div>
+    </div>
+    <script>
+        /*
+        var Step = 0; //for NextStep()
+        var terminal = document.getElementById("text");
+        //let ack=document.getElementById("display");
+        let string; //holds the array for "typeText" and "ATypeText"
+        let interv; //holds the currently repeating function
+        function stuff() {
+            Step = 2;
+            NextStep();
+        }
+
+        function NextStep() { //because sleep doesn't exist and theres no delay function.
+            if (Step == 0) {
+                Step = 1
+                //setTimeout(function(){LComp()},500);
+            } else if (Step == 1) {
+
+            } else if (Step == 2) {
+                //sets up functions so that it does types properly.
+                Step = 3;
+                inputOn = 2;
+                clearDisplay()
+                document.getElementById("Body").onkeydown = function() {
+                    typeOnDisplay()
+                };
+                document.getElementById("Body").onkeyup = function() {
+                    shiftCheck()
+                };
+                //shiftCheck() is so that it can do capital and special characters correctly.
+            } else {
+                terminal.style.backgroundColor = "black";
+                clearDisplay();
+            }
+        }
+
+        function clearDisplay() {
+            terminal.innerHTML = "";
+            terminal.style.height = "80vh";
+        }
+
+
+        function fixSize() {
+            let pB = terminal.style.paddingBottom;
+            let t = parseInt(pB);
+            t = t - 1;
+            pB = t + "vh";
+            terminal.style.paddingBottom = pB;
+        }
+        */
+        var htmlBody = document.getElementById("Body");
+        var terminal = document.getElementById("text");
+
+        function startPrompt() {
+            typeStringInterval(
+                "Loading terminal...\nTerminal loaded, launch?\nY/N: ",
+                10,
+                setModeYesOrNo
+            );
+        }
+
+        function typeStringInterval(str, interval, end) {
+            let counter = 0;
+            let strSize = str.length;
+            let ntrvl = setInterval(() => {
+                addToDisplay(str.charAt(counter));
+                counter++;
+                if (counter >= strSize) {
+                    clearInterval(ntrvl);
+                    if (end) {end();}
+                    console.log("eeee");
+                }
+            }, interval);
+        }
+
+        var yon = " "
+
+        function setModeYesOrNo() {
+            htmlBody.onkeydown = yesOrNo;
+        }
+        function yesOrNo() {
+            let key = event.keyCode;
+
+            if (yon != " " && (key == 13)) {
+                //complete
+                console.log("complete with " + yon);
+                if (yon == "Y") {
+                    setModeTyping();
+                } else {
+                    setModeCancelled();
+                }
+            }
+            if ((key == 89) || (key == 78)) {
+                yon = String.fromCharCode(key);
+                backSpace();
+                addToDisplay(yon);
+            }
+        }
+        function setModeCancelled() {
+            clearDisplay();
+            typeStringInterval("Cancelled", 100);
+            htmlBody.onkeydown = null;
+            htmlBody.onkeyup = null;
+        }
+    </script>
+
+
+
+    <script>
+        var sP = 0;
+        var cL = 0;
+
+        function setModeTyping() {
+            clearDisplay();
+            htmlBody.onkeydown = typeOnDisplay;
+            htmlBody.onkeyup = shiftCheck;
+        }
+
+        function nextLine() {
+            fixSize();
+            addToDisplay("<br>");
+        } //makes the terminal go to the next line.
+
+        function shiftCheck() {
+            let Key = event.keyCode;
+            if (Key == 16) {
+                sP = 0;
+            } else if (Key == 20) {
+                cL = 0;
+            }
+        }
+        //making a new script tag so i can't get confused by the rest of the functions.
+        //might make this an entirely different file.
+
+        const kma = 65;
+        const kmz = 90;
+        const utfa = 97;
+        const utfz = 122;
+        const utfA = 65;
+        const utfZ = 90;
+        const diffa = utfa - kma;
+
+        function typeOnDisplay() {
+            let key = event.keyCode;
+            console.log(key);
+
+            switch (key) {
+                case 16: //shift
+                    sP = 1;
+                    break;
+                case 20: //caps lock
+                    cL = 1;
+                    break;
+                case 8: //backspace
+                    backSpace();
+                    break;
+                case 13: //for enter.
+                    addToDisplay("\n");
+                    break;
+                case 32: //space
+                    addToDisplay(" ")
+                    break;
+            }
+
+            if (kma <= key && key <= kmz) {
+                let lower = String.fromCharCode(key + diffa);
+                let upper = String.fromCharCode(key);
+                letterCheck(lower, upper);
+            }
+        }
+        /* for shift character change
+        				//for letters:
+        				if(sP==1&&cL==1){
+        					addToDisplay("_");//lower
+        				} else if(sP==1||cL==1){
+        					addToDisplay("_");//upper
+        				} else {
+        					addToDisplay("_");//lower
+        				}
+        				//for the not letters:
+        				if(sP==1){
+        					addToDisplay("_");//alt
+        				} else {
+        					addToDisplay("_");//normal
+        				}
+
+        */
+        function backSpace(amt = 1) {
+            let text = terminal.innerHTML;
+            //console.log(text);
+            if (text) {
+                terminal.innerHTML = text.substring(0, text.length - amt);
+                console.log(text);
+            }
+        }
+
+        function letterCheck(lower, upper) { //l is the lower case character, U is the uppercase character
+            if ((sP == 1) != (cL == 1)) {
+                addToDisplay(upper);
+            } else {
+                addToDisplay(lower);
+            }
+        }
+
+        function otherCheck(N, S) { //N is for the normal character, S is for the special character.
+            if (sP == 1) {
+                addToDisplay(S);
+            } else {
+                addToDisplay(N);
+            }
+        }
+
+        function addToDisplay(str) {
+            terminal.innerHTML = terminal.innerHTML + str.replace("\n", "<br>");
+        }
+
+        function clearDisplay() {
+            terminal.innerHTML = "";
+            terminal.style.height = "80vh";
+        }
+
+    </script>
+
+
+</body>
+
+</html>
