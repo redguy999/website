@@ -158,24 +158,50 @@
         function startPrompt() {
             typeStringInterval(
                 "Loading terminal...\nTerminal loaded, launch?\nY/N: ",
-                100,//slowed it cause it seemed too fast. 
+                50, //slowed it cause it seemed too fast.
+                1000,
                 //feel like there should be a pause before it goes to the next line, should just need an if statement.
                 setModeYesOrNo
             );
         }
 
-        function typeStringInterval(str, interval, end) {
-            let counter = 0;
+        var ntrvl;
+        var charCounter;
+        function typeStringInterval(str, interval, lineInterval, end) {
+            charCounter = 0;
+            //let lineCounter = 0;
             let strSize = str.length;
-            let ntrvl = setInterval(() => {
-                addToDisplay(str.charAt(counter));
-                counter++;
-                if (counter >= strSize) {
-                    clearInterval(ntrvl);
-                    if (end) {end();}//whats going on here?
-                    console.log("eeee");
-                }
-            }, interval);
+            ntrvl = setInterval(
+                tSIinternal,
+                interval,
+                str, interval, lineInterval, end, strSize
+            );
+        }
+
+        function tSIinternal(str, interval, lineInterval, end, strSize) {
+            let char = str.charAt(charCounter);
+            if (char == "\n") {
+                clearInterval(ntrvl);
+                setTimeout(() => {
+                    addToDisplay(char);
+                    charCounter++;
+                    ntrvl = setInterval(
+                        tSIinternal,
+                        interval,
+                        str, interval, lineInterval, end, strSize
+                    );
+                }, lineInterval);
+                return;
+            }
+            addToDisplay(char);
+            charCounter++;
+            if (charCounter >= strSize) {
+                clearInterval(ntrvl);
+                if (end) {
+                    end();
+                } //whats going on here?
+                console.log("eeee");
+            }
         }
 
         var yon = " "
@@ -183,12 +209,14 @@
         function setModeYesOrNo() {
             htmlBody.onkeydown = yesOrNo;
         }
-        function yesOrNo() {//TODO: its a little unclear that you have to press enter to confirm your choice.
+
+        function yesOrNo() { //TODO: its a little unclear that you have to press enter to confirm your choice.
             let key = event.keyCode;
 
             if (yon != " " && (key == 13)) {
                 //complete
                 console.log("complete with " + yon);
+
                 if (yon == "Y") {
                     setModeTyping();
                 } else {
@@ -196,19 +224,29 @@
                 }
             }
             if ((key == 89) || (key == 78)) {
-                yon = String.fromCharCode(key);//have it add "confirm?" on the next next line when this is set.
-                backSpace();
-                addToDisplay(yon);
+                let confirmStr = " (press ENTER to confirm)";
+
+                if (yon != " ") {
+                    backSpace(confirmStr.length + 1)
+                }
+                yon = String.fromCharCode(key); //have it add "confirm?" on the next next line when this is set.
+                addToDisplay(yon + confirmStr);
             }
         }
+
         function setModeCancelled() {
-            typeStringInterval("\nClosing...", 100);//tSI number
-            setTimeout(function() {
-            clearDisplay();
-            terminal.style.backgroundColor = "black";
             htmlBody.onkeydown = null;
             htmlBody.onkeyup = null;
-            }, 2000);//this number must be higher than the tSI number * 11(?) (ex. 100*11= 1100 < 2000)
+            typeStringInterval(
+                "\nClosing...",
+                50,
+                100,
+                () => {
+                    clearDisplay();
+                    terminal.style.backgroundColor = "black";
+
+                }
+            );
         }
     </script>
 
@@ -221,14 +259,14 @@
         function setModeTyping() {
             typeStringInterval(
                 "\nlaunching... ",
-                100,//slowed it cause it seemed too fast. 
-                setModeYesOrNo
+                50, //slowed it cause it seemed too fast.
+                100,
+                () => {
+                    clearDisplay();
+                    htmlBody.onkeydown = typeOnDisplay;
+                    htmlBody.onkeyup = shiftCheck;
+                }
             );
-            setTimeout(function() {
-            clearDisplay();
-            htmlBody.onkeydown = typeOnDisplay;
-            htmlBody.onkeyup = shiftCheck;
-            }, 2000);
         }
 
         function nextLine() {
@@ -309,7 +347,7 @@
         				}
 
         */
-        function backSpace(amt = 1) {//this is somehow getting called when the terminal asks for if it should start the typer, or turn off.
+        function backSpace(amt = 1) { //this is somehow getting called when the terminal asks for if it should start the typer, or turn off.
             let text = terminal.innerHTML;
             //console.log(text);
             if (text) {
@@ -342,7 +380,6 @@
             terminal.innerHTML = "";
             terminal.style.height = "80vh";
         }
-
     </script>
 
 
