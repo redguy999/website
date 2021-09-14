@@ -158,7 +158,8 @@
         function startPrompt() {
             typeStringInterval(
                 "Loading terminal...\nTerminal loaded, launch?\nY/N: ",
-                10,
+                100,//slowed it cause it seemed too fast. 
+                //feel like there should be a pause before it goes to the next line, should just need an if statement.
                 setModeYesOrNo
             );
         }
@@ -171,7 +172,7 @@
                 counter++;
                 if (counter >= strSize) {
                     clearInterval(ntrvl);
-                    if (end) {end();}
+                    if (end) {end();}//whats going on here?
                     console.log("eeee");
                 }
             }, interval);
@@ -182,7 +183,7 @@
         function setModeYesOrNo() {
             htmlBody.onkeydown = yesOrNo;
         }
-        function yesOrNo() {
+        function yesOrNo() {//TODO: its a little unclear that you have to press enter to confirm your choice.
             let key = event.keyCode;
 
             if (yon != " " && (key == 13)) {
@@ -195,16 +196,19 @@
                 }
             }
             if ((key == 89) || (key == 78)) {
-                yon = String.fromCharCode(key);
+                yon = String.fromCharCode(key);//have it add "confirm?" on the next next line when this is set.
                 backSpace();
                 addToDisplay(yon);
             }
         }
         function setModeCancelled() {
+            typeStringInterval("\nClosing...", 100);//tSI number
+            setTimeout(function() {
             clearDisplay();
-            typeStringInterval("Cancelled", 100);
+            terminal.style.backgroundColor = "black";
             htmlBody.onkeydown = null;
             htmlBody.onkeyup = null;
+            }, 2000);//this number must be higher than the tSI number * 11(?) (ex. 100*11= 1100 < 2000)
         }
     </script>
 
@@ -215,9 +219,16 @@
         var cL = 0;
 
         function setModeTyping() {
+            typeStringInterval(
+                "\nlaunching... ",
+                100,//slowed it cause it seemed too fast. 
+                setModeYesOrNo
+            );
+            setTimeout(function() {
             clearDisplay();
             htmlBody.onkeydown = typeOnDisplay;
             htmlBody.onkeyup = shiftCheck;
+            }, 2000);
         }
 
         function nextLine() {
@@ -289,7 +300,7 @@
         				}
 
         */
-        function backSpace(amt = 1) {
+        function backSpace(amt = 1) {//this is somehow getting called when the terminal asks for if it should start the typer, or turn off.
             let text = terminal.innerHTML;
             //console.log(text);
             if (text) {
