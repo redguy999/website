@@ -276,7 +276,16 @@
                     addToDisplay(" ")
                     break;
             }
-
+            /*
+            table of charCodes (maybe):
+            ! 161
+            $ 164
+            * 170
+            ; 168
+            = 187
+            , 188
+            . 190
+            */
             if (kma <= key && key <= kmz) {
                 let lower = String.fromCharCode(key + diffa);
                 let upper = String.fromCharCode(key);
