@@ -210,7 +210,7 @@
             htmlBody.onkeydown = yesOrNo;
         }
 
-        function yesOrNo() { //TODO: its a little unclear that you have to press enter to confirm your choice.
+        function yesOrNo() { 
             let key = event.keyCode;
 
             if (yon != " " && (key == 13)) {
@@ -229,7 +229,7 @@
                 if (yon != " ") {
                     backSpace(confirmStr.length + 1)
                 }
-                yon = String.fromCharCode(key); //have it add "confirm?" on the next next line when this is set.
+                yon = String.fromCharCode(key);
                 addToDisplay(yon + confirmStr);
             }
         }
@@ -330,24 +330,7 @@
                 letterCheck(lower, upper);
             }
         }
-        /* for shift character change
-        				//for letters:
-        				if(sP==1&&cL==1){
-        					addToDisplay("_");//lower
-        				} else if(sP==1||cL==1){
-        					addToDisplay("_");//upper
-        				} else {
-        					addToDisplay("_");//lower
-        				}
-        				//for the not letters:
-        				if(sP==1){
-        					addToDisplay("_");//alt
-        				} else {
-        					addToDisplay("_");//normal
-        				}
-
-        */
-        function backSpace(amt = 1) { //this is somehow getting called when the terminal asks for if it should start the typer, or turn off.
+        function backSpace(amt = 1) {
             let text = terminal.innerHTML;
             //console.log(text);
             if (text) {
