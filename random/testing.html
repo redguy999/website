@@ -3,12 +3,12 @@
 	<style>
 		.alignBox{
 			position: absolute;
-			left:30vw;
-			right:30vw;
-			top: 10vh;
-			width: 40vw;
-			height: 5vh;
-			line-height:5vh;/*height and line-height must be equal*/
+			left:20vw;
+			right:20vw;
+			top: 8vh;
+			width: 60vw;
+			height: 10vh;
+			line-height:10vh;/*height and line-height must be equal*/
 			text-align:center;
 			/*everything in this stylesheet after this comment is for the looks, 
 			the above aligns the text and the box to the screen.
@@ -35,7 +35,7 @@
 		}
 	</style>
 	</head>
-	<body>
+	<body onLoad="BoxappearA()">
 	<div id="test">
 		hello welcome world, we're here to test some stuff.<br><br><br><br><br>
 		a
@@ -44,4 +44,74 @@
 	This is the alert box
 	</div>
 	</body>
+	<script>
+		var boxA=document.getElementById("alertBox");
+		var bW = "";
+		var bH = "";
+		var interv;
+		var interv2;
+		//order of box appearing animation:
+		/*set height very small
+		make box get wider til correct width
+		increase height til box is correct height
+		make text appear.
+		*/
+		function FixDimeVars(box){
+			bW = box.style.width;
+			bH = box.style.height;
+		}
+		function BoxappearA(){
+			boxA.style.width = "1vw";
+			boxA.style.height = "1vh";
+			FixDimeVars(boxA);
+			setTimeout(function(){
+				interv = setInterval(wideAnim,10)
+				interv2 = setInterval(hieghtAnim,30);
+			}
+			,10);
+		}
+		function wideAnim(){
+			if(bW==60){
+				clearInterval(interv);
+				interv=setInterval(hieghtAnim,10);
+				//clear the interval timeout
+			} else if(bW>70) {
+				//fail safe if something messes up.
+				console.log("failsafe activated");
+				clearInterval(interv);
+				boxA.style.width = "60vw"
+				boxA.style.height = "10vh";
+				boxA.style.backgroundColor = "red";
+				//just sets the box correctly
+			} else {
+				let tW = boxA.style.width;
+				tW = parseInt(tW);
+				tW++;
+				boxA.style.width = tW + "vw"
+				bW=tW
+				// console.log(bW);
+			}
+		}
+		function hieghtAnim(){
+			if(bH==10){
+				 clearInterval(interv2);
+				//clear the interval timeout
+			} else if(bH>15) {
+				console.log("failsafe activated");
+				//fail safe if something messes up.
+				clearInterval(interv);
+				boxA.style.width = "60vw"
+				boxA.style.height = "10vh";
+				//just sets the box correctly
+			} else {
+				let tH = boxA.style.height;
+				tH = parseFloat(tH);
+				tH=tH+.5;
+				boxA.style.height = tH + "vh";
+				bH=tH;
+				// console.log("box height:"+bH);
+				// console.log(tH);
+			}
+		}
+	</script>
 </html>
