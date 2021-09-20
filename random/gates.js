@@ -1,14 +1,8 @@
 function OR(c1,c2){
-	if(c1||c2==true){
-		return true;
-	}
-	return false;
+	return c1||c2;
 }//not really that useful
 function AND(c1,c2){
-	if(c1&&c2==true){
-		return true;
-	}//else isn't needed cause the return ends the function
-	return false;
+	return c1&&c2;
 }//also not really useful
 function NAND(C1,C2){
 	return !AND(C1,C2);
@@ -17,10 +11,7 @@ function NOR(C1,C2){
 	return !OR(C1,C2);
 }
 function XOR(c1,c2){
-	if(c1==c2){
-	return false;
-	}
-return true;
+	return c1==c2;
 }
 function XNOR(C1,C2){
 	return !XOR(C1,C2);
