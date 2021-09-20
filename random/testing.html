@@ -1,17 +1,32 @@
 <html>
 	<head>
 	<style>
-		#alertBox{
-		position: absolute;
-		left:30vw;
-		right:30vw;
-		top: 10vh;
-		background-color:red;
-		width: 40vw;
-		height: 5vh;
-		line-height:5vh;/*height and line-height must be equal*/
-		text-align:center;
+		.alignBox{
+			position: absolute;
+			left:30vw;
+			right:30vw;
+			top: 10vh;
+			width: 40vw;
+			height: 5vh;
+			line-height:5vh;/*height and line-height must be equal*/
+			text-align:center;
+			/*everything in this stylesheet after this comment is for the looks, 
+			the above aligns the text and the box to the screen.
+			might move to the boxes*/
+			background-color:black;
+			border:white solid 5px;
+			border-radius: 10px;
+			color:white;
 		}
+		/* #alertBox{
+
+		}
+		#promptBox{
+
+		}
+		#continueBox{
+			
+		} */
 		body{
 		background-color:lightblue;
 		}
@@ -25,7 +40,7 @@
 		hello welcome world, we're here to test some stuff.<br><br><br><br><br>
 		a
 	</div>
-	<div id="alertBox">
+	<div id="alertBox" class="alignBox">
 	This is the alert box
 	</div>
 	</body>
