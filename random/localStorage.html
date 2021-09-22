@@ -21,18 +21,53 @@
 (I have to tell you this for legal reasons) <button onClick="Accept()">Accept?
 </button></div>
 <br><br><br>
-<button onClick="addItemFromBox()"></button>
+<button onClick="addItemFromBox()">Add item to object</button>
+<button onClick="editingAnItem()">Edit item(s) in object</button>
+<button onClick="deleteItem()">Delete item from object</button>
+<button onClick="save()">Save object</button>
+<button onClick="load()">Load object from storage</button>
+<hr>
 
+<input id="ElementName"></input>
 	</body>
 	<script>
 		var objecting = {
 			name:"object"
 		};//need to declare with a name;
-		function addItemFromBox(){
+		function editingAnItem(){
+			let temp = prompt("type in the name of the object you wish to edit");
+			let objLength = Object.keys(objecting).length;
+			for(let i=0; i<objLength; i++){
+				console.log(objecting[i])
+				if(objecting[i]===temp){//from this point forward in the code, objlength no longer is for the length of the object
+					temp = objecting[i];
+					objLength = true;
+					break;
+				}
+			}
+			if(objLength===true){
+				objLength =  prompt("type in what you wish to set the item to");
+				editItem(temp,objLength);
+			} else {
+				alert("no item matches that name");
+				return;
+			}
+		}
+		function editItem(eName, vName){
+			objecting[eName] = vName;
+			console.log(objecting);
+		}
+		function deleteItem(eName){
 
+		}
+		function addItemFromBox(){
+			let tempE = prompt("what do you wish to call this new item?");
+			let tempV = prompt("what do you wish to set the value of this new item to be?");
+			addItem(tempE,tempV);
 		}
 		function addItem(eName,vName){
 			objecting[eName] = vName;
+			console.log(objecting);
 		}
 		function save(){//saves the object
 			if(typeof(Storage) !== "undefined"){
