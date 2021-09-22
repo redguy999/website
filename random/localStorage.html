@@ -16,121 +16,39 @@
 			}
 		</style>
 	</head>
-	<body onload="updateDisplay()"><!--Yes i call the properties "items" throughout this webpage, no i am too lazy to fix that.-->
+	<body onload="loadIt()"><!--Yes i call the properties "items" throughout this webpage, no i am too lazy to fix that.-->
 <div id="notice">This site uses local Storage to store a single object variable.
 (I have to tell you this for legal reasons) <button onClick="Accept()">Accept?
 </button></div>
 <br><br><br>
-<button onClick="addItemFromBox()">Add item to object</button>
-<button onClick="editingAnItem()">Edit item(s) in object</button>
-<button onClick="deleteItem()">Delete item from object</button>
-<button onClick="save()">Save object</button>
-<button onClick="load()">Load object from storage</button>
+<button onClick="count()">count up</button>
 <hr>
 <div id="item display">
 
 </div>
 	</body>
 	<script>
-		var objecting = {
-			name:"object"
-		};//need to declare with a name;
-		function editingAnItem(){//function called when you want to edit an item.
-			let temp = prompt("type in the name of the object you wish to edit");
-			let objLength = Object.keys(objecting).length;
-			for(let i=0; i<objLength; i++){//checks if any of the elements match the given name
-				console.log(objecting[i]);
-				if(objecting[i]==temp){//from this point forward in the code, objlength no longer is for the length of the object
-					temp = objecting[i];
-					objLength = true;
-					break;
-				}
-			}
-			if(objLength===true){//if a match was found.
-				objLength =  prompt("type in what you wish to set the item to");
-				editItem(temp,objLength);
-			} else {
-				alert("no item matches that name");
-				return;
-			}
-		}
-		function editItem(eName, vName){//function that actually edits the item.
-			objecting[eName] = vName;
-			// console.log(objecting);
-			updateDisplay()
-		}
-		function deleteItem(){//function called to delete an item from the object, it also deletes the item.
-			let eName = prompt("which item do you wish to delete?");
-			if(eName=="name"){
-				alert("you are not allowed to delete that");
-				return;
-			}
-			let objLength = Object.keys(objecting).length; 
-			for(let i=0; i<objLength; i++){//checks if any of the elements match the given name
-				console.log(objecting[i]);
-				if(objecting[i]==eName){//from this point forward in the code, objlength no longer is for the length of the object
-					eName = objecting[i];
-					objLength = true;
-					break;
-				}
-			}
-			if(objLength===true){
-			delete objecting[eName];
-			}else{
-				alert("no item matched the given item name.")
-				return;
-			}
-			updateDisplay()
-		}
-		function addItemFromBox(){//function called when adding items so that values can be set.
-			let tempE = prompt("what do you wish to call this new item?");
-			let tempV = prompt("what do you wish to set the value of this new item to be?");
-			addItem(tempE,tempV);
-		}
-		function addItem(eName,vName){//actually adds the item to the object.
-			objecting[eName] = vName;
-			//console.log(objecting);
-			updateDisplay()
-		}
-		function save(){//saves the object
+		var saveIt = 1
+		function loadIt(){
 			if(typeof(Storage) !== "undefined"){
-				localStorage.setItem("savedObject",objecting);
-				console.log(localStorage.savedObject);
+			if(localStorage.saved){
+				saveIt=localStorage.saved;
 			} else {
-				alert("local storage does not work with your browser");
+				localStorage.saved = 1;
 			}
-		} 		
-
-		function load(){//loads the saved object
-			if(typeof(Storage) !== "undefined"){
-				if(localStorage.savedObject){
-					objecting = localStorage.getItem("saveObject");
-					updateDisplay()
-				} else {
-					alert("nothing to load was found.")
-				}
+			updateDisplay()
 			} else {
-				alert("local storage does not work with your browser");
-			}	
+				document.getElementById("item display").innerHTML = "your browser can't use local storage, my apologies but you'll be unable to save anything."
+			}
+
 		}
-
-		function getItems(obj){
-   			var keys = [];
-   			for(var key in obj){
-      			keys.push(key);
-   			}
-   			return keys;
+		function count(){
+			saveIt++;
+			localStorage.saved = saveIt
+			updateDisplay();
 		}
-
-		var itemNames = ["name", "forever"];
-
 		function updateDisplay(){//for updating the display of the object.
-			itemNames = getItems(objecting);
-			console.log(itemNames);
-			for(i=0;i<itemNames.length;i++){
-				console.log(objecting[itemNames[i]]);
-			}//lets you save a function
-			document.getElementById("item display").innerHTML = objecting;
+			document.getElementById("item display").innerHTML = saveIt;
 		}
 
 		function Accept(){//get rid of the top bar.
