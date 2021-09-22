@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<style>
+			#notice{
+			position:absolute;
+			height:3em;
+			width:100vw;
+			background-color:red;	
+			text-align:center;
+			line-height:3em;
+			top:0;
+			left:0;
+			}
+			body{
+			background-color:lightblue;
+			}
+		</style>
+	</head>
+	<body>
+<div id="notice">This site uses local Storage to store a single object variable.
+(I have to tell you this for legal reasons) <button onClick="Accept()">Accept?
+</button></div>
+<br><br><br>
+<button onClick="addItemFromBox()"></button>
+
+	</body>
+	<script>
+		var objecting = {
+			name:"object"
+		};//need to declare with a name;
+		function addItemFromBox(){
+
+		}
+		function addItem(eName,vName){
+			objecting[eName] = vName;
+		}
+		function save(){//saves the object
+			if(typeof(Storage) !== "undefined"){
+				localStorage.setItem("savedObject",objecting);
+			} else {
+				alert("local storage does not work with your browser");
+			}
+		} 		
+
+		function load(){//loads the saved object
+			if(typeof(Storage) !== "undefined"){
+				if(localStorage.SavedObject){
+					objecting = localStorage.getItem("saveObject");
+				} else {
+					alert("nothing to load was found.")
+				}
+			} else {
+				alert("local storage does not work with your browser");
+			}	
+		}
+		
+
+		function Accept(){//get rid of the top bar.
+			document.getElementById("notice").style.visibility = "hidden";
+		}
+	</script>
+</html>
