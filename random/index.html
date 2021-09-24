@@ -1,17 +1,42 @@
 <html>
 	<head>
 	<style>
+		#sBox{
+			background-color:rgba(0,255,0,.5);
+			padding: 5%;
+			text-align:center;
+			margin:auto;
+			width:5vw;
+		}
 		body{
 		background-color:lightblue;
 		}
 	</style>
 	</head>
-	<body>
+	<body onLoad="start()">
 this shall be the hub for the random stuff that goes in this directory.
 <hr>
 
-<a href="gates.html">Logic gates</a>
-<a href="testing.html">text box pop up</a>
+<a href="gates.html">Logic gates</a><br>
+<a href="testing.html">text box pop up</a><br>
 <a href="localStorage.html">storage testing</a>
+<hr>
+<div id="sBox" style="transform: rotate(1deg)">SPIN!</div>
 	</body>
+	<script>
+	var interv;
+	function start(){
+		interv=setInterval(spin,10);
+	}
+	function spin(){
+		let boxS = document.getElementById("sBox").style;
+		let temp = boxS.transform;
+		temp = temp.split("(").pop();
+	//console.log(temp)
+		temp = parseInt(temp);
+		temp++;
+		temp = "rotate("+temp+"deg)";
+		boxS.transform = temp;
+	}
+	</script>
 </html>
