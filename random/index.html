@@ -35,6 +35,9 @@ this shall be the hub for the random stuff that goes in this directory.
 	//console.log(temp)
 		temp = parseInt(temp);
 		temp++;
+		if(temp>=360){
+			temp=0;
+		}
 		temp = "rotate("+temp+"deg)";
 		boxS.transform = temp;
 	}
