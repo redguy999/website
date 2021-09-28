@@ -51,26 +51,47 @@
 </footer>
 </body>
 <script>
-var byte1=[0,0,0,0,0,0,0,0]
-var byte2=[0,0,0,0,0,0,0,0]
-var used = false;
-var 
+var byteB=[0,0,0,0,0,0,0,0]
+//var byte2=[0,0,0,0,0,0,0,0]
+const table = document.getElementById("table")
+const byte=document.getElemenetById("byte")
+const button=document.getElementById("button")
 function begin(){
-if(used==false){
-	use = true;
-	let cont=false
-		while(cont==false){
+	let cont=false;
+	while(cont==false){
 let ack = prompt("would you like to use the table, or simply see the byte?");
-	if(ack=="table"){
-	cont=true;
-	tableSet();
-	}else if(ack=="byte"){
-	cont=true;
-	byteSet()
+		if(ack=="table"){
+			cont=true;
+			button.onClick = function(){
+			tableCount()
+			}
+		}else if(ack=="byte"){
+			cont=true;
+			button.onClick = function(){
+			byteCount()
+			}
+		}
 	}
-}
-}
 
+}
+function byteCount(){
+Count();
+let temp="";
+for(i-byteB.length-1;i<byteB.length;i++){
+temp=temp+byteB[i];
+}
+byte.innerHTML = 
+}
+}
+function Count(){
+	for(i=byteB.length-1;i>=0;i--){
+		if(byteB[i]==1){
+			byteB[i]=0
+		} else if(byteB[i]==0){
+			byteB[i]=1
+			break;
+		}
+	}
 }
 </script>
 </html>
