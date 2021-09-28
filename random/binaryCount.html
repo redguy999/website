@@ -10,13 +10,18 @@
 	h1,h2{
 	text-align:center;
 	}
+	.center{
+	text-align:center;
+	}
 </head>
 <body>
 <h1>Binary</h1>
 <hr>
 <h2>Counter</h2>
-<button onClick="counter">Click to increase the binary number by one</button>
-<table>
+<span class="center">
+<button id="button" onClick="begin()">Click to increase the binary number by one</button>
+<br>
+<table id="table">
 	<tr>
 		<td>256</td>
 		<td>128</td>
@@ -38,7 +43,7 @@
 		<td id="b2"> </td>
 		<td id="b1"> </td>
 	</tr>
-
+<div id="byte">0000000</div>
 
 <footer style="text-align: center;">
 <a href="http://validator.w3.org/check/referer">
@@ -48,5 +53,24 @@
 <script>
 var byte1=[0,0,0,0,0,0,0,0]
 var byte2=[0,0,0,0,0,0,0,0]
+var used = false;
+var 
+function begin(){
+if(used==false){
+	use = true;
+	let cont=false
+		while(cont==false){
+let ack = prompt("would you like to use the table, or simply see the byte?");
+	if(ack=="table"){
+	cont=true;
+	tableSet();
+	}else if(ack=="byte"){
+	cont=true;
+	byteSet()
+	}
+}
+}
+
+}
 </script>
 </html>
