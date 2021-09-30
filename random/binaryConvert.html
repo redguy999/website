@@ -7,11 +7,15 @@
 	body{
 	background-color:lightblue;
 	}
-	h1,h2{
+	h1,h2,h3{
 	text-align:center;
 	}
 	.Tcenter{
 	text-align:center;
+	}
+	.VHcenter{
+		text-align:center;
+		line-height: auto;
 	}
 	.Mcenter{
 		margin:5px auto;
@@ -22,14 +26,33 @@
 	td{
 		border: 1px black solid;
 	}
+	#fGrid{
+		display:grid;
+		grid-template-columns: auto auto;
+		/*grid-template-rows: auto auto;*/
+	}
+	#fGrid>div{
+		border:1px black solid;
+	}
 </style>
 </head>
 <body>
 	<h1>Binary</h1>
 	<hr>
 	<h2>Converter</h2>
-	<input id="baseTen"></input>
-	<div id="baseTwo"></div>
+	<div id="fGrid">
+		<div class="VHcenter">
+			 <h3>Base ten</h3> 
+			<input id="baseTen"></input>
+		</div>
+		<div class="VHcenter">
+		 <h3>Base two</h3> 
+		<input id="baseTwo"></input>
+		</div>
+	</div>
+	<div  class="Tcenter">
+	<button onclick="setBin()">binary to base ten</button>
+	</div>
 	<br>
 	<footer style="text-align: center;">
 	<a href="http://validator.w3.org/check/referer">
@@ -41,6 +64,11 @@ var byteB=[0,0,0,0,0,0,0,0];
 var num = 0;
 //var byte2=[0,0,0,0,0,0,0,0]
 const button= document.getElementById("button");
+// function format(){
+// 	let tempC = document.getElementsByClassName("VHcenter");
+// 	let temp = tempC.style.width
+
+// }
 function Count(){//if it finds a 1, make it a zero and then go to the next digit, if it finds a 0, make it a 1 and then be done.
 	for(i=byteB.length-1;i>=0;i--){
 		if(byteB[i]==1){
@@ -52,9 +80,20 @@ function Count(){//if it finds a 1, make it a zero and then go to the next digit
 	}
 	setNum()
 }
-function setNum(){//gonna have it manually set the number in case an overflow accords.
+function convertToTen(){
+	
+}
+function setBin(){//gonna have it manually set the number in case an overflow accords.
 	num=0;
-	for(i=byteB.length-1;i>=0;i--){
+	let temp = document.getElementById("baseTwo").value; 
+	byteB=temp.split("")
+	for(i=0;i<byteB.length;i++){
+		if(byteB[i]!=1||byteB[i]!=0){//base two is only 1 or 0, if anything else is in the input field, its not posible to work with.
+			alert("ERROR! invalid byte entry.")
+			return;//early exit
+		}
+	}
+	for(i=byteB.length;i>=0;i--){
 		if(byteB[-i+byteB.length]==1){
 			let temp=Math.pow(2,i-1)
 			// console.log(i-1)
@@ -62,7 +101,7 @@ function setNum(){//gonna have it manually set the number in case an overflow ac
 			num=num+temp;
 		}
 	}
-	document.getElementById("Numbered").innerHTML = num;
+	document.getElementById("baseTen").value = num;
 }
 </script>
 </html>
