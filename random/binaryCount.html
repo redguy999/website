@@ -10,20 +10,32 @@
 	h1,h2{
 	text-align:center;
 	}
-	.center{
+	.Tcenter{
 	text-align:center;
 	}
+	.Mcenter{
+		margin:5px auto;
+	}
+	tr>td{
+		text-align:center;
+	}
+	td{
+		border: 1px black solid;
+	}
+</style>
 </head>
 <body>
 <h1>Binary</h1>
 <hr>
 <h2>Counter</h2>
-<span class="center">
-<button id="button" onClick="begin()">Click to increase the binary number by one</button>
+<div class="Tcenter">
+<button id="button" onClick="begin()" class="Mcenter">Click to increase the binary number by one</button>
+</div>
 <br>
-<table id="table">
+<div id="Numbered" class="Tcenter">0</div>
+<br>
+<table id="table" class="Mcenter">
 	<tr>
-		<td>256</td>
 		<td>128</td>
 		<td>64</td>
 		<td>32</td>
@@ -34,56 +46,69 @@
 		<td>1</td>
 	</tr>
 	<tr>
-		<td id="b8"> </td>
-		<td id="b7"> </td>		
-		<td id="b6"> </td>
-		<td id="b5"> </td>
-		<td id="b4"> </td>
-		<td id="b3"> </td>
-		<td id="b2"> </td>
-		<td id="b1"> </td>
+		<td id="b8">0</td>
+		<td id="b7">0</td>		
+		<td id="b6">0</td>
+		<td id="b5">0</td>
+		<td id="b4">0</td>
+		<td id="b3">0</td>
+		<td id="b2">0</td>
+		<td id="b1">0</td>
 	</tr>
-<div id="byte">0000000</div>
-
+</table>
+<div id="byte" class="Tcenter">00000000</div>
+<br>
 <footer style="text-align: center;">
 <a href="http://validator.w3.org/check/referer">
 <strong> HTML </strong> Valid! </a>
 </footer>
 </body>
 <script>
-var byteB=[0,0,0,0,0,0,0,0]
+var byteB=[0,0,0,0,0,0,0,0];
+var num = 0;
 //var byte2=[0,0,0,0,0,0,0,0]
-const table = document.getElementById("table")
-const byte=document.getElemenetById("byte")
-const button=document.getElementById("button")
+const table = document.getElementById("table");
+const byte= document.getElementById("byte");
+const button= document.getElementById("button");
 function begin(){
 	let cont=false;
 	while(cont==false){
-let ack = prompt("would you like to use the table, or simply see the byte?");
+		let ack = prompt("would you like to use the table, or simply see the byte?");
 		if(ack=="table"){
 			cont=true;
-			button.onClick = function(){
-			tableCount()
+			byte.style.display = "none";
+			button.onclick = function(){
+				tableCount();
 			}
 		}else if(ack=="byte"){
 			cont=true;
-			button.onClick = function(){
-			byteCount()
+			table.style.display = "none";
+			button.onclick = function(){
+				byteCount();
 			}
 		}
 	}
 
 }
 function byteCount(){
-Count();
-let temp="";
-for(i-byteB.length-1;i<byteB.length;i++){
-temp=temp+byteB[i];
+	Count()
+	let temp = byteB.toString();
+    temp = temp.replace(/,/g,"");
+    byte.innerHTML=temp;
 }
-byte.innerHTML = 
+function tableCount(){
+	Count();
+	for(i=byteB.length;i>0;i--){//hopefully this works
+		if(i<=-5||i>10){
+			console.log("fatal count error.");
+			return;
+		}
+		let temp = document.getElementById("b"+i);
+		temp=byteB[-i+byteB.length];
+		document.getElementById("b"+i).innerHTML = temp;
+	}
 }
-}
-function Count(){
+function Count(){//if it finds a 1, make it a zero and then go to the next digit, if it finds a 0, make it a 1 and then be done.
 	for(i=byteB.length-1;i>=0;i--){
 		if(byteB[i]==1){
 			byteB[i]=0
@@ -92,6 +117,19 @@ function Count(){
 			break;
 		}
 	}
+	setNum()
+}
+function setNum(){//gonna have it manually set the number in case an overflow accords.
+	num=0;
+	for(i=byteB.length-1;i>=0;i--){
+		if(byteB[-i+byteB.length]==1){
+			let temp=Math.pow(2,i-1)
+			// console.log(i-1)
+			// console.log(temp)
+			num=num+temp;
+		}
+	}
+	document.getElementById("Numbered").innerHTML = num;
 }
 </script>
 </html>
