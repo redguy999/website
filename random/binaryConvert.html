@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Binary counter/converter</title>
+<style>
+	body{
+	background-color:lightblue;
+	}
+	h1,h2{
+	text-align:center;
+	}
+	.Tcenter{
+	text-align:center;
+	}
+	.Mcenter{
+		margin:5px auto;
+	}
+	tr>td{
+		text-align:center;
+	}
+	td{
+		border: 1px black solid;
+	}
+</style>
+</head>
+<body>
+	<h1>Binary</h1>
+	<hr>
+	<h2>Converter</h2>
+	<input id="baseTen"></input>
+	<div id="baseTwo"></div>
+	<br>
+	<footer style="text-align: center;">
+	<a href="http://validator.w3.org/check/referer">
+	<strong> HTML </strong> Valid! </a>
+	</footer>
+</body>
+<script>
+var byteB=[0,0,0,0,0,0,0,0];
+var num = 0;
+//var byte2=[0,0,0,0,0,0,0,0]
+const button= document.getElementById("button");
+function Count(){//if it finds a 1, make it a zero and then go to the next digit, if it finds a 0, make it a 1 and then be done.
+	for(i=byteB.length-1;i>=0;i--){
+		if(byteB[i]==1){
+			byteB[i]=0
+		} else if(byteB[i]==0){
+			byteB[i]=1
+			break;
+		}
+	}
+	setNum()
+}
+function setNum(){//gonna have it manually set the number in case an overflow accords.
+	num=0;
+	for(i=byteB.length-1;i>=0;i--){
+		if(byteB[-i+byteB.length]==1){
+			let temp=Math.pow(2,i-1)
+			// console.log(i-1)
+			// console.log(temp)
+			num=num+temp;
+		}
+	}
+	document.getElementById("Numbered").innerHTML = num;
+}
+</script>
+</html>
