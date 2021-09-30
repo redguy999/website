@@ -40,6 +40,8 @@
 	<h1>Binary</h1>
 	<hr>
 	<h2>Converter</h2>
+	<div class="Tcenter">note: the converter uses 8 bit bytes</div>
+	<hr>
 	<div id="fGrid">
 		<div class="VHcenter">
 			 <h3>Base ten</h3> 
@@ -81,7 +83,10 @@ function Count(){//if it finds a 1, make it a zero and then go to the next digit
 	setNum()
 }
 function convertToTen(){
-	
+	let temp = document.getElementById("baseTen").innerHTML;
+	for(i=byteB.length;i>=0;i--){
+
+	}
 }
 function setBin(){//gonna have it manually set the number in case an overflow accords.
 	num=0;
