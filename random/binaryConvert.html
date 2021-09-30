@@ -40,8 +40,7 @@
 	<h1>Binary</h1>
 	<hr>
 	<h2>Converter</h2>
-	<div class="Tcenter">note: the converter uses 8 bit bytes, attempting to input 
-		longer bytes will result in the extra digits being removed.</div>
+	<!--div class="Tcenter">note: the converter uses 8 bit bytes, attempting to inputlonger bytes will result in the extra digits being removed.</div-->
 	<hr>
 	<div id="fGrid">
 		<div class="VHcenter">
@@ -67,70 +66,13 @@
 	</footer>
 </body>
 <script>
-var byteB=[0,0,0,0,0,0,0,0];
-var num = 0;
-//var byte2=[0,0,0,0,0,0,0,0]
-const button= document.getElementById("button");
-// function format(){
-// 	let tempC = document.getElementsByClassName("VHcenter");
-// 	let temp = tempC.style.width
-
-// }
-function Count(){//if it finds a 1, make it a zero and then go to the next digit, if it finds a 0, make it a 1 and then be done.
-	for(i=byteB.length-1;i>=0;i--){
-		if(byteB[i]==1){
-			byteB[i]=0
-		} else if(byteB[i]==0){
-			byteB[i]=1
-			break;
-		}
-	}
-	setNum()
-}
 function convertToTen(){
-	console.log("convert to ten was called")
-	byteB=[0,0,0,0,0,0,0,0];
-	num = document.getElementById("baseTen").value;
-	num=Number(num);
-	let temp=num;
-	for(let i=byteB.length-1;i>=0;i--){
-		let t=Math.pow(2,i);
-		if(temp>=t){
-			temp = temp - t;
-			byteB[Number(-i+byteB.length-1)]=1;
-		}
-	}
-	if(temp<0){
-		alert("ERROR, number went too low.")
-		return;
-	} else if(temp=Math.round(temp)){
-		alert("ERROR, number became fractional.")
-	}
-	temp=byteB.toString();
-	console.log(temp);
-	temp=temp.replace(/,/g,"");
-	document.getElementById("baseTwo").value = temp;
+	let bin = document.getElementById("baseTwo");
+	document.getElementById("baseTen") = parseInt(bin, 2).toString(10);
 }
-function setBin(){//gonna have it manually set the number in case an overflow accords.
-	num=0;
-	let temp = document.getElementById("baseTwo").value; 
-	if(temp.length>8){
-		temp=temp.slice(temp.length-8);
-		document.getElementById("baseTwo").value = temp;
-	}else if(temp.length<8){
-		temp=temp.padStart(temp.length,0)
-		document.getElementById("baseTwo").value = temp;
-	}
-	byteB=temp.split("")
-	for(i=byteB.length;i>=0;i--){
-		if(byteB[-i+byteB.length]==1){
-			let temp=Math.pow(2,i-1)
-			// console.log(i-1)
-			// console.log(temp)
-			num=num+temp;
-		}
-	}
-	document.getElementById("baseTen").value = num;
+function setBin(){
+	let dec = document.getElementById("baseTen") 
+	document.getElementById("baseTwo")= (dec >>> 0).toString(2);	
 }
 </script>
 </html>
