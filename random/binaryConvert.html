@@ -29,7 +29,7 @@
 	#fGrid{
 		display:grid;
 		grid-template-columns: auto auto;
-		/*grid-template-rows: auto auto;*/
+		grid-template-rows: auto auto;
 	}
 	#fGrid>div{
 		border:1px black solid;
@@ -40,7 +40,8 @@
 	<h1>Binary</h1>
 	<hr>
 	<h2>Converter</h2>
-	<div class="Tcenter">note: the converter uses 8 bit bytes</div>
+	<div class="Tcenter">note: the converter uses 8 bit bytes, attempting to input 
+		longer bytes will result in the extra digits being removed.</div>
 	<hr>
 	<div id="fGrid">
 		<div class="VHcenter">
@@ -48,12 +49,16 @@
 			<input id="baseTen"></input>
 		</div>
 		<div class="VHcenter">
-		 <h3>Base two</h3> 
-		<input id="baseTwo"></input>
+			<h3>Base two</h3> 
+			<input id="baseTwo"></input>
 		</div>
+	
+	<div class="Tcenter">
+		<button onclick="convertToTen()">base ten to binary</button>
 	</div>
 	<div  class="Tcenter">
-	<button onclick="setBin()">binary to base ten</button>
+		<button onclick="setBin()">binary to base ten</button>
+	</div>
 	</div>
 	<br>
 	<footer style="text-align: center;">
@@ -83,21 +88,40 @@ function Count(){//if it finds a 1, make it a zero and then go to the next digit
 	setNum()
 }
 function convertToTen(){
-	let temp = document.getElementById("baseTen").innerHTML;
-	for(i=byteB.length;i>=0;i--){
-
+	console.log("convert to ten was called")
+	byteB=[0,0,0,0,0,0,0,0];
+	num = document.getElementById("baseTen").value;
+	num=Number(num);
+	let temp=num;
+	for(let i=byteB.length-1;i>=0;i--){
+		let t=Math.pow(2,i);
+		if(temp>=t){
+			temp = temp - t;
+			byteB[Number(-i+byteB.length-1)]=1;
+		}
 	}
+	if(temp<0){
+		alert("ERROR, number went too low.")
+		return;
+	} else if(temp=Math.round(temp)){
+		alert("ERROR, number became fractional.")
+	}
+	temp=byteB.toString();
+	console.log(temp);
+	temp=temp.replace(/,/g,"");
+	document.getElementById("baseTwo").value = temp;
 }
 function setBin(){//gonna have it manually set the number in case an overflow accords.
 	num=0;
 	let temp = document.getElementById("baseTwo").value; 
-	byteB=temp.split("")
-	for(i=0;i<byteB.length;i++){
-		if(byteB[i]!=1||byteB[i]!=0){//base two is only 1 or 0, if anything else is in the input field, its not posible to work with.
-			alert("ERROR! invalid byte entry.")
-			return;//early exit
-		}
+	if(temp.length>8){
+		temp=temp.slice(temp.length-8);
+		document.getElementById("baseTwo").value = temp;
+	}else if(temp.length<8){
+		temp=temp.padStart(temp.length,0)
+		document.getElementById("baseTwo").value = temp;
 	}
+	byteB=temp.split("")
 	for(i=byteB.length;i>=0;i--){
 		if(byteB[-i+byteB.length]==1){
 			let temp=Math.pow(2,i-1)
