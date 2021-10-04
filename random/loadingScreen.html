@@ -22,18 +22,35 @@
 			right:0;
 			margin: 0 auto;
 		}
+		#loadingFrame{
+			border:3px solid white;
+			height:5vh;
+			width:auto;
+		}
+		#loadingBar{
+			width:1%;
+			background-color:white;
+		}
 		</style>
 	</head>
 	<body onload="titleMessing()">
-		
+		<div id="loadingFrame">
+			<div id="loadingBar"></div>
+		</div>
 		<div id="loadFAlert">If nothing is happening, reload the page.<br>
 		If nothing continues to happen, your browser might have javascript disabled.</div>
 	</body>
-	
+
 	<script>
+		let counter;
+		var interv2;
 		var interv;
 		function titleMessing(){
 			interv = setInterval(changeTitle,500);
+			interv2 = setInterval(loadBar,100);
+		}
+		function loadBar(){
+			
 		}
 		function changeTitle(){
 			let tabN = document.title;
