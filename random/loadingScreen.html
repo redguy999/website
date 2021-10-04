@@ -7,6 +7,7 @@
 			width: 90vw;
 			height: 90vh;
 			padding: 5vh 5vw;
+			margin:0;
 		}
 		#loadFAlert{
 			background-color:black;
@@ -23,19 +24,25 @@
 			margin: 0 auto;
 		}
 		#loadingFrame{
+			position: absolute;
+			bottom:0;
+			top:0;
+			left:0;
+			right:0;
+			margin:auto;
 			border:3px solid white;
 			height:5vh;
-			width:auto;
+			width:50%;
 		}
 		#loadingBar{
-			width:1%;
+			height:5vh;
 			background-color:white;
 		}
 		</style>
 	</head>
 	<body onload="titleMessing()">
 		<div id="loadingFrame">
-			<div id="loadingBar"></div>
+			<div id="loadingBar" style="width: 1%"></div>
 		</div>
 		<div id="loadFAlert">If nothing is happening, reload the page.<br>
 		If nothing continues to happen, your browser might have javascript disabled.</div>
@@ -47,10 +54,26 @@
 		var interv;
 		function titleMessing(){
 			interv = setInterval(changeTitle,500);
-			interv2 = setInterval(loadBar,100);
+			interv2 = setInterval(loadBar,70);
 		}
 		function loadBar(){
-			
+			var eleW = document.getElementById("loadingBar").style;
+			let Numr = parseInt(eleW.width);
+			// console.log(Numr);
+			// console.log(eleW)
+			if(Numr===100){
+				console.log("clearInterv was called")
+				clearInterval(interv2);
+				clearInterval(interv);
+			} else if(Numr>100){
+				eleW.width = "100%";
+				loadBar();
+			} else {
+				Numr++
+				eleW.width = Numr +"%";
+				console.log(eleW.width);
+			}
+
 		}
 		function changeTitle(){
 			let tabN = document.title;
