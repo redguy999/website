@@ -52,15 +52,86 @@
 			height:5vh;
 			background-color:white;
 		}
+		/*below is for the title screen, above is for the loading screen*/
+		#sh1{
+			text-shadow: 10px 10px 1px rgba(20,20,20,.4);
+		}
+		#sh2{
+			text-shadow: -10px 10px 1px rgba(20,20,20,.4);
+		}
+		#sh3{
+			text-shadow: 0 20px 1px rgba(20,20,20,.4);
+		}
+		#gameBar{
+			position:absolute;
+			bottom: 20%;
+			left:0;
+			right:0;
+			margin: 0 auto;
+			border:rgb(200,200,200) solid 3px;
+			text-align: center;
+			width: 60vw;
+			height: 10%
+		}
+		#buttonGrid{
+			display:grid;
+			grid-template-columns: auto auto;
+			height:100%;
+		}
+		.gTitle{
+			text-align: center;
+			position:absolute;
+			top: 10vh;
+			left:0;
+			right:0;
+			margin: 0 auto;
+			border:rgb(200,200,200) solid 3px;
+			width: 80vw;
+			height:45vh;
+			font-size: 10vw;
+			color:black;
+		}
+		#buttonGrid>button{
+			margin: auto;
+		}
+		#titleScreen{
+			display:none;
+		}
 		</style>
 	</head>
 	<body onload="titleMessing()">
+		<div id="loadIt">
 		<div id="loadCycle">Loading...</div>
 		<div id="loadingFrame">
 			<div id="loadingBar" style="width: 1%"></div>
 		</div>
 		<div id="loadFAlert">If you're seeing this, it means that your browser
 			 does not support JS, which is needed to play this game.</div>
+		</div>
+		<!--loading screen begins below-->
+		<div id="titleScreen">
+			<div class="gTitle">
+				<span id="sh1">
+					TEMPORARY TITLE
+				</span>
+			</div>
+			<div class="gTitle">
+				<span id="sh2">
+					TEMPORARY TITLE
+				</span>
+			</div>
+			<!--div class="gTitle">
+				<span id="sh3">
+					TEMPORARY TITLE
+				</span>
+			</div-->
+			<div id="gameBar">
+				<div id="buttonGrid">
+					<button>New game</button>
+					<button>Load game</button>
+				</div>
+			</div>
+		</div>
 	</body>
 
 	<script>
@@ -80,6 +151,9 @@
 				console.log("clearInterv was called");
 				clearInterval(interv2);
 				clearInterval(interv);
+				setInterval(function(){
+					setTitleScreen();
+				},500);
 			} else if(Numr>100){
 				eleW.width = "100%";
 				loadBar();
@@ -103,6 +177,15 @@
 				loadNote.innerHTML = "Loading."
 				document.title ="Loading.";
 			}
+		}//end loading Screen...
+	</script>
+
+	<script>
+		//begin title screen
+		function setTitleScreen(){
+			document.getElementById("loadIt").style.display = "none";
+			document.getElementById("titleScreen").style.display = "block";
+			document.title = "[INSERT NAME OF GAME HERE]";
 		}
 	</script>
 </html>
