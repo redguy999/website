@@ -1,35 +1,5 @@
-<html>
-	<head>
-		<title>basic grid tester</title>
-		<style>
-			#movementGrid{
-				margin:0;
-				display:grid;
-				/*grid-template-columns: auto auto auto auto auto; moved to JS*/
-				max-width:99vw;
-				width:99vw;
-				max-height:98vh;
-				height: 98vh;
-			}
-			#movementGrid>div{
-				width:90%;
-				max-width:90%;
-				height:90%;
-				max-height:90%;
-				border:1px solid black;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
-		</style>
-	</head>
-	<body onload="startGame()" onkeydown="keyPress()">
-		<div id="movementGrid">
-
-		</div>
-	</body>
-	<script>
-		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
+//i have nothing i can put in while using vim but i need to put something.
+const Mogrid = document.getElementById("movementGrid"); //shouldn't change
 		var invals = []; //would declare a constant, but we need to be able to easily clear it at times.
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
@@ -79,6 +49,7 @@
 			}
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
+			console.log(invals)
 			for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
@@ -155,7 +126,7 @@
 	}
 	function keyPress(){
 		key = window.event.keyCode;
-		let hold = player
+		let hold = player;
 		let temp = player.split(",");
 		player = hold
 		console.log(key);
@@ -178,12 +149,12 @@
 			interact()
 			return;
 			default:
-			console.log("invalid input")
+			console.log("invalid input");
 			return;
 		}
 		temp=temp.toString();
 		if(CVM(temp)!=true){
-			console.log("invalid movement.")
+			console.log("invalid movement.");
 			return;
 		}
 		player=temp;
@@ -193,8 +164,63 @@
 	function interact(){
 			//have it check if the player's position is equal to some item or something on the field.
 		if(player==exit){
-			alert("you've found the exit.")
+			alert("you've found the exit.");
 		}
 	}
-	</script>
-</html>
+    let counter;
+    var interv2;
+    var interv;
+    // function titleMessing(){
+    //     document.getElementById("loadFAlert").style.display = "none";
+    //     interv = setInterval(changeTitle,500);
+    //     interv2 = setInterval(loadBar,70);
+    // }
+    function loadBar(){
+        var eleW = document.getElementById("loadingBar").style;
+        let Numr = parseInt(eleW.width);//notice: having to state ".width" every time is intentional
+        //it also appears to be required, for some reason.
+        if(Numr===100){
+            console.log("clearInterv was called");
+            clearInterval(interv2);
+            clearInterval(interv);
+            setInterval(function(){
+                setTitleScreen();
+            },500);
+        } else if(Numr>100){
+            eleW.width = "100%";
+            loadBar();
+        } else {
+            Numr++;
+            eleW.width = Numr +"%";
+            console.log(eleW.width);
+        }
+
+    }
+    function changeTitle(){
+        let tabN = document.title;
+        let loadNote = document.getElementById("loadCycle");//this assumes that these are synced
+        if(tabN=="Loading."){
+            document.title = "Loading..";
+            loadNote.innerHTML = "Loading..";
+        } else if(tabN=="Loading.."){
+            loadNote.innerHTML = "Loading...";
+            document.title = "Loading...";
+        } else if(tabN=="Loading..."){
+            loadNote.innerHTML = "Loading."
+            document.title ="Loading.";
+        }
+    }//end loading Screen...
+    //begin title screen
+    function setTitleScreen(){
+        document.getElementById("loadIt").style.display = "none";
+        document.getElementById("titleScreen").style.display = "block";
+        document.title = "prototype roguelike";
+    }	
+    function aNotice(){
+        alert("saves aren't avaible yet.")
+    }
+    function openGame(){
+        document.getElementById("titleScreen").style.display = none;
+        document.getElementById("movementGrid").style.display = grid;
+        startGame();
+    }
