@@ -20,7 +20,7 @@
 			}
 		</style>
 	</head>
-	<body onload="makeGrid()">
+	<body onload="startGame()">
 		<div id="movementGrid">
 			<div id="11">(1,1)</div>
 			<div id="12">(1,2)</div>
@@ -31,10 +31,21 @@
 		</div>
 	</body>
 	<script>
-		const Mogrid = document.getElementById("movementGrid");
-		var invalPositions = [];
+		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
+		var invals = []; //would declare a constant, but we need to be able to easily clear it at times.
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
+		var player = ""//same as start
+		const inventory = {
+
+		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
+		const stats = {
+
+		}//shouldn't 
+		function startGame(){
+			makeGrid();
+			mkNotPositions();
+		}
 		function makeGrid(){//currently set to make a 5x5 grid, making the grid wider would require modify the CSS and JS.
 			for(i=2;i<=5;i++){//row one already exists, no need to make the first row again
 				for(t=1;t<=5;t++){//'t' is columns, 'i' is rows
@@ -45,15 +56,23 @@
 		function mkNotPositions(){
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
-			let maxInvals = 0; //max number of invalid tiles
-			let minInvals = 0;//min number of invalid tiles should be less than max invals.
+			let maxInvals = 3; //max number of invalid tiles
 			//max and min invals is probably a bad way to do this.
 			invalPositions = [];//need to clear it.
-			for(i=minInvals;i<=maxInvals;i++){//if max and min are equal, this will run once.
-				invalPositions[i-minInvals] = Math.floor(Math.random()*5)+1;
+			for(let i=0;i<maxInvals;i++){//if max and min are equal, this will run once.
+				let temp = Math.floor(Math.random()*5)+1;
+				let temp2 = Math.floor(Math.random()*5)+1;
+				invals[i-minInvals]=String(temp)+String(temp2);
 				//i-min is so that it always starts at the beginning of the array
-				
+				console.log(invals[i-minInvals]);
+			}
+			for(let i=0;i<invals.length;i++){
+				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
 		}
+	</script>
+
+	<script>
+
 	</script>
 </html>
