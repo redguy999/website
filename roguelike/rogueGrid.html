@@ -34,8 +34,8 @@
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
 		var player = ""//same as start
-		let wT = 9//number of columns of tiles
-		let hT = 9//number of rows of tiles.
+		let wT = 8//number of columns of tiles
+		let hT = 8//number of rows of tiles.
 		const inventory = {
 
 		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
@@ -67,13 +67,15 @@
 			}
 		}
 		function mkNotPositions(){
+			exit = "";
+			start = "";
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
-			let maxInvals = 40; //max number of invalid tiles
+			let maxInvals = 15; //max number of invalid tiles
 			if(maxInvals>=hT*wT){//debuging edgecase; remove this later.
 				maxInvals=2
 			}
-			invalPositions = [];//need to clear it.
+			inval = [];//need to clear it.
 			for(let i=0;i<maxInvals;i++){
 				invals[i]=getCorrdInGrid();
 			}
@@ -194,7 +196,23 @@
 			//have it check if the player's position is equal to some item or something on the field.
 		if(player==exit){
 			alert("you've found the exit.")
+			nextLevel()
 		}
+	}
+	function nextLevel(){
+		clearGrid();
+		//grid doesn't need remade
+		mkNotPositions();
+		mkSnEPoints();
+	}
+	function clearGrid(){
+		for(let i=0;i<invals.length;i++){
+				document.getElementById(invals[i]).style.backgroundColor = "white";
+		}
+		document.getElementById(start).style.backgroundColor = "white";
+		document.getElementById(exit).style.backgroundColor = "white";
+		//invals gets cleared when the walls are remade.
+		//
 	}
 	</script>
 </html>
