@@ -3,16 +3,19 @@
 		<title>basic grid tester</title>
 		<style>
 			#movementGrid{
+				margin:0;
 				display:grid;
 				/*grid-template-columns: auto auto auto auto auto; moved to JS*/
-				max-width:100vw;
+				max-width:99vw;
 				width:99vw;
-				max-height:100vh;
+				max-height:98vh;
 				height: 98vh;
 			}
 			#movementGrid>div{
 				width:90%;
+				max-width:90%;
 				height:90%;
+				max-height:90%;
 				border:1px solid black;
 				display: flex;
 				justify-content: center;
@@ -31,8 +34,8 @@
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
 		var player = ""//same as start
-		let wT = 5//number of columns of tiles
-		let hT = 5//number of rows of tiles.
+		let wT = 9//number of columns of tiles
+		let hT = 9//number of rows of tiles.
 		const inventory = {
 
 		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
@@ -46,10 +49,17 @@
 		}
 		function makeGrid(){
 			let temp="";//
+			let size = 100/wT;
 			for(i=0;i<wT;i++){
-				temp =  temp +"auto ";
+				temp =  temp + size+"% ";
 			}
 			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
+			temp = "";
+			size = 100/hT;
+			for(i=0;i<hT;i++){
+				temp = temp + size+"% ";
+			}
+			document.getElementById("movementGrid").style.gridTemplateRows = temp;
 			for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
 				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
 					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+t+","+i+'"></div>')
@@ -59,7 +69,7 @@
 		function mkNotPositions(){
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
-			let maxInvals = 20; //max number of invalid tiles
+			let maxInvals = 40; //max number of invalid tiles
 			if(maxInvals>=hT*wT){//debuging edgecase; remove this later.
 				maxInvals=2
 			}
@@ -121,7 +131,7 @@
 		function CVM(corrd){//CVM: check valid move. checks if corrd is a string.
 			if(typeof(corrd)!="string"){
 				console.log("ERROR: parameter corrd is invalid type");
-				return;
+				return false;
 			}
 			for(i=0;i<invals.length;i++){
 				//console.log("i= "+i+"; invals[i]= "+invals[i]+";corrd= "+corrd);
@@ -132,7 +142,7 @@
 			let temp = corrd.split(",");
 			if((temp[0]<1||temp[0]>wT)||(temp[1]<1||temp[1]>hT)){
 				console.log("attempted location was too low or too high");
-				return;
+				return false;
 			}
 			return true;//move is valid.
 		}
@@ -149,10 +159,12 @@
 	}
 	function keyPress(){
 		key = window.event.keyCode;
+		let hold = player
 		let temp = player.split(",");
+		player = hold
+		console.log(key);
 		temp[0]=Number(temp[0]);
 		temp[1]=Number(temp[1]);
-		console.log(temp);
 		switch(key){
 			case 40:
 			temp[1]=temp[1]+1;
@@ -164,22 +176,22 @@
 			temp[1]=temp[1]-1;
 			break;
 			case 37:
-			temo[0]=temp[0]-1;
+			temp[0]=temp[0]-1;
 			break;
 			case 32:
-			player=toString(temp);
 			interact()
 			return;
 			default:
+			console.log("invalid input")
 			return;
 		}
 		temp=temp.toString();
-		if(CVM(temp)==false){
-			alert("thats a wall");
+		if(CVM(temp)!=true){
+			console.log("invalid movement.")
 			return;
 		}
 		player=temp;
-		resetLocDisplay
+		resetLocDisplay();
 	}
 
 	function interact(){
