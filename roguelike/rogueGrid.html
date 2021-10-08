@@ -34,8 +34,8 @@
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
 		var player = ""//same as start
-		let wT = 8//number of columns of tiles
-		let hT = 8//number of rows of tiles.
+		let wT = 3//number of columns of tiles
+		let hT = 3//number of rows of tiles.
 		const inventory = {
 
 		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
@@ -44,8 +44,21 @@
 		}//shouldn't need to be cleared
 		function startGame(){
 			makeGrid();
+			mkStart();
 			mkNotPositions();
-			mkSnEPoints()
+			mkEndPoints()
+		}
+		function mkStart(){
+			while(true==true){//browsers might not like this
+			let temp = getCorrdInGrid();
+			if(CVM(temp)==true){
+				start=temp;
+				break;//this exits the while loop
+			}
+			}//while end
+			document.getElementById(start).style.backgroundColor = "lightgreen";
+			player=start;
+			resetLocDisplay()
 		}
 		function makeGrid(){
 			let temp="";//
@@ -71,18 +84,19 @@
 			start = "";
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
-			let maxInvals = 15; //max number of invalid tiles
-			if(maxInvals>=hT*wT){//debuging edgecase; remove this later.
-				maxInvals=2
-			}
+			let maxInvals = Math.floor(Math.random()*((wT*hT)/2))+3; //max number of invalid tiles
 			inval = [];//need to clear it.
 			for(let i=0;i<maxInvals;i++){
 				invals[i]=getCorrdInGrid();
-			}
+			}	
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
 			for(let i=0;i<invals.length;i++){
+				if(adjStart(invals[i])){
+
+				}else{
 				document.getElementById(invals[i]).style.backgroundColor = "black";
+				}
 			}
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
@@ -90,18 +104,7 @@
 			let temp2 = Math.floor(Math.random()*hT)+1;
 			return String(temp)+","+String(temp2);
 		}
-		function mkSnEPoints(){
-			//first, make start
-			while(true==true){//browsers might not like this
-			let temp = getCorrdInGrid();
-			if(CVM(temp)==true){
-				start=temp;
-				break;//this exits the while loop
-			}
-			}//while end
-			document.getElementById(start).style.backgroundColor = "lightgreen";
-			player=start;
-			resetLocDisplay()
+		function mkEndPoint(){
 			//start point has been made	
 			while(true==true){
 				let temp=getCorrdInGrid();
