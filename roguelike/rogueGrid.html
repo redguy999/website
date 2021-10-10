@@ -89,7 +89,7 @@
 			invals = [];//need to clear it.
 			for(let i=0;i<maxInvals;i++){
 				let temp = getCorrdInGrid();
-				if(temp==start){
+				if(temp==start){//prevents walls from being placed on the start point.
 					continue;
 				}else{
 					invals[i]=temp;
@@ -97,9 +97,16 @@
 			}
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
-			while(invals.length<10){
-				
+			//	/*uncomment this to remove the while statement
+			while(invals.length<10){//for if theres too few walls.
+				let temp = getCorrdInGrid();//i might make this all a function.
+				if(temp==start){//prevents walls from being placed on the start point.
+					continue;
+				}else{
+					invals[i]=temp;
+				}
 			}
+			//	uncomment this to remove the while statement*/
 			for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
@@ -121,6 +128,22 @@
 				}
 			}
 			document.getElementById(exit).style.backgroundColor = "red";
+		}
+		function cardAdjStart(corrd){
+		//adjcent to start, but only the cardinal directions, doesn't check the start point itself.
+			let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
+			attcorrd[0]=Number(attcorrd[0]);
+			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
+			for(let i=-1;i<=1;i=i+2){
+				for(let t=-1;t<=1;t=t+2){
+					let temp = [attcorrd[0]+i,attcorrd[1]+t];
+					temp=temp[0]+","+temp[1];
+					if(temp==start){
+						return false;//is adjecent
+					}
+				}
+			}
+			return true;//not adjecent.
 		}
 		function adjStart(corrd){//checks if corrd is adjecent to the start
 			if(start.length>=3){//is true if start is not defined.
