@@ -31,7 +31,7 @@
 	<script>
 		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
 		var invals = []; //would declare a constant, but we need to be able to easily clear it at times.
-		var start = "" //can be either a string or a number, but must contain 2 digits.
+		var start = "" //must be a string.
 		var exit = "" //same as start
 		var player = ""//same as start
 		let wT = 8//number of columns of tiles
@@ -50,8 +50,11 @@
 			mkEndPoint()
 		}
 		function mkStart(){
-			start=getCorrdInGrid();
+			let temp = Math.floor(Math.random()*(wT-2))+2;
+			let temp2 = Math.floor(Math.random()*(hT-2))+2;//modified these so that it can't be place next to the edge.
+			start = String(temp)+","+String(temp2);
 			setBGColor(start,"lightgreen");
+			console.log("start = " + start);
 			player=start;
 			resetLocDisplay()
 		}
@@ -61,27 +64,26 @@
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
 			let maxInvals = Math.floor(Math.random()*((wT*hT)/2))+3; //max number of invalid tiles
+			console.log("maxInvals = "+maxInvals);
 			invals = [];//need to clear it.
 			for(let i=0;i<maxInvals;i++){
-				let temp = getCorrdInGrid();
-				if(temp==start){//prevents walls from being placed on the start point.
-					continue;
-				}else{
-					invals[i]=temp;
-				}
+				invals[i]=getCorrdInGrid();
 			}
+			console.log("intial walls:")
+			console.log(invals);
 			let temp = new Set(invals);
+			console.log("repeated entries removed:")
+			console.log(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
-			while(invals.length<10){//adds more walls if theres too few walls.
-				let temp2 = getCorrdInGrid();//i might make this all a function.
-				if(temp2==start){
-					continue;
-				}else{
-					invals[i]=temp2;
-				}
+			while(invals.length<=10){//adds more walls if theres too few walls.
+				console.log("too few walls.");
+				invals.push(getCorrdInGrid())//should add the item to the end of the list.
 			}
 			temp = 0;//already declared.
 			for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
+				if(typeof(invals[i])!="string"||invals[i]==start){//if the item is empty or the same as the start, this will be true
+					invals.splice(i,1)//the one is so that it only removes the invalid item
+				}
 				if(cardAdjStart(invals[i])==false){
 					temp++;
 				}
@@ -91,6 +93,8 @@
 					return;
 				}
 			}
+			console.log("final walls:")
+			console.log(invals)
 			
 			//check for pathfinding here.
 
@@ -108,6 +112,7 @@
 				let temp=getCorrdInGrid();
 				if(CVM(temp)){
 					if(adjStart(temp)){//made this a function so its less difficult to read this part.
+						console.log("exit = " + temp);
 						exit=temp;
 						break;
 					}
@@ -122,22 +127,13 @@
 				console.log("debug logs:");
 				console.log(corrd);
 				console.log(start);
-				console.log(end);
+				console.log(exit);
 				console.log(invals);//this is for debuging purposes, none of this should be called if everything works.
 			}
 			let attcorrd;//have to declare here.
-			try{
 			attcorrd = corrd.split(",");
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
-			} catch {
-				console.error("corrd was undefinied.")
-				console.log("debug logs")
-				console.log(corrd);
-				console.log(start);
-				console.log(end);
-				console.log(invals);
-			}
 			for(let i=-1;i<=1;i=i+2){
 				for(let t=-1;t<=1;t=t+2){
 					let temp = [attcorrd[0]+i,attcorrd[1]+t];
