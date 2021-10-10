@@ -47,7 +47,7 @@
 			makeGrid();
 			mkStart();
 			mkNotPositions();
-			mkEndPoints()
+			mkEndPoint()
 		}
 		function mkStart(){
 			while(true==true){//browsers might not like this
@@ -60,25 +60,6 @@
 			document.getElementById(start).style.backgroundColor = "lightgreen";
 			player=start;
 			resetLocDisplay()
-		}
-		function makeGrid(){
-			let temp="";//
-			let size = 100/wT;
-			for(i=0;i<wT;i++){
-				temp =  temp + size+"% ";
-			}
-			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
-			temp = "";
-			size = 100/hT;
-			for(i=0;i<hT;i++){
-				temp = temp + size+"% ";
-			}
-			document.getElementById("movementGrid").style.gridTemplateRows = temp;
-			for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
-					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+t+","+i+'"></div>')
-				}
-			}
 		}
 		function mkNotPositions(){
 			exit = "";
@@ -207,14 +188,8 @@
 			}
 			return true;//move is valid.
 		}
-	function resetLocDisplay(){
-		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
-					document.getElementById(i+","+t).innerHTML = "";
-				}
-			}
-		document.getElementById(player).innerHTML = "X";
-	}
+
+	//below is the stuff for actually making the character move and interact.
 	function keyPress(){
 		key = window.event.keyCode;
 		let hold = player
@@ -246,7 +221,7 @@
 		temp=temp.toString();
 		if(CVM(temp)!=true){
 			console.log("invalid movement.")
-			return;
+			return;//needs to return so player doesn't get inproperly set.
 		}
 		player=temp;
 		resetLocDisplay();
@@ -259,12 +234,33 @@
 			nextLevel()
 		}
 	}
+	//grid functions
 	function nextLevel(){
 		clearGrid();
 		//grid doesn't need remade
+		mkStart();
 		mkNotPositions();
-		mkSnEPoints();
+		mkEndPoint()
 	}
+	function makeGrid(){
+			let temp="";//
+			let size = 100/wT;
+			for(i=0;i<wT;i++){
+				temp =  temp + size+"% ";
+			}
+			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
+			temp = "";
+			size = 100/hT;
+			for(i=0;i<hT;i++){
+				temp = temp + size+"% ";
+			}
+			document.getElementById("movementGrid").style.gridTemplateRows = temp;
+			for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
+				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
+					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+t+","+i+'"></div>')
+				}
+			}
+		}
 	function clearGrid(){
 		for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "white";
@@ -272,7 +268,14 @@
 		document.getElementById(start).style.backgroundColor = "white";
 		document.getElementById(exit).style.backgroundColor = "white";
 		//invals gets cleared when the walls are remade.
-		//
+	}
+	function resetLocDisplay(){
+		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
+				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
+					document.getElementById(i+","+t).innerHTML = "";
+				}
+			}
+		document.getElementById(player).innerHTML = "X";
 	}
 	</script>
 </html>
