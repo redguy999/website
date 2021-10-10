@@ -50,14 +50,8 @@
 			mkEndPoint()
 		}
 		function mkStart(){
-			while(true==true){//browsers might not like this
-			let temp = getCorrdInGrid();
-			if(CVM(temp)==true){
-				start=temp;
-				break;//this exits the while loop
-			}
-			}//while end
-			document.getElementById(start).style.backgroundColor = "lightgreen";
+			start=getCorrdInGrid();
+			setBGColor(start,"lightgreen");
 			player=start;
 			resetLocDisplay()
 		}
@@ -86,7 +80,7 @@
 					invals[i]=temp2;
 				}
 			}
-			temp = 0;
+			temp = 0;//already declared.
 			for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
 				if(cardAdjStart(invals[i])==false){
 					temp++;
@@ -100,9 +94,7 @@
 			
 			//check for pathfinding here.
 
-			for(let i=0;i<invals.length;i++){
-				document.getElementById(invals[i]).style.backgroundColor = "black";
-			}
+			setBGColor(invals,"black")
 		}//end of making the walls.
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*wT)+1;
@@ -121,7 +113,7 @@
 					}
 				}
 			}
-			document.getElementById(exit).style.backgroundColor = "red";
+			setBGColor(exit,"red")
 		}
 		function cardAdjStart(corrd){
 		//adjcent to start, but only the cardinal directions, doesn't check the start point itself.
@@ -188,13 +180,32 @@
 			}
 			return true;//move is valid.
 		}
-
+		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
+			if(typeof(color)=="undefined"){
+				color = "white"//i hope this works.
+			}else if(typeof(color)!="string"){
+				console.error("invalid input for parameter: color")
+				return;
+			}
+			if(typeof(tiles)=="object"){//arrays are objects
+				for(let i=0;i<tiles.length;i++){//assumes that all entries are strings.
+					document.getElementById(tiles[i]).style.backgroundColor = color;
+				}
+			} else if(typeof(tiles)=="string"){
+				document.getElementById(tiles).style.backgroundColor = color;
+			} else {
+				console.error("invalid input for parameter: tile(s)");
+				return;
+			}
+		}
 	//below is the stuff for actually making the character move and interact.
 	function keyPress(){
 		key = window.event.keyCode;
-		let hold = player
+		if(key==32){
+			interact();
+			return;//we don't need to do math on the location.
+		}
 		let temp = player.split(",");
-		player = hold
 		console.log(key);
 		temp[0]=Number(temp[0]);
 		temp[1]=Number(temp[1]);
@@ -211,16 +222,13 @@
 			case 37:
 			temp[0]=temp[0]-1;
 			break;
-			case 32:
-			interact()
-			return;
 			default:
-			console.log("invalid input")
+			//some random key was pressed.
 			return;
 		}
 		temp=temp.toString();
 		if(CVM(temp)!=true){
-			console.log("invalid movement.")
+			console.error("invalid movement.")
 			return;//needs to return so player doesn't get inproperly set.
 		}
 		player=temp;
@@ -262,11 +270,9 @@
 			}
 		}
 	function clearGrid(){
-		for(let i=0;i<invals.length;i++){
-				document.getElementById(invals[i]).style.backgroundColor = "white";
-		}
-		document.getElementById(start).style.backgroundColor = "white";
-		document.getElementById(exit).style.backgroundColor = "white";
+		setBGColor(invals);
+		setBGColor(start);
+		setBGColor(end);
 		//invals gets cleared when the walls are remade.
 	}
 	function resetLocDisplay(){
