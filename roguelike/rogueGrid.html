@@ -50,6 +50,7 @@
 			mkEndPoint()
 		}
 		function mkStart(){
+			start = "";
 			let temp = Math.floor(Math.random()*(wT-2))+2;
 			let temp2 = Math.floor(Math.random()*(hT-2))+2;//modified these so that it can't be place next to the edge.
 			start = String(temp)+","+String(temp2);
@@ -59,8 +60,6 @@
 			resetLocDisplay()
 		}
 		function mkNotPositions(){
-			exit = "";
-			start = "";
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
 			let maxInvals = Math.floor(Math.random()*((wT*hT)/2))+3; //max number of invalid tiles
@@ -75,11 +74,6 @@
 				console.log("too few walls.");
 				invals.push(getCorrdInGrid())//should add the item to the end of the list.
 			}
-			if(typeof(start)!="string"){
-				console.error("start had an invalid variable type, redefining...")
-				mkStart();
-			}
-
 			for(let i=0;i<invals.length;i++){
 				if(invals[i]==start){
 					invals.splice(i,1);
@@ -115,7 +109,7 @@
 		}
 
 		function mkEndPoint(){
-			//start point has been made	
+			exit = "";	
 			while(true==true){
 				let temp=getCorrdInGrid();
 				if(CVM(temp)){
