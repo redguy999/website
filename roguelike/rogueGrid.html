@@ -116,11 +116,13 @@
 					return;
 				}
 			}
+			
+			//check for pathfinding here.
 
 			for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
-		}
+		}//end of making the walls.
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*wT)+1;
 			let temp2 = Math.floor(Math.random()*hT)+1;
