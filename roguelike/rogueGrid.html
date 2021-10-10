@@ -69,19 +69,27 @@
 			for(let i=0;i<maxInvals;i++){
 				invals[i]=getCorrdInGrid();
 			}
-			console.log("intial walls:")
-			console.log(invals);
 			let temp = new Set(invals);
-			console.log("repeated entries removed:")
-			console.log(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
 			while(invals.length<=10){//adds more walls if theres too few walls.
 				console.log("too few walls.");
 				invals.push(getCorrdInGrid())//should add the item to the end of the list.
 			}
+			if(typeof(start)!="string"){
+				console.error("start had an invalid variable type, redefining...")
+				mkStart();
+			}
+
+			for(let i=0;i<invals.length;i++){
+				if(invals[i]==start){
+					invals.splice(i,1);
+					break;//duplicate entries were already removed, entries shouldn't be able to repeat.
+				}
+				console.log(invals[i]);
+			}
 			temp = 0;//already declared.
 			for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
-				if(typeof(invals[i])!="string"||invals[i]==start){//if the item is empty or the same as the start, this will be true
+				if(typeof(invals[i])!="string"){//if the item is empty or the same as the start, this will be true
 					invals.splice(i,1)//the one is so that it only removes the invalid item
 				}
 				if(cardAdjStart(invals[i])==false){
@@ -122,14 +130,6 @@
 		}
 		function cardAdjStart(corrd){
 		//adjcent to start, but only the cardinal directions, doesn't check the start point itself.
-			if(start.length>=3){//is true if start is not defined, or defined incorrectly.
-				console.error('ERROR: adjecent to start was called while start was undefined, please report this to the devs.');
-				console.log("debug logs:");
-				console.log(corrd);
-				console.log(start);
-				console.log(exit);
-				console.log(invals);//this is for debuging purposes, none of this should be called if everything works.
-			}
 			let attcorrd;//have to declare here.
 			attcorrd = corrd.split(",");
 			attcorrd[0]=Number(attcorrd[0]);
@@ -146,14 +146,6 @@
 			return true;//not adjecent.
 		}
 		function adjStart(corrd){//checks if corrd is adjecent to the start
-			if(start.length>=3){//is true if start is not defined.
-				alert('ERROR: adjecent to start was called while start was undefined, please report this to the devs.');
-				console.log("debug logs:");
-				console.log(corrd);
-				console.log(start);
-				console.log(end);
-				console.log(invals);//this is for debuging purposes, none of this should be called if everyone works.
-			}
 			let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
