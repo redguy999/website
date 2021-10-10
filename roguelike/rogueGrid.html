@@ -34,8 +34,8 @@
 		var start = "" //can be either a string or a number, but must contain 2 digits.
 		var exit = "" //same as start
 		var player = ""//same as start
-		let wT = 3//number of columns of tiles
-		let hT = 3//number of rows of tiles.
+		let wT = 8//number of columns of tiles
+		let hT = 8//number of rows of tiles.
 		const inventory = {
 
 		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
@@ -85,18 +85,20 @@
 			//gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
 			//corrdinate format is the same as the ids for the grid tiles.
 			let maxInvals = Math.floor(Math.random()*((wT*hT)/2))+3; //max number of invalid tiles
-			inval = [];//need to clear it.
+			invals = [];//need to clear it.
 			for(let i=0;i<maxInvals;i++){
-				invals[i]=getCorrdInGrid();
-			}	
+				let temp = getCorrdInGrid();
+				if(temp==start){
+					continue;
+				}else{
+					invals[i]=temp;
+				}
+			}
+			if(invals)
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
 			for(let i=0;i<invals.length;i++){
-				if(adjStart(invals[i])){
-
-				}else{
 				document.getElementById(invals[i]).style.backgroundColor = "black";
-				}
 			}
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
