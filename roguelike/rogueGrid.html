@@ -123,11 +123,21 @@
 				console.log(corrd);
 				console.log(start);
 				console.log(end);
-				console.log(invals);//this is for debuging purposes, none of this should be called if everyone works.
+				console.log(invals);//this is for debuging purposes, none of this should be called if everything works.
 			}
-			let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
+			let attcorrd;//have to declare here.
+			try{
+			attcorrd = corrd.split(",");
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
+			} catch {
+				console.error("corrd was undefinied.")
+				console.log("debug logs")
+				console.log(corrd);
+				console.log(start);
+				console.log(end);
+				console.log(invals);
+			}
 			for(let i=-1;i<=1;i=i+2){
 				for(let t=-1;t<=1;t=t+2){
 					let temp = [attcorrd[0]+i,attcorrd[1]+t];
@@ -242,7 +252,7 @@
 			nextLevel()
 		}
 	}
-	//grid functions
+	//functions that make the display look correct
 	function nextLevel(){
 		clearGrid();
 		//grid doesn't need remade
@@ -271,6 +281,7 @@
 		}
 	function clearGrid(){
 		setBGColor(invals);
+		console.log("invals complete");
 		setBGColor(start);
 		setBGColor(end);
 		//invals gets cleared when the walls are remade.
