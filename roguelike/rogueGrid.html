@@ -97,16 +97,24 @@
 			}
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
-			//	/*uncomment this to remove the while statement
-			while(invals.length<10){//for if theres too few walls.
-				let temp = getCorrdInGrid();//i might make this all a function.
-				if(temp==start){//prevents walls from being placed on the start point.
+			while(invals.length<10){//adds more walls if theres too few walls.
+				let temp2 = getCorrdInGrid();//i might make this all a function.
+				if(temp2==start){
 					continue;
 				}else{
-					invals[i]=temp;
+					invals[i]=temp2;
 				}
 			}
-			//	uncomment this to remove the while statement*/
+			temp = 0;
+			for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
+				if(cardAdjStart(invals[i])==false){
+					temp++;
+				}
+				if(temp>=4){
+					console.error("ERROR: start is completely blocked.");
+				}
+			}
+
 			for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
@@ -116,6 +124,7 @@
 			let temp2 = Math.floor(Math.random()*hT)+1;
 			return String(temp)+","+String(temp2);
 		}
+
 		function mkEndPoint(){
 			//start point has been made	
 			while(true==true){
@@ -131,6 +140,14 @@
 		}
 		function cardAdjStart(corrd){
 		//adjcent to start, but only the cardinal directions, doesn't check the start point itself.
+			if(start.length>=3){//is true if start is not defined, or defined incorrectly.
+				console.error('ERROR: adjecent to start was called while start was undefined, please report this to the devs.');
+				console.log("debug logs:");
+				console.log(corrd);
+				console.log(start);
+				console.log(end);
+				console.log(invals);//this is for debuging purposes, none of this should be called if everyone works.
+			}
 			let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
