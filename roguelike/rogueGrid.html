@@ -36,6 +36,7 @@
 		var player = ""//same as start
 		let wT = 8//number of columns of tiles
 		let hT = 8//number of rows of tiles.
+		//!!NOTICE!! make sure that the total number of tiles are greater than 16
 		const inventory = {
 
 		}//might need to be cleared at times, but shouldn't need completely overhauled very often.
@@ -94,9 +95,11 @@
 					invals[i]=temp;
 				}
 			}
-			if(invals)
 			let temp = new Set(invals);
 			invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
+			while(invals.length<10){
+				
+			}
 			for(let i=0;i<invals.length;i++){
 				document.getElementById(invals[i]).style.backgroundColor = "black";
 			}
@@ -120,6 +123,14 @@
 			document.getElementById(exit).style.backgroundColor = "red";
 		}
 		function adjStart(corrd){//checks if corrd is adjecent to the start
+			if(start.length>=3){//is true if start is not defined.
+				alert('ERROR: adjecent to start was called while start was undefined, please report this to the devs.');
+				console.log("debug logs:");
+				console.log(corrd);
+				console.log(start);
+				console.log(end);
+				console.log(invals);//this is for debuging purposes, none of this should be called if everyone works.
+			}
 			let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
@@ -128,7 +139,7 @@
 					let temp2 = [attcorrd[0]+i,attcorrd[1]+t];
 					temp2=temp2[0]+","+temp2[1];
 					if(temp2==start){
-						return false;
+						return false;//is adjecent
 					}
 				}
 			}
