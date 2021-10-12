@@ -147,11 +147,11 @@
 		}
 		function CVM(corrd){//CVM: check valid move. checks if corrd is a string.
 			if(typeof(corrd)!="string"){
-				console.log("ERROR: parameter corrd is invalid type");
+				//console.log("ERROR: parameter corrd is invalid type");
 				return false;
 			}
 			for(i=0;i<invals.length;i++){
-				//console.log("i= "+i+"; invals[i]= "+invals[i]+";corrd= "+corrd);
+				console.log("i= "+i+"; invals[i]= "+invals[i]+";corrd= "+corrd);
 				if(invals[i]==corrd){
 					return false;//move is invalid.
 				}
@@ -277,29 +277,7 @@
       var openSquaresY = [playerCoords[1]]
       
       for (i = 0; i < wT * hT; i++) {
-        for (j=0; j<openSquaresX.length; j++){
-          //don't know the code for checking valid so is using a place holder: isValid()
-          if (isValid(openSquaresX[j]+1, openSquaresY[j]+1)){
-            openSquaresX.append(openSquaresX[j]+1);
-            openSquaresY.append(openSquaresY[j]+1);
-          }
-          if (isValid(openSquaresX[j]+1, openSquaresY[j]-1)){
-            openSquaresX.append(openSquaresX[j]+1);
-            openSquaresY.append(openSquaresY[j]-1);
-          }
-          if (isValid(openSquaresX[j]-1, openSquaresY[j]+1)){
-            openSquaresX.append(openSquaresX[j]-1);
-            openSquaresY.append(openSquaresY[j]+1);
-          }
-          if (isValid(openSquaresX[j]-1, openSquaresY[j]-1)){
-            openSquaresX.append(openSquaresX[j]-1);
-            openSquaresY.append(openSquaresY[j]-1);
-          }
-          //place holder
-          if (isExit(openSquaresX[j], openSquaresY[j])){
-            return true
-          }
-        }
+
       }
         return false; //is not posible
       }
