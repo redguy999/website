@@ -267,5 +267,41 @@
 			}
 		document.getElementById(player).innerHTML = "X";
 	}
+	  //test variable
+	  function checkIfPosible(){
+      //checks if the level is posible
+      
+      var playerCoords = player.split(",")
+      
+      var openSquaresX = [playerCoords[0]]
+      var openSquaresY = [playerCoords[1]]
+      
+      for (i = 0; i < wT * hT; i++) {
+        for (j=0; j<openSquaresX.length; j++){
+          //don't know the code for checking valid so is using a place holder: isValid()
+          if (isValid(openSquaresX[j]+1, openSquaresY[j]+1)){
+            openSquaresX.append(openSquaresX[j]+1);
+            openSquaresY.append(openSquaresY[j]+1);
+          }
+          if (isValid(openSquaresX[j]+1, openSquaresY[j]-1)){
+            openSquaresX.append(openSquaresX[j]+1);
+            openSquaresY.append(openSquaresY[j]-1);
+          }
+          if (isValid(openSquaresX[j]-1, openSquaresY[j]+1)){
+            openSquaresX.append(openSquaresX[j]-1);
+            openSquaresY.append(openSquaresY[j]+1);
+          }
+          if (isValid(openSquaresX[j]-1, openSquaresY[j]-1)){
+            openSquaresX.append(openSquaresX[j]-1);
+            openSquaresY.append(openSquaresY[j]-1);
+          }
+          //place holder
+          if (isExit(openSquaresX[j], openSquaresY[j])){
+            return true
+          }
+        }
+      }
+        return false; //is not posible
+      }
 	</script>
 </html>
