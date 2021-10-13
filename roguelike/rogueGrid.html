@@ -73,12 +73,12 @@
 			}
 			temp = 0;//already declared.
 			for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
-				if((typeof(invals[i])!="string")||invals[i]==start){//if the item is empty or the same as the start, this will be true
-					invals.splice(i,1)//the one is so that it only removes the invalid item
-				}
-				if(!cardAdjStart(invals[i])){//this check only sometimes works strangely.
+								if(!cardAdjStart(invals[i])){//this check only sometimes works strangely.
 					temp++;
 					console.log(temp)
+				}
+				if((typeof(invals[i])!="string")||invals[i]==start){//if the item is empty or the same as the start, this will be true
+					invals.splice(i,1)//the one is so that it only removes the invalid item
 				}
 				if(temp>=4){
 					console.log("ERROR: start is completely blocked.");
@@ -118,14 +118,21 @@
 			let attcorrd = corrd.split(",");
 			attcorrd[0]=Number(attcorrd[0]);
 			attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
-			for(let i=-1;i<=1;i=i+2){
-				for(let t=-1;t<=1;t=t+2){
-					let temp = [attcorrd[0]+i,attcorrd[1]+t];
-					temp=temp[0]+","+temp[1];
-					if(temp==start){
-						//console.log(false);
-						return false;//is adjecent
-					}
+			let startCords = start.split(",");
+			for(let i=-1;i<1;i=i+2){
+				let temp = attcorrd.toString();
+				temp[0]=(temp[0]+i);
+				if(temp==start){
+					//console.log(false);
+					return false;//is adjecent
+				}
+			}
+			for(let i=-1;i<1;i=i+2){
+				let temp = attcorrd.toString();
+				temp[1]=(temp[1]+i);
+				if(temp==start){
+					//console.log(false);
+					return false;//is adjecent
 				}
 			}
 			return true;//not adjecent.
@@ -151,7 +158,6 @@
 				return false;
 			}
 			for(i=0;i<invals.length;i++){
-				console.log("i= "+i+"; invals[i]= "+invals[i]+";corrd= "+corrd);
 				if(invals[i]==corrd){
 					return false;//move is invalid.
 				}
