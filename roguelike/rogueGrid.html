@@ -155,7 +155,7 @@
 		function CVM(corrd){//CVM: check valid move. checks if corrd is a string.
 			if(typeof(corrd)!="string"){
 				//console.log("ERROR: parameter corrd is invalid type");
-				return false;
+				return null;
 			}
 			for(i=0;i<invals.length;i++){
 				if(invals[i]==corrd){
