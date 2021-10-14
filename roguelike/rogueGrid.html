@@ -38,14 +38,18 @@
 		*/
 
 		//corrdinates as string "X,Y"; corrdinates as array ["X","Y"], array items can be either string or number
-		/*basic overview of how movement affects the coordinates of something:
-
-		*/
+		//see function keyPress() for how movement works.
 		function startGame(){
 			makeGrid();
-			addCorrdinates();
+			resetLocDisplay()
+			for(i=0;i<10;i++){
+				let temp = getCorrdInGrid();
+				console.log(temp)
+				setBGColor(temp,"blue")
+			}
+			//addCorrdinates();for grid debugging
 		}
-		function makeGrid(){
+		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
 			let temp="";//
 			let size = 100/wT;
 			for(i=0;i<wT;i++){
@@ -71,53 +75,84 @@
 				}
 			}
 		(x,y)*/
-		function addCorrdinates(){
+		function addCorrdinates(){//was used for debugging, currently useless.
 			for(y=1;y<=wT;y++){
 				for(x=1;x<=hT;x++){
 					document.getElementById(x+","+y).innerHTML = "("+x+","+y+")"
 				}
-				debugger;
 			}
 		}
 	</script>
 	<script>//for making stuff appear on the grid.
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
-			let temp = Math.floor(Math.random()*wT)+1;
-			let temp2 = Math.floor(Math.random()*hT)+1;
+			let temp = Math.floor(Math.random()*hT)+1;
+			let temp2 = Math.floor(Math.random()*wT)+1;
 			return String(temp)+","+String(temp2);
 		}
+		function resetLocDisplay(){
+			for(y=1;y<=wT;y++){
+				for(x=1;x<=hT;x++){
+					document.getElementById(x+","+y).innerHTML = "";
+				}
+			}
+			document.getElementById(playerLoc).innerHTML = "X";
+		}
+		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
+			if(typeof(color)=="undefined"){
+				color = "white"//i hope this works.
+			}else if(typeof(color)!="string"){
+				throw "invalid input for parameter: color";
+				return;
+			}
+			if(typeof(tiles)=="object"){//arrays are objects
+				for(let i=0;i<tiles.length;i++){//assumes that all entries are strings.
+					document.getElementById(tiles[i]).style.backgroundColor = color;
+				}
+			} else if(typeof(tiles)=="string"){
+				document.getElementById(tiles).style.backgroundColor = color;
+			} else {
+				throw "invalid input for parameter: tile(s)";
+				return;
+			}
+		}
 	</script>
+
 	<script>//for the player
 		var playerLoc = "1,1"
 		function keyPress(){
 			key = window.event.keyCode;
-		if(key==32){
-			interact();
-			return;//we don't need to do math on the location.
-		}
-		let temp = player.split(",");
-		console.log(key);
-		temp[0]=Number(temp[0]);
-		temp[1]=Number(temp[1]);
-		switch(key){
-			case 40:
-			temp[1]=temp[1]+1;
-			break;
-			case 39:
-			temp[0]=temp[0]+1;
-			break;
-			case 38:
-			temp[1]=temp[1]-1;
-			break;
-			case 37:
-			temp[0]=temp[0]-1;
-			break;
-			default:
-			//some random key was pressed.
-			return;
+			if(key==32){
+				interact();
+				return;//we don't need to do math on the location.
+			}
+			let temp = playerLoc.split(",");
+			temp[0]=Number(temp[0]);
+			temp[1]=Number(temp[1]);
+			debugger;
+			switch(key){
+				case 40:
+				temp[1]=temp[1]+1;//down
+				break;
+				case 39:
+				temp[0]=temp[0]+1;//right
+				break;
+				case 38:
+				temp[1]=temp[1]-1;//left
+				break;
+				case 37:
+				temp[0]=temp[0]-1;//up
+				break;
+				default:
+				//some random key was pressed.
+				return;
+			}
+			if(temp[0]<1||temp[1]<1||temp[0]>wT||temp[1]>hT){
+				console.log(playerLoc);
+				return;
+			}
+			temp=temp.toString();
 			playerLoc=temp.toString();
-		resetLocDisplay()
-		}
+			resetLocDisplay()
 		}
 	</script>
 </html>
