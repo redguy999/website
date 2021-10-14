@@ -285,22 +285,37 @@
 					return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
 			}
 			for(let t=0;t<checkCorrds.length;t++){
-				let tempCorrd = checkCorrds[t]
+				let tempCorrd = checkCorrds[t];
 				tempCorrd = tempCorrd.split(",");
-				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1])+1))){
-					newCorrds.push(String((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1])+1)));
+				temp = (Number(tempCorrd[0])+1)+","+tempCorrd[1];
+				if(CVM(temp)){
+					newCorrds.push(temp);
 				}
-				if(CVM((tempCorrd[0]-1)+","+(Number(tempCorrd[1])+1))){
-					newCorrds.push(String((tempCorrd[0]-1)+","+(Number(tempCorrd[1])+1)));
+				temp = (tempCorrd[0]-1)+","+tempCorrd[1];
+				if(CVM(temp)){
+					newCorrds.push(temp);
 				}
-				if(CVM((Number(tempCorrd[0])+1)+","+(tempCorrd[1]-1))){
-					newCorrds.push(String((Number(tempCorrd[0])+1)+","+(tempCorrd[1]-1)));
+				temp = tempCorrd[0]+","+(Number(tempCorrd[1])+1);
+				if(CVM(temp)){
+					newCorrds.push(temp);
 				}
-				if(CVM((tempCorrd[0]-1)+","+(tempCorrd[1]-1))){
-					newCorrds.push(String(tempCorrd[0]-1+","+tempCorrd[1]-1));
+				temp = tempCorrd[0]+","+(tempCorrd[1]-1);
+				if(CVM(temp)){
+					newCorrds.push(temp);
 				}
-			}//end of checkcorrds.length for loop
 
+			}//end of checkcorrds.length for loop
+			for(let i=0;i<checkCorrds.length;i++){
+				validCorrds.add(checkCorrds[i]);//adds them to valid corrdinates	
+			}
+			checkCorrds = [];//empties checkCorrds
+			checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, and adds it to check corrds
+			for(let i=0;i<validCorrds;i++){
+				let temp = checkCorrds.indexOf(validCorrds[i])
+				if(temp!=-1){//if the indexOf function = -1, it couldn't find the input in the array.
+					checkCorrds.splice(temp,1);
+				}
+			}//this for loop removes any corrds that were already checked.
 		}//if it can't find the end point by the end of this, the end point is unreachable.
 		return false; //is not posible
     }
