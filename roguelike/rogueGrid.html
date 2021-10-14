@@ -164,7 +164,6 @@
 			}
 			let temp = corrd.split(",");
 			if((temp[0]<1||temp[0]>wT)||(temp[1]<1||temp[1]>hT)){
-				console.log("attempted location was too low or too high");
 				return false;
 			}
 			return true;//move is valid.
@@ -274,18 +273,31 @@
 		document.getElementById(player).innerHTML = "X";
 	}
 	  //test variable
-	  function checkIfPosible(){
-      //checks if the level is posible
-      
-      var playerCoords = player.split(",")
-      
-      var openSquaresX = [playerCoords[0]]
-      var openSquaresY = [playerCoords[1]]
-      
-      for (i = 0; i < wT * hT; i++) {
+	function checkIfPosible(){
+		//checks if the level is posible  
+		var playerCoords = player.split(",")
+		var checkCorrds = [start];//start is always valid, since it is the beginning corrdinate.
+		const validCorrds = new Set([]);//this is a set so it auto rejects repeated variables.
+		//corrdinates get moved from checkCorrds to validCorrds once it is known that all surronding tiles have been checked.
+		for (let i = 0; i < wT * hT; i++) {//if it can't find the end point by the end of this, the end point is unreachable.
+			for(let t=0;t<checkCorrds.length;t++){
+				let tempCorrd = checkCorrds[t]
+				tempCorrd = tempCorrd.split(",");
+				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
 
-      }
-        return false; //is not posible
-      }
+				}
+				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
+					
+				}
+				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
+					
+				}
+				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
+					
+				}
+			}
+		}
+		return false; //is not posible
+    }
 	</script>
 </html>
