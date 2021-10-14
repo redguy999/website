@@ -28,12 +28,20 @@
 
 		</div>
 	</body>
-	<script>
+	<script>//for making the grid.
 		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-		let wT = 8//number of columns of tiles
-		let hT = 10	//number of rows of tiles.
+		let hT = 8//number of columns of tiles
+		let wT = 10	//number of rows of tiles.
+		/*
+		debugger;
+		//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
+		*/
+
+		//corrdinates as string "X,Y"; corrdinates as array ["X","Y"], array items can be either string or number
+		/*basic overview of how movement affects the coordinates of something:
+
+		*/
 		function startGame(){
-			debugger;//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
 			makeGrid();
 			addCorrdinates();
 		}
@@ -43,13 +51,13 @@
 			for(i=0;i<wT;i++){
 				temp =  temp + size+"% ";//this and the next one is so that none of the tiles change size when the X moves to it.
 			}
-			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
+			document.getElementById("movementGrid").style.gridTemplateRows = temp;
 			temp = "";
 			size = 100/hT;
 			for(i=0;i<hT;i++){
 				temp = temp + size+"% ";
 			}
-			document.getElementById("movementGrid").style.gridTemplateRows = temp;
+			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
 			for(y=1;y<=wT;y++){
 				for(x=1;x<=hT;x++){
 					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+x+","+y+'"></div>');
@@ -62,13 +70,54 @@
 
 				}
 			}
-		*/
+		(x,y)*/
 		function addCorrdinates(){
 			for(y=1;y<=wT;y++){
 				for(x=1;x<=hT;x++){
-					document.getElementById
+					document.getElementById(x+","+y).innerHTML = "("+x+","+y+")"
 				}
+				debugger;
 			}
+		}
+	</script>
+	<script>//for making stuff appear on the grid.
+		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
+			let temp = Math.floor(Math.random()*wT)+1;
+			let temp2 = Math.floor(Math.random()*hT)+1;
+			return String(temp)+","+String(temp2);
+		}
+	</script>
+	<script>//for the player
+		var playerLoc = "1,1"
+		function keyPress(){
+			key = window.event.keyCode;
+		if(key==32){
+			interact();
+			return;//we don't need to do math on the location.
+		}
+		let temp = player.split(",");
+		console.log(key);
+		temp[0]=Number(temp[0]);
+		temp[1]=Number(temp[1]);
+		switch(key){
+			case 40:
+			temp[1]=temp[1]+1;
+			break;
+			case 39:
+			temp[0]=temp[0]+1;
+			break;
+			case 38:
+			temp[1]=temp[1]-1;
+			break;
+			case 37:
+			temp[0]=temp[0]-1;
+			break;
+			default:
+			//some random key was pressed.
+			return;
+			playerLoc=temp.toString();
+		resetLocDisplay()
+		}
 		}
 	</script>
 </html>

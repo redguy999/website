@@ -276,8 +276,8 @@
 				temp = temp + size+"% ";
 			}
 			document.getElementById("movementGrid").style.gridTemplateRows = temp;
-			for(y=1;y<=wT;y++){//row one already exists, no need to make the first row again
-				for(x=1;x<=hT;x++){//'t' is columns, 'i' is rows
+			for(y=1;y<=wT;y++){
+				for(x=1;x<=hT;x++){
 					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+y+","+x+'"></div>');
 				}
 			}
