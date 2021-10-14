@@ -35,7 +35,7 @@
 		var exit = "" //same as start
 		var player = ""//same as start
 		let wT = 8//number of columns of tiles
-		let hT = 8//number of rows of tiles.
+		let hT = 10	//number of rows of tiles.
 		//!!NOTICE!! make sure that the total number of tiles are greater than 16
 		const inventory = {
 
@@ -98,9 +98,9 @@
 			let temp2 = Math.floor(Math.random()*hT)+1;
 			return String(temp)+","+String(temp2);
 		}
-
+		let PFAttemptCounter = 0;
 		function mkEndPoint(){
-			exit = "";	
+			exit = "";	//clears exit.
 			while(true==true){
 				let temp=getCorrdInGrid();
 				if(CVM(temp)){
@@ -110,6 +110,17 @@
 						break;
 					}
 				}
+			}
+			if(!checkIfPosible()){
+				console.log("pathfinder failed to reach exit.");
+				if(PFAttemptCounter>10){//failsafe incase it repeatedly has trouble finding the exit.
+					console.log("restarting everything due to repeated pathfinder failure.")
+					nextLevel();//reroll everything since its having such a bad time.
+				} else {
+					PFAttemptCounter++;
+				}
+				mkEndPoint();
+				return;
 			}
 			setBGColor(exit,"red")
 		}
@@ -251,18 +262,18 @@
 				temp = temp + size+"% ";
 			}
 			document.getElementById("movementGrid").style.gridTemplateRows = temp;
-			for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
-					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+t+","+i+'"></div>')
+			for(x=1;x<=wT;x++){//row one already exists, no need to make the first row again
+				for(y=1;y<=hT;y++){//'t' is columns, 'i' is rows
+					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+y+","+x+'"></div>')
 				}
 			}
 		}
 	function clearGrid(){
-		setBGColor(invals);
-		//console.log("invals complete");
-		setBGColor(start);
-		setBGColor(exit);
-		//invals gets cleared when the walls are remade.
+		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
+			for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
+			setBGColor(t+","+i);
+			}
+		}
 	}
 	function resetLocDisplay(){
 		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
@@ -308,7 +319,7 @@
 			for(let i=0;i<newCorrds.length;i++){
 				if(newCorrds[i]==start){
 					console.log(newCorrds[i]);
-					return true;
+					return true;//exit is reachable from start
 				}
 			}
 			for(let i=0;i<checkCorrds.length;i++){//adds all of checkCorrds to valid corrdinates
