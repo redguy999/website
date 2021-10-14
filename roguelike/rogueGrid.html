@@ -276,7 +276,6 @@
 	function checkIfPosible(){
 		//checks if the level is posible  
 		var playerCoords = player.split(",")
-		var newCorrds = [];//must start blank;
 		var checkCorrds = [start];//start is always valid, since it is the beginning corrdinate.
 		const validCorrds = new Set([]);//this is a set so it auto rejects repeated variables. Might not be needed.
 		//corrdinates get moved from checkCorrds to validCorrds once it is known that all surronding tiles have been checked.
@@ -284,6 +283,7 @@
 			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
 					return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
 			}
+			let newCorrds = [];//must start blank;
 			for(let t=0;t<checkCorrds.length;t++){
 				let tempCorrd = checkCorrds[t];
 				tempCorrd = tempCorrd.split(",");
@@ -305,11 +305,17 @@
 				}
 
 			}//end of checkcorrds.length for loop
-			for(let i=0;i<checkCorrds.length;i++){
+			for(let i=0;i<newCorrds.length;i++){
+				if(newCorrds[i]==start){
+					console.log(newCorrds[i]);
+					return true;
+				}
+			}
+			for(let i=0;i<checkCorrds.length;i++){//adds all of checkCorrds to valid corrdinates
 				validCorrds.add(checkCorrds[i]);//adds them to valid corrdinates	
 			}
 			checkCorrds = [];//empties checkCorrds
-			checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, and adds it to check corrds
+			checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, makes check corrds = new Corrds
 			for(let i=0;i<validCorrds;i++){
 				let temp = checkCorrds.indexOf(validCorrds[i])
 				if(temp!=-1){//if the indexOf function = -1, it couldn't find the input in the array.
@@ -317,7 +323,7 @@
 				}
 			}//this for loop removes any corrds that were already checked.
 		}//if it can't find the end point by the end of this, the end point is unreachable.
-		return false; //is not posible
+		return false; //is not to reach the end.
     }
 	</script>
 </html>
