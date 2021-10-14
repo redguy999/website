@@ -44,10 +44,13 @@
 
 		}//shouldn't need to be cleared
 		function startGame(){
+			window.stop();
 			makeGrid();
 			mkStart();
 			mkNotPositions();
-			mkEndPoint()
+			mkEndPoint();
+			console.log(exit);
+			setBGColor(exit,"red");
 		}
 		function mkStart(){
 			start = "";
@@ -111,10 +114,12 @@
 					}
 				}
 			}
-			if(!checkIfPosible()){
+			let temp = checkIfPosible();
+			if(!temp){
 				console.log("pathfinder failed to reach exit.");
 				if(PFAttemptCounter>10){//failsafe incase it repeatedly has trouble finding the exit.
 					console.log("restarting everything due to repeated pathfinder failure.")
+					temp=0;
 					nextLevel();//reroll everything since its having such a bad time.
 				} else {
 					PFAttemptCounter++;
@@ -122,7 +127,6 @@
 				mkEndPoint();
 				return;
 			}
-			setBGColor(exit,"red")
 		}
 		function cardAdjStart(corrd){
 			//adjcent to start, but only the cardinal directions, doesn't check the start point itself.
@@ -165,7 +169,8 @@
 		}
 		function CVM(corrd){//CVM: check valid move. checks if corrd is a string.
 			if(typeof(corrd)!="string"){
-				//console.log("ERROR: parameter corrd is invalid type");
+				console.log("ERROR: parameter corrd is invalid type");
+				console.log(corrd);
 				return null;
 			}
 			for(i=0;i<invals.length;i++){
@@ -180,6 +185,7 @@
 			return true;//move is valid.
 		}
 		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
+			try{
 			if(typeof(color)=="undefined"){
 				color = "white"//i hope this works.
 			}else if(typeof(color)!="string"){
@@ -195,6 +201,12 @@
 			} else {
 				console.error("invalid input for parameter: tile(s)");
 				return;
+			}
+			} catch {
+				console.log(tiles);
+				console.log(color);
+				console.error("FATAL ERROR: setBGcolor failed.");
+				window.stop();//might kill execution, gonna see if it actually works.
 			}
 		}
 	//below is the stuff for actually making the character move and interact.
@@ -247,7 +259,9 @@
 		//grid doesn't need remade
 		mkStart();
 		mkNotPositions();
-		mkEndPoint()
+		mkEndPoint();
+		setBGColor(exit,"red");
+		console.log(exit);
 	}
 	function makeGrid(){
 			let temp="";//
@@ -264,14 +278,14 @@
 			document.getElementById("movementGrid").style.gridTemplateRows = temp;
 			for(y=1;y<=wT;y++){//row one already exists, no need to make the first row again
 				for(x=1;x<=hT;x++){//'t' is columns, 'i' is rows
-					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+y+","+x+'"></div>')
+					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+y+","+x+'"></div>');
 				}
 			}
 		}
 	function clearGrid(){//changed so it clears all tiles.
 		for(i=1;i<=wT;i++){
 			for(t=1;t<=hT;t++){
-			setBGColor(t+","+i);
+			setBGColor(i+","+t);
 			}
 		}
 	}
@@ -287,6 +301,7 @@
 	  //test variable
 	function checkIfPosible(){
 		//checks if the level is posible  
+		let newCorrds = [];//must be blank.
 		var playerCoords = player.split(",")
 		var checkCorrds = [start];//start is always valid, since it is the beginning corrdinate.
 		const validCorrds = new Set([]);//this is a set so it auto rejects repeated variables. Might not be needed.
@@ -295,7 +310,6 @@
 			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
 					return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
 			}
-			let newCorrds = [];//must start blank;
 			for(let t=0;t<checkCorrds.length;t++){
 				let tempCorrd = checkCorrds[t];
 				tempCorrd = tempCorrd.split(",");
@@ -318,8 +332,9 @@
 
 			}//end of checkcorrds.length for loop
 			for(let i=0;i<newCorrds.length;i++){
-				if(newCorrds[i]==start){
+				if(newCorrds[i]==exit){//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
 					console.log(newCorrds[i]);
+					console.log("found exit");
 					return true;//exit is reachable from start
 				}
 			}
