@@ -262,15 +262,15 @@
 				temp = temp + size+"% ";
 			}
 			document.getElementById("movementGrid").style.gridTemplateRows = temp;
-			for(x=1;x<=wT;x++){//row one already exists, no need to make the first row again
-				for(y=1;y<=hT;y++){//'t' is columns, 'i' is rows
+			for(y=1;y<=wT;y++){//row one already exists, no need to make the first row again
+				for(x=1;x<=hT;x++){//'t' is columns, 'i' is rows
 					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+y+","+x+'"></div>')
 				}
 			}
 		}
-	function clearGrid(){
-		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-			for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
+	function clearGrid(){//changed so it clears all tiles.
+		for(i=1;i<=wT;i++){
+			for(t=1;t<=hT;t++){
 			setBGColor(t+","+i);
 			}
 		}
@@ -278,6 +278,7 @@
 	function resetLocDisplay(){
 		for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
 				for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
+					//console.log
 					document.getElementById(i+","+t).innerHTML = "";
 				}
 			}
