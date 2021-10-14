@@ -276,27 +276,32 @@
 	function checkIfPosible(){
 		//checks if the level is posible  
 		var playerCoords = player.split(",")
+		var newCorrds = [];//must start blank;
 		var checkCorrds = [start];//start is always valid, since it is the beginning corrdinate.
-		const validCorrds = new Set([]);//this is a set so it auto rejects repeated variables.
+		const validCorrds = new Set([]);//this is a set so it auto rejects repeated variables. Might not be needed.
 		//corrdinates get moved from checkCorrds to validCorrds once it is known that all surronding tiles have been checked.
-		for (let i = 0; i < wT * hT; i++) {//if it can't find the end point by the end of this, the end point is unreachable.
+		for (let i = 0; i < wT * hT; i++) {
+			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
+					return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
+			}
 			for(let t=0;t<checkCorrds.length;t++){
 				let tempCorrd = checkCorrds[t]
 				tempCorrd = tempCorrd.split(",");
-				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
+				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1])+1))){
+					newCorrds.push(String((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1])+1)));
+				}
+				if(CVM((tempCorrd[0]-1)+","+(Number(tempCorrd[1])+1))){
+					newCorrds.push(String((tempCorrd[0]-1)+","+(Number(tempCorrd[1])+1)));
+				}
+				if(CVM((Number(tempCorrd[0])+1)+","+(tempCorrd[1]-1))){
+					newCorrds.push(String((Number(tempCorrd[0])+1)+","+(tempCorrd[1]-1)));
+				}
+				if(CVM((tempCorrd[0]-1)+","+(tempCorrd[1]-1))){
+					newCorrds.push(String(tempCorrd[0]-1+","+tempCorrd[1]-1));
+				}
+			}//end of checkcorrds.length for loop
 
-				}
-				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
-					
-				}
-				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
-					
-				}
-				if(CVM((Number(tempCorrd[0])+1)+","+(Number(tempCorrd[1]+1)))){
-					
-				}
-			}
-		}
+		}//if it can't find the end point by the end of this, the end point is unreachable.
 		return false; //is not posible
     }
 	</script>
