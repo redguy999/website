@@ -157,33 +157,37 @@
 				interact();
 				return;//we don't need to do math on the location.
 			}
-			let temp = playerLoc.split(",");
-			temp[0]=Number(temp[0]);
-			temp[1]=Number(temp[1]);
-			//debugger;
-			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
-				case 40:
-				temp[1]=temp[1]+1;//down
-				break;
-				case 39:
-				temp[0]=temp[0]+1;//right
-				break;
-				case 38:
-				temp[1]=temp[1]-1;//up
-				break;
-				case 37:
-				temp[0]=temp[0]-1;//left
-				break;
-				default:
-				//some random key was pressed.
-				return;
-			}
-			temp=temp.toString();
+			temp=switchMovement()
 			if(CVM(temp)){
 				return;//move is invalid.
 			}
 			playerLoc=temp;
 			resetLocDisplay()
+		}
+		function switchMovement(Corrd,key){//movement function, uses a switch case hence the name
+			if(typeof(Corrd)=="object"){
+				 Corrd=Corrd.split(",");
+			} else if(typeof(Corrd)!="string"){//this else if is mostly for debugging purposes.
+				throw "invalid parameter for Corrd.";
+				return null;//invalid input.
+			}
+			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
+				case 40:
+				Corrd[1]=Number(Corrd[1])+1;//down
+				break;
+				case 39://the Number() in the first 2 cases is so that 1+1!=11
+				Corrd[0]=Number(Corrd[0])+1;//right
+				break;
+				case 38:
+				Corrd[1]=Corrd[1]-1;//up
+				break;
+				case 37:
+				Corrd[0]=Corrd[0]-1;//left
+				break;
+				default:
+				//some random key was pressed.
+				return Corrd.toString();//returns corrdinate as string
+			}
 		}
 	</script>
 </html>
