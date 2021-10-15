@@ -115,6 +115,18 @@
 				return;
 			}
 		}
+		function CVM(corrdin){//check valid move
+			if(!checkOoB(corrdin)){
+				console.log("invald move");
+			}
+		}
+		function checkOoB(corrd){//check Out of Bounds
+			let temp = corrd.split(",")
+			if(temp[0]<1||temp[1]<1||temp[0]>wT||temp[1]>hT){
+				return false;//outside grid
+			}
+			return true;//inside grid.
+		}
 	</script>
 
 	<script>//for the player
