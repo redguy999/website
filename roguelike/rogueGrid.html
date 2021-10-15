@@ -84,6 +84,7 @@
 		}
 	</script>
 	<script>//for making stuff appear on the grid.
+		var walls = [];
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
 			let temp2 = Math.floor(Math.random()*wT)+1;
@@ -116,8 +117,14 @@
 			}
 		}
 		function CVM(corrdin){//check valid move
-			if(!checkOoB(corrdin)){
-				console.log("invald move");
+			for(let i=0;i<walls.length;i++){
+				if(walls[i]==corrdin){
+					return false;//invalid move
+				}
+				console.log(i);
+			}
+			if(!checkOoB(corrdin)){//not sure why i made it a function but it works.
+				return false//invalid move
 			}
 		}
 		function checkOoB(corrd){//check Out of Bounds
@@ -141,7 +148,7 @@
 			temp[0]=Number(temp[0]);
 			temp[1]=Number(temp[1]);
 			debugger;
-			switch(key){
+			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY, copying the equations is recommended, however.
 				case 40:
 				temp[1]=temp[1]+1;//down
 				break;
@@ -158,12 +165,11 @@
 				//some random key was pressed.
 				return;
 			}
-			if(temp[0]<1||temp[1]<1||temp[0]>wT||temp[1]>hT){
-				console.log(playerLoc);
-				return;
-			}
 			temp=temp.toString();
-			playerLoc=temp.toString();
+			if(CVM(temp)){
+				return;//move is invalid.
+			}
+			playerLoc=temp;
 			resetLocDisplay()
 		}
 	</script>
