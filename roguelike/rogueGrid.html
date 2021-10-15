@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<title>basic grid tester</title>
 		<style>
@@ -28,48 +27,29 @@
 		<div id="movementGrid">
 
 		</div>
-		<footer id="vLinks"></footer>
 	</body>
-	<script>//for making the grid.
+	<script>
 		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-		let hT = 8//number of columns of tiles, AKA the max x value.
-		let wT = 10	//number of rows of tiles, AKA the max y value.
-		/*
-		debugger;
-		//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
-		*/
-		/*
-		movement reference:
-		original point: X,Y
-		moving up: X,Y-1
-		moving down: X,Y+1
-		moving left: X-1,Y
-		moving right: X+1,Y
-		*/
-		//corrdinate as a string "X,Y"; a corrdinate as an array ["X","Y"], array items can be either string or number
-		//see function keyPress() for how movement works.
-		/*	corrdinate in grid test
-			for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
-		*/
+		let wT = 8//number of columns of tiles
+		let hT = 10	//number of rows of tiles.
 		function startGame(){
+			debugger;//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
 			makeGrid();
-			resetLocDisplay();
-			mkStartPoint();
-			//addCorrdinates();for grid debugging
+			addCorrdinates();
 		}
-		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
+		function makeGrid(){
 			let temp="";//
 			let size = 100/wT;
 			for(i=0;i<wT;i++){
 				temp =  temp + size+"% ";//this and the next one is so that none of the tiles change size when the X moves to it.
 			}
-			document.getElementById("movementGrid").style.gridTemplateRows = temp;
+			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
 			temp = "";
 			size = 100/hT;
 			for(i=0;i<hT;i++){
 				temp = temp + size+"% ";
 			}
-			document.getElementById("movementGrid").style.gridTemplateColumns = temp;
+			document.getElementById("movementGrid").style.gridTemplateRows = temp;
 			for(y=1;y<=wT;y++){
 				for(x=1;x<=hT;x++){
 					Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+x+","+y+'"></div>');
@@ -82,110 +62,13 @@
 
 				}
 			}
-		(x,y)*/
-		function addCorrdinates(){//was used for debugging, currently useless.
+		*/
+		function addCorrdinates(){
 			for(y=1;y<=wT;y++){
 				for(x=1;x<=hT;x++){
-					document.getElementById(x+","+y).innerHTML = "("+x+","+y+")"
+					document.getElementById
 				}
 			}
-		}
-	</script>
-	<script>//for making stuff appear on the grid.
-		var startPoint = "1,1"
-		var walls = [];
-		function mkStartPoint(){
-			startPoint = getCorrdInGrid();
-			playerLoc = startPoint;
-			resetLocDisplay();
-			setBGColor(startPoint,"lightGreen");
-		}
-		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
-			let temp = Math.floor(Math.random()*hT)+1;
-			let temp2 = Math.floor(Math.random()*wT)+1;
-			return String(temp)+","+String(temp2);
-		}
-		function resetLocDisplay(){
-			for(y=1;y<=wT;y++){
-				for(x=1;x<=hT;x++){
-					document.getElementById(x+","+y).innerHTML = "";
-				}
-			}
-			document.getElementById(playerLoc).innerHTML = "X";
-		}
-		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
-			if(typeof(color)=="undefined"){
-				color = "white"//i hope this works.
-			}else if(typeof(color)!="string"){
-				throw "invalid input for parameter: color";
-				return;
-			}
-			if(typeof(tiles)=="object"){//arrays are objects
-				for(let i=0;i<tiles.length;i++){//assumes that all entries are strings.
-					document.getElementById(tiles[i]).style.backgroundColor = color;
-				}
-			} else if(typeof(tiles)=="string"){
-				document.getElementById(tiles).style.backgroundColor = color;
-			} else {
-				throw "invalid input for parameter: tile(s)";
-				return;
-			}
-		}
-		function CVM(corrdin){//check valid move
-			for(let i=0;i<walls.length;i++){
-				if(walls[i]==corrdin){
-					return true;//invalid move
-				}
-				console.log(i);
-			}
-			if(!checkOoB(corrdin)){//not sure why i made it a function but it works.
-				return true;//invalid move
-			}
-			return false;//failed to find a valid reason that the move would be invalid.
-		}
-		function checkOoB(corrd){//check Out of Bounds
-			let temp = corrd.split(",")
-			if(temp[0]<1||temp[1]<1||temp[0]>wT||temp[1]>hT){
-				return false;//outside grid
-			}
-			return true;//inside grid.
-		}
-	</script>
-	<script>//for the player
-		var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
-		function keyPress(){
-			key = window.event.keyCode;
-			if(key==32){
-				interact();
-				return;//we don't need to do math on the location.
-			}
-			let temp = playerLoc.split(",");
-			temp[0]=Number(temp[0]);
-			temp[1]=Number(temp[1]);
-			//debugger;
-			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
-				case 40:
-				temp[1]=temp[1]+1;//down
-				break;
-				case 39:
-				temp[0]=temp[0]+1;//right
-				break;
-				case 38:
-				temp[1]=temp[1]-1;//up
-				break;
-				case 37:
-				temp[0]=temp[0]-1;//left
-				break;
-				default:
-				//some random key was pressed.
-				return;
-			}
-			temp=temp.toString();
-			if(CVM(temp)){
-				return;//move is invalid.
-			}
-			playerLoc=temp;
-			resetLocDisplay()
 		}
 	</script>
 </html>
