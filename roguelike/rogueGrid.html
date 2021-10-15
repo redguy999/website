@@ -30,23 +30,29 @@
 	</body>
 	<script>//for making the grid.
 		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-		let hT = 8//number of columns of tiles
-		let wT = 10	//number of rows of tiles.
+		let hT = 8//number of columns of tiles, AKA the max x value.
+		let wT = 10	//number of rows of tiles, AKA the max y value.
 		/*
 		debugger;
 		//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
 		*/
-
-		//corrdinates as string "X,Y"; corrdinates as array ["X","Y"], array items can be either string or number
+		/*
+		movement reference:
+		original point: X,Y
+		moving up: X,Y-1
+		moving down: X,Y+1
+		moving left: X-1,Y
+		moving right: X+1,Y
+		*/
+		//corrdinate as a string "X,Y"; a corrdinate as an array ["X","Y"], array items can be either string or number
 		//see function keyPress() for how movement works.
+		/*	corrdinate in grid test
+			for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
+		*/
 		function startGame(){
 			makeGrid();
-			resetLocDisplay()
-			for(i=0;i<10;i++){
-				let temp = getCorrdInGrid();
-				console.log(temp)
-				setBGColor(temp,"blue")
-			}
+			resetLocDisplay();
+			mkStartPoint();
 			//addCorrdinates();for grid debugging
 		}
 		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
@@ -84,7 +90,14 @@
 		}
 	</script>
 	<script>//for making stuff appear on the grid.
+		var startPoint = "1,1"
 		var walls = [];
+		function mkStartPoint(){
+			startPoint = getCorrdInGrid();
+			playerLoc = startPoint;
+			resetLocDisplay();
+			setBGColor(startPoint,"lightGreen");
+		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
 			let temp2 = Math.floor(Math.random()*wT)+1;
@@ -119,13 +132,14 @@
 		function CVM(corrdin){//check valid move
 			for(let i=0;i<walls.length;i++){
 				if(walls[i]==corrdin){
-					return false;//invalid move
+					return true;//invalid move
 				}
 				console.log(i);
 			}
 			if(!checkOoB(corrdin)){//not sure why i made it a function but it works.
-				return false//invalid move
+				return true;//invalid move
 			}
+			return false;//failed to find a valid reason that the move would be invalid.
 		}
 		function checkOoB(corrd){//check Out of Bounds
 			let temp = corrd.split(",")
@@ -135,9 +149,8 @@
 			return true;//inside grid.
 		}
 	</script>
-
 	<script>//for the player
-		var playerLoc = "1,1"
+		var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
 		function keyPress(){
 			key = window.event.keyCode;
 			if(key==32){
@@ -147,8 +160,8 @@
 			let temp = playerLoc.split(",");
 			temp[0]=Number(temp[0]);
 			temp[1]=Number(temp[1]);
-			debugger;
-			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY, copying the equations is recommended, however.
+			//debugger;
+			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
 				case 40:
 				temp[1]=temp[1]+1;//down
 				break;
@@ -156,10 +169,10 @@
 				temp[0]=temp[0]+1;//right
 				break;
 				case 38:
-				temp[1]=temp[1]-1;//left
+				temp[1]=temp[1]-1;//up
 				break;
 				case 37:
-				temp[0]=temp[0]-1;//up
+				temp[0]=temp[0]-1;//left
 				break;
 				default:
 				//some random key was pressed.
