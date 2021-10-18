@@ -251,14 +251,9 @@
 		let newCorrds = [];//must be blank.
 		var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
 		const validCorrds = new Set([]);
-		for (let i = 0; i < wT * hT; i++) {
+		for (let i = 0; i < wT * hT/2; i++) {
 			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
-				debugger;
-				let temp2=validCorrds.entries()
-				for(i=0;i<temp2.length;i=i+2){
-					temp2.splice(i,1);
-				}
-				setBGColor(temp2,"blue");
+				setBGColor(validCorrds,"blue");
 				return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
 			}
 			for(let t=0;t<checkCorrds.length;t++){
@@ -276,12 +271,7 @@
 			}//end of checkcorrds.length for loop
 			for(let i=0;i<newCorrds.length;i++){
 				if(newCorrds[i]==exitPoint){//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
-					debugger;
-					let temp2=validCorrds.entries()
-					for(i=0;i<temp2.length;i=i+2){
-						temp2.splice(i,1);
-					}
-					setBGColor(temp2,"blue");
+					setBGColor(validCorrds,"blue");
 					console.log("true")
 					return true;//exit is reachable from start
 				}
@@ -291,6 +281,7 @@
 			}
 			checkCorrds = [];//empties checkCorrds
 			checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, makes check corrds = new Corrds
+			newCorrds = [];//clear it so it doesn't get really big.
 			for(let i=0;i<validCorrds;i++){
 				let temp = checkCorrds.indexOf(validCorrds[i]);
 				if(temp!=-1){//if the indexOf function = -1, it couldn't find the input in the array.
@@ -298,13 +289,8 @@
 				}
 			}//this for loop removes any corrds that were already checked.
 		}//if it can't find the end point by the end of this, the end point is unreachable.
-		debugger;
-		let temp2=validCorrds.entries()
-		for(i=0;i<temp2.length;i=i+2){
-			temp2.splice(i,1);
-		}
 		console.log("false");
-		setBGColor(temp2,"blue");
+		setBGColor(validCorrds,"blue");
 		return false; //is not to reach the end.
     }
 	</script>
