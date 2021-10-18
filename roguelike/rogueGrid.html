@@ -96,6 +96,11 @@
 			playerLoc = startPoint;
 			resetLocDisplay();
 			setBGColor(startPoint,"lightGreen");
+			//below paints the points cardinally adjecent to the start, just for testing.
+			let temp=cardAdj(startPoint);
+			for(let i=0;i<temp.length;i++){
+				setBGColor(temp[i],"green");
+			}
 		}
 		function mkExitPoint(){//makes exit
 			let temp = getCorrdInGrid();
@@ -104,10 +109,6 @@
 			}//should continue til a point not near the exit is made.
 			exitPoint = temp;
 			setBGColor(exitPoint,"red");
-		}
-		function adjStart(cora){
-			let temp = cora.split(",");
-
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
@@ -159,6 +160,17 @@
 			}
 			return true;//inside grid.
 		}
+		function cardAdj(corra){//gets corrdinates that are cardinally adjecent to a given point.
+			if(typeof(corra)=="string"){
+				corra = corra.split(",");
+			}
+			let temp=[];
+			for(let i=37;i<=40;i++){//use this for state to get all corrdinates cardinally adjecent to a point.
+				temp.push(switchMovement(corra,i));
+			}
+			return temp;//returns array
+		}
+
 	</script>
 	<script>//for the player
 		var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
@@ -169,50 +181,54 @@
 				return;//we don't need to do math on the location.
 			}
 			let temp=switchMovement(playerLoc,key)
-			if(CVM(temp)){
+			/*if(CVM(temp)){//moved to switchMovement
 				return;//move is invalid.
-			}
+			}*/
 			playerLoc=temp;
 			resetLocDisplay()
 		}
-		function switchMovement(Corrd,key){//movement function, uses a switch case hence the name
+		function switchMovement(Corrd,key){//movement function, returns a string, or null if corrd is invalid.
+			let temp;//incase result becomes invalid, we need to return the orginial input.
 			if(typeof(Corrd)=="string"){
-				 Corrd=Corrd.split(",");
+				 temp=Corrd.split(",");
 			} else if(typeof(Corrd)!="object"){//this else if is mostly for debugging purposes.
 				throw "invalid parameter for Corrd.";
 				return null;//invalid input.
+			} else {//neither "if" will be true if corrd is a string or an array.
+				temp=Corrd;
 			}
 			switch(key){//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
 				case 40:
-				Corrd[1]=Number(Corrd[1])+1;//down
+				temp[1]=Number(temp[1])+1;//down
 				break;
 				case 39://the Number() in the first 2 cases is so that 1+1!=11
-				Corrd[0]=Number(Corrd[0])+1;//right
+				temp[0]=Number(temp[0])+1;//right
 				break;
 				case 38:
-				Corrd[1]=Corrd[1]-1;//up
+				temp[1]=temp[1]-1;//up
 				break;
 				case 37:
-				Corrd[0]=Corrd[0]-1;//left
+				temp[0]=temp[0]-1;//left
 				break;
 				default:
-				//some random key was pressed.
+				//invalid input for key
+				console.error("invalid input for key");
+				console.log("key = "+key);
+				//just have it return corrd so it doesn't break.
 			}
-			return Corrd.toString();;//returns corrdinate as string
+			if(CVM(temp.toString())){
+				return Corrd;//impossible location.
+			}
+			return temp.toString();;//returns corrdinate as string
 		}
 	</script>
 	<script>//for random ideas about makig sure you can get to the end tile.
 	function mkPathToEnd(){//this would be ran before you make the walls.
-		let start = startPoint.split(",");
-		let end = exitPoint.split(",");
-		start[0]=Number(start[0]);
-		start[1]=Number(start[1]);
-		exit[0]=Number(exit[0]);
-		exit[1]=Number(exit[1])
-		let temp = [0,0]
-		if(start[0]>end[0]){
-
-		}
+	/*how this is suppose to work:
+	- figure out if the end point is above or below the start point, and if the end point is left or right of the start point
+	- use the previous information to move towards the end point from the start.
+	- hold the corrdinates that were travelled through, and make it so that those corrdinates can't be a wall.
+	*/
 	}
 	</script>
 </html>
