@@ -35,26 +35,26 @@
 		/*
 		debugger;
 		//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
-		*/
-		/*
 		movement reference:
 		original point: X,Y
 		moving up: X,Y-1
 		moving down: X,Y+1
 		moving left: X-1,Y
 		moving right: X+1,Y
-		*/
 		//corrdinate as a string "X,Y"; a corrdinate as an array ["X","Y"], array items can be either string or number
 		//see function keyPress() for how movement works.
-		/*	corrdinate in grid test
+			corrdinates test:
 			for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
 		*/
 		function startGame(){
 			makeGrid();
 			resetLocDisplay();
 			mkStartPoint();
+			mkExitPoint();
 			//addCorrdinates();for grid debugging
 		}
+
+
 		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
 			let temp="";//
 			let size = 100/wT;
@@ -91,12 +91,25 @@
 	</script>
 	<script>//for making stuff appear on the grid.
 		var startPoint = "1,1"
+		var exitPoint = "8,8"
 		var walls = [];
-		function mkStartPoint(){
+		function mkStartPoint(){// makes enterance
 			startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
 			resetLocDisplay();
 			setBGColor(startPoint,"lightGreen");
+		}
+		function mkExitPoint(){//makes exit
+			let temp = getCorrdInGrid();
+			while(adjStart(temp)){//should skip if this is false.
+				temp = getCorrdInGrid();
+			}//should continue til a point not near the exit is made.
+			exitPoint = temp;
+			setBGColor(exitPoint,"red");
+		}
+		function adjStart(cora){
+			let temp = cora.split(",");
+
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
@@ -157,7 +170,7 @@
 				interact();
 				return;//we don't need to do math on the location.
 			}
-			temp=switchMovement()
+			let temp=switchMovement(playerLoc,key)
 			if(CVM(temp)){
 				return;//move is invalid.
 			}
@@ -165,9 +178,9 @@
 			resetLocDisplay()
 		}
 		function switchMovement(Corrd,key){//movement function, uses a switch case hence the name
-			if(typeof(Corrd)=="object"){
+			if(typeof(Corrd)=="string"){
 				 Corrd=Corrd.split(",");
-			} else if(typeof(Corrd)!="string"){//this else if is mostly for debugging purposes.
+			} else if(typeof(Corrd)!="object"){//this else if is mostly for debugging purposes.
 				throw "invalid parameter for Corrd.";
 				return null;//invalid input.
 			}
@@ -186,8 +199,8 @@
 				break;
 				default:
 				//some random key was pressed.
-				return Corrd.toString();//returns corrdinate as string
 			}
+			return Corrd.toString();;//returns corrdinate as string
 		}
 	</script>
 </html>
