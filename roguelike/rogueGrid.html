@@ -51,6 +51,8 @@
 			resetLocDisplay();
 			mkStartPoint();
 			mkExitPoint();
+			mkWalls();
+			oldPather();
 			//addCorrdinates();for grid debugging
 		}
 		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
@@ -90,17 +92,16 @@
 	<script>//for making stuff appear on the grid.
 		var startPoint = "8,1"
 		var exitPoint = "8,8"
+		var cordsAdjStart = [];//array of strings.
 		var walls = [];
+		var invals = [];
 		function mkStartPoint(){// makes enterance
 			startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
 			resetLocDisplay();
 			setBGColor(startPoint,"lightGreen");
 			//below paints the points cardinally adjecent to the start, just for testing.
-			let temp=cardAdj(startPoint);
-			for(let i=0;i<temp.length;i++){
-				setBGColor(temp[i],"green");
-			}
+			cordsAdjStart=cardAdj(startPoint);
 		}
 		function mkExitPoint(){//makes exit
 			let temp = getCorrdInGrid();
@@ -109,6 +110,16 @@
 			}
 			exitPoint = temp;
 			setBGColor(exitPoint,"red");
+		}
+		function mkWalls(){
+			for(i=0;i<Math.floor(Math.random()*((wT*hT)))+10;i++){
+				let temp = getCorrdInGrid()
+				if(temp==startPoint||temp==startPoint){
+					continue;
+				}
+				invals.push(temp);
+			}
+			setBGColor(invals,"black")
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
@@ -145,8 +156,8 @@
 			}
 		}
 		function CVM(corrdin){//check valid move
-			for(let i=0;i<walls.length;i++){
-				if(walls[i]==corrdin){
+			for(let i=0;i<invals.length;i++){
+				if(invals[i]==corrdin){
 					return true;//invalid move
 				}
 				console.log(i);
@@ -214,8 +225,7 @@
 				break;
 				default:
 				//invalid input for key
-				console.error("invalid input for key");
-				console.log("key = "+key);
+				return null;
 				//just have it return corrd so it doesn't break.
 			}
 			if(CVM(temp.toString())){
@@ -236,5 +246,66 @@
 	- hold the corrdinates that were travelled through, and make it so that those corrdinates can't be a wall.
 	*/
 	}
+	function oldPather(){
+		console.log("pather begins")
+		let newCorrds = [];//must be blank.
+		var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
+		const validCorrds = new Set([]);
+		for (let i = 0; i < wT * hT; i++) {
+			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
+				debugger;
+				let temp2=validCorrds.entries()
+				for(i=0;i<temp2.length;i=i+2){
+					temp2.splice(i,1);
+				}
+				setBGColor(temp2,"blue");
+				return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
+			}
+			for(let t=0;t<checkCorrds.length;t++){
+				//newCorrds.push(temp);
+				let tempCorrd = checkCorrds[t];
+				for(let i=37;i<=40;i++){//use this for state to get all corrdinates cardinally adjecent to a point.
+				let holdT = switchMovement(tempCorrd,i);
+				if(holdT==null){
+					continue;
+				} else{
+					newCorrds.push(holdT);
+				}
+				//console.log(temp);
+				}
+			}//end of checkcorrds.length for loop
+			for(let i=0;i<newCorrds.length;i++){
+				if(newCorrds[i]==exitPoint){//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
+					debugger;
+					let temp2=validCorrds.entries()
+					for(i=0;i<temp2.length;i=i+2){
+						temp2.splice(i,1);
+					}
+					setBGColor(temp2,"blue");
+					console.log("true")
+					return true;//exit is reachable from start
+				}
+			}
+			for(let i=0;i<checkCorrds.length;i++){//adds all of checkCorrds to valid corrdinates
+				validCorrds.add(checkCorrds[i]);//adds them to valid corrdinates	
+			}
+			checkCorrds = [];//empties checkCorrds
+			checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, makes check corrds = new Corrds
+			for(let i=0;i<validCorrds;i++){
+				let temp = checkCorrds.indexOf(validCorrds[i]);
+				if(temp!=-1){//if the indexOf function = -1, it couldn't find the input in the array.
+					checkCorrds.splice(temp,1);
+				}
+			}//this for loop removes any corrds that were already checked.
+		}//if it can't find the end point by the end of this, the end point is unreachable.
+		debugger;
+		let temp2=validCorrds.entries()
+		for(i=0;i<temp2.length;i=i+2){
+			temp2.splice(i,1);
+		}
+		console.log("false");
+		setBGColor(temp2,"blue");
+		return false; //is not to reach the end.
+    }
 	</script>
 </html>
