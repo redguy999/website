@@ -158,7 +158,7 @@
 		}
 		function checkOoB(corrd){//check Out of Bounds
 			let temp = corrd.split(",")
-			if(temp[0]<1||temp[1]<1||temp[0]>hT||temp[1]>wT){//this isn't working when it should fo
+			if(temp[0]<1||temp[1]<1||temp[0]>hT||temp[1]>wT){//i had accidentally flipped the max x and max y value, it has now been fixed.
 				return false;//outside grid
 			}
 			return true;//inside grid.
