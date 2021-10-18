@@ -92,7 +92,7 @@
 		var exitPoint = "8,8"
 		var walls = [];
 		function mkStartPoint(){// makes enterance
-			//startPoint = getCorrdInGrid();
+			startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
 			resetLocDisplay();
 			setBGColor(startPoint,"lightGreen");
@@ -218,7 +218,6 @@
 				console.log("key = "+key);
 				//just have it return corrd so it doesn't break.
 			}
-			debugger;//something here isn't working, for some reason.
 			if(CVM(temp.toString())){
 				return null;//impossible location.
 			}
