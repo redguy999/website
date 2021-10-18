@@ -88,11 +88,11 @@
 		}
 	</script>
 	<script>//for making stuff appear on the grid.
-		var startPoint = "1,1"
+		var startPoint = "8,1"
 		var exitPoint = "8,8"
 		var walls = [];
 		function mkStartPoint(){// makes enterance
-			startPoint = getCorrdInGrid();
+			//startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
 			resetLocDisplay();
 			setBGColor(startPoint,"lightGreen");
@@ -104,9 +104,9 @@
 		}
 		function mkExitPoint(){//makes exit
 			let temp = getCorrdInGrid();
-			while(adjStart(temp)){//should skip if this is false.
+			while(temp==startPoint){
 				temp = getCorrdInGrid();
-			}//should continue til a point not near the exit is made.
+			}
 			exitPoint = temp;
 			setBGColor(exitPoint,"red");
 		}
@@ -124,6 +124,9 @@
 			document.getElementById(playerLoc).innerHTML = "X";
 		}
 		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
+			if(tiles==null){//early exit in case something goes wrong.
+				return;
+			}
 			if(typeof(color)=="undefined"){
 				color = "white"//i hope this works.
 			}else if(typeof(color)!="string"){
@@ -155,18 +158,17 @@
 		}
 		function checkOoB(corrd){//check Out of Bounds
 			let temp = corrd.split(",")
-			if(temp[0]<1||temp[1]<1||temp[0]>wT||temp[1]>hT){
+			if(temp[0]<1||temp[1]<1||temp[0]>hT||temp[1]>wT){//this isn't working when it should fo
 				return false;//outside grid
 			}
 			return true;//inside grid.
 		}
 		function cardAdj(corra){//gets corrdinates that are cardinally adjecent to a given point.
-			if(typeof(corra)=="string"){
-				corra = corra.split(",");
-			}
 			let temp=[];
+			//debugger;//something here isn't working, for some reason.
 			for(let i=37;i<=40;i++){//use this for state to get all corrdinates cardinally adjecent to a point.
 				temp.push(switchMovement(corra,i));
+				//console.log(temp);
 			}
 			return temp;//returns array
 		}
@@ -181,14 +183,14 @@
 				return;//we don't need to do math on the location.
 			}
 			let temp=switchMovement(playerLoc,key)
-			/*if(CVM(temp)){//moved to switchMovement
-				return;//move is invalid.
-			}*/
+			if(temp==null){
+				return;//invalid movement.
+			}
 			playerLoc=temp;
 			resetLocDisplay()
 		}
 		function switchMovement(Corrd,key){//movement function, returns a string, or null if corrd is invalid.
-			let temp;//incase result becomes invalid, we need to return the orginial input.
+			let temp;//incase the result becomes invalid, we need to return the orginial input.
 			if(typeof(Corrd)=="string"){
 				 temp=Corrd.split(",");
 			} else if(typeof(Corrd)!="object"){//this else if is mostly for debugging purposes.
@@ -216,12 +218,17 @@
 				console.log("key = "+key);
 				//just have it return corrd so it doesn't break.
 			}
+			debugger;//something here isn't working, for some reason.
 			if(CVM(temp.toString())){
-				return Corrd;//impossible location.
+				return null;//impossible location.
 			}
 			return temp.toString();;//returns corrdinate as string
 		}
 	</script>
+	<!--copy this into a problem area if you think something is wrong.
+		debugger;//something here isn't working, for some reason.
+
+	-->
 	<script>//for random ideas about makig sure you can get to the end tile.
 	function mkPathToEnd(){//this would be ran before you make the walls.
 	/*how this is suppose to work:
