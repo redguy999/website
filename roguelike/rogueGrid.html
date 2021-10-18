@@ -46,15 +46,13 @@
 			corrdinates test:
 			for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
 		*/
-		function startGame(){
+		function startGame(){//start, end, finally walls.
 			makeGrid();
 			resetLocDisplay();
 			mkStartPoint();
 			mkExitPoint();
 			//addCorrdinates();for grid debugging
 		}
-
-
 		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
 			let temp="";//
 			let size = 100/wT;
@@ -202,5 +200,19 @@
 			}
 			return Corrd.toString();;//returns corrdinate as string
 		}
+	</script>
+	<script>//for random ideas about makig sure you can get to the end tile.
+	function mkPathToEnd(){//this would be ran before you make the walls.
+		let start = startPoint.split(",");
+		let end = exitPoint.split(",");
+		start[0]=Number(start[0]);
+		start[1]=Number(start[1]);
+		exit[0]=Number(exit[0]);
+		exit[1]=Number(exit[1])
+		let temp = [0,0]
+		if(start[0]>end[0]){
+
+		}
+	}
 	</script>
 </html>
