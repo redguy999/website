@@ -108,9 +108,7 @@
 					document.getElementById(x+","+y).innerHTML = "("+x+","+y+")"
 				}
 			}
-		}
-	</script>
-	<script>//for making stuff appear on the grid.
+		}//for making stuff appear on the grid.
 		function mkStartPoint(){// makes enterance
 			startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
@@ -204,9 +202,7 @@
 			}
 			return temp;//returns array
 		}
-
-	</script>
-	<script>//for the player
+	//for the player
 		var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
 		function keyPress(){
 			key = window.event.keyCode;
@@ -254,12 +250,8 @@
 			}
 			return temp.toString();;//returns corrdinate as string
 		}
-	</script>
-	<!--copy this into a problem area if you think something is wrong.
-		debugger;//something here isn't working, for some reason.
-
-	-->
-	<script>//for random ideas about makig sure you can get to the end tile.
+		//debugger;//something here isn't working, for some reason.
+	//for random ideas about makig sure you can get to the end tile.
 	function mkPathToEnd(){//this would be ran before you make the walls.
 	/*how this is suppose to work:
 	- figure out if the end point is above or below the start point, and if the end point is left or right of the start point
