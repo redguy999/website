@@ -230,7 +230,7 @@ function mkPathToEnd() {//this would be ran before you make the walls.
     */
 }
 function oldPather() {
-    console.log("pather begins")
+    //console.log("pather begins")
     let newCorrds = [];//must be blank.
     var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
     const validCorrds = new Set([]);
@@ -253,7 +253,7 @@ function oldPather() {
         }//end of checkcorrds.length for loop
         for (let i = 0; i < newCorrds.length; i++) {
             if (newCorrds[i] == exitPoint) {//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
-                console.log("true")
+                //console.log("true")
                 return true;//exit is reachable from start
             }
         }
@@ -270,6 +270,6 @@ function oldPather() {
             }
         }//this for loop removes any corrds that were already checked.
     }//if it can't find the end point by the end of this, the end point is unreachable.
-    console.log("false");
+    //console.log("false");
     return false; //is not to reach the end.
 }
