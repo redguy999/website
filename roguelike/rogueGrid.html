@@ -32,20 +32,17 @@
 	<script src="rogueFunctions.js">//for making the grid.
 	</script>
 	<script>
-		const Enemys = {//might not need this, but this would be to hold enemy info while we don't need it.
-			//the properties would be = to arrays.
-			//probably should just use a map for this.
-		}
-		function mkOtherStuff(){//issue, variables declare in a function, stay in a function.
-			
-		}
-		class TreasureConstruct{
-			constructor(contents,locked){
+		var entLocs = []//each entry will be a corrdinate string. all the entries will be where the location of all the enemies are.
+		const AllItems = ["gold"]//array contaning the name of every item possible.
+		class Item{
+			constructor(location,contents,amount,locked){
+				this.location = location;
 				this.contents = contents;//string or an object, figure that out at some point.
+				this.amount = amount;
 				this.locked = locked;//string or boolean, depending on if we want specific keys to open specific chests.
 			}
 		}
-		class EnemyConstructor{
+		class Enemy{
 			constructor(name,location,Mhealth,attack,defense,special){
 				this.name = name;//string
 				this.location = location;//string
@@ -53,9 +50,35 @@
 				this.health = Mhealth; //health starts equal to max health.
 				this.attack = attack; //number
 				this.defense = defense; //number
-				this.special = special;//no clue what this would be. maybe a map.
+				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
 			}
+			
 		}
-		
+		//classes above, objects and functions below:
+		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
+			placeItem();
+		}
+		function placeItem(){//might move this to the class of item.
+			item1.contents = "gold"//change this later.
+			let cg = getCorrdInGrid();
+			while(cg==startPoint||cg==exitPoint||walls.indexOf(cg)!=-1){
+				cg = getCorrdInGrid();
+			}
+			item1.location = cg;
+			entLocs.push(cg);
+			setBGColor(item1.location,"gold")
+		}
+		function getItemFromList(){
+			return AllItems[Math.floor(Math.random()*(AllItems.length-1))];//this won't need changed if the length of AllItems changes.
+
+		}
+		const Enemy1 = new Enemy("none",null,-1,-1,-1);//-1 means none for attack, defense, and health; 
+		const Enemy2 = new Enemy("none",null,-1,-1,-1);//but null means not on the grid for an enemy.
+		const Enemy3 = new Enemy("none",null,-1,-1,-1);
+		const Enemy4 = new Enemy("none",null,-1,-1,-1);
+		const Enemy5 = new Enemy("none",null,-1,-1,-1);//no more than 5 enemies at once.
+		const item1 = new Item(null);//no need to set the lock on something that doesn't exist.
+		const item2 = new Item(null);
+		const item3 = new Item(null);
 	</script>
 </html>
