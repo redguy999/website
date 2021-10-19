@@ -6,6 +6,7 @@ var startPoint = "8,1"
 var exitPoint = "8,8"
 var cordsAdjStart = [];//array of strings.
 var walls = [];
+var level = 1;//not player level.
 /*
 debugger;
 //this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
@@ -196,6 +197,21 @@ function keyPress() {
     }
     playerLoc = temp;
     resetLocDisplay()
+}
+function interact(){
+    if(playerLoc==exitPoint){
+        alert("you found the exit");
+        level++;
+        nextLevel();
+        return;
+    } 
+    try{//since the functions are not all together, this will stop working if it is removed.
+    if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
+        collectOrCombat();
+    }
+    } finally {
+
+    }
 }
 function switchMovement(Corrd, key) {//movement function, returns a string, or null if corrd is invalid.
     let temp;//incase the result becomes invalid, we need to return the orginial input.
