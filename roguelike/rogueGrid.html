@@ -41,16 +41,36 @@
 	</script>
 	<script>
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = ["gold coins","sword","shield","spear"]//array contaning the name of every item possible.
+		const AllItems = ["gold coin","sword","shield","spear"]//array contaning the name of every item possible.
 		const inventory = {
 			
 		}
-		class Item{
+		class treasure{
 			constructor(location,contents,amount,locked){
 				this.location = location;
 				this.contents = contents;//string or an object, figure that out at some point.
 				this.amount = amount;
 				this.locked = locked;//string or boolean, depending on if we want specific keys to open specific chests.
+				this.setProps = function(){//might make this several different functions.
+					this.contents = GIFL();
+					this.amount = Math.floor(Math.random()*5+1);
+					this.location = getCorrdInGrid();
+					while(this.location==startPoint||this.location==exitPoint||walls.indexOf(this.location)!=-1||entLocs.indexOf(this.location)!=-1){
+						this.location  = getCorrdInGrid();
+					}
+					//entLocs.push(this.location);
+					return this.location;
+				}
+				this.getItem = function(){
+					if(this.amount==1){
+						alert("you found a "+this.contents+".")
+					}else{
+						alert("you found some "+this.contents+"s.");//change this to log at the bottom console
+					}
+					setBGColor(this.location,"white");
+					this.location = null;
+					addToInventory(this.contents,this.amount);
+				}
 			}
 		}
 		class Enemy{
@@ -63,35 +83,47 @@
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
 			}
-			
 		}
 		//classes above, objects and functions below:
 		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
 			placeItems();
 		}
 		function placeItems(){//might move this to the class of item.
-			item1.contents = GIFL();//change this later.
-			item1.amount = Math.floor(Math.random()*5+1);
-			console.log(item1.amount)
-			let cg = getCorrdInGrid();
-			while(cg==startPoint||cg==exitPoint||walls.indexOf(cg)!=-1){
-				cg = getCorrdInGrid();
-			}
-			item1.location = cg;
-			entLocs.push(cg);
-			setBGColor(item1.location,"gold");
+			let temp = item1.setProps()
+			entLocs.push(temp)
+			setBGColor(temp,"gold");
+			temp = item2.setProps()
+			entLocs.push(temp)
+			setBGColor(temp,"gold");
+			temp = item3.setProps()
+			entLocs.push(temp)
+			setBGColor(temp,"gold");
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 		}
 		function collectOrCombat(){
-			if(item1.location==playerLoc){
-				alert("you found "+item1.contents+".");//might reword and move to aTI
-				addToInventory(item1.contents,item1.amount);
-			}//TODO, add the of these ifs later.
+			switch(playerLoc){
+				case item1.location:
+					item1.getItem();
+					break;
+				case item2.location:
+					item2.getItem();
+					break;
+				case item3.location:
+					item3.getItem();
+					break;
+			}
+			if(playerLoc==item1.location){
+				alert("it seems that the switch case is useless.")
+			}
 		}
 		function addToInventory(item,amount){
-			inventory[item]=amount;
+			if(typeof(inventory[item])=="undefined"){
+				inventory[item]=amount;
+			}else{
+			inventory[item]+=amount;
+			}
 			console.log(inventory);
 		}
 		const Enemy1 = new Enemy("none",null,-1,-1,-1);//-1 means none for attack, defense, and health; 
@@ -99,8 +131,8 @@
 		const Enemy3 = new Enemy("none",null,-1,-1,-1);
 		const Enemy4 = new Enemy("none",null,-1,-1,-1);
 		const Enemy5 = new Enemy("none",null,-1,-1,-1);//no more than 5 enemies at once.
-		const item1 = new Item(null);//no need to set the lock on something that doesn't exist.
-		const item2 = new Item(null);
-		const item3 = new Item(null);
+		const item1 = new treasure(null);
+		const item2 = new treasure(null);
+		const item3 = new treasure(null);
 	</script>
 </html>

@@ -28,6 +28,7 @@ function startGame() {//start, end, finally walls.
     mkWalls();
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
+        return;
     }			//addCorrdinates();for grid debugging
     try{
         mkOtherStuff();
@@ -42,6 +43,7 @@ function nextLevel() {//this may be called for reasons other than that the level
     mkWalls();
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
+        return;
     }
     try{
         mkOtherStuff();
