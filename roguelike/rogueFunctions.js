@@ -97,16 +97,17 @@ function mkExitPoint() {//makes exit
 function mkWalls() {
     walls = [];
     for (i = 0; i < Math.floor(Math.random() * ((wT * hT))) + 5; i++) {
-        let temp = getCorrdInGrid()
-        if (temp == startPoint || temp == exitPoint) {
-            continue;
-        }
-        walls.push(temp);
+        walls.push(getCorrdInGrid());
     }
     //debugger;
     walls = Array.from(new Set(walls));
     while (walls.length <= 20) {//adds more walls if theres too few walls.
         walls.push(getCorrdInGrid())//should add the item to the end of the list.
+    }
+    for(let i = 0;i<walls.length;i++){
+        if (walls[i] == startPoint || walls[i] == exitPoint) {
+            walls.splice(i,1);
+        }
     }
     setBGColor(walls, "black")
 }
