@@ -1,275 +1,274 @@
-//begin file
+//begin code for the grid and such.
 const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-var invals = []; //would declare a constant, but we need to be able to easily clear it at times.
-var start = "" //must be a string.
-var exit = "" //same as start
-var player = ""//same as start
-let wT = 8//number of columns of tiles
-let hT = 8//number of rows of tiles.
-//!!NOTICE!! make sure that the total number of tiles are greater than 16
-const inventory = {
-
-}//might need to be cleared at times, but shouldn't need completely overhauled very often.
-const stats = {
-
-}//shouldn't need to be cleared
-function startGame(){
+let hT = 8//number of columns of tiles, AKA the max x value.
+let wT = 10	//number of rows of tiles, AKA the max y value.
+var startPoint = "8,1"
+var exitPoint = "8,8"
+var cordsAdjStart = [];//array of strings.
+var walls = [];
+/*
+debugger;
+//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
+movement reference:
+original point: X,Y
+moving up: X,Y-1
+moving down: X,Y+1
+moving left: X-1,Y
+moving right: X+1,Y
+//corrdinate as a string "X,Y"; a corrdinate as an array ["X","Y"], array items can be either string or number
+//see function keyPress() for how movement works.
+corrdinates test:
+    for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
+*/
+function startGame() {//start, end, finally walls.
     makeGrid();
-    mkStart();
-    mkNotPositions();
-    mkEndPoint()
+    mkStartPoint();
+    mkExitPoint();
+    mkWalls();
+    if (!oldPather()) {
+        nextLevel();//exit unreachable, rerolling.
+    }			//addCorrdinates();for grid debugging
 }
-function mkStart(){
-    start = "";
-    let temp = Math.floor(Math.random()*(wT-2))+2;
-    let temp2 = Math.floor(Math.random()*(hT-2))+2;//modified these so that it can't be place next to the edge.
-    start = String(temp)+","+String(temp2);
-    setBGColor(start,"lightgreen");
-    player=start;
-    resetLocDisplay()
+function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
+    clearGrid();
+    mkStartPoint();
+    mkExitPoint();
+    mkWalls();
+    if (!oldPather()) {
+        nextLevel();//exit unreachable, rerolling.
+    }
 }
-function mkNotPositions(){
-    //gives an array of corrdinates, the corrdinates are corrdinates of which movement to should be inpossible.
-    //corrdinate format is the same as the ids for the grid tiles.
-    let maxInvals = Math.floor(Math.random()*((wT*hT)))+3; //max number of invalid tiles
-    invals = [];//need to clear it.
-    for(let i=0;i<maxInvals;i++){
-        invals[i]=getCorrdInGrid();
-    }
-    let temp = new Set(invals);
-    invals = Array.from(temp);//this little mess is for removing repeating corrdinates.
-    while(invals.length<=10){//adds more walls if theres too few walls.
-        invals.push(getCorrdInGrid())//should add the item to the end of the list.
-    }
-    temp = 0;//already declared.
-    for(let i=0;i<invals.length;i++){//check if it is impossible to move from the start. temp = 0 is a part of this.
-        if((typeof(invals[i])!="string")||invals[i]==start){//if the item is empty or the same as the start, this will be true
-            invals.splice(i,1)//the one is so that it only removes the invalid item
-        }
-        if(!cardAdjStart(invals[i])){//this check only sometimes works strangely.
-            temp++;
-            console.log(temp)
-        }
-        if(temp>=4){
-            console.log("ERROR: start is completely blocked.");
-            mkNotPositions();
-            return;
+function clearGrid() {
+    for (y = 1; y <= wT; y++) {
+        for (x = 1; x <= hT; x++) {
+            setBGColor(x + "," + y);
         }
     }
-    //console.log("final walls:")
-    //console.log(invals)
-    
-    //check for pathfinding here.
-
-    setBGColor(invals,"black")
-}//end of making the walls.
-function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
-    let temp = Math.floor(Math.random()*wT)+1;
-    let temp2 = Math.floor(Math.random()*hT)+1;
-    return String(temp)+","+String(temp2);
 }
-
-function mkEndPoint(){
-    exit = "";	
-    while(true==true){
-        let temp=getCorrdInGrid();
-        if(CVM(temp)){
-            if(adjStart(temp)){//made this a function so its less difficult to read this part.
-                //console.log("exit = " + temp);
-                exit=temp;
-                break;
-            }
-        }
-    }
-    setBGColor(exit,"red")
-}
-function cardAdjStart(corrd){
-    //adjcent to start, but only the cardinal directions, doesn't check the start point itself.
-    let attcorrd = corrd.split(",");
-    attcorrd[0]=Number(attcorrd[0]);
-    attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
-    for(let i=-1;i<=1;i=i+2){
-        for(let t=-1;t<=1;t=t+2){
-            let temp = [attcorrd[0]+i,attcorrd[1]+t];
-            temp=temp[0]+","+temp[1];
-            if(temp==start){
-                //console.log(false);
-                return false;//is adjecent
-            }
-        }
-    }
-    return true;//not adjecent.
-}
-function adjStart(corrd){//checks if corrd is adjecent to the start
-    let attcorrd = corrd.split(",");//will need to be changed to accomadate for several digits.
-    attcorrd[0]=Number(attcorrd[0]);
-    attcorrd[1]=Number(attcorrd[1]);//need to make sure these are numebrs.
-    for(let i=-1;i<=1;i++){
-        for(let t=-1;t<=1;t++){
-            let temp2 = [attcorrd[0]+i,attcorrd[1]+t];
-            temp2=temp2[0]+","+temp2[1];
-            if(temp2==start){
-                return false;//is adjecent
-            }
-        }
-    }
-    return true;//is not adjecent
-}
-function CVM(corrd){//CVM: check valid move. checks if corrd is a string.
-    if(typeof(corrd)!="string"){
-        console.log("ERROR: parameter corrd is invalid type");
-        return false;
-    }
-    for(i=0;i<invals.length;i++){
-        //console.log("i= "+i+"; invals[i]= "+invals[i]+";corrd= "+corrd);
-        if(invals[i]==corrd){
-            return false;//move is invalid.
-        }
-    }
-    let temp = corrd.split(",");
-    if((temp[0]<1||temp[0]>wT)||(temp[1]<1||temp[1]>hT)){
-        console.log("attempted location was too low or too high");
-        return false;
-    }
-    return true;//move is valid.
-}
-function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
-    if(typeof(color)=="undefined"){
-        color = "white"//i hope this works.
-    }else if(typeof(color)!="string"){
-        console.error("invalid input for parameter: color")
-        return;
-    }
-    if(typeof(tiles)=="object"){//arrays are objects
-        for(let i=0;i<tiles.length;i++){//assumes that all entries are strings.
-            document.getElementById(tiles[i]).style.backgroundColor = color;
-        }
-    } else if(typeof(tiles)=="string"){
-        document.getElementById(tiles).style.backgroundColor = color;
-    } else {
-        console.error("invalid input for parameter: tile(s)");
-        return;
-    }
-}
-//below is the stuff for actually making the character move and interact.
-function keyPress(){
-key = window.event.keyCode;
-if(key==32){
-    interact();
-    return;//we don't need to do math on the location.
-}
-let temp = player.split(",");
-console.log(key);
-temp[0]=Number(temp[0]);
-temp[1]=Number(temp[1]);
-switch(key){
-    case 40:
-    temp[1]=temp[1]+1;
-    break;
-    case 39:
-    temp[0]=temp[0]+1;
-    break;
-    case 38:
-    temp[1]=temp[1]-1;
-    break;
-    case 37:
-    temp[0]=temp[0]-1;
-    break;
-    default:
-    //some random key was pressed.
-    return;
-}
-temp=temp.toString();
-if(CVM(temp)!=true){
-    //console.log("invalid movement.")
-    return;//needs to return so player doesn't get inproperly set.
-}
-player=temp;
-resetLocDisplay();
-}
-
-function interact(){
-    //have it check if the player's position is equal to some item or something on the field.
-if(player==exit){
-    alert("you go down the stairs to the next floor.")
-    nextLevel()
-}
-}
-//functions that make the display look correct
-function nextLevel(){
-clearGrid();
-//grid doesn't need remade
-mkStart();
-mkNotPositions();
-mkEndPoint()
-}
-function makeGrid(){
-    let temp="";//
-    let size = 100/wT;
-    for(i=0;i<wT;i++){
-        temp =  temp + size+"% ";
-    }
-    document.getElementById("movementGrid").style.gridTemplateColumns = temp;
-    temp = "";
-    size = 100/hT;
-    for(i=0;i<hT;i++){
-        temp = temp + size+"% ";
+function makeGrid() {//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
+    let temp = "";//
+    let size = 100 / wT;
+    for (i = 0; i < wT; i++) {
+        temp = temp + size + "% ";//this and the next one is so that none of the tiles change size when the X moves to it.
     }
     document.getElementById("movementGrid").style.gridTemplateRows = temp;
-    for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-        for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
-            Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="'+t+","+i+'"></div>')
+    temp = "";
+    size = 100 / hT;
+    for (i = 0; i < hT; i++) {
+        temp = temp + size + "% ";
+    }
+    document.getElementById("movementGrid").style.gridTemplateColumns = temp;
+    for (y = 1; y <= wT; y++) {
+        for (x = 1; x <= hT; x++) {
+            Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="' + x + "," + y + '"></div>');
         }
     }
 }
-function clearGrid(){
-setBGColor(invals);
-//console.log("invals complete");
-setBGColor(start);
-setBGColor(exit);
-//invals gets cleared when the walls are remade.
-}
-function resetLocDisplay(){
-for(i=1;i<=wT;i++){//row one already exists, no need to make the first row again
-        for(t=1;t<=hT;t++){//'t' is columns, 'i' is rows
-            document.getElementById(i+","+t).innerHTML = "";
+/*to loop through every tiles, copy the nested for loops below:
+    for(y=1;y<=wT;y++){
+        for(x=1;x<=hT;x++){
+
         }
     }
-document.getElementById(player).innerHTML = "X";
+(x,y)*/
+function addCorrdinates() {//was used for debugging, currently useless.
+    for (y = 1; y <= wT; y++) {
+        for (x = 1; x <= hT; x++) {
+            document.getElementById(x + "," + y).innerHTML = "(" + x + "," + y + ")"
+        }
+    }
+}//for making stuff appear on the grid.
+function mkStartPoint() {// makes enterance
+    startPoint = getCorrdInGrid();
+    playerLoc = startPoint;
+    resetLocDisplay();
+    setBGColor(startPoint, "lightGreen");
+    //below paints the points cardinally adjecent to the start, just for testing.
+    cordsAdjStart = cardAdj(startPoint);
 }
-//test variable
-function checkIfPosible(){//credit to sirius for this.
-//checks if the level is posible
-
-var playerCoords = player.split(",")
-
-var openSquaresX = [playerCoords[0]]
-var openSquaresY = [playerCoords[1]]
-
-for (i = 0; i < wT * hT; i++) {
-for (j=0; j<openSquaresX.length; j++){
-  //don't know the code for checking valid so is using a place holder: isValid()
-  if (isValid(openSquaresX[j]+1, openSquaresY[j]+1)){
-    openSquaresX.append(openSquaresX[j]+1);
-    openSquaresY.append(openSquaresY[j]+1);
-  }
-  if (isValid(openSquaresX[j]+1, openSquaresY[j]-1)){
-    openSquaresX.append(openSquaresX[j]+1);
-    openSquaresY.append(openSquaresY[j]-1);
-  }
-  if (isValid(openSquaresX[j]-1, openSquaresY[j]+1)){
-    openSquaresX.append(openSquaresX[j]-1);
-    openSquaresY.append(openSquaresY[j]+1);
-  }
-  if (isValid(openSquaresX[j]-1, openSquaresY[j]-1)){
-    openSquaresX.append(openSquaresX[j]-1);
-    openSquaresY.append(openSquaresY[j]-1);
-  }
-  //place holder
-  if (isExit(openSquaresX[j], openSquaresY[j])){
-    return true
-  }
+function mkExitPoint() {//makes exit
+    let temp = getCorrdInGrid();
+    while (temp == startPoint) {
+        temp = getCorrdInGrid();
+    }
+    exitPoint = temp;
+    setBGColor(exitPoint, "red");
 }
+function mkWalls() {
+    walls = [];
+    for (i = 0; i < Math.floor(Math.random() * ((wT * hT))) + 5; i++) {
+        let temp = getCorrdInGrid()
+        if (temp == startPoint || temp == exitPoint) {
+            continue;
+        }
+        walls.push(temp);
+    }
+    //debugger;
+    walls = Array.from(new Set(walls));
+    while (walls.length <= 20) {//adds more walls if theres too few walls.
+        walls.push(getCorrdInGrid())//should add the item to the end of the list.
+    }
+    setBGColor(walls, "black")
 }
-return false; //is not posible
+function getCorrdInGrid() {//gets you a string that is a corrdinate on the grid.
+    let temp = Math.floor(Math.random() * hT) + 1;
+    let temp2 = Math.floor(Math.random() * wT) + 1;
+    return String(temp) + "," + String(temp2);
+}
+function resetLocDisplay() {
+    for (y = 1; y <= wT; y++) {
+        for (x = 1; x <= hT; x++) {
+            document.getElementById(x + "," + y).innerHTML = "";
+        }
+    }
+    document.getElementById(playerLoc).innerHTML = "X";
+}
+function setBGColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
+    if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
+        return;
+    }
+    if (typeof (color) == "undefined") {
+        color = "white"//i hope this works.
+    } else if (typeof (color) != "string") {
+        throw "invalid input for parameter: color";
+        return;
+    }
+    if (typeof (tiles) == "object") {//arrays are objects
+        for (let i = 0; i < tiles.length; i++) {//assumes that all entries are strings.
+            document.getElementById(tiles[i]).style.backgroundColor = color;
+        }
+    } else if (typeof (tiles) == "string") {
+        document.getElementById(tiles).style.backgroundColor = color;
+    } else {
+        throw "invalid input for parameter: tile(s)";
+        return;
+    }
+}
+function CVM(corrdin) {//check valid move
+    for (let i = 0; i < walls.length; i++) {
+        if (walls[i] == corrdin) {
+            return true;//invalid move
+        }
+    }
+    if (!checkOoB(corrdin)) {//not sure why i made it a function but it works.
+        return true;//invalid move
+    }
+    return false;//failed to find a valid reason that the move would be invalid.
+}
+function checkOoB(corrd) {//check Out of Bounds
+    let temp = corrd.split(",")
+    if (temp[0] < 1 || temp[1] < 1 || temp[0] > hT || temp[1] > wT) {//i had accidentally flipped the max x and max y value, it has now been fixed.
+        return false;//outside grid
+    }
+    return true;//inside grid.
+}
+function cardAdj(corra) {//gets corrdinates that are cardinally adjecent to a given point.
+    let temp = [];
+    //debugger;//something here isn't working, for some reason.
+    for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
+        temp.push(switchMovement(corra, i));
+        //console.log(temp);
+    }
+    return temp;//returns array
+}
+//for the player
+var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
+function keyPress() {
+    key = window.event.keyCode;
+    if (key == 32) {
+        interact();
+        return;//we don't need to do math on the location.
+    }
+    let temp = switchMovement(playerLoc, key)
+    if (temp == null) {
+        return;//invalid movement.
+    }
+    playerLoc = temp;
+    resetLocDisplay()
+}
+function switchMovement(Corrd, key) {//movement function, returns a string, or null if corrd is invalid.
+    let temp;//incase the result becomes invalid, we need to return the orginial input.
+    if (typeof (Corrd) == "string") {
+        temp = Corrd.split(",");
+    } else if (typeof (Corrd) != "object") {//this else if is mostly for debugging purposes.
+        throw "invalid parameter for Corrd.";
+        return null;//invalid input.
+    } else {//neither "if" will be true if corrd is a string or an array.
+        temp = Corrd;
+    }
+    switch (key) {//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
+        case 40:
+            temp[1] = Number(temp[1]) + 1;//down
+            break;
+        case 39://the Number() in the first 2 cases is so that 1+1!=11
+            temp[0] = Number(temp[0]) + 1;//right
+            break;
+        case 38:
+            temp[1] = temp[1] - 1;//up
+            break;
+        case 37:
+            temp[0] = temp[0] - 1;//left
+            break;
+        default:
+            //invalid input for key
+            return null;
+        //just have it return corrd so it doesn't break.
+    }
+    if (CVM(temp.toString())) {
+        return null;//impossible location.
+    }
+    return temp.toString();;//returns corrdinate as string
+}
+//debugger;//something here isn't working, for some reason.
+//for random ideas about makig sure you can get to the end tile.
+function mkPathToEnd() {//this would be ran before you make the walls.
+    /*how this is suppose to work:
+    - figure out if the end point is above or below the start point, and if the end point is left or right of the start point
+    - use the previous information to move towards the end point from the start.
+    - hold the corrdinates that were travelled through, and make it so that those corrdinates can't be a wall.
+    */
+}
+function oldPather() {
+    console.log("pather begins")
+    let newCorrds = [];//must be blank.
+    var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
+    const validCorrds = new Set([]);
+    for (let i = 0; i < wT * hT / 2; i++) {
+        if (typeof (checkCorrds[0]) == "undefined") {//first entry doesn't exist meaning the array is empty
+            return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
+        }
+        for (let t = 0; t < checkCorrds.length; t++) {
+            //newCorrds.push(temp);
+            let tempCorrd = checkCorrds[t];
+            for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
+                let holdT = switchMovement(tempCorrd, i);
+                if (holdT == null) {
+                    continue;
+                } else {
+                    newCorrds.push(holdT);
+                }
+                //console.log(temp);
+            }
+        }//end of checkcorrds.length for loop
+        for (let i = 0; i < newCorrds.length; i++) {
+            if (newCorrds[i] == exitPoint) {//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
+                console.log("true")
+                return true;//exit is reachable from start
+            }
+        }
+        for (let i = 0; i < checkCorrds.length; i++) {//adds all of checkCorrds to valid corrdinates
+            validCorrds.add(checkCorrds[i]);//adds them to valid corrdinates	
+        }
+        checkCorrds = [];//empties checkCorrds
+        checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, makes check corrds = new Corrds
+        newCorrds = [];//clear it so it doesn't get really big.
+        for (let i = 0; i < validCorrds; i++) {
+            let temp = checkCorrds.indexOf(validCorrds[i]);
+            if (temp != -1) {//if the indexOf function = -1, it couldn't find the input in the array.
+                checkCorrds.splice(temp, 1);
+            }
+        }//this for loop removes any corrds that were already checked.
+    }//if it can't find the end point by the end of this, the end point is unreachable.
+    console.log("false");
+    return false; //is not to reach the end.
 }
