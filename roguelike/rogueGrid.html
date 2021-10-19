@@ -23,6 +23,7 @@
 			}
 		</style>
 	</head>
+	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
 	<body onload="startGame()" onkeydown="keyPress()">
 		<div id="movementGrid">
 
@@ -31,6 +32,30 @@
 	<script src="rogueFunctions.js">//for making the grid.
 	</script>
 	<script>
+		const Enemys = {//might not need this, but this would be to hold enemy info while we don't need it.
+			//the properties would be = to arrays.
+			//probably should just use a map for this.
+		}
+		function mkOtherStuff(){//issue, variables declare in a function, stay in a function.
+			
+		}
+		class TreasureConstruct{
+			constructor(contents,locked){
+				this.contents = contents;//string or an object, figure that out at some point.
+				this.locked = locked;//string or boolean, depending on if we want specific keys to open specific chests.
+			}
+		}
+		class EnemyConstructor{
+			constructor(name,location,Mhealth,attack,defense,special){
+				this.name = name;//string
+				this.location = location;//string
+				this.Mhealth = Mhealth;//number
+				this.health = Mhealth; //health starts equal to max health.
+				this.attack = attack; //number
+				this.defense = defense; //number
+				this.special = special;//no clue what this would be. maybe a map.
+			}
+		}
 		
 	</script>
 </html>

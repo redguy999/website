@@ -28,6 +28,11 @@ function startGame() {//start, end, finally walls.
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
     }			//addCorrdinates();for grid debugging
+    try{
+        mkOtherStuff();
+    } finally{
+        //proceed if it doesn't work.
+    }
 }
 function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
     clearGrid();
@@ -36,6 +41,11 @@ function nextLevel() {//this may be called for reasons other than that the level
     mkWalls();
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
+    }
+    try{
+        mkOtherStuff();
+    } finally{
+         //proceed if it doesn't work.
     }
 }
 function clearGrid() {
