@@ -32,6 +32,10 @@
 		const Mogrid = document.getElementById("movementGrid"); //shouldn't change
 		let hT = 8//number of columns of tiles, AKA the max x value.
 		let wT = 10	//number of rows of tiles, AKA the max y value.
+		var startPoint = "8,1"
+		var exitPoint = "8,8"
+		var cordsAdjStart = [];//array of strings.
+		var walls = [];
 		/*
 		debugger;
 		//this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
@@ -48,12 +52,29 @@
 		*/
 		function startGame(){//start, end, finally walls.
 			makeGrid();
-			resetLocDisplay();
 			mkStartPoint();
 			mkExitPoint();
 			mkWalls();
-			oldPather();
+			if(!oldPather()){
+				nextLevel();//exit unreachable, rerolling.
+			}
 			//addCorrdinates();for grid debugging
+		}
+		function nextLevel(){//this may be called for reasons other than that the level was completed, so put the level counter in interact.
+			clearGrid();
+			mkStartPoint();
+			mkExitPoint();
+			mkWalls();
+			if(!oldPather()){
+				nextLevel();//exit unreachable, rerolling.
+			}
+		}
+		function clearGrid(){
+			for(y=1;y<=wT;y++){
+				for(x=1;x<=hT;x++){
+					setBGColor(x+","+y);
+				}
+			}
 		}
 		function makeGrid(){//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING.
 			let temp="";//
@@ -90,11 +111,6 @@
 		}
 	</script>
 	<script>//for making stuff appear on the grid.
-		var startPoint = "8,1"
-		var exitPoint = "8,8"
-		var cordsAdjStart = [];//array of strings.
-		var walls = [];
-		var invals = [];
 		function mkStartPoint(){// makes enterance
 			startPoint = getCorrdInGrid();
 			playerLoc = startPoint;
@@ -112,14 +128,20 @@
 			setBGColor(exitPoint,"red");
 		}
 		function mkWalls(){
-			for(i=0;i<Math.floor(Math.random()*((wT*hT)))+10;i++){
+			walls=[];
+			for(i=0;i<Math.floor(Math.random()*((wT*hT)))+5;i++){
 				let temp = getCorrdInGrid()
-				if(temp==startPoint||temp==startPoint){
+				if(temp==startPoint||temp==exitPoint){
 					continue;
 				}
-				invals.push(temp);
+				walls.push(temp);
 			}
-			setBGColor(invals,"black")
+			//debugger;
+			walls=Array.from(new Set(walls));
+			while(walls.length<=20){//adds more walls if theres too few walls.
+				walls.push(getCorrdInGrid())//should add the item to the end of the list.
+			}
+			setBGColor(walls,"black")
 		}
 		function getCorrdInGrid(){//gets you a string that is a corrdinate on the grid.
 			let temp = Math.floor(Math.random()*hT)+1;
@@ -135,7 +157,7 @@
 			document.getElementById(playerLoc).innerHTML = "X";
 		}
 		function setBGColor(tiles,color){//sets background colors; color must be a string, tiles must be a string or an array.
-			if(tiles==null){//early exit in case something goes wrong.
+			if(tiles==null){//early exit in case something goes wrong. was likely only possible because of debugging.
 				return;
 			}
 			if(typeof(color)=="undefined"){
@@ -156,11 +178,10 @@
 			}
 		}
 		function CVM(corrdin){//check valid move
-			for(let i=0;i<invals.length;i++){
-				if(invals[i]==corrdin){
+			for(let i=0;i<walls.length;i++){
+				if(walls[i]==corrdin){
 					return true;//invalid move
 				}
-				console.log(i);
 			}
 			if(!checkOoB(corrdin)){//not sure why i made it a function but it works.
 				return true;//invalid move
@@ -253,7 +274,6 @@
 		const validCorrds = new Set([]);
 		for (let i = 0; i < wT * hT/2; i++) {
 			if(typeof(checkCorrds[0])=="undefined"){//first entry doesn't exist meaning the array is empty
-				setBGColor(validCorrds,"blue");
 				return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
 			}
 			for(let t=0;t<checkCorrds.length;t++){
@@ -271,7 +291,6 @@
 			}//end of checkcorrds.length for loop
 			for(let i=0;i<newCorrds.length;i++){
 				if(newCorrds[i]==exitPoint){//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
-					setBGColor(validCorrds,"blue");
 					console.log("true")
 					return true;//exit is reachable from start
 				}
@@ -290,7 +309,6 @@
 			}//this for loop removes any corrds that were already checked.
 		}//if it can't find the end point by the end of this, the end point is unreachable.
 		console.log("false");
-		setBGColor(validCorrds,"blue");
 		return false; //is not to reach the end.
     }
 	</script>
