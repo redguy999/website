@@ -2,16 +2,24 @@
 	<head>
 		<title>basic grid tester</title>
 		<style>
-			#movementGrid{
+			body{
 				margin:0;
+			}
+			#movementGrid{
+				margin-top:0;
+				margin:auto;
 				display:grid;
 				/*grid-template-columns: auto auto auto auto auto; moved to JS*/
+				align-content: center;
 				max-width:99vw;
-				width:99vw;
+				width:70vw;
 				max-height:98vh;
-				height: 98vh;
+				height: 80vh;
+				border:black 5px double;
+
 			}
 			#movementGrid>div{
+				margin:auto;
 				width:90%;
 				max-width:90%;
 				height:90%;
