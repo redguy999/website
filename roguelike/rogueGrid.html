@@ -45,6 +45,9 @@
 		const inventory = {
 			
 		}
+		const equipement = {//gonna need to overhaul how items work before i can do this.
+
+		}
 		class treasure{
 			constructor(location,contents,amount,locked){
 				this.location = location;
@@ -146,7 +149,8 @@
 		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
 			placeItems();
 		}
-		function placeItems(){//might move this to the class of item.
+		function placeItems(){//might move this to the class of item
+			entLocs = [];
 			let temp = item1.setProps();
 			entLocs.push(temp);
 			setBGColor(temp,"gold");
@@ -160,7 +164,7 @@
 		}
 		function placeEnemies(){
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
-			console.log("RND = "+RND)
+			console.log("RNG = "+RNG);
 			if(RNG>=1){
 			enemy1.health=enemy1.Mhealth;//full heal.
 			entLocs.push(enemy1.setLoc());
