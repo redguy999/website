@@ -156,21 +156,42 @@
 			temp = item3.setProps();
 			entLocs.push(temp);
 			setBGColor(temp,"gold");
-			//enemies below:
-			temp = enemy1.setLoc();
+			placeEnemies();
+		}
+		function placeEnemies(){
+			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
+			console.log("RND = "+RND)
+			if(RNG>=1){
 			enemy1.health=enemy1.Mhealth;//full heal.
-			entLocs.push(temp);
-			setBGColor(temp,"orange");
-			temp = enemy2.setLoc();
-			enemy2.health=enemy2.Mhealth;
-			entLocs.push(temp);
-			setBGColor(temp,"grey");
+			entLocs.push(enemy1.setLoc());
+			setBGColor(enemy1.location,"orange");
+			}
+			if(RNG>=2){
+			enemy2.health=enemy2.Mhealth;//full heal.
+			entLocs.push(enemy2.setLoc());
+			setBGColor(enemy2.location,"grey");
+			}
+			if(RNG>=3){
+			enemy3.health=enemy3.Mhealth;//full heal.
+			entLocs.push(enemy3.setLoc());
+			setBGColor(enemy3.location,"orange");
+			}
+			if(RNG>=4){
+			enemy4.health=enemy4.Mhealth;//full heal.
+			entLocs.push(enemy4.setLoc());
+			setBGColor(enemy4.location,"orange");
+			}
+			if(RNG>=5){
+			enemy5.health=enemy5.Mhealth;//full heal.
+			entLocs.push(enemy5.setLoc());
+			setBGColor(enemy5.location,"orange");
+			}
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 		}
-		function setEnemyStats(name){//would use a given name to determine the stats of an enemy.
-			
+		function setEnemyStats(name){//not sure if i should have it determine which type of enemy it will be in this function, or beforehand.
+			//currently, this function is useless, but it would be later used to
 		}
 		function collectOrCombat(){
 			switch(playerLoc){
@@ -213,9 +234,9 @@
 		}
 		const enemy1 = new enemy("Goblin",10,1,0);//0 means none for health, attack, and defense; 
 		const enemy2 = new enemy("Armored goblin",10,5,3);
-		// const enemy3 = new enemy("none",-1,-1,-1);
-		// const enemy4 = new enemy("none",-1,-1,-1);
-		// const enemy5 = new enemy("none",-1,-1,-1);//no more than 5 enemies at once.
+		const enemy3 = new enemy("Goblin",10,1,0);
+		const enemy4 = new enemy("Goblin",10,1,0);
+		const enemy5 = new enemy("Goblin",10,1,0);//no more than 5 enemies at once.
 		const item1 = new treasure(null);
 		const item2 = new treasure(null);
 		const item3 = new treasure(null);
