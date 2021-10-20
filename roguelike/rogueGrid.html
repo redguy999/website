@@ -45,7 +45,7 @@
 		const inventory = {
 			
 		}
-		const equipement = {//gonna need to overhaul how items work before i can do this.
+		const equipement = {//might need to overhaul how items work before i can do this.
 
 		}
 		class treasure{
@@ -54,16 +54,6 @@
 				this.contents = contents;//string or an object, figure that out at some point.
 				this.amount = amount;
 				this.locked = locked;//string or boolean, depending on if we want specific keys to open specific chests.
-				this.setProps = function(){//might make this several different functions.
-					this.contents = GIFL();
-					this.amount = Math.floor(Math.random()*5+1);
-					this.location = getCorrdInGrid();
-					while(this.location==startPoint||this.location==exitPoint||walls.indexOf(this.location)!=-1||entLocs.indexOf(this.location)!=-1){
-						this.location  = getCorrdInGrid();
-					}
-					//entLocs.push(this.location);
-					return this.location;
-				}
 				this.getItem = function(){
 					if(this.amount==1){
 						alert("you found a "+this.contents+".")
@@ -116,13 +106,6 @@
 					}
 					player.hurtPlayer(this.attack);
 				}
-				this.setLoc = function(){//might move this to another function, but its just one for now.
-					this.location = getCorrdInGrid();
-					while(this.location==startPoint||this.location==exitPoint||walls.indexOf(this.location)!=-1||entLocs.indexOf(this.location)!=-1){
-						this.location  = getCorrdInGrid();
-					}
-					return this.location;
-				}
 			}
 		}
 		const player = {//could probably move the location variable here but that would be kinda annoying.
@@ -151,44 +134,37 @@
 		}
 		function placeItems(){//might move this to the class of item
 			entLocs = [];
-			let temp = item1.setProps();
-			entLocs.push(temp);
-			setBGColor(temp,"gold");
-			temp = item2.setProps();
-			entLocs.push(temp);
-			setBGColor(temp,"gold");
-			temp = item3.setProps();
-			entLocs.push(temp);
-			setBGColor(temp,"gold");
+			for(i=0;i<iList.length;i++){//should set all the items.
+				iList[i]["contents"] = GIFL();
+				iList[i]["amount"] = Math.floor(Math.random()*5+1);
+				let temp = getCorrdInGrid();
+				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
+					temp  = getCorrdInGrid();
+				}
+				iList[i]["location"] = temp;
+				entLocs.push(temp);
+				setBGColor(temp,"gold");
+			}
 			placeEnemies();
 		}
 		function placeEnemies(){
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
 			console.log("RNG = "+RNG);
-			if(RNG>=1){
-			enemy1.health=enemy1.Mhealth;//full heal.
-			entLocs.push(enemy1.setLoc());
-			setBGColor(enemy1.location,"orange");
-			}
-			if(RNG>=2){
-			enemy2.health=enemy2.Mhealth;//full heal.
-			entLocs.push(enemy2.setLoc());
-			setBGColor(enemy2.location,"grey");
-			}
-			if(RNG>=3){
-			enemy3.health=enemy3.Mhealth;//full heal.
-			entLocs.push(enemy3.setLoc());
-			setBGColor(enemy3.location,"orange");
-			}
-			if(RNG>=4){
-			enemy4.health=enemy4.Mhealth;//full heal.
-			entLocs.push(enemy4.setLoc());
-			setBGColor(enemy4.location,"orange");
-			}
-			if(RNG>=5){
-			enemy5.health=enemy5.Mhealth;//full heal.
-			entLocs.push(enemy5.setLoc());
-			setBGColor(enemy5.location,"orange");
+			for(let i=0;i<RNG;i++){
+				if(Math.floor(Math.random()*2)=0){
+					eList.push(new enemy("Goblin",10,1,0));
+				} else {
+					eList.push(new enemy("Armored goblin",15,5,3));
+				}
+				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
+				let temp= getCorrdInGrid();
+				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
+					temp  = getCorrdInGrid();
+				}
+				eList[i]["location"]=temp;
+				document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
+				entLocs.push(eList[i]["location"]);
+				setBGColor(eList[i]["location"],"orange");
 			}
 		}
 		function GIFL(){//get item from list
@@ -198,36 +174,44 @@
 			//currently, this function is useless, but it would be later used to
 		}
 		function collectOrCombat(){
-			switch(playerLoc){
-				case item1.location:
-					item1.getItem();
-					break;
-				case item2.location:
-					item2.getItem();
-					break;
-				case item3.location:
-					item3.getItem();
-					break;
-				case enemy1.location:
-					enemy1.hurt(player.attack);
-					break;
-				case enemy2.location:
-					enemy2.hurt(player.attack);
-					break;
-				case enemy3.location:
-					enemy3.hurt(player.attack);
-					break;
-				case enemy4.location:
-					enemy4.hurt(player.attack);
-					break;
-				case enemy5.location:
-					enemy5.hurt(player.attack);
-					break;
+			for(let i=0;i<iList.length;i++){
+				if(iList[i]["location"]==playerLoc){
+					iList[i].getItem();
+				}
 			}
-			if(playerLoc==item1.location){
-				alert("it seems that the switch case is useless.")
+			for(let i=0;i<eList.length;i++){
+				if(eList[i]["location"]==playerLoc){
+					eList[i].hurt(player.attack);
+				}
 			}
+			// switch(playerLoc){
+			// 	case item1.location:
+			// 		item1.getItem();
+			// 		break;
+			// 	case item2.location:
+			// 		item2.getItem();
+			// 		break;
+			// 	case item3.location:
+			// 		item3.getItem();
+			// 		break;
+			// 	case enemy1.location:
+			// 		enemy1.hurt(player.attack);
+			// 		break;
+			// 	case enemy2.location:
+			// 		enemy2.hurt(player.attack);
+			// 		break;
+			// 	case enemy3.location:
+			// 		enemy3.hurt(player.attack);
+			// 		break;
+			// 	case enemy4.location:
+			// 		enemy4.hurt(player.attack);
+			// 		break;
+			// 	case enemy5.location:
+			// 		enemy5.hurt(player.attack);
+			// 		break;
+			// }
 		}
+		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
 		function addToInventory(item,amount){
 			if(typeof(inventory[item])=="undefined"){
 				inventory[item]=amount;
@@ -236,13 +220,16 @@
 			}
 			console.log(inventory);
 		}
+		//new enemy("Goblin",10,1,0)
+		//new enemy("Armored goblin",15,5,3)
+		const eList = [];
+		//console.log(eList[1]["health"])//displays the health of the second enemy in the array.
+		//eList objects being constructed inside the array is only temporary, that will be moved.
+		const iList = [new treasure(null),new treasure(null),new treasure(null)];
 		const enemy1 = new enemy("Goblin",10,1,0);//0 means none for health, attack, and defense; 
 		const enemy2 = new enemy("Armored goblin",10,5,3);
 		const enemy3 = new enemy("Goblin",10,1,0);
 		const enemy4 = new enemy("Goblin",10,1,0);
 		const enemy5 = new enemy("Goblin",10,1,0);//no more than 5 enemies at once.
-		const item1 = new treasure(null);
-		const item2 = new treasure(null);
-		const item3 = new treasure(null);
 	</script>
 </html>

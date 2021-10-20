@@ -129,13 +129,23 @@ function getCorrdInGrid() {//gets you a string that is a corrdinate on the grid.
     let temp2 = Math.floor(Math.random() * wT) + 1;
     return String(temp) + "," + String(temp2);
 }
-function resetLocDisplay() {
+function clearLocDisplay(){
     for (y = 1; y <= wT; y++) {
         for (x = 1; x <= hT; x++) {
             document.getElementById(x + "," + y).innerHTML = "";
         }
     }
+}
+function resetLocDisplay() {
+    clearLocDisplay()
     document.getElementById(playerLoc).innerHTML = "X";
+    try{
+        for(let i=0;i<eList.length;i++){
+            document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"];
+        }
+    } catch {
+        console.log("can't read it.")
+    }
 }
 function setBGColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
     if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
