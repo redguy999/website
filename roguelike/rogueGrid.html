@@ -84,6 +84,11 @@
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
 				this.hurt = function(damg){
+					if(this.defense>damg*2){//if defense is over double the attack, completely negate the damage
+						console.log("the enemy's armor completely protects them from harm!");
+						this.fight();
+						return;
+					}
 					//probably some check for special attributes, oh and also defense
 					//if the enemy doesn't have "health" which can be determined by checking max health, call a special function.
 					this.health-=damg;
@@ -102,7 +107,7 @@
 					entLocs.slice(entLocs.indexOf(this.location),1);
 					this.location = null;
 				}
-				this.fight = function(){
+				this.fight = function(){//might make it able to attack anyone.
 					if(this.attack==0){
 						return;//early exit in case the enemy can't attack.
 					}
@@ -129,8 +134,8 @@
 				console.log("you have "+this.health+"HP remaning.");
 				if(this.health>this.Mhealth){//function can be used for healing.
 					this.health=this.Mhealth;
-				} else if(this.health<0){
-					console.log("oh no we're dead.")
+				} else if(this.health<=0){
+					alert("oh no we're dead.");
 					//insert calling game over function here.
 					return;
 				}
@@ -151,12 +156,21 @@
 			temp = item3.setProps();
 			entLocs.push(temp);
 			setBGColor(temp,"gold");
+			//enemies below:
 			temp = enemy1.setLoc();
+			enemy1.health=enemy1.Mhealth;//full heal.
 			entLocs.push(temp);
 			setBGColor(temp,"orange");
+			temp = enemy2.setLoc();
+			enemy2.health=enemy2.Mhealth;
+			entLocs.push(temp);
+			setBGColor(temp,"grey");
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
+		}
+		function setEnemyStats(name){//would use a given name to determine the stats of an enemy.
+			
 		}
 		function collectOrCombat(){
 			switch(playerLoc){
@@ -172,6 +186,18 @@
 				case enemy1.location:
 					enemy1.hurt(player.attack);
 					break;
+				case enemy2.location:
+					enemy2.hurt(player.attack);
+					break;
+				case enemy3.location:
+					enemy3.hurt(player.attack);
+					break;
+				case enemy4.location:
+					enemy4.hurt(player.attack);
+					break;
+				case enemy5.location:
+					enemy5.hurt(player.attack);
+					break;
 			}
 			if(playerLoc==item1.location){
 				alert("it seems that the switch case is useless.")
@@ -185,8 +211,8 @@
 			}
 			console.log(inventory);
 		}
-		const enemy1 = new enemy("goblin",10,1,0);//0 means none for health, attack, and defense; 
-		// const enemy2 = new enemy("none",-1,-1,-1);//but null means not on the grid for an enemy.
+		const enemy1 = new enemy("Goblin",10,1,0);//0 means none for health, attack, and defense; 
+		const enemy2 = new enemy("Armored goblin",10,5,3);
 		// const enemy3 = new enemy("none",-1,-1,-1);
 		// const enemy4 = new enemy("none",-1,-1,-1);
 		// const enemy5 = new enemy("none",-1,-1,-1);//no more than 5 enemies at once.
