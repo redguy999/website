@@ -68,12 +68,13 @@
 						alert("you found some "+this.contents+"s.");//change this to log at the bottom console
 					}
 					setBGColor(this.location,"white");
+					entLocs.slice(indexOf(this.location),1);
 					this.location = null;
 					addToInventory(this.contents,this.amount);
 				}
 			}
 		}
-		class Enemy{
+		class enemy{
 			constructor(name,location,Mhealth,attack,defense,special){
 				this.name = name;//string
 				this.location = location;//string
@@ -82,22 +83,74 @@
 				this.attack = attack; //number
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
+				this.hurt = function(damg){//how would i go about calling this?
+					//probably some check for special attributes, oh and also defense
+					this.health-=damg;
+					console.log(this.health);
+					if(this.health>this.Mhealth){//this function can be used for healing too.
+						this.health=this.Mhealth;
+					} else if(this.health<0){
+						this.dead()
+						return;//need to early return because otherwise attack runs.
+					}
+				}
+				this.dead = function(){
+					alert("you have defeated the "+this.name+".");
+					setBGColor(this.location,"white");
+					entLocs.slice(indexOf(this.location),1);
+					this.location = null;
+				}
+				this.attack = function(){
+					if(this.attack==0){
+						return;//early exit in case the enemy can't attack.
+					}
+					player.hurtPlayer(this.attack);
+				}
+				this.setLoc = function(){//might move this to another function, but its just one for now.
+					this.location = getCorrdInGrid();
+					while(this.location==startPoint||this.location==exitPoint||walls.indexOf(this.location)!=-1||entLocs.indexOf(this.location)!=-1){
+						this.location  = getCorrdInGrid();
+					}
+					return this.location;
+				}
 			}
+		}
+		const player = {//could probably move the location variable here but that would be kinda annoying.
+			attack:1,//default values, attack should never go below 1 while alive.
+			defense:0,
+			health:100,
+			special:null,//null means none
+			hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
+				//defense and specail attribute checks go here.
+				this.health-=damg;
+				console.log("you have "+this.health+"HP remaning.");
+				if(this.health>this.Mhealth){//function can be used for healing.
+					this.health=this.Mhealth;
+				} else if(this.health<0){
+					console.log("oh no we're dead.")
+					//insert calling game over function here.
+					return;
+				}
+			}
+
 		}
 		//classes above, objects and functions below:
 		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
 			placeItems();
 		}
 		function placeItems(){//might move this to the class of item.
-			let temp = item1.setProps()
-			entLocs.push(temp)
+			let temp = item1.setProps();
+			entLocs.push(temp);
 			setBGColor(temp,"gold");
-			temp = item2.setProps()
-			entLocs.push(temp)
+			temp = item2.setProps();
+			entLocs.push(temp);
 			setBGColor(temp,"gold");
-			temp = item3.setProps()
-			entLocs.push(temp)
+			temp = item3.setProps();
+			entLocs.push(temp);
 			setBGColor(temp,"gold");
+			temp = enemy1.setLoc();
+			entLocs.push(temp);
+			setBGColor(temp,"orange");
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
@@ -113,6 +166,9 @@
 				case item3.location:
 					item3.getItem();
 					break;
+				case enemy1.location:
+					enemy1.hurt(player.attack);
+					break;
 			}
 			if(playerLoc==item1.location){
 				alert("it seems that the switch case is useless.")
@@ -126,11 +182,11 @@
 			}
 			console.log(inventory);
 		}
-		const Enemy1 = new Enemy("none",null,-1,-1,-1);//-1 means none for attack, defense, and health; 
-		const Enemy2 = new Enemy("none",null,-1,-1,-1);//but null means not on the grid for an enemy.
-		const Enemy3 = new Enemy("none",null,-1,-1,-1);
-		const Enemy4 = new Enemy("none",null,-1,-1,-1);
-		const Enemy5 = new Enemy("none",null,-1,-1,-1);//no more than 5 enemies at once.
+		const enemy1 = new enemy("goblin",null,10,0,0);//0 means none for health, attack, and defense; 
+		// const enemy2 = new enemy("none",null,-1,-1,-1);//but null means not on the grid for an enemy.
+		// const enemy3 = new enemy("none",null,-1,-1,-1);
+		// const enemy4 = new enemy("none",null,-1,-1,-1);
+		// const enemy5 = new enemy("none",null,-1,-1,-1);//no more than 5 enemies at once.
 		const item1 = new treasure(null);
 		const item2 = new treasure(null);
 		const item3 = new treasure(null);
