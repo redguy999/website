@@ -15,7 +15,7 @@
 				width:70vw;
 				max-height:98vh;
 				height: 80vh;
-				border:black 5px double;
+				border:black 1px double;
 
 			}
 			#movementGrid>div{
@@ -29,6 +29,15 @@
 				justify-content: center;
 				align-items: center;
 			}
+			#inventBorder{
+				position: absolute; left: 85vw; top: 0%;
+				width:15vw;
+				height:26vh;
+				border: 1px solid black;
+				overflow-x: hidden; /* Hide horizontal scrollbar */
+  				overflow-y: scroll; /* Add vertical scrollbar */
+				text-align:center;
+			}
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
@@ -36,9 +45,13 @@
 		<div id="movementGrid">
 
 		</div>
+		<div id="inventBorder">
+			<p id="inventDisplay">
+			
+			</p>
+		</div>
 	</body>
-	<script src="rogueFunctions.js">//for making the grid.
-	</script>
+	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear"]//array contaning the name of every item possible.
@@ -125,8 +138,17 @@
 					//insert calling game over function here.
 					return;
 				}
+			},
+			updateStats:function(){
+				this.attack = 1;
+				this.defense = 0;
+				this.Mhealth = 100;
+				for (x in equipement){
+					this.attack+=[x]["attack"];//this might work, might need to call the equipment object too, however.
+					this.defense+=[x]["defense"];
+					this.Mhealth+=[x]["healthUp"];
+				}
 			}
-
 		}
 		//classes above, objects and functions below:
 		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
@@ -151,20 +173,23 @@
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
 			console.log("RNG = "+RNG);
 			for(let i=0;i<RNG;i++){
+				let color;
 				if(Math.floor(Math.random()*2)==0){
 					eList.push(new enemy("Goblin",10,1,0));
+					color="orange"
 				} else {
 					eList.push(new enemy("Armored goblin",15,5,3));
+					color="grey"
 				}
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
-				let temp= getCorrdInGrid();
+				let temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
 					temp  = getCorrdInGrid();
 				}
 				eList[i]["location"]=temp;
-				document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
+				// document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
 				entLocs.push(eList[i]["location"]);
-				setBGColor(eList[i]["location"],"orange");
+				setBGColor(eList[i]["location"],color);
 			}
 		}
 		function GIFL(){//get item from list
@@ -184,32 +209,6 @@
 					eList[i].hurt(player.attack);
 				}
 			}
-			// switch(playerLoc){
-			// 	case item1.location:
-			// 		item1.getItem();
-			// 		break;
-			// 	case item2.location:
-			// 		item2.getItem();
-			// 		break;
-			// 	case item3.location:
-			// 		item3.getItem();
-			// 		break;
-			// 	case enemy1.location:
-			// 		enemy1.hurt(player.attack);
-			// 		break;
-			// 	case enemy2.location:
-			// 		enemy2.hurt(player.attack);
-			// 		break;
-			// 	case enemy3.location:
-			// 		enemy3.hurt(player.attack);
-			// 		break;
-			// 	case enemy4.location:
-			// 		enemy4.hurt(player.attack);
-			// 		break;
-			// 	case enemy5.location:
-			// 		enemy5.hurt(player.attack);
-			// 		break;
-			// }
 		}
 		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
 		function addToInventory(item,amount){
@@ -217,6 +216,11 @@
 				inventory[item]=amount;
 			}else{
 			inventory[item]+=amount;
+			}
+			try{
+				displayInvent()
+			} catch {
+
 			}
 			console.log(inventory);
 		}
@@ -231,5 +235,16 @@
 		const enemy3 = new enemy("Goblin",10,1,0);
 		const enemy4 = new enemy("Goblin",10,1,0);
 		const enemy5 = new enemy("Goblin",10,1,0);//no more than 5 enemies at once.
+		const inDis= document.getElementById("inventDisplay");
+    	function displayInvent(){
+			//debugger;
+			inDis.innerHTML = "";
+    		for (x in inventory){
+      			inDis.innerHTML += inventory[x] + " " + x;
+				inDis.innerHTML += "<br>"
+				console.log(x);
+				console.log(inventory[x]);
+      		}
+    	}
 	</script>
 </html>
