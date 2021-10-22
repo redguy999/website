@@ -38,6 +38,18 @@
   				overflow-y: scroll; /* Add vertical scrollbar */
 				text-align:center;
 			}
+			#equipmentArea{
+				position: absolute; left: 85vw; top: 26vh;
+				width:15vw;
+				height:27vh;
+				border: 1px solid black;
+				overflow-x: hidden; /* Hide horizontal scrollbar */
+  				overflow-y: scroll; /* Add vertical scrollbar */
+				text-align:center;
+			}
+			#inventBorder>span:hover{
+				text-decoration-style: bold;
+			}
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
@@ -50,16 +62,77 @@
 			
 			</p>
 		</div>
+		<div id="equipmentArea">
+			<p id="equipDisplay">
+
+			</p>
+		</div>
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear"]//array contaning the name of every item possible.
+		const equipable = ["sword","shield","spear"]//array containing the name of every item equipable.
 		const inventory = {
 			
 		}
-		const equipement = {//might need to overhaul how items work before i can do this.
+		const equipment = {//might need to overhaul how items work before i can do this.
+			mainHand:{
 
+			},
+			offHand:{
+
+			},
+			equipEquipment:function(equipment){
+				debugger;
+				let temp=itemStats[equipment];
+				switch (temp["slot"]) {
+					case "mainHand":
+						if(Object.keys(this.mainHand).length!=0){
+							return;//something is already equiped
+						}
+						console.log(i)
+						inventory[equipment]-=1;
+						//let temp = itemStats[equipment].indexOf(i);
+						this.mainHand[i]=itemStats.getStats(equipment);
+						break;
+					case "offHand":
+						if(Object.keys(this.offHand).length!=0){
+							return;//something is already equiped
+						}
+						inventory[equipment]-=1;
+						console.log(i)
+						//let temp = itemStats[equipment].indexOf(i)
+						this.offHand[equipment]=itemsStats.getStats(equipment);
+						break;
+					case "2Hands":
+						if(Object.keys(this.mainHand).length!=0||Object.keys(this.offHand).length!=0){
+							return;//something is already equiped
+						}
+						console.log("i="+i);
+						inventory[equipment]-=1;
+						//let temp = itemStats[equipment].indexOf(i);
+						console.log("temp="+temp);
+						this.offHand[equipment]=itemsStats.getStats(equipment);		
+						this.mainHand=itemStats.getStats(equipment);
+						this.offHand="FULL"
+						break;
+					default:
+						console.error("invalid slot setting.")
+						break;
+				}
+				inventory[equipment]-=1;
+				displayInvent();
+				displayEquipment();
+			},
+		};
+		var equipDisplay=document.getElementById("equipDisplay");
+		function displayEquipment(){
+			equipDisplay.innerHTML="";
+			debugger;
+			for(x in equipment){
+				equipDisplay.innerHTML+=x.name;
+			}
 		}
 		class treasure{
 			constructor(location,contents,amount,locked){
@@ -142,12 +215,15 @@
 			updateStats:function(){
 				this.attack = 1;
 				this.defense = 0;
-				this.Mhealth = 100;
-				for (x in equipement){
+				this.Mhealth = 100;//default values
+				debugger;
+				for (x in equipment){
 					this.attack+=[x]["attack"];//this might work, might need to call the equipment object too, however.
 					this.defense+=[x]["defense"];
 					this.Mhealth+=[x]["healthUp"];
+					this.health+=[x]["healthUp"]
 				}
+				console.log(this);
 			}
 		}
 		//classes above, objects and functions below:
@@ -195,7 +271,7 @@
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 		}
-		function setEnemyStats(name){//not sure if i should have it determine which type of enemy it will be in this function, or beforehand.
+		function setEnemyStats(name){//not sure if i should have it determine which type of enemy it will be using this function, or beforehand this is called.
 			//currently, this function is useless, but it would be later used to
 		}
 		function collectOrCombat(){
@@ -211,7 +287,7 @@
 			}
 		}
 		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
-		function addToInventory(item,amount){
+		function addToInventory(item,amount){//self explainitory
 			if(typeof(inventory[item])=="undefined"){
 				inventory[item]=amount;
 			}else{
@@ -223,6 +299,22 @@
 
 			}
 			console.log(inventory);
+		}
+		function equipItem(item){
+			try{//incase equipConstructors gets removed.
+				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){//second check would be false for arrays
+					console.error("attempted to equip a nonexistant/unequipable item.");
+					console.log("invalid items entry:")
+					console.log(item)
+					return;//early exit since rest of code would break otherwise.
+				}
+				console.log(itemStats[item]);
+				debugger;
+				equipment.equipEquipment(item);
+			} catch {
+				console.error("couldn't find equipConstructors.js");
+				return;
+			}
 		}
 		//new enemy("Goblin",10,1,0)
 		//new enemy("Armored goblin",15,5,3)
@@ -240,10 +332,21 @@
 			//debugger;
 			inDis.innerHTML = "";
     		for (x in inventory){
-      			inDis.innerHTML += inventory[x] + " " + x;
+				if(inventory[x]==0){
+					console.log(x+" has been removed.")
+					delete inventory[x];
+					continue;
+				}
+				if((inventory[x]!=1)&&(equipable.indexOf(x)!=-1)){
+					inDis.innerHTML += "<span onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span>";
+				} else if (inventory[x]!=1){
+					inDis.innerHTML += inventory[x] + " " + x+"s";
+				} else if(equipable.indexOf(x)!=-1){
+					inDis.innerHTML += "<span onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span>";
+				}else{
+					inDis.innerHTML += inventory[x] + " " + x;
+				}
 				inDis.innerHTML += "<br>"
-				console.log(x);
-				console.log(inventory[x]);
       		}
     	}
 	</script>
