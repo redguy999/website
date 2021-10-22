@@ -17,8 +17,9 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,
         slot:"offHand",
     },
-    getStats:function(iTe,stat){
-        let temp = {};
+    getStats:function(iTe){
+        let temp = {
+        };
         //debugger;
         for(x in this[iTe]){//we have to do this since we can't edit the orginial objects.
             if(x=="slot"){

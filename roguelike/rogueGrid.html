@@ -82,29 +82,29 @@
 		}
 		const equipment = {//might need to overhaul how items work before i can do this.
 			mainHand:{
-				name:"none",
+				name:"empty"
 			},
 			offHand:{
-				name:"none",
+				name:"empty"
 			},
 			equipEquipment:function(equipment){
 				/*debugger*/;
 				let temp=itemStats[equipment];
 				switch (temp["slot"]) {
 					case "mainHand":
-						if(Object.keys(this.mainHand).length!=0){
+						if(this.mainHand.name!="empty"){
 							return;//something is already equiped
 						}
 						this.mainHand=itemStats.getStats(equipment);
 						break;
 					case "offHand":
-						if(Object.keys(this.offHand).length!=0){
+						if(this.offHand.name!="empty"){
 							return;//something is already equiped
 						}
 						this.offHand=itemStats.getStats(equipment);
 						break;
 					case "2Hands":
-						if(Object.keys(this.mainHand).length!=0||Object.keys(this.offHand).length!=0){
+						if(this.offHand.name!="empty"||this.offHand.name!="empty"){
 							return;//something is already equiped
 						}
 						this.mainHand=itemStats.getStats(equipment);
@@ -128,7 +128,6 @@
 				equipDisplay.innerHTML+=x+" : "+equipment.mainHand[x]+"<br>";
 			}
 			equipDisplay.innerHTML+="Off hand item:<br>";
-			debugger;
 			for(x in equipment.offHand){
 				if(equipment.offHand["name"]=="FULL"){//this only accords if an item is equiped in 2Hands.
 					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//gonna need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
@@ -219,12 +218,24 @@
 				this.attack = 1;
 				this.defense = 0;
 				this.Mhealth = 100;//default values
-				/*debugger*/;
+				this.special = null;//we have no way of editing this currently but i'll leave it here.
 				for (x in equipment){
-					this.attack+=[x]["attack"];//this might work, might need to call the equipment object too, however.
-					this.defense+=[x]["defense"];
-					this.Mhealth+=[x]["healthUp"];
-					this.health+=[x]["healthUp"];
+					for(y in equipment[x]){
+						this[y]+=equipment[x][y];
+					}
+				}
+				for(x in player){
+					if(typeof(x)=="undefined"){
+						console.error("stat became invalid, priting stat logs:");
+						console.log(this.attack);
+						console.log(this.defense);
+						console.log(this.Mhealth);
+						console.log("reseting values to default:")
+						this.attack = 1;
+						this.defense = 0;
+						this.Mhealth = 100;
+						this.special = null;
+					}
 				}
 				console.log(this);
 			}
