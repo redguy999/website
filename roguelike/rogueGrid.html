@@ -121,17 +121,24 @@
 			},
 		};
 		var equipDisplay=document.getElementById("equipDisplay");
-		function displayEquipment(){
+		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
 			equipDisplay.innerHTML="";
 			equipDisplay.innerHTML+="Main hand item:<br>";//might change this, but this will work for now.
 			for(x in equipment.mainHand){
+				if(equipment.mainHand=="empty"){
+					equipDisplay.innerHTML+="empty";
+					break;//we can just early exit since there shouldn't be anything else to read.
+				}
 				equipDisplay.innerHTML+=x+" : "+equipment.mainHand[x]+"<br>";
 			}
 			equipDisplay.innerHTML+="Off hand item:<br>";
 			for(x in equipment.offHand){
 				if(equipment.offHand["name"]=="FULL"){//this only accords if an item is equiped in 2Hands.
-					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//gonna need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
-					break;//early exit incase we don't need to read it.
+					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//might need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
+					break;//early exit since we don't need to read it.
+				} else if(equipment.mainHand=="empty"){
+					equipDisplay.innerHTML+="empty";
+					break;//we can just early exit since there shouldn't be anything else to read.
 				}
 				equipDisplay.innerHTML+=x+" : "+equipment.offHand[x]+"<br>";
 			} 
@@ -220,7 +227,10 @@
 				this.Mhealth = 100;//default values
 				this.special = null;//we have no way of editing this currently but i'll leave it here.
 				for (x in equipment){
-					for(y in equipment[x]){
+					for(y in equipment[x]){//reads every property of every slot, might also try to read the functions but that is easy to stop.
+						if(equipment[x][y]=="empty"){
+							continue;
+						}
 						this[y]+=equipment[x][y];
 					}
 				}
