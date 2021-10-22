@@ -4,6 +4,10 @@
 		<style>
 			body{
 				margin:0;
+				width:100vw;
+				height:100vh;
+				overflow-x: hidden;
+				overflow-y: hidden;
 			}
 			#movementGrid{
 				margin-top:0;
@@ -31,7 +35,7 @@
 			}
 			#inventBorder{
 				position: absolute; left: 85vw; top: 0%;
-				width:15vw;
+				width:14vw;
 				height:26vh;
 				border: 1px solid black;
 				overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -40,7 +44,7 @@
 			}
 			#equipmentArea{
 				position: absolute; left: 85vw; top: 26vh;
-				width:15vw;
+				width:14vw;
 				height:27vh;
 				border: 1px solid black;
 				overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -78,44 +82,33 @@
 		}
 		const equipment = {//might need to overhaul how items work before i can do this.
 			mainHand:{
-
+				name:"none",
 			},
 			offHand:{
-
+				name:"none",
 			},
 			equipEquipment:function(equipment){
-				debugger;
+				/*debugger*/;
 				let temp=itemStats[equipment];
 				switch (temp["slot"]) {
 					case "mainHand":
 						if(Object.keys(this.mainHand).length!=0){
 							return;//something is already equiped
 						}
-						console.log(i)
-						inventory[equipment]-=1;
-						//let temp = itemStats[equipment].indexOf(i);
-						this.mainHand[i]=itemStats.getStats(equipment);
+						this.mainHand=itemStats.getStats(equipment);
 						break;
 					case "offHand":
 						if(Object.keys(this.offHand).length!=0){
 							return;//something is already equiped
 						}
-						inventory[equipment]-=1;
-						console.log(i)
-						//let temp = itemStats[equipment].indexOf(i)
-						this.offHand[equipment]=itemsStats.getStats(equipment);
+						this.offHand=itemStats.getStats(equipment);
 						break;
 					case "2Hands":
 						if(Object.keys(this.mainHand).length!=0||Object.keys(this.offHand).length!=0){
 							return;//something is already equiped
 						}
-						console.log("i="+i);
-						inventory[equipment]-=1;
-						//let temp = itemStats[equipment].indexOf(i);
-						console.log("temp="+temp);
-						this.offHand[equipment]=itemsStats.getStats(equipment);		
 						this.mainHand=itemStats.getStats(equipment);
-						this.offHand="FULL"
+						this.offHand["name"]="FULL"
 						break;
 					default:
 						console.error("invalid slot setting.")
@@ -124,15 +117,25 @@
 				inventory[equipment]-=1;
 				displayInvent();
 				displayEquipment();
+				player.updateStats();
 			},
 		};
 		var equipDisplay=document.getElementById("equipDisplay");
 		function displayEquipment(){
 			equipDisplay.innerHTML="";
-			debugger;
-			for(x in equipment){
-				equipDisplay.innerHTML+=x.name;
+			equipDisplay.innerHTML+="Main hand item:<br>";//might change this, but this will work for now.
+			for(x in equipment.mainHand){
+				equipDisplay.innerHTML+=x+" : "+equipment.mainHand[x]+"<br>";
 			}
+			equipDisplay.innerHTML+="Off hand item:<br>";
+			debugger;
+			for(x in equipment.offHand){
+				if(equipment.offHand["name"]=="FULL"){//this only accords if an item is equiped in 2Hands.
+					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//gonna need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
+					break;//early exit incase we don't need to read it.
+				}
+				equipDisplay.innerHTML+=x+" : "+equipment.offHand[x]+"<br>";
+			} 
 		}
 		class treasure{
 			constructor(location,contents,amount,locked){
@@ -216,12 +219,12 @@
 				this.attack = 1;
 				this.defense = 0;
 				this.Mhealth = 100;//default values
-				debugger;
+				/*debugger*/;
 				for (x in equipment){
 					this.attack+=[x]["attack"];//this might work, might need to call the equipment object too, however.
 					this.defense+=[x]["defense"];
 					this.Mhealth+=[x]["healthUp"];
-					this.health+=[x]["healthUp"]
+					this.health+=[x]["healthUp"];
 				}
 				console.log(this);
 			}
@@ -309,7 +312,6 @@
 					return;//early exit since rest of code would break otherwise.
 				}
 				console.log(itemStats[item]);
-				debugger;
 				equipment.equipEquipment(item);
 			} catch {
 				console.error("couldn't find equipConstructors.js");
@@ -329,7 +331,7 @@
 		const enemy5 = new enemy("Goblin",10,1,0);//no more than 5 enemies at once.
 		const inDis= document.getElementById("inventDisplay");
     	function displayInvent(){
-			//debugger;
+			///*debugger*/;
 			inDis.innerHTML = "";
     		for (x in inventory){
 				if(inventory[x]==0){

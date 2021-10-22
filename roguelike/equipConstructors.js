@@ -18,11 +18,13 @@ const itemStats={//should only be looked into when something is added to equipme
         slot:"offHand",
     },
     getStats:function(iTe,stat){
-        let temp = {
-            
-        };
-        for(x in this[iTe]){
-            temp.push(x);
+        let temp = {};
+        //debugger;
+        for(x in this[iTe]){//we have to do this since we can't edit the orginial objects.
+            if(x=="slot"){
+                continue;//they're not (valid) stats
+            }
+            temp[x]=this[iTe][x];
         }
         return temp;
     }
