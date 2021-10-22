@@ -51,9 +51,13 @@
   				overflow-y: scroll; /* Add vertical scrollbar */
 				text-align:center;
 			}
-			p>span:hover{
+			.E:hover{
 				font-weight: bold;
 				color:blue;
+			}
+			.U:hover{
+				font-weight: bold;
+				color:Orange;
 			}
 		</style>
 	</head>
@@ -76,8 +80,9 @@
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = ["gold coin","sword","shield","spear"]//array contaning the name of every item possible.
-		const equipable = ["sword","shield","spear"]//array containing the name of every item equipable.
+		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every item possible.
+		const equipable = ["sword","shield","spear"];//array containing the name of every item that is equipable.
+		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
 			
 		}
@@ -204,23 +209,23 @@
 				}
 			}
 		}
-		const player = {//could probably move the location variable here but that would be kinda annoying.
-			attack:1,//default values, attack should never go below 1 while alive.
-			defense:0,
-			Mhealth:100,
-			health:100,
-			special:null,//null means none
-			hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
-				//defense and specail attribute checks go here.
-				this.health-=damg;
-				console.log("you have "+this.health+"HP remaning.");
-				if(this.health>this.Mhealth){//function can be used for healing.
-					this.health=this.Mhealth;
-				} else if(this.health<=0){
-					alert("oh no we're dead.");
-					//insert calling game over function here.
-					return;
-				}
+			const player = {//could probably move the location variable here but that would be kinda annoying.
+				attack:1,//default values, attack should never go below 1 while alive.
+				defense:0,
+				Mhealth:100,
+				health:100,
+				special:null,//null means none
+				hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
+					//defense and special attribute checks go here.
+					this.health-=damg;
+					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
+						this.health=this.Mhealth;
+					} else if(this.health<=0){
+						alert("oh no we're dead.");
+						//insert calling game over function here.
+						return;
+					}
+					console.log("you have "+this.health+"HP remaning.");
 			},
 			updateStats:function(){
 				this.attack = 1;
@@ -327,14 +332,28 @@
 		}
 		function equipItem(item){
 			try{//incase equipConstructors gets removed.
-				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){//second check would be false for arrays
+				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){//second check would be false for arrays, since they are objects.
 					console.error("attempted to equip a nonexistant/unequipable item.");
-					console.log("invalid items entry:")
+					console.log("invalid item entry:")
 					console.log(item)
 					return;//early exit since rest of code would break otherwise.
 				}
 				console.log(itemStats[item]);
 				equipment.equipEquipment(item);
+			} catch {
+				console.error("couldn't find equipConstructors.js");
+				return;
+			}
+		}
+		function useItem(item){
+			try{
+				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){
+					console.error("attempted to use a nonexistant/unuseable item.");
+					console.log("invalid item entry:")
+					console.log(item)
+				}
+				inventory[item]-=1;
+				itemStats.useItem(item);
 			} catch {
 				console.error("couldn't find equipConstructors.js");
 				return;
@@ -356,22 +375,37 @@
 			///*debugger*/;
 			inDis.innerHTML = "";
     		for (x in inventory){
-				if(inventory[x]==0){
+				if(inventory[x]<=0){
 					console.log(x+" has been removed.")
 					delete inventory[x];
 					continue;
 				}
-				if((inventory[x]!=1)&&(equipable.indexOf(x)!=-1)){
-					inDis.innerHTML += "<span onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span>";
-				} else if (inventory[x]!=1){
-					inDis.innerHTML += inventory[x] + " " + x+"s";
-				} else if(equipable.indexOf(x)!=-1){
-					inDis.innerHTML += "<span onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span>";
+				if(inventory[x]!=1){
+					if(equipable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+					} else if(useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+					} else {
+						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
+					}
 				}else{
-					inDis.innerHTML += inventory[x] + " " + x;
+					if(equipable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+					} else if(useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+					} else {
+						inDis.innerHTML += inventory[x] + " " + x+"<br>";
+					}
 				}
-				inDis.innerHTML += "<br>"
       		}
     	}
+		function forceAddItem(item,amount){//for admin use only, currently
+			if(typeof(inventory[item])=="undefined"){
+				inventory[item]=amount;
+			}else{
+				inventory[item]+=amount;
+			}
+			displayInvent();
+		}
 	</script>
 </html>

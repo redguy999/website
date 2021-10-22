@@ -1,7 +1,7 @@
 //JS class constructors for items.
 const itemStats={//should only be looked into when something is added to equipment.
-    sword:{//in theory these could all be arrays but i'm gonna keep it like this.
-        name:"sword",
+    sword:{
+        name:"sword",//we need these cause it makes some things easier.
         slot:"mainHand",
         attack:1,
         defense:1,
@@ -17,11 +17,30 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,
         slot:"offHand",
     },
+    potion:{//might need to make this its own class if we ever do custom potions.
+        name:"potion",//leave name since its helpful, and we might need it.
+        deal:-10,//deal (damage), negative Values mean healing.
+    },
+    useItem:function(item,target="self"){//default target for this function is yourself/the player. can't be used to target an enemy currently.
+        let temp={};
+        for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
+            if(x=="name"){
+                continue;//they're not (valid) stats
+            }
+            temp[x]=this[item][x];
+        }
+        if(typeof(temp["deal"])!="undefined"){//might change this to a for loop that reads all the items in an array, which corrispond to all possible affects.
+            if(target=="self"){
+                player.hurtPlayer(temp["deal"]);
+            }
+        }//TODO: add more affects.
+        //function returns nothing.
+    },
     getStats:function(iTe){
         let temp = {
         };
         //debugger;
-        for(x in this[iTe]){//we have to do this since we can't edit the orginial objects.
+        for(let x in this[iTe]){//we have to do this since we can't edit the orginial objects.
             if(x=="slot"){
                 continue;//they're not (valid) stats
             }
