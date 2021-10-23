@@ -33,7 +33,7 @@
 				justify-content: center;
 				align-items: center;
 			}
-			#inventBorder{
+			#inventDisplay{
 				position: absolute; left: 85vw; top: 0%;
 				width:14vw;
 				height:26vh;
@@ -42,7 +42,7 @@
   				overflow-y: scroll; /* Add vertical scrollbar */
 				text-align:center;
 			}
-			#equipmentArea{
+			#equipDisplay{
 				position: absolute; left: 85vw; top: 26vh;
 				width:14vw;
 				height:27vh;
@@ -50,6 +50,9 @@
 				overflow-x: hidden; /* Hide horizontal scrollbar */
   				overflow-y: scroll; /* Add vertical scrollbar */
 				text-align:center;
+			}
+			#statDisplay{
+				position: absolute; left: 85vw; top: 0%;
 			}
 			.E:hover{
 				font-weight: bold;
@@ -63,19 +66,24 @@
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
 	<body onload="startGame()" onkeydown="keyPress()">
+		<div>
+
+		</div>
 		<div id="movementGrid">
 
 		</div>
-		<div id="inventBorder">
-			<p id="inventDisplay">
-			
-			</p>
+		<div id="inventDisplay">
+
 		</div>
 		<div id="equipmentArea">
-			<p id="equipDisplay">
 
-			</p>
 		</div>
+		<footer style="text-align: center;">
+			<a href="http://validator.w3.org/check/referer">
+			<strong> HTML </strong> Valid! </a>
+			<a href="http://jigsaw.w3.org/css-validator/validator?uri=https://ict.gctaa.net/sections/webdesign/goals/?profile=css3">
+			<strong> CSS </strong> Valid! </a>
+			</footer>
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
