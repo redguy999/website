@@ -1,4 +1,3 @@
-<!DOCTYPE html><!--VS code seems to be impli-->
 <html>
 	<head>
 		<title>basic grid tester</title>
@@ -34,26 +33,23 @@
 				justify-content: center;
 				align-items: center;
 			}
-			#inventDisplay{
+			#inventBorder{
 				position: absolute; left: 85vw; top: 0%;
 				width:14vw;
 				height:26vh;
 				border: 1px solid black;
-				overflow-x: hidden; /* Hide horizontal scrollbar */
-  				overflow-y: scroll; /* Add vertical scrollbar */
+				overflow-x: hidden;
+  				overflow-y: scroll;
 				text-align:center;
 			}
-			#equipDisplay{
+			#equipmentArea{
 				position: absolute; left: 85vw; top: 26vh;
 				width:14vw;
 				height:27vh;
 				border: 1px solid black;
-				overflow-x: hidden; /* Hide horizontal scrollbar */
-  				overflow-y: scroll; /* Add vertical scrollbar */
+				overflow-x: hidden;
+  				overflow-y: scroll;
 				text-align:center;
-			}
-			#statDisplay{
-				position: absolute; right: 85vw; top: 0%;
 			}
 			.E:hover{
 				font-weight: bold;
@@ -63,22 +59,53 @@
 				font-weight: bold;
 				color:Orange;
 			}
+			#statDisplay{
+				position: absolute; right: 85vw; top: 0;
+				width:14vw;
+				height:26vh;
+				border: 1px solid black;
+				text-align: center;
+				overflow-x: hidden;
+  				overflow-y: scroll;
+			}
+			#infoDisplay{
+				position: absolute; right: 85vw; top: 26vh;
+				width:14vw;
+				height:27vh;
+				border: 1px solid black;
+				text-align: center;
+				overflow-x: hidden;
+  				overflow-y: scroll;
+			}
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
 	<body onload="startGame()" onkeydown="keyPress()">
-		<div>
-
+		<div id="statDisplay">
+			<h1>Stats:</h1>
+			HP: <span id="health"></span>/<span id="Mhealth"></span><br>
+			attack: <span id="attack"></span><br>
+			defense: <span id="defense"></span>
+			<!--not adding special here since we still haven't added that.-->
+		</div>
+		<div id="InfoDisplay">
+			<h1>Info:</h1>
+			Floor: <span id="levelDis"></span>
 		</div>
 		<div id="movementGrid">
 
 		</div>
-		<div id="inventDisplay">
-
+		<div id="inventBorder">
+			<h1>Items:</h1>
+			<p id="inventDisplay">
+			
+			</p>
 		</div>
-		<div>
-			<p id="equipmentArea">
-				
+		<div id="equipmentArea"><!--keep it like this, 
+			when i tried to change it to just the div it broke and i couldn't fix it. had to rollback to a working version.-->
+			<h1>Equipment:</h1>
+			<p id="equipDisplay">
+
 			</p>
 		</div>
 	</body>
@@ -133,26 +160,61 @@
 		};
 		var equipDisplay=document.getElementById("equipDisplay");
 		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
-			equipDisplay.innerHTML="";
+			//this could be turned into a nested for in loops, but a dictonary object would be required
+			equipDisplay.innerHTML="";//need to clear it.
 			equipDisplay.innerHTML+="Main hand item:<br>";//might change this, but this will work for now.
+			//debugger;
 			for(x in equipment.mainHand){
-				if(equipment.mainHand=="empty"){
+				if(equipment["mainHand"].name=="empty"){
 					equipDisplay.innerHTML+="empty";
 					break;//we can just early exit since there shouldn't be anything else to read.
 				}
 				equipDisplay.innerHTML+=x+" : "+equipment.mainHand[x]+"<br>";
 			}
-			equipDisplay.innerHTML+="Off hand item:<br>";
+			if(equipment["mainHand"].name!="empty"){
+				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"mainHand\")'>Unequip?"
+			}
+			equipDisplay.innerHTML+="<br>Off hand item:<br>";
 			for(x in equipment.offHand){
-				if(equipment.offHand["name"]=="FULL"){//this only accords if an item is equiped in 2Hands.
+				if(equipment["offHand"].name=="FULL"){//this only accords if an item is equiped in 2Hands.
 					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//might need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
 					break;//early exit since we don't need to read it.
-				} else if(equipment.mainHand=="empty"){
+				} else if(equipment.offHand.name=="empty"){
 					equipDisplay.innerHTML+="empty";
 					break;//we can just early exit since there shouldn't be anything else to read.
 				}
 				equipDisplay.innerHTML+=x+" : "+equipment.offHand[x]+"<br>";
 			} 
+			if(equipment["offHand"].name!="empty"){
+				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"offHand\")'>Unequip?"
+			}
+		}
+		function unequip(slot){
+			let temp=equipment[slot].name;
+			if(itemStats[temp].slot=="2Hands"){
+				for(x in equipment.offHand){
+					delete equipment.offHand[x]
+				}
+				for(x in equipment.mainHand){
+					delete equipment.mainHand[x]
+				}
+				equipment.offHand.name="empty";
+				equipment.mainHand.name="empty";
+			} else {
+				for(x in equipment[slot]){
+					delete equipment[slot][x];
+				}
+				equipment[slot].name="empty";
+			}
+			console.log(temp);
+			if(typeof(inventory[temp])=="undefined"){
+				inventory[temp]=1;
+			}else{
+				inventory[temp]+=1;
+			}
+			displayInvent();
+			displayEquipment();
+			player.updateStats();
 		}
 		class treasure{
 			constructor(location,contents,amount,locked){
@@ -230,7 +292,7 @@
 						//insert calling game over function here.
 						return;
 					}
-					console.log("you have "+this.health+"HP remaning.");
+					updateHealth()
 			},
 			updateStats:function(){
 				this.attack = 1;
@@ -258,12 +320,21 @@
 						this.special = null;
 					}
 				}
-				console.log(this);
+				if(this.health>this.Mhealth){
+					this.health=this.Mhealth;
+				} 
+				updateStatistics()
 			}
 		}
 		//classes above, objects and functions below:
-		function mkOtherStuff(){//issue, variables declared in a function, stay in a function.
+		function mkOtherStuff(){
 			placeItems();
+			displayEquipment();
+			updateStatistics();
+			updateInfo();
+		}
+		function updateInfo(){
+			document.getElementById("levelDis").innerHTML = level;
 		}
 		function placeItems(){//might move this to the class of item
 			entLocs = [];
@@ -359,6 +430,7 @@
 				}
 				inventory[item]-=1;
 				itemStats.useItem(item);
+				displayInvent();
 			} catch {
 				console.error("couldn't find equipConstructors.js");
 				return;
@@ -411,6 +483,19 @@
 				inventory[item]+=amount;
 			}
 			displayInvent();
+		}
+		const healthDis = document.getElementById("health")
+		const MhealthDis = document.getElementById("Mhealth")
+		const attackDis = document.getElementById("attack")
+		const defenseDis = document.getElementById("defense")
+		function updateStatistics(){//fixes the stat display, should be called when an item is equiped
+			updateHealth();
+			attackDis.innerHTML = player.attack;
+			defenseDis.innerHTML = player.defense;
+		}
+		function updateHealth(){//we only need to update this when the player is hurt
+			healthDis.innerHTML = player.health;
+			MhealthDis.innerHTML = player.Mhealth;
 		}
 	</script>
 </html>
