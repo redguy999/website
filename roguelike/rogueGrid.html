@@ -36,7 +36,7 @@
 			#inventBorder{
 				position: absolute; left: 85vw; top: 0%;
 				width:14vw;
-				height:26vh;
+				height:40vh;
 				border: 1px solid black;
 				overflow-x: hidden;
   				overflow-y: scroll;
@@ -111,6 +111,8 @@
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
+		/*TODO: make enemy drops, rework attacking, add console to bottom of screen, (optional: rework how locations are read and stored.)
+		*/
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every item possible.
 		const equipable = ["sword","shield","spear"];//array containing the name of every item that is equipable.
@@ -360,7 +362,7 @@
 					eList.push(new enemy("Goblin",10,1,0));
 					color="orange"
 				} else {
-					eList.push(new enemy("Armored goblin",15,5,3));
+					eList.push(new enemy("Armored goblin",15,3,3));
 					color="grey"
 				}
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
@@ -442,11 +444,6 @@
 		//console.log(eList[1]["health"])//displays the health of the second enemy in the array.
 		//eList objects being constructed inside the array is only temporary, that will be moved.
 		const iList = [new treasure(null),new treasure(null),new treasure(null)];
-		const enemy1 = new enemy("Goblin",10,1,0);//0 means none for health, attack, and defense; 
-		const enemy2 = new enemy("Armored goblin",10,5,3);
-		const enemy3 = new enemy("Goblin",10,1,0);
-		const enemy4 = new enemy("Goblin",10,1,0);
-		const enemy5 = new enemy("Goblin",10,1,0);//no more than 5 enemies at once.
 		const inDis= document.getElementById("inventDisplay");
     	function displayInvent(){
 			///*debugger*/;
