@@ -254,6 +254,8 @@
 						console.log("The "+this.name+"'s armor completely protects them from harm!")
 						return;//no damage to deal, skip to end.
 					}
+					} else{
+						temp = damg
 					}
 					//probably some check for special attributes, oh and also defense
 					//if the enemy doesn't have "health" which can be determined by checking max health, call a special function.
@@ -297,6 +299,8 @@
 						updateHealth()
 						return;//no damage to deal, skip to end.
 					}
+					} else{
+						temp = damg
 					}
 					this.health-=temp;
 					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
