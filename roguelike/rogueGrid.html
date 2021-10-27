@@ -231,7 +231,7 @@
 						alert("you found some "+this.contents+"s.");//change this to log at the bottom console
 					}
 					setBGColor(this.location,"white");
-					entLocs.slice(entLocs.indexOf(this.location),1);
+					entLocs.splice(entLocs.indexOf(this.location),1);///!!! SHOULD BE SPLICE
 					this.location = null;
 					addToInventory(this.contents,this.amount);
 				}
@@ -272,7 +272,7 @@
 				this.dead = function(){
 					alert("you have defeated the "+this.name+".");
 					setBGColor(this.location,"white");
-					entLocs.slice(entLocs.indexOf(this.location),1);
+					entLocs.splice(entLocs.indexOf(this.location),1);//!!!SHOULD BE SPLICE
 					this.location = null;
 				}
 				this.fight = function(){//might make it able to attack anyone.
@@ -356,9 +356,10 @@
 		}
 		function placeItems(){//might move this to the class of item
 			entLocs = [];
-			for(i=0;i<iList.length;i++){//should set all the items.
+			let RNG = Math.floor(Math.random()*3);
+			for(i=0;i<RNG;i++){//should set all the items.
 				iList[i]["contents"] = GIFL();
-				iList[i]["amount"] = Math.floor(Math.random()*5+1);
+				iList[i]["amount"] = Math.floor(Math.random()*3+1);//need to rework so you can get a lot of coins and not a lot of weapons.
 				let temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
 					temp  = getCorrdInGrid();
@@ -391,14 +392,11 @@
 				eList[i]["location"]=temp;
 				// document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
 				entLocs.push(temp);
-				setBGColor(eList[i]["location"],color);
+				setBGColor(temp,color);
 			}
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
-		}
-		function setEnemyStats(name){//not sure if i should have it determine which type of enemy it will be using this function, or beforehand this is called.
-			//currently, this function is useless, but it would be later used to
 		}
 		function collectOrCombat(){//too lazy to change the name even if have of it no longer works.
 			for(let i=0;i<iList.length;i++){
@@ -406,11 +404,6 @@
 					iList[i].getItem();
 				}
 			}
-			/*for(let i=0;i<eList.length;i++){moved to movement function in other file.
-				if(eList[i]["location"]==playerLoc){
-					eList[i].hurt(player.attack);
-				}
-			}*/
 		}
 		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
 		function addToInventory(item,amount){//self explainitory
