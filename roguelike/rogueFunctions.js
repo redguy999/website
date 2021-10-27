@@ -203,9 +203,19 @@ function keyPress() {
         interact();
         return;//we don't need to do math on the location.
     }
-    let temp = switchMovement(playerLoc, key)
+    let temp = switchMovement(playerLoc, key);
     if (temp == null) {
         return;//invalid movement.
+    }
+    try{
+        for(let i=0;i<eList.length;i++){
+            if(eList[i]["location"]==temp){
+                eList[i].hurt(player.attack);
+                return;//we don't move onto the tile when we attack.
+            }
+        }
+    } catch{
+            console.error("check if moving onto enemy failed.")
     }
     playerLoc = temp;
     resetLocDisplay()

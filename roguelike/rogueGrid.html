@@ -43,9 +43,9 @@
 				text-align:center;
 			}
 			#equipmentArea{
-				position: absolute; left: 85vw; top: 26vh;
+				position: absolute; left: 85vw; top: 40vh;
 				width:14vw;
-				height:27vh;
+				height:40vh;
 				border: 1px solid black;
 				overflow-x: hidden;
   				overflow-y: scroll;
@@ -62,16 +62,16 @@
 			#statDisplay{
 				position: absolute; right: 85vw; top: 0;
 				width:14vw;
-				height:26vh;
+				height:40vh;
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
   				overflow-y: scroll;
 			}
 			#infoDisplay{
-				position: absolute; right: 85vw; top: 26vh;
+				position: absolute; right: 85vw; top: 40vh;
 				width:14vw;
-				height:27vh;
+				height:40vh;
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
@@ -101,8 +101,8 @@
 			
 			</p>
 		</div>
-		<div id="equipmentArea"><!--keep it like this, 
-			when i tried to change it to just the div it broke and i couldn't fix it. had to rollback to a working version.-->
+		<div id="equipmentArea">
+			<!--keep it like this, when i tried to change it to just the div it broke and i couldn't fix it. had to rollback to a working version.-->
 			<h1>Equipment:</h1>
 			<p id="equipDisplay">
 
@@ -358,7 +358,7 @@
 			console.log("RNG = "+RNG);
 			for(let i=0;i<RNG;i++){
 				let color;
-				if(Math.floor(Math.random()*2)==0){
+				if(Math.floor(Math.random()*2)==0){//TODO: fix glitch that causes Goblins to look like armored goblins and vice versa.
 					eList.push(new enemy("Goblin",10,1,0));
 					color="orange"
 				} else {
@@ -382,17 +382,17 @@
 		function setEnemyStats(name){//not sure if i should have it determine which type of enemy it will be using this function, or beforehand this is called.
 			//currently, this function is useless, but it would be later used to
 		}
-		function collectOrCombat(){
+		function collectOrCombat(){//too lazy to change the name even if have of it no longer works.
 			for(let i=0;i<iList.length;i++){
 				if(iList[i]["location"]==playerLoc){
 					iList[i].getItem();
 				}
 			}
-			for(let i=0;i<eList.length;i++){
+			/*for(let i=0;i<eList.length;i++){moved to movement function in other file.
 				if(eList[i]["location"]==playerLoc){
 					eList[i].hurt(player.attack);
 				}
-			}
+			}*/
 		}
 		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
 		function addToInventory(item,amount){//self explainitory
