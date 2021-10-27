@@ -251,7 +251,7 @@
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
-						updateHealth()
+						console.log("The "+this.name+"'s armor completely protects them from harm!")
 						return;//no damage to deal, skip to end.
 					}
 					}
@@ -293,6 +293,7 @@
 					if(damg>0){//if damage is negative, ignore defense.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
+						console.log("Your armor completely protects you from harm!")
 						updateHealth()
 						return;//no damage to deal, skip to end.
 					}
