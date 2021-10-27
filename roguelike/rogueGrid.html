@@ -292,14 +292,14 @@
 				hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
 					//defense and special attribute checks go here.
 					let temp = 0;
-					if(damg>0){//if damage is negative, ignore defense.
+					if(damg>0){
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
 						console.log("Your armor completely protects you from harm!")
 						updateHealth()
 						return;//no damage to deal, skip to end.
 					}
-					} else{
+					} else{//if damage is negative, ignore defense.
 						temp = damg
 					}
 					this.health-=temp;
