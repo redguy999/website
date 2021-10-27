@@ -247,14 +247,17 @@
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
 				this.hurt = function(damg){
-					if(this.defense>damg*2){//if defense is over double the attack, completely negate the damage
-						console.log("the enemy's armor completely protects them from harm!");
-						this.fight();
-						return;
+					let temp = 0;
+					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
+					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
+					if(temp<=0){
+						updateHealth()
+						return;//no damage to deal, skip to end.
+					}
 					}
 					//probably some check for special attributes, oh and also defense
 					//if the enemy doesn't have "health" which can be determined by checking max health, call a special function.
-					this.health-=damg;
+					this.health-=temp;
 					console.log("the "+this.name+" has "+this.health+"HP remaining.");
 					if(this.health>this.Mhealth){//this function can be used for healing too.
 						this.health=this.Mhealth;
@@ -280,13 +283,21 @@
 		}
 			const player = {//could probably move the location variable here but that would be kinda annoying.
 				attack:1,//default values, attack should never go below 1 while alive.
-				defense:0,
+				defense:0,//TODO: make this actually do stuff.
 				Mhealth:100,
 				health:100,
 				special:null,//null means none
 				hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
 					//defense and special attribute checks go here.
-					this.health-=damg;
+					let temp = 0;
+					if(damg>0){//if damage is negative, ignore defense.
+					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
+					if(temp<=0){
+						updateHealth()
+						return;//no damage to deal, skip to end.
+					}
+					}
+					this.health-=temp;
 					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
 						this.health=this.Mhealth;
 					} else if(this.health<=0){
