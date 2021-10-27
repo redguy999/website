@@ -231,7 +231,7 @@
 						alert("you found some "+this.contents+"s.");//change this to log at the bottom console
 					}
 					setBGColor(this.location,"white");
-					entLocs.splice(entLocs.indexOf(this.location),1);///!!! SHOULD BE SPLICE
+					entLocs.splice(entLocs.indexOf(this.location),1);
 					this.location = null;
 					addToInventory(this.contents,this.amount);
 				}
@@ -272,7 +272,7 @@
 				this.dead = function(){
 					alert("you have defeated the "+this.name+".");
 					setBGColor(this.location,"white");
-					entLocs.splice(entLocs.indexOf(this.location),1);//!!!SHOULD BE SPLICE
+					entLocs.splice(entLocs.indexOf(this.location),1);
 					this.location = null;
 				}
 				this.fight = function(){//might make it able to attack anyone.
