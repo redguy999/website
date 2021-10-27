@@ -187,7 +187,7 @@
 				}
 				equipDisplay.innerHTML+=x+" : "+equipment.offHand[x]+"<br>";
 			} 
-			if(equipment["offHand"].name!="empty"){
+			if(equipment["offHand"].name!="empty"&&equipment["offHand"].name!="FULL"){//i think this works.
 				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"offHand\")'>Unequip?"
 			}
 		}
@@ -371,6 +371,7 @@
 		}
 		function placeEnemies(){
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
+			//might rework the RNG formulas so that it becomes harder as you get to lower floors.
 			console.log("RNG = "+RNG);
 			for(let i=0;i<RNG;i++){
 				let color;
@@ -383,12 +384,13 @@
 				}
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
 				let temp = getCorrdInGrid();
-				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
+				console.log(exitPoint)
+				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){//goblins can place themselves on the exit tile, which should be impossible
 					temp  = getCorrdInGrid();
 				}
 				eList[i]["location"]=temp;
 				// document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
-				entLocs.push(eList[i]["location"]);
+				entLocs.push(temp);
 				setBGColor(eList[i]["location"],color);
 			}
 		}
