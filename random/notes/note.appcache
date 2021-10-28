@@ -1,0 +1,7 @@
+CACHE MANIFEST
+#this is a comment, also the above line is required.
+CACHE:
+index.html
+importable.css
+import.js
+#this is for being able to view the files offline
