@@ -109,7 +109,7 @@ function mkExitPoint() {//makes exit
 }
 function mkWalls() {
     walls = [];
-    for (i = 0; i < Math.floor(Math.random() * ((wT * hT))) + 5; i++) {
+    for (i = 0; i < Math.floor(Math.random() * (wT * hT)) + 5; i++) {
         walls.push(getCorrdInGrid());
     }
     //debugger;
