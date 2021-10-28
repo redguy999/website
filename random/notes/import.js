@@ -64,4 +64,8 @@ var x=document.getElementById("MyLocation");
      document.getElementById('files').addEventListener('change',
      handleFileSelect);
     xmlhttp=new XMLHttpRequest();
-    console.log(xmlhttp)
+    console.log(xmlhttp);
+    //below is Jquery
+    $(document).ready(function(){
+        $(selector).action()
+     });
