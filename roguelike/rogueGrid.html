@@ -113,8 +113,9 @@
 	<script>
 		/*TODO: make enemy drops, rework attacking, add console to bottom of screen, (optional: rework how locations are read and stored.)
 		*/
+		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every item possible.
+		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every (findable) item possible.
 		const equipable = ["sword","shield","spear"];//array containing the name of every item that is equipable.
 		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
@@ -252,7 +253,8 @@
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
 						console.log("The "+this.name+"'s armor completely protects them from harm!")
-						return;//no damage to deal, skip to end.
+						this.attack();//skip to attack
+						return;//nothing else to do.
 					}
 					} else{
 						temp = damg
@@ -291,6 +293,7 @@
 				special:null,//null means none
 				hurtPlayer:function(damg){//this could be its own function but its easier to call the variables here.
 					//defense and special attribute checks go here.
+					debugger;
 					let temp = 0;
 					if(damg>0){
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
@@ -373,7 +376,7 @@
 		function placeEnemies(){
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
 			//might rework the RNG formulas so that it becomes harder as you get to lower floors.
-			console.log("RNG = "+RNG);
+			debugger;
 			for(let i=0;i<RNG;i++){
 				let color;
 				if(Math.floor(Math.random()*2)==0){//TODO: fix glitch that causes Goblins to look like armored goblins and vice versa.
@@ -385,7 +388,6 @@
 				}
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
 				let temp = getCorrdInGrid();
-				console.log(exitPoint)
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){//goblins can place themselves on the exit tile, which should be impossible
 					temp  = getCorrdInGrid();
 				}
