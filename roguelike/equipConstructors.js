@@ -53,7 +53,7 @@ const enemies = [
     {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"orange"},//color is only for displaying where the enemy is.
     {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"grey"},
 ];
-//{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"},
+//{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 class equiped{
     constructor(name="missingN",attack=0,defense=0,healthUp=0,special=null){//currently no way to read special.
         this.name = name;
