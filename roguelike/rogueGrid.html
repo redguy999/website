@@ -380,7 +380,8 @@
 			//debugger;
 			for(let i=0;i<RNG;i++){
 				let color;
-				if(Math.floor(Math.random()*2)==0){//TODO: fix glitch that causes Goblins to look like armored goblins and vice versa.
+				if(Math.floor(Math.random()*2)==0){
+					//rework and move some of this to equipConstructors.js, which should make it easier to add more enemies.
 					eList.push(new enemy("Goblin",10,1,0));
 					color="orange"
 				} else {
