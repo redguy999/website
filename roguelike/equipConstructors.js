@@ -17,6 +17,7 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,
         slot:"offHand",
     },
+    
     potion:{//might need to make this its own class if we ever do custom potions.
         name:"potion",//leave name since its helpful, and we might need it.
         deal:-10,//deal (damage), negative Values mean healing.
