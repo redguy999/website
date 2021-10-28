@@ -20,7 +20,36 @@
 <img id="drag1" src=" logo\CIWLogo.png" alt="CIW logo" draggable="true" ondragstart="drag(event)" width="336" height="69"/><hr>
 <p>Select two files: <input type="file" id="files" name="files[]" multiple /></p>
 
-<output id="list"></output>
+<output id="list"></output><hr>
+<form>
+    First Name:<input type="text" name="firstname"><br>
+    Last Name: <input type="text" name="lastname"><br>
+    Date of Birth: <input type="date" name="dob"><br>
+    
+    Your Continent:
+    <input list="continents" name="continent">
+    <datalist id="continents">
+    <option value="North America">
+    <option value="South America">
+    <option value="Europe">
+    <option value="Asia">
+    <option value="Africa">
+    <option value="Australia">
+    <option value="Antarctica">
+    </datalist>
+    <br> 
+    
+    Years of Home Building Experience: 0 <input type="range" name="experience" min="0" max="10"> 10+ <p>
+    Number of Habitat Homes Built: <input type="number" name="homesbuilt" min="0" max="5">
+    </p>
+    
+    </form><hr>
+    <h2>KEYGEN</h2>
+    <form>
+        User Name: <input type="text" name="username">
+        Encryption: <keygen name="encryption"><!--it doesn't like this keygen element.-->
+        <input type="submit">
+        </form>
     </body>
     <!--Too lazy to download the file-->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.21.min.js">
