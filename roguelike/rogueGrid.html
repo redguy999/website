@@ -224,7 +224,7 @@
 				this.location = location;
 				this.contents = contents;//string or an object, figure that out at some point.
 				this.amount = amount;
-				this.locked = locked;//string or boolean, depending on if we want specific keys to open specific chests.
+				//this.locked = locked;//unused
 				this.getItem = function(){
 					if(this.amount==1){
 						alert("you found a "+this.contents+".")
@@ -379,25 +379,21 @@
 			//might rework the RNG formulas so that it becomes harder as you get to lower floors.
 			//debugger;
 			for(let i=0;i<RNG;i++){
-				let color;
-				if(Math.floor(Math.random()*2)==0){
-					//rework and move some of this to equipConstructors.js, which should make it easier to add more enemies.
-					eList.push(new enemy("Goblin",10,1,0));
-					color="orange"
-				} else {
-					eList.push(new enemy("Armored goblin",15,3,3));
-					color="grey"
-				}
+				let color=GEFL();
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.
 				let temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){//goblins can place themselves on the exit tile, which should be impossible
 					temp  = getCorrdInGrid();
 				}
 				eList[i]["location"]=temp;
-				// document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"]
 				entLocs.push(temp);
 				setBGColor(temp,color);
 			}
+		}
+		function GEFL(){//get enemy from list
+			let temp = enemies[Math.floor(Math.random()*enemies.length)];//finds a random enemy in the array enemies, which contains every enemy.
+			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))
+			return temp.color;
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
