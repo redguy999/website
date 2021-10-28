@@ -145,7 +145,7 @@
 						this.offHand=itemStats.getStats(equipment);
 						break;
 					case "2Hands":
-						if(this.offHand.name!="empty"||this.offHand.name!="empty"){
+						if(this.offHand.name!="empty"||this.mainHand.name!="empty"){
 							return;//something is already equiped
 						}
 						this.mainHand=itemStats.getStats(equipment);
