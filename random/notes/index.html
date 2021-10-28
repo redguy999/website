@@ -2,15 +2,26 @@
     <head>
         <style>
             @import url(importable.css);/*importing css file*/
+            
         </style>
     </head>
     <body>
-        <!--no sure what this does.
+        <!--not sure what these does.
             <keygen>
         -->
         <canvas id="canvas" width="250" height="125" style="border:2px solid #000080;">
             The canvas element is not supported by your browser.
          </canvas>
+         your location is:
+         <div id="MyLocation"></div><hr>
+         <p>Drag the CIW image into the rectangle:</p>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<br />
+<img id="drag1" src=" logo\CIWLogo.png" alt="CIW logo" draggable="true" ondragstart="drag(event)" width="336" height="69"/><hr>
+<p>Select two files: <input type="file" id="files" name="files[]" multiple /></p>
+
+<output id="list"></output>
     </body>
     <script src="import.js"></script><!--importing js file-->
 </html>
