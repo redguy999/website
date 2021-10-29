@@ -269,6 +269,7 @@
 						this.dead()
 						return;//need to early return because otherwise attack runs.
 					}
+					//TODO: add a way to skip attacking the player in case they're not being attacked.
 					this.fight();
 				}
 				this.dead = function(){
@@ -484,13 +485,42 @@
 				}
       		}
     	}
-		function forceAddItem(item,amount){//for admin use only, currently
+		function forceAddItem(item,amount){//for admin use only
 			if(typeof(inventory[item])=="undefined"){
 				inventory[item]=amount;
 			}else{
 				inventory[item]+=amount;
 			}
 			displayInvent();
+		}
+		function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are strings.
+			if(!checkOoB(corrdinate)){//placement check
+				console.error("corrdinate out of bounds error, enemy placement impossible, aborting...")
+				return;//enemy can't be validly placed.
+			} else if(CVM(corrdinate)){
+				while(true){
+					let temp = prompt("corrdinate is in a wall, your options are: to 'remove' the wall or to 'cancel' enemy placement.")
+					if(temp=="remove"){
+						walls.splice(walls.indexOf(corrdinate),1);//removes the wall on corrdinate, might error
+					} else if(temp=="cancel"){
+						return;//early exit.
+					}else{
+						alert("please answer the prompt correctly.")
+					}
+				}
+			}
+			for(x in enemies){
+				if(enemies[x].name==eName){
+					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
+					LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
+					eList[LI]["location"]==corrdinate;
+					return;
+				}
+			}
+			console.error("ERROR: enemy name not found in enemy list.")
+		}
+		function forcePlaceCustomE(){//admin function; it'll just ask for the values in prompts
+			//force places a custom enemy, with custom stats.
 		}
 		const healthDis = document.getElementById("health")
 		const MhealthDis = document.getElementById("Mhealth")
