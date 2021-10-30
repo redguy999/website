@@ -18,7 +18,7 @@
 				max-width:99vw;
 				width:70vw;
 				max-height:98vh;
-				height: 80vh;
+				height: 76vh;
 				border:black 1px double;
 
 			}
@@ -36,16 +36,16 @@
 			#inventBorder{
 				position: absolute; left: 85vw; top: 0%;
 				width:14vw;
-				height:40vh;
+				height:38vh;
 				border: 1px solid black;
 				overflow-x: hidden;
   				overflow-y: scroll;
 				text-align:center;
 			}
 			#equipmentArea{
-				position: absolute; left: 85vw; top: 40vh;
+				position: absolute; left: 85vw; top: 38vh;
 				width:14vw;
-				height:40vh;
+				height:38vh;
 				border: 1px solid black;
 				overflow-x: hidden;
   				overflow-y: scroll;
@@ -62,21 +62,39 @@
 			#statDisplay{
 				position: absolute; right: 85vw; top: 0;
 				width:14vw;
-				height:40vh;
+				height:38vh;
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
   				overflow-y: scroll;
 			}
 			#infoDisplay{
-				position: absolute; right: 85vw; top: 40vh;
+				position: absolute; right: 85vw; top: 38vh;
 				width:14vw;
-				height:40vh;
+				height:38vh;
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
   				overflow-y: scroll;
 			}
+			#console{
+				margin-top: 0;
+				margin:auto;
+				right:1vw;
+				width:98vw;
+				height:22vh;
+				border: 2px solid black;
+				text-align: left;
+				overflow-x: hidden;
+  				overflow-y: scroll;
+			}
+			/*#twoOverThree{
+				position:absolute;
+				border: red 5px solid;
+				width:100%;
+				top: 66%;
+				z-index: 20;
+			}*/
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
@@ -107,6 +125,9 @@
 			<p id="equipDisplay">
 
 			</p>
+		</div>
+		<div id="console">
+			
 		</div>
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
@@ -485,6 +506,11 @@
 				}
       		}
     	}
+		const conDis=document.getElementById("console")
+		function TtC(string){//Text to Console; adds text to the console.
+			conDis.innerHTML+=string;
+			conDis.innerHTML+="<br>";//auto adds text to the next line.
+		}
 		function forceAddItem(item,amount){//for admin use only
 			if(typeof(inventory[item])=="undefined"){
 				inventory[item]=amount;
