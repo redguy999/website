@@ -514,7 +514,7 @@
 					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
 					LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
 					eList[LI]["location"]==corrdinate;
-					return;
+					return;//so that the console error doesn't run.
 				}
 			}
 			console.error("ERROR: enemy name not found in enemy list.")

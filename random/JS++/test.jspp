@@ -1,0 +1,2 @@
+external $;//grab jquery
+$("#content").text("Hello World!");
