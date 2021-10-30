@@ -494,33 +494,63 @@
 			displayInvent();
 		}
 		function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are strings.
-			if(!checkOoB(corrdinate)){//placement check
-				console.error("corrdinate out of bounds error, enemy placement impossible, aborting...")
-				return;//enemy can't be validly placed.
-			} else if(CVM(corrdinate)){
-				while(true){
-					let temp = prompt("corrdinate is in a wall, your options are: to 'remove' the wall or to 'cancel' enemy placement.")
-					if(temp=="remove"){
-						walls.splice(walls.indexOf(corrdinate),1);//removes the wall on corrdinate, might error
-					} else if(temp=="cancel"){
-						return;//early exit.
-					}else{
-						alert("please answer the prompt correctly.")
-					}
-				}
-			}
+			let temp = placementInWall(corrdinate)
+			if(temp){}else{return;}//this works
 			for(x in enemies){
 				if(enemies[x].name==eName){
 					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
-					LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
+					let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
 					eList[LI]["location"]==corrdinate;
 					return;//so that the console error doesn't run.
 				}
 			}
 			console.error("ERROR: enemy name not found in enemy list.")
 		}
+		function placementInWall(corrdin){//should only be called from an admin function
+			if(!checkOoB(corrdin)){//placement check
+				console.error("corrdinate out of bounds error, enemy placement impossible, aborting...")
+				return false;//enemy can't be validly placed.
+			} else if(CVM(corrdin)){//CVM also check for being out of bounds, but we already checked that so that can't be true.
+				while(true){
+					let temp = prompt("corrdinate is in a wall, your options are: to 'remove' the wall or to 'cancel' enemy placement.")
+					if(temp=="remove"){
+						walls.splice(walls.indexOf(corrdin),1);//removes the wall on corrdinate, shouldn't error.
+						return true;//enemy can now be placed.
+					} else if(temp=="cancel"){
+						return null;//enemy is no longer being placed.
+					}else{
+						alert("please answer the prompt correctly.")
+					}
+				}
+			}
+			return true;
+		}
 		function forcePlaceCustomE(){//admin function; it'll just ask for the values in prompts
-			//force places a custom enemy, with custom stats.
+			let stats = []
+			stats.push(prompt("enemy's name:"));
+			stats.push(prompt("enemy's max health:"));
+			stats.push(prompt("enemy's attack:"));
+			stats.push(prompt("enemy's defense:"));
+			for(let i=1;i<=3;i++){//skips the first index, which is intentional
+				stats[i]=parseInt(stats[i]);
+				if(stats[i]==NaN){
+					alert("ERROR: invalid variable type, expects: INT for all but name.")
+					return;
+				}
+			}
+			eList.push(new enemy(stats[0],stats[1],stats[2],stats[3]));
+			let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
+			while(true){
+				let tempc = prompt("input corrdinate to place");
+				let temp=placementInWall(tempc)
+				if(temp===null){
+					return;//enemy is no longer being placed.
+				}else if(temp){
+					eList[LI]["location"]==tempc;
+					return;//no need to continue
+				}
+				alert("invalid corrdinate input")
+			}
 		}
 		const healthDis = document.getElementById("health")
 		const MhealthDis = document.getElementById("Mhealth")
