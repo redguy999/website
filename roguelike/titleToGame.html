@@ -181,6 +181,11 @@
 			document.getElementById("gameBoard").style.display = "initial";
 			document.body.onkeydown=function(){keyPress();};
 		}
+		function returnToTitle(){
+			document.getElementById("titleScreen").style.display = "initial";
+			document.getElementById("gameBoard").style.display = "none";
+			document.body.removeEventListener('keydown');//hopefully this works
+		}
 		function loadSave(){
 			alert("Apologies, but we haven't added this feature yet.")
 		}

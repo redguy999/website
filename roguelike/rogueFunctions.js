@@ -269,15 +269,7 @@ function switchMovement(Corrd, key) {//movement function, returns a string, or n
     return temp.toString();;//returns corrdinate as string
 }
 //debugger;//something here isn't working, for some reason.
-//for random ideas about makig sure you can get to the end tile.
-function mkPathToEnd() {//this would be ran before you make the walls.
-    /*how this is suppose to work:
-    - figure out if the end point is above or below the start point, and if the end point is left or right of the start point
-    - use the previous information to move towards the end point from the start.
-    - hold the corrdinates that were travelled through, and make it so that those corrdinates can't be a wall.
-    */
-}
-function oldPather() {
+function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to work.
     //console.log("pather begins")
     let newCorrds = [];//must be blank.
     var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
@@ -287,7 +279,6 @@ function oldPather() {
             return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
         }
         for (let t = 0; t < checkCorrds.length; t++) {
-            //newCorrds.push(temp);
             let tempCorrd = checkCorrds[t];
             for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
                 let holdT = switchMovement(tempCorrd, i);
@@ -296,12 +287,10 @@ function oldPather() {
                 } else {
                     newCorrds.push(holdT);
                 }
-                //console.log(temp);
             }
         }//end of checkcorrds.length for loop
         for (let i = 0; i < newCorrds.length; i++) {
-            if (newCorrds[i] == exitPoint) {//i put exit instead of start for some reason, I'm commeting that as a reminder of my stupidity.
-                //console.log("true")
+            if (newCorrds[i] == exitPoint) {//if one of the newCorrds is on the exitPoint, then the exit is reachable.
                 return true;//exit is reachable from start
             }
         }
@@ -311,13 +300,12 @@ function oldPather() {
         checkCorrds = [];//empties checkCorrds
         checkCorrds = Array.from(new Set(newCorrds));//removes duplicates, makes check corrds = new Corrds
         newCorrds = [];//clear it so it doesn't get really big.
-        for (let i = 0; i < validCorrds; i++) {
+        for (let i = 0; i < validCorrds.size; i++) {//so that we don't get duplicate corrds, might be more trouble then its worth, however.
             let temp = checkCorrds.indexOf(validCorrds[i]);
             if (temp != -1) {//if the indexOf function = -1, it couldn't find the input in the array.
                 checkCorrds.splice(temp, 1);
             }
         }//this for loop removes any corrds that were already checked.
     }//if it can't find the end point by the end of this, the end point is unreachable.
-    //console.log("false");
-    return false; //is not to reach the end.
+    return false; //not able to reach the end.
 }

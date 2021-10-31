@@ -179,6 +179,51 @@
 				}
 			}
 		}
+        const thisWin = window.self
+        function playerDead(){
+            TtC("You have died.");
+            
+            //code for if we want a game over screen and still able to view what the player has would need to be placed above.
+            clearVars();
+            while(true){//gonna rework this so that you can answer with the alerts.
+                let temp = prompt("Would you like to 'restart' or 'return' to the title screen?");
+                if(temp=="restart"){
+                    startGame();
+                    return;
+                } else if(temp=="return"){
+                    try{
+                        returnToTile();
+                    }catch{
+                        console.error("tileScreen does not exist.");
+                        startGame();
+                    }
+                    return;
+                } else {
+                    alert("please answer the question.");
+                }
+            }
+        }
+        function clearVars(){//more accurate name would be "resetVars" but i'm too lazy to change the name back.
+            eList.splice(0,eList.length);//clear eList
+            level=1;
+            entLocs = [];
+            for(x in inventory){
+                delete inventory[x];
+            }
+            for(x in equipment){
+                for(y in equipment[x]){//this is needed so that we don't delete the slots themselves and break everything.
+                    delete equipment[x][y];
+                }
+            }
+            for(x in iList){
+                iList[i]["location"]=null;
+            }
+            walls.splice(0,walls.length-1);//probably don't need to, but just in case.
+            Mogrid.innerHTML="";//empty the grid.
+            player.updateStats();//since equipment was cleared, this should reset to default stats.
+            player.hurtPlayer(-player.Mhealth);//should be a full heal.
+            conDis.innerHTML="";//clear the console.
+        }
 			const player = {//could probably move the location variable here but that would be kinda annoying.
 				attack:1,//default values, attack should never go below 1 while alive.
 				defense:0,//TODO: make this actually do stuff.
@@ -208,8 +253,7 @@
 					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
 						this.health=this.Mhealth;
 					} else if(this.health<=0){
-						alert("oh no we're dead.");
-						//insert calling game over function here.
+						playerDead();
 						return;
 					}
 					updateHealth()
@@ -220,7 +264,7 @@
 				this.Mhealth = 100;//default values
 				this.special = null;//we have no way of editing this currently but i'll leave it here.
 				for (x in equipment){
-					for(y in equipment[x]){//reads every property of every slot, might also try to read the functions but that is easy to stop.
+					for(y in equipment[x]){//reads every property of every slot
 						if(equipment[x][y]=="empty"){
 							continue;
 						}
@@ -297,7 +341,7 @@
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 		}
-		function collectOrCombat(){//too lazy to change the name even if have of it no longer works.
+		function collectOrCombat(){//too lazy to change the name even if have of it isn't here.
 			for(let i=0;i<iList.length;i++){
 				if(iList[i]["location"]==playerLoc){
 					iList[i].getItem();
