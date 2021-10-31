@@ -474,6 +474,7 @@
 					console.log(item)
 				}
 				inventory[item]-=1;
+				TtC("You use the "+item+".");
 				itemStats.useItem(item);
 				displayInvent();
 			} catch {
