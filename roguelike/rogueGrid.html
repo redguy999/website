@@ -39,7 +39,7 @@
 				height:38vh;
 				border: 1px solid black;
 				overflow-x: hidden;
-  				overflow-y: scroll;
+  				overflow-y: auto;
 				text-align:center;
 			}
 			#equipmentArea{
@@ -48,7 +48,7 @@
 				height:38vh;
 				border: 1px solid black;
 				overflow-x: hidden;
-  				overflow-y: scroll;
+  				overflow-y: auto;
 				text-align:center;
 			}
 			.E:hover{
@@ -66,7 +66,7 @@
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
-  				overflow-y: scroll;
+  				overflow-y: auto;
 			}
 			#infoDisplay{
 				position: absolute; right: 85vw; top: 38vh;
@@ -75,7 +75,7 @@
 				border: 1px solid black;
 				text-align: center;
 				overflow-x: hidden;
-  				overflow-y: scroll;
+  				overflow-y: auto;
 			}
 			#console{
 				margin-top: 0;
@@ -86,7 +86,7 @@
 				border: 2px solid black;
 				text-align: left;
 				overflow-x: hidden;
-  				overflow-y: scroll;
+  				overflow-y: auto;
 			}
 			/*#twoOverThree{
 				position:absolute;
@@ -132,7 +132,7 @@
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script>
 	<script>
-		/*TODO: make enemy drops, rework attacking, add console to bottom of screen, (optional: rework how locations are read and stored.)
+		/*TODO: make enemy drops, rework attacking, (optional: rework how locations are read and stored.)
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
@@ -149,7 +149,7 @@
 			offHand:{
 				name:"empty"
 			},
-			equipEquipment:function(equipment){
+			equipEquipment:function(equipment){//equipment is a string
 				/*debugger*/;
 				let temp=itemStats[equipment];
 				switch (temp["slot"]) {
@@ -173,10 +173,11 @@
 						this.offHand["name"]="FULL"
 						break;
 					default:
-						console.error("invalid slot setting.")
-						break;
+						console.error("invalid slot setting for"+equipment)
+						return;
 				}
 				inventory[equipment]-=1;
+				TtC("You equip the "+equipment);
 				displayInvent();
 				displayEquipment();
 				player.updateStats();
@@ -230,12 +231,12 @@
 				}
 				equipment[slot].name="empty";
 			}
-			console.log(temp);
 			if(typeof(inventory[temp])=="undefined"){
 				inventory[temp]=1;
 			}else{
 				inventory[temp]+=1;
 			}
+			TtC("You unequip the "+temp);
 			displayInvent();
 			displayEquipment();
 			player.updateStats();
@@ -248,9 +249,9 @@
 				//this.locked = locked;//unused
 				this.getItem = function(){
 					if(this.amount==1){
-						alert("you found a "+this.contents+".")
+						TtC("you found a "+this.contents+".")
 					}else{
-						alert("you found some "+this.contents+"s.");//change this to log at the bottom console
+						TtC("you found "+this.amount+" "+this.contents+"s.");//change this to log at the bottom console
 					}
 					setBGColor(this.location,"white");
 					entLocs.splice(entLocs.indexOf(this.location),1);
@@ -273,7 +274,7 @@
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
-						console.log("The "+this.name+"'s armor completely protects them from harm!")
+						TtC("The "+this.name+"'s armor completely protects them from harm!")
 						this.fight();//skip to attack
 						return;//nothing else to do.
 					}
@@ -283,7 +284,11 @@
 					//probably some check for special attributes, oh and also defense
 					//if the enemy doesn't have "health" which can be determined by checking max health, call a special function.
 					this.health-=temp;
-					console.log("the "+this.name+" has "+this.health+"HP remaining.");
+					if(temp>0){
+						TtC("The "+this.name+" takes "+temp+" damage!");
+					} else{
+						TtC("The "+this.name+" heals "+(-temp)+" health!");//TODO: reword this.
+					}
 					if(this.health>this.Mhealth){//this function can be used for healing too.
 						this.health=this.Mhealth;
 					} else if(this.health<=0){
@@ -294,7 +299,7 @@
 					this.fight();
 				}
 				this.dead = function(){
-					alert("you have defeated the "+this.name+".");
+					TtC(this.name+" has been defeated.");
 					setBGColor(this.location,"white");
 					entLocs.splice(entLocs.indexOf(this.location),1);
 					this.location = null;
@@ -320,7 +325,7 @@
 					if(damg>0){
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
-						console.log("Your armor completely protects you from harm!")
+						TtC("Your armor completely protects you from harm!")
 						updateHealth()
 						return;//no damage to deal, skip to end.
 					}
@@ -328,6 +333,11 @@
 						temp = damg
 					}
 					this.health-=temp;
+					if(temp>0){
+						TtC("you take "+temp+" damage!");
+					} else{
+						TtC("you heal "+(-temp)+" health.");//TODO: reword this.
+					}
 					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
 						this.health=this.Mhealth;
 					} else if(this.health<=0){
@@ -352,7 +362,7 @@
 				}
 				for(x in player){
 					if(typeof(x)=="undefined"){
-						console.error("stat became invalid, priting stat logs:");
+						console.error("stat became invalid, printing stat logs:");
 						console.log(this.attack);
 						console.log(this.defense);
 						console.log(this.Mhealth);
@@ -510,6 +520,11 @@
 		function TtC(string){//Text to Console; adds text to the console.
 			conDis.innerHTML+=string;
 			conDis.innerHTML+="<br>";//auto adds text to the next line.
+			conDis.scrollTo(0,999999999999)//scrolls to the bottom of the console, first zero is horizontal scroll.
+			//theres probably a better way to make it scroll to the bottom of the console, but this will do.
+		}
+		function clearConsole(){
+			conDis.innerHTML="";//removes all the text in the console.
 		}
 		function forceAddItem(item,amount){//for admin use only
 			if(typeof(inventory[item])=="undefined"){
@@ -591,5 +606,6 @@
 			healthDis.innerHTML = player.health;
 			MhealthDis.innerHTML = player.Mhealth;
 		}
+		console.log(document.getElementById("movementGrid").clientHeight);
 	</script>
 </html>
