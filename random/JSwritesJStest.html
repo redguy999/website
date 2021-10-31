@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="testW">
+            if this works, this shouldn't be visible anymore.
+        </div>
+    </body>
+    <script>
+        const bodyDis = document.body;
+        const DTW = document.getElementById("testW");
+        bodyDis.innerHTML += "<script>DTW.innerHTML='it worked.';<//script>";
+    </script>
+</html>
