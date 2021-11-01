@@ -54,6 +54,22 @@ const enemies = [
     {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"grey"},
 ];
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
+const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
+    /*format for objects in here:
+    
+    */
+    {},
+];//this will probably need overhauled/moved to enemies at some point but it works for now.
+function dropLoot(Dropper){
+    let temp;
+    for(x in enemies){
+        if(enemies[x].name==Dropper){
+            temp=x;//x should be an int since its interating through an array.
+            break;
+        }
+    }
+    let temp2=lootTable[temp];//need to grab this.
+}
 class equiped{
     constructor(name="missingN",attack=0,defense=0,healthUp=0,special=null){//currently no way to read special.
         this.name = name;

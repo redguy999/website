@@ -167,6 +167,7 @@
 				}
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
+                    dropLoot(this.name);
 					setBGColor(this.location,"white");
 					entLocs.splice(entLocs.indexOf(this.location),1);
 					this.location = null;
