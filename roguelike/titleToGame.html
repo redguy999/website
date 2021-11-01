@@ -132,7 +132,7 @@
 	<body>
 		<div id="titleScreen">
 			<div id="gTitle">
-				Basic Roguelike in JS
+				<p id="titleName">Basic Roguelike in JS</p>
 			</div>
 			<div id="alignButtons">
 				<button id="statGame" onclick="titleToGame()">Start Game</button>
@@ -175,6 +175,9 @@
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script><script src="advRogue.js"></script>
 	<script>
+		let titler=document.getElementById("gTitle")
+		let namer = document.getElementById("titleName")
+		namer.style.paddingTop =(titler.clientHeight-namer.clientHeight)/2//this is a terrible way to make it always align, as it fails the moment you resize the browser.
 		function titleToGame(){
 			document.getElementById("titleScreen").style.display = "none";
 			startGame();
