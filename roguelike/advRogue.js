@@ -167,7 +167,25 @@
 				}
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
-                    dropLoot(this.name);
+                    try{
+						let temp = dropLoot(this.name);
+						if(temp===null){//drop nothing
+
+						}else{
+							if(typeof(temp)=="object"){
+								if(temp[1]>1){
+									TtC("The "+this.name+" dropped: "+temp[1]+" "+temp[0]+"s.")
+								} else{
+									TtC("The "+this.name+" dropped: one "+temp[0]+".")//TODO: merge this and the temp = string one.
+								}
+							}else{
+								TtC("This"+this.name+ "dropped: one "+temp+".")
+							}
+							addToInventory(temp);//addToInventory can convert this to the properly format.
+						}
+					} catch {
+						console.error("ERROR: function, dropLoot failed.")
+					}
 					setBGColor(this.location,"white");
 					entLocs.splice(entLocs.indexOf(this.location),1);
 					this.location = null;
@@ -350,7 +368,15 @@
 			}
 		}
 		//make the items and enemies be in an array, this will allow for loop calling, which is must easier to expand.
-		function addToInventory(item,amount){//self explainitory
+		function addToInventory(item,amount=1){//self explainitory
+			if(typeof(item)=="object"){
+				amount=item[1];
+				item=item[0];
+			} 
+			if(typeof(item)!="string"){
+				console.error("ERROR: invalid type for argument 'item', type should be string or array.")
+				return;//can't work with an invalid variable type.
+			}
 			if(typeof(inventory[item])=="undefined"){
 				inventory[item]=amount;
 			}else{
@@ -448,6 +474,7 @@
 			displayInvent();
 		}
 		function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are strings.
+			debugger;
 			let temp = placementInWall(corrdinate)
 			if(temp){}else{return;}//this works
 			for(x in enemies){
@@ -471,7 +498,7 @@
 						walls.splice(walls.indexOf(corrdin),1);//removes the wall on corrdinate, shouldn't error.
 						return true;//enemy can now be placed.
 					} else if(temp=="cancel"){
-						return null;//enemy is no longer being placed.
+						return false;//enemy is no longer being placed.
 					}else{
 						alert("please answer the prompt correctly.")
 					}

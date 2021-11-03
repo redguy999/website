@@ -55,12 +55,11 @@ const enemies = [
 ];
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
-    /*format for objects in here:
-    
-    */
-    {},
+    {"gold coin":[50,5],},//goblin,
+    {spear:[30,1],shield:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
 ];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
+    debugger;
     let temp;
     for(x in enemies){
         if(enemies[x].name==Dropper){
@@ -68,7 +67,29 @@ function dropLoot(Dropper){
             break;
         }
     }
-    let temp2=lootTable[temp];//need to grab this.
+    temp=lootTable[temp];//need to grab this.
+    let chance = 100;
+    for(x in temp){//enemies can only currently drop a single type of item currently
+        let RNG = Math.floor(Math.random()*(chance))+1;
+        console.log(chance);
+        console.log(RNG);
+        console.log(x)
+        console.log(temp[x][0])
+        if(RNG<temp[x][0]){
+            if(temp[x][1]=1){
+                return x;
+            }else if(temp[x][1]=0){//this shouldn't ever be true
+                console.error("drop value invalid for: " +x);
+                console.log(temp);
+                continue;//skip it.
+            }else{
+                return [x,Math.floor(Math.random()*temp[x][1])+1]
+            }
+        } else {
+            chance-temp[x][0]
+        }
+    }
+    return null;//if dropping nothing.
 }
 class equiped{
     constructor(name="missingN",attack=0,defense=0,healthUp=0,special=null){//currently no way to read special.
