@@ -200,32 +200,38 @@
 		}
         const thisWin = window.self
         function playerDead(){
-            TtC("You have died.");
-            
+            TtC("<span style='background-color:black;color:white;'>You have died.</span>");
+			document.body.onkeydown = function(){};//empty the function
             //code for if we want a game over screen and still able to view what the player has would need to be placed above.
-            clearVars();
-            while(true){//gonna rework this so that you can answer with the alerts.
-                let temp = prompt("Would you like to 'restart' or 'return' to the title screen?");
-                if(temp=="restart"){
-                    startGame();
-                    return;
-                } else if(temp=="return"){
-                    try{
-                        returnToTile();
-                    }catch{
-                        console.error("tileScreen does not exist.");
-                        startGame();
-                    }
-                    return;
-                } else {
-                    alert("please answer the question.");
-                }
-            }
+			setTimeout(function(){
+				while(true){//gonna rework this so that you can answer with the alerts.
+					let temp = prompt("Would you like to 'restart' or 'return' to the title screen?");
+					if(temp=="restart"){
+						clearVars();
+						document.body.onkeydown = function(){keyPress()};
+						startGame();
+						return;
+					} else if(temp=="return"){
+						clearVars();
+						document.body.onkeydown = function(){keyPress()};
+						try{
+							returnToTile();
+						}catch{
+							console.error("tileScreen does not exist, restarting...");
+							startGame();
+							return;
+						}
+						return;
+					} else {
+						alert("please answer the question.");
+					}
+				}
+			},5000);
         }
         function clearVars(){//more accurate name would be "resetVars" but i'm too lazy to change the name back.
             eList.splice(0,eList.length);//clear eList
             level=1;
-            entLocs = [];
+            entLocs = [];//clear entLocs
             for(x in inventory){
                 delete inventory[x];
             }
@@ -233,12 +239,13 @@
                 for(y in equipment[x]){//this is needed so that we don't delete the slots themselves and break everything.
                     delete equipment[x][y];
                 }
+				equipment[x].name="empty"//equipment breaks if we don't do this.
             }
             for(x in iList){
                 iList[i]["location"]=null;
             }
             walls.splice(0,walls.length-1);//probably don't need to, but just in case.
-            Mogrid.innerHTML="";//empty the grid.
+            //Mogrid.innerHTML="";//empty the grid.
             player.updateStats();//since equipment was cleared, this should reset to default stats.
             player.hurtPlayer(-player.Mhealth);//should be a full heal.
             conDis.innerHTML="";//clear the console.

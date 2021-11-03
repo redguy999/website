@@ -187,7 +187,7 @@
 		function returnToTitle(){
 			document.getElementById("titleScreen").style.display = "initial";
 			document.getElementById("gameBoard").style.display = "none";
-			document.body.removeEventListener('keydown');//hopefully this works
+			document.body.onkeydown = function(){};
 		}
 		function loadSave(){
 			alert("Apologies, but we haven't added this feature yet.")

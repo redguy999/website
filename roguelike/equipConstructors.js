@@ -59,7 +59,6 @@ const lootTable = [//loot table is an array of objects, each index of the array 
     {spear:[30,1],shield:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
 ];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
-    debugger;
     let temp;
     for(x in enemies){
         if(enemies[x].name==Dropper){

@@ -22,6 +22,7 @@ corrdinates test:
     for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
 */
 function startGame() {//start, end, finally walls.
+    Mogrid.innerHTML="";//empty the grid, in case theres stuff in there already.
     makeGrid();
     mkStartPoint();
     mkExitPoint();
