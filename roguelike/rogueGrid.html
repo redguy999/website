@@ -88,6 +88,10 @@
 				overflow-x: hidden;
   				overflow-y: auto;
 			}
+			#equipmentArea>h3,p {
+  				margin-block-start:0;
+				margin-block-end:0;
+			}
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
@@ -115,9 +119,10 @@
 		<div id="equipmentArea">
 			<!--keep it like this, when i tried to change it to just the div it broke and i couldn't fix it. had to rollback to a working version.-->
 			<h1>Equipment:</h1>
-			<p id="equipDisplay">
-
-			</p>
+			<h4>Main hand item:</h4>
+			<p id="mainHand slot"></p>
+			<h4>Off hand item:</h4><!--this mess will need updated when more slots are added.-->
+			<p id="offHand slot"></p><br>
 		</div>
 		<div id="console">
 			

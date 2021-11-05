@@ -3,7 +3,7 @@
 URGENT:
 HIGH:
 MEDIUM: optimism everything.
-LOW: rework attack functions (defense formula, wording, a few other things.)
+LOW: rework attack functions (defense formula, wording, a few other things.), overhaul how equipment is equiped.
 VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
@@ -47,13 +47,28 @@ VERY LOW: rework how locations are read and stored.
 				player.updateStats();
 			},
 		};
-		var equipDisplay=document.getElementById("equipDisplay");
 		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
 			//this could be turned into a nested for in loops, but a dictonary object might be required
-			equipDisplay.innerHTML="";//need to clear it.
-			equipDisplay.innerHTML+="Main hand item:<br>";//might change this, but this will work for now.
-			//debugger;
-			for(x in equipment.mainHand){
+			for(x in equipment){
+				if(x=="equipEquipment"){
+					continue;//its trying to read the function
+				}
+				let equipDisplay=document.getElementById(x + " slot");
+				equipDisplay.innerHTML="";//need to clear it.
+				if(equipment[x].name=="empty"){
+					equipDisplay.innerHTML+="empty";
+					continue;
+				} else if(equipment[x].name=="FULL"){//this should only accord when a 2 hand item is equiped, at least for now.
+					equipDisplay.innerHTML+="("+equipment.mainHand.name+")";
+					continue;
+				}else{
+					for(y in equipment[x]){
+						equipDisplay.innerHTML+=y+" : "+equipment[x][y]+"<br>";
+					}
+					equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\""+x+"\")'>Unequip?";
+				}
+			}
+			/*for(x in equipment.mainHand){
 				if(equipment["mainHand"].name=="empty"){
 					equipDisplay.innerHTML+="empty";
 					break;//we can just early exit since there shouldn't be anything else to read.
@@ -76,10 +91,10 @@ VERY LOW: rework how locations are read and stored.
 			} 
 			if(equipment["offHand"].name!="empty"&&equipment["offHand"].name!="FULL"){//i think this works.
 				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"offHand\")'>Unequip?"
-			}
+			}*/
 		}
-		function unequip(slot){
-			let temp=equipment[slot].name;
+		function unequip(eSlot){
+			let temp=equipment[eSlot].name;
 			if(itemStats[temp].slot=="2Hands"){
 				for(x in equipment.offHand){
 					delete equipment.offHand[x]
@@ -90,12 +105,12 @@ VERY LOW: rework how locations are read and stored.
 				equipment.offHand.name="empty";
 				equipment.mainHand.name="empty";
 			} else {
-				for(x in equipment[slot]){
-					delete equipment[slot][x];
+				for(x in equipment[eSlot]){
+					delete equipment[eSlot][x];
 				}
-				equipment[slot].name="empty";
+				equipment[eSlot].name="empty";
 			}
-			if(typeof(inventory[temp])=="undefined"){
+			if(typeof(inventory[temp])=="undefined"){//check if we already have this.
 				inventory[temp]=1;
 			}else{
 				inventory[temp]+=1;
@@ -340,7 +355,6 @@ VERY LOW: rework how locations are read and stored.
 		//classes above, objects and functions below:
 		function mkOtherStuff(){
 			placeItems();
-			displayEquipment();
 			updateStatistics();
 			updateInfo();
 		}
@@ -463,7 +477,7 @@ VERY LOW: rework how locations are read and stored.
 					console.log(x+" has been removed.")
 					delete inventory[x];
 					continue;
-				}
+				}//string.endsWith()
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";

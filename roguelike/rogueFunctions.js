@@ -27,6 +27,7 @@ function startGame() {//start, end, finally walls.
     mkStartPoint();
     mkExitPoint();
     mkWalls();
+    displayEquipment();//need to run it here so it displays the console correctly
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
         return;
@@ -49,7 +50,7 @@ function nextLevel() {//this may be called for reasons other than that the level
     try{
         mkOtherStuff();
     } finally{
-         //proceed if it doesn't work.
+        //proceed if it doesn't work.
     }
 }
 function clearGrid() {
