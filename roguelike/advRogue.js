@@ -1,5 +1,10 @@
 //FILE START!
-/*TODO: make enemy drops, rework attacking, (optional: rework how locations are read and stored.)
+/*TODO: stuff to do list:
+URGENT:
+HIGH:
+MEDIUM: optimism everything.
+LOW: rework attacking (i forgot why i wanted to do this)
+VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
@@ -196,6 +201,8 @@
 		}
         const thisWin = window.self
         function playerDead(){
+			player.health=0;
+			updateHealth();//set health to Zero and display it.
             TtC("<span style='position:relative;background-color:black;color:white;Z-index:110;'>You have died.</span>");
 			document.getElementById("sCover").style.zIndex="100";//bring it to the front so everything you can click can not be used.
 			document.body.onkeydown = function(){};//empty the function
