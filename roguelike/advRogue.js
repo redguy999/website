@@ -236,13 +236,12 @@ VERY LOW: rework how locations are read and stored.
 			},10000);
         }
 		let interv;//for holding the interval function
-		let opac = 0;//for setting the opacity when you die.
 		function coverScreen(){
-			let styler = document.getElementById("sCover");
-			interv = setInterval(covering,50, styler);
+			interv = setInterval(covering,50);
 		}
-		function covering(styler){
-			opac += 0.01;
+		function covering(){
+			let styler = document.getElementById("sCover").style;
+			let opac = parseFloat(styler.opacity)+.01;
 			styler.style.opacity = opac;
 			if(opac >= 1){
 				clearInterval(interv);
