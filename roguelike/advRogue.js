@@ -203,6 +203,7 @@
             TtC("<span style='background-color:black;color:white;'>You have died.</span>");
 			document.body.onkeydown = function(){};//empty the function
             //code for if we want a game over screen and still able to view what the player has would need to be placed above.
+			setTimeout(coverScreen,2000);
 			setTimeout(function(){
 				while(true){//gonna rework this so that you can answer with the alerts.
 					let temp = prompt("Would you like to 'restart' or 'return' to the title screen?");
@@ -210,24 +211,52 @@
 						clearVars();
 						document.body.onkeydown = function(){keyPress()};
 						startGame();
+						unCover();
 						return;
 					} else if(temp=="return"){
 						clearVars();
 						document.body.onkeydown = function(){keyPress()};
 						try{
 							returnToTile();
+							unCover();
 						}catch{
 							console.error("tileScreen does not exist, restarting...");
 							startGame();
-							return;
+							unCover();
 						}
 						return;
 					} else {
 						alert("please answer the question.");
 					}
 				}
-			},5000);
+			},10000);
         }
+		let interv;//for holding the interval function
+		let opac = 0;//for setting the opacity when you die.
+		function coverScreen(){
+			console.log("covering Screen...")
+			let styler = document.getElementById("sCover");
+			interv = setInterval(covering,50, styler);
+		}
+		function covering(styler){
+			opac += 0.01;
+			styler.style.opacity = opac;
+			console.log(opac);
+			console.log(styler.style.opacity);
+			if(opac >= 1){
+				console.log("interval cleared.")
+				clearInterval(interv);
+				return;
+			}
+			
+		}
+		function unCover(){
+			document.getElementById("sCover").style.opacity=0;
+			opac=0;
+		}
+		function Die(){
+			player.hurtPlayer(1000);
+		}
         function clearVars(){//more accurate name would be "resetVars" but i'm too lazy to change the name back.
             eList.splice(0,eList.length);//clear eList
             level=1;
@@ -247,7 +276,7 @@
             walls.splice(0,walls.length-1);//probably don't need to, but just in case.
             //Mogrid.innerHTML="";//empty the grid.
             player.updateStats();//since equipment was cleared, this should reset to default stats.
-            player.hurtPlayer(-player.Mhealth);//should be a full heal.
+            player.health=100;//should be a full heal.
             conDis.innerHTML="";//clear the console.
         }
 			const player = {//could probably move the location variable here but that would be kinda annoying.
