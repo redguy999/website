@@ -196,7 +196,8 @@
 		}
         const thisWin = window.self
         function playerDead(){
-            TtC("<span style='background-color:black;color:white;'>You have died.</span>");
+            TtC("<span style='position:relative;background-color:black;color:white;Z-index:110;'>You have died.</span>");
+			document.getElementById("sCover").style.zIndex="100";//bring it to the front so everything you can click can not be used.
 			document.body.onkeydown = function(){};//empty the function
             //code for if we want a game over screen and still able to view what the player has would need to be placed above.
 			setTimeout(coverScreen,2000);
@@ -230,7 +231,6 @@
 		let interv;//for holding the interval function
 		let opac = 0;//for setting the opacity when you die.
 		function coverScreen(){
-			console.log("covering Screen...")
 			let styler = document.getElementById("sCover");
 			interv = setInterval(covering,50, styler);
 		}
@@ -238,7 +238,6 @@
 			opac += 0.01;
 			styler.style.opacity = opac;
 			if(opac >= 1){
-				console.log("interval cleared.")
 				clearInterval(interv);
 				return;
 			}
@@ -246,6 +245,7 @@
 		}
 		function unCover(){
 			document.getElementById("sCover").style.opacity=0;
+			document.getElementById("sCover").style.zIndex="-10";//send it to the back.
 			opac=0;
 		}
 		function Die(){//admin function for killing the player.
