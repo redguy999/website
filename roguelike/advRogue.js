@@ -172,16 +172,12 @@
 						if(temp===null){//drop nothing
 
 						}else{
-							if(typeof(temp)=="object"){
-								if(temp[1]>1){
-									TtC("The "+this.name+" dropped: "+temp[1]+" "+temp[0]+"s.")
-								} else{
-									TtC("The "+this.name+" dropped: one "+temp[0]+".")//TODO: merge this and the temp = string one.
-								}
-							}else{
-								TtC("This"+this.name+ "dropped: one "+temp+".")
+							if(temp[1]>1){
+								TtC("The "+this.name+" dropped: "+temp[1]+" "+temp[0]+"s.")
+							} else{
+								TtC("The "+this.name+" dropped: one "+temp[0]+".")//TODO: merge this and the temp = string one.
 							}
-							addToInventory(temp);//addToInventory can convert this to the properly format.
+							addToInventory(temp);//addToInventory can convert this to the proper format.
 						}
 					} catch {
 						console.error("ERROR: function, dropLoot failed.")
@@ -252,7 +248,7 @@
 			document.getElementById("sCover").style.opacity=0;
 			opac=0;
 		}
-		function Die(){
+		function Die(){//admin function for killing the player.
 			player.hurtPlayer(1000);
 		}
         function clearVars(){//more accurate name would be "resetVars" but i'm too lazy to change the name back.

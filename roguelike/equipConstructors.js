@@ -76,7 +76,7 @@ function dropLoot(Dropper){
         console.log(temp[x][0])
         if(RNG<temp[x][0]){
             if(temp[x][1]=1){
-                return x;
+                return [x,1];
             }else if(temp[x][1]=0){//this shouldn't ever be true
                 console.error("drop value invalid for: " +x);
                 console.log(temp);
