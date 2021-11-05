@@ -241,8 +241,6 @@
 		function covering(styler){
 			opac += 0.01;
 			styler.style.opacity = opac;
-			console.log(opac);
-			console.log(styler.style.opacity);
 			if(opac >= 1){
 				console.log("interval cleared.")
 				clearInterval(interv);
