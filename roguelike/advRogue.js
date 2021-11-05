@@ -3,13 +3,13 @@
 URGENT:
 HIGH:
 MEDIUM: optimism everything.
-LOW: rework attacking (i forgot why i wanted to do this)
+LOW: rework attack functions (defense formula, wording, a few other things.)
 VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every (findable) item possible.
-		const equipable = ["sword","shield","spear"];//array containing the name of every item that is equipable.
+		const equipable = ["sword","shield","spear","missingFail"];//array containing the name of every item that is equipable.
 		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
 			
@@ -24,29 +24,21 @@ VERY LOW: rework how locations are read and stored.
 			equipEquipment:function(equipment){//equipment is a string
 				/*debugger*/;
 				let temp=itemStats[equipment];
-				switch (temp["slot"]) {
-					case "mainHand":
-						if(this.mainHand.name!="empty"){
-							return;//something is already equiped
-						}
-						this.mainHand=itemStats.getStats(equipment);
-						break;
-					case "offHand":
-						if(this.offHand.name!="empty"){
-							return;//something is already equiped
-						}
-						this.offHand=itemStats.getStats(equipment);
-						break;
-					case "2Hands":
-						if(this.offHand.name!="empty"||this.mainHand.name!="empty"){
-							return;//something is already equiped
-						}
-						this.mainHand=itemStats.getStats(equipment);
-						this.offHand["name"]="FULL"
-						break;
-					default:
-						console.error("invalid slot setting for"+equipment)
-						return;
+				if(temp["slot"]=="2Hands"){//have to hardcode the 2 hand equip
+					if(this.offHand.name!="empty"||this.mainHand.name!="empty"){
+						return;//something is already equiped
+					}
+					this.mainHand=itemStats.getStats(equipment);
+					this.offHand["name"]="FULL";
+				} else {//reworked so that it only needs to check for
+					if(this[temp["slot"]]==undefined){//if someone codes wrong.
+						console.error("ERROR: attempted to equip "+equipment+" to notexistant slot: "+temp["slot"]+".")
+						return;//code will break since the slot value is invalid.
+					}
+					if(this[temp["slot"]].name!="empty"){
+						return;//something is already equiped
+					}
+					this[temp["slot"]]=itemStats.getStats(equipment);
 				}
 				inventory[equipment]-=1;
 				TtC("You equip the "+equipment);
@@ -57,7 +49,7 @@ VERY LOW: rework how locations are read and stored.
 		};
 		var equipDisplay=document.getElementById("equipDisplay");
 		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
-			//this could be turned into a nested for in loops, but a dictonary object would be required
+			//this could be turned into a nested for in loops, but a dictonary object might be required
 			equipDisplay.innerHTML="";//need to clear it.
 			equipDisplay.innerHTML+="Main hand item:<br>";//might change this, but this will work for now.
 			//debugger;

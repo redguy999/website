@@ -2,7 +2,7 @@
 const itemStats={//should only be looked into when something is added to equipment.
     sword:{
         name:"sword",//we need these cause it makes some things easier.
-        slot:"mainHand",
+        slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
         attack:1,
         defense:1,
     },
@@ -16,6 +16,9 @@ const itemStats={//should only be looked into when something is added to equipme
         defense:1,
         Mhealth:10,
         slot:"offHand",
+    },
+    missingFail:{
+        name:"missingFail",
     },
     potion:{//might need to make this its own class if we ever do custom potions.
         name:"potion",//leave name since its helpful, and we might need it.
