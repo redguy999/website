@@ -254,7 +254,7 @@ VERY LOW: rework how locations are read and stored.
 			document.getElementById("sCover").style.zIndex="-10";//send it to the back.
 			opac=0;
 		}
-		function Die(){//admin function for killing the player.
+		function Die(){//should instantly (and always), instantly kill the player.
 			player.hurtPlayer(1000);
 		}
         function clearVars(){//more accurate name would be "resetVars" but i'm too lazy to change the name back.
