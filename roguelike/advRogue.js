@@ -453,7 +453,7 @@ VERY LOW: rework how locations are read and stored.
 				}//string.endsWith()
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='E' draggable='true' ondragstart='drag(event)' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' "+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
@@ -461,7 +461,7 @@ VERY LOW: rework how locations are read and stored.
 					}
 				}else{
 					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span draggable='true' ondragstart='drag(event)' class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id='"+x+"' draggable='true' class='E' "+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
@@ -471,30 +471,42 @@ VERY LOW: rework how locations are read and stored.
       		}
     	}
 		// ondrop="drop(event)" ondragover="allowDrop(event)" dragleave="rmOutline('equipmentArea')" DragEnter="addOutline('equipmentArea','#00F')"
+		var cParent=null;
+		var dragged//string, what is being dragged, at least it should be.
+		document.addEventListener("drag", function(event) {
+
+		}, false);
+		document.addEventListener("dragover", function( event ) {
+			// prevent default to allow drop
+			event.preventDefault();//NO DAMN CLUE WHY THIS SHOULD BE NEEDED BUT APPEARENTLY IT IS!
+		}, false);
+		document.addEventListener("dragstart", function( event ) {
+			// store a ref. on the dragged elem
+			dragged = event.target.id;
+		}, false);
 		document.addEventListener("dragleave", function( event ) {
 			// reset background of potential drop target when the draggable element leaves it
-			if (event.target.id == "equipmentArea") {//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
-				console.log("removing...")
+			if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
 				document.getElementById("equipmentArea").style.boxShadow = "none";
 			}
 		}, false);
 		document.addEventListener("dragenter", function( event ) {
 			// highlight potential drop target when the draggable element enters it
+			cParent=event.target.parentNode.id;//drag enter runs before drag leave.
 			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
-				console.log("adding...")
 				document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
 			}
 		}, false);
 		document.addEventListener("drop", function( event ) {
 			// prevent default action (open as link for some elements)
 			event.preventDefault();
-			console.log(event)
+			document.getElementById("equipmentArea").style.boxShadow = "none";
 			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea") {
+				equipItem(dragged);
 				document.getElementById("equipmentArea").style.boxShadow = "none";
-				dragged.parentNode.removeChild( dragged );
-				event.target.appendChild( dragged );
 			}
 		}, false);
+
 		const conDis=document.getElementById("console")
 		function TtC(string){//Text to Console; adds text to the console.
 			conDis.innerHTML+=string;
