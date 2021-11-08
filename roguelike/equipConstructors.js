@@ -101,8 +101,6 @@ function dropLoot(Dropper){
                 console.log(RNT);
                 return [x,RNT];
             }
-        } else {
-            chance-=temp[x][0];
         }
     }
     return null;//if dropping nothing.
