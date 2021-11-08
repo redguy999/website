@@ -497,14 +497,16 @@ VERY LOW: rework how locations are read and stored.
 			displayInvent();
 		}
 		function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are strings.
-			debugger;
 			let temp = placementInWall(corrdinate)
 			if(temp){}else{return;}//this works
 			for(x in enemies){
 				if(enemies[x].name==eName){
+					temp=enemies[x];
 					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
 					let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
 					eList[LI]["location"]==corrdinate;
+					entLocs.push(corrdinate);
+					setBGColor(corrdinate,enemies[x].color);
 					return;//so that the console error doesn't run.
 				}
 			}
