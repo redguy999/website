@@ -16,10 +16,16 @@ VERY LOW: rework how locations are read and stored.
 		}
 		const equipment = {//might need to overhaul how items work before i can do this.
 			mainHand:{
-				name:"empty"
+				name:"empty",
 			},
 			offHand:{
-				name:"empty"
+				name:"empty",
+			},
+			chest:{
+				name:"empty",
+			},
+			head:{
+				name:"empty",
 			},
 			equipEquipment:function(equipment){//equipment is a string, TODO: rework it to accept an array.
 				/*debugger*/;
