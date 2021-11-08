@@ -9,7 +9,7 @@ VERY LOW: rework how locations are read and stored.
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
-		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail"];//array containing the name of every item that is equipable.
+		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet"];//array containing the name of every item that is equipable.
 		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
 			
@@ -264,6 +264,7 @@ VERY LOW: rework how locations are read and stored.
             }
             walls.splice(0,walls.length-1);//probably don't need to, but just in case.
             //Mogrid.innerHTML="";//empty the grid.
+			displayInvent();//so that the inventory display actually clears.
             player.updateStats();//since equipment was cleared, this should reset to default stats.
             player.health=100;//should be a full heal.
             conDis.innerHTML="";//clear the console.
@@ -382,7 +383,7 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
-		}
+		}//this function will need to be completely reworked if i want to have drops get better as time goes on.
 		function collectOrCombat(){//too lazy to change the name even if have of it isn't here.
 			for(let i=0;i<iList.length;i++){
 				if(iList[i]["location"]==playerLoc){

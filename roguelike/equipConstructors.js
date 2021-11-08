@@ -14,7 +14,7 @@ const itemStats={//should only be looked into when something is added to equipme
     shield:{
         name:"shield",
         defense:1,
-        Mhealth:10,
+        Mhealth:10,//might wanna rework something so this looks better.
         slot:"offHand",
     },
     missingFail:{
@@ -30,7 +30,18 @@ const itemStats={//should only be looked into when something is added to equipme
         name:"helmet",
         defense:1,
         Mhealth:10,
-        slot:"head"//gonna add these later.
+        slot:"head",
+    },
+    "rock helmet":{
+        name:"rock helmet",
+        defense:2,
+        Mhealth:20,
+        slot:"head",
+    },
+    "rock flail":{
+        name:"rock flail",
+        attack:5,
+        slot:"mainHand",
     },
     potion:{//might need to make this its own class if we ever do custom potions.
         name:"potion",//leave name since its helpful, and we might need it.
@@ -68,12 +79,13 @@ const itemStats={//should only be looked into when something is added to equipme
 const enemies = [
     {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"orange"},//color is only for displaying where the enemy is.
     {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"darkgreen"},
-    {name:"Golem",Mhealth:"30",attack:"4",defense:"4",color:"grey"},
+    {name:"Rock golem",Mhealth:"30",attack:"4",defense:"4",color:"grey"},
 ];
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
     {"gold coin":[50,5],},//goblin,
     {spear:[30,1],shield:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
+
 ];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
     let temp;
@@ -85,7 +97,6 @@ function dropLoot(Dropper){
     }
     temp=lootTable[temp];//need to grab this.
     let chance = 100;
-    debugger;
     for(x in temp){//enemies can only currently drop a single type of item currently
         let RNG = Math.floor(Math.random()*(chance))+1;
         if(RNG<temp[x][0]){
