@@ -2,8 +2,8 @@
 /*TODO: stuff to do list:
 URGENT:
 HIGH:
-MEDIUM: optimism everything.
-LOW: rework attack functions (defense formula, wording, a few other things.), overhaul how equipment is equiped.
+MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time)
+LOW: rework attack functions (defense formula, wording, a few other things.), overhaul/refactor how equipment is equiped.
 VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
@@ -21,7 +21,7 @@ VERY LOW: rework how locations are read and stored.
 			offHand:{
 				name:"empty"
 			},
-			equipEquipment:function(equipment){//equipment is a string
+			equipEquipment:function(equipment){//equipment is a string, TODO: rework it to accept an array.
 				/*debugger*/;
 				let temp=itemStats[equipment];
 				if(temp["slot"]=="2Hands"){//have to hardcode the 2 hand equip
@@ -68,30 +68,6 @@ VERY LOW: rework how locations are read and stored.
 					equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\""+x+"\")'>Unequip?";
 				}
 			}
-			/*for(x in equipment.mainHand){
-				if(equipment["mainHand"].name=="empty"){
-					equipDisplay.innerHTML+="empty";
-					break;//we can just early exit since there shouldn't be anything else to read.
-				}
-				equipDisplay.innerHTML+=x+" : "+equipment.mainHand[x]+"<br>";
-			}
-			if(equipment["mainHand"].name!="empty"){
-				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"mainHand\")'>Unequip?"
-			}
-			equipDisplay.innerHTML+="<br>Off hand item:<br>";
-			for(x in equipment.offHand){
-				if(equipment["offHand"].name=="FULL"){//this only accords if an item is equiped in 2Hands.
-					equipDisplay.innerHTML+="("+equipment.mainHand.name+")<br>";//might need to overhaul how 2 slot equipment works if we want to change this to work with different slots.
-					break;//early exit since we don't need to read it.
-				} else if(equipment.offHand.name=="empty"){
-					equipDisplay.innerHTML+="empty";
-					break;//we can just early exit since there shouldn't be anything else to read.
-				}
-				equipDisplay.innerHTML+=x+" : "+equipment.offHand[x]+"<br>";
-			} 
-			if(equipment["offHand"].name!="empty"&&equipment["offHand"].name!="FULL"){//i think this works.
-				equipDisplay.innerHTML+="<span span class='E' onClick='unequip(\"offHand\")'>Unequip?"
-			}*/
 		}
 		function unequip(eSlot){
 			let temp=equipment[eSlot].name;
@@ -380,8 +356,7 @@ VERY LOW: rework how locations are read and stored.
 		function placeEnemies(){
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
 			eList.splice(0,eList.length);//clear eList
-			//might rework the RNG formulas so that it becomes harder as you get to lower floors.
-			//debugger;
+			//TODO: rework the RNG formulas so that it becomes harder as you get to lower floors.
 			for(let i=0;i<RNG;i++){
 				let color=GEFL();
 				eList[i]["health"]=eList[i]["Mhealth"];//full heal.

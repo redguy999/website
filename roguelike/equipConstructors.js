@@ -7,8 +7,8 @@ const itemStats={//should only be looked into when something is added to equipme
         defense:1,
     },
     spear:{
-        name:"spear",
-        slot:"2Hands",
+        name:"spear",//TODO: move this so that the name property is just the name of this object.
+        slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
         attack:2,
     },
     shield:{
@@ -20,11 +20,24 @@ const itemStats={//should only be looked into when something is added to equipme
     missingFail:{
         name:"missingFail",
     },
+    'chest plate':{
+        name:"chest plate",
+        defense:1,
+        Mhealth:20,
+        slot:"chest",
+    },
+    helmet:{
+        name:"helmet",
+        defense:1,
+        Mhealth:10,
+        slot:"head"//gonna add these later.
+    },
     potion:{//might need to make this its own class if we ever do custom potions.
         name:"potion",//leave name since its helpful, and we might need it.
         deal:-10,//deal (damage), negative Values mean healing.
     },
     useItem:function(item,target="self"){//default target for this function is yourself/the player. can't be used to target an enemy currently.
+        //TODO: move this out of the object.
         let temp={};
         for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
             if(x=="name"){
@@ -54,7 +67,8 @@ const itemStats={//should only be looked into when something is added to equipme
 }
 const enemies = [
     {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"orange"},//color is only for displaying where the enemy is.
-    {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"grey"},
+    {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"darkgreen"},
+    {name:"Golem",Mhealth:"30",attack:"4",defense:"4",color:"grey"},
 ];
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
