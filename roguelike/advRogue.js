@@ -8,8 +8,8 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = ["gold coin","sword","shield","spear","potion"];//array contaning the name of every (findable) item possible.
-		const equipable = ["sword","shield","spear","missingFail"];//array containing the name of every item that is equipable.
+		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
+		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail"];//array containing the name of every item that is equipable.
 		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
 			
