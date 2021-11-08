@@ -85,27 +85,24 @@ function dropLoot(Dropper){
     }
     temp=lootTable[temp];//need to grab this.
     let chance = 100;
+    debugger;
     for(x in temp){//enemies can only currently drop a single type of item currently
         let RNG = Math.floor(Math.random()*(chance))+1;
-        console.log(chance);
-        console.log(RNG);
-        console.log(x)
-        console.log(temp[x][0])
         if(RNG<temp[x][0]){
-            if(temp[x][1]=1){
+            if(temp[x][1]==1){
                 return [x,1];
-            }else if(temp[x][1]=0){//this shouldn't ever be true
+            }else if(temp[x][1]==0){//this shouldn't ever be true
                 console.error("drop value invalid for: " +x);
                 console.log(temp);
                 continue;//skip it.
             }else{
                 console.log(temp[x][1]);
-                let temp = Math.floor(Math.random()*temp[x][1])+1;
-                console.log(temp);
-                return [x,temp];
+                let RNT = Math.floor(Math.random()*temp[x][1])+1;
+                console.log(RNT);
+                return [x,RNT];
             }
         } else {
-            chance-temp[x][0]
+            chance-=temp[x][0];
         }
     }
     return null;//if dropping nothing.

@@ -217,7 +217,7 @@ function keyPress() {
             }
         }
     } catch{
-            console.error("check if moving onto enemy failed.")
+        console.error("check if moving onto enemy failed.");
     }
     playerLoc = temp;
     resetLocDisplay()

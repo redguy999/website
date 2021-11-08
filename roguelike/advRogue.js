@@ -359,7 +359,7 @@ VERY LOW: rework how locations are read and stored.
 			}
 			placeEnemies();
 		}
-		function placeEnemies(){
+		function placeEnemies(){//
 			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
 			eList.splice(0,eList.length);//clear eList
 			//TODO: rework the RNG formulas so that it becomes harder as you get to lower floors.
@@ -410,7 +410,7 @@ VERY LOW: rework how locations are read and stored.
 			} catch {
 
 			}
-			console.log(inventory);
+			//console.log(inventory);
 		}
 		function equipItem(item){
 			try{//incase equipConstructors gets removed.
@@ -420,7 +420,7 @@ VERY LOW: rework how locations are read and stored.
 					console.log(item)
 					return;//early exit since rest of code would break otherwise.
 				}
-				console.log(itemStats[item]);
+				//console.log(itemStats[item]);
 				equipment.equipEquipment(item);
 			} catch {
 				console.error("couldn't find equipConstructors.js");
@@ -455,7 +455,7 @@ VERY LOW: rework how locations are read and stored.
 			inDis.innerHTML = "";
     		for (x in inventory){
 				if(inventory[x]<=0){
-					console.log(x+" has been removed.")
+					//console.log(x+" has been removed.")
 					delete inventory[x];
 					continue;
 				}//string.endsWith()
@@ -500,11 +500,11 @@ VERY LOW: rework how locations are read and stored.
 			let temp = placementInWall(corrdinate)
 			if(temp){}else{return;}//this works
 			for(x in enemies){
-				if(enemies[x].name==eName){
+				if(enemies[x]["name"].toLowerCase()==eName.toLowerCase()){//the if statement works
 					temp=enemies[x];
 					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
 					let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
-					eList[LI]["location"]==corrdinate;
+					eList[LI]["location"]=corrdinate;//i accidently had this as "==" not "="
 					entLocs.push(corrdinate);
 					setBGColor(corrdinate,enemies[x].color);
 					return;//so that the console error doesn't run.
@@ -571,4 +571,4 @@ VERY LOW: rework how locations are read and stored.
 			healthDis.innerHTML = player.health;
 			MhealthDis.innerHTML = player.Mhealth;
 		}
-		console.log(document.getElementById("movementGrid").clientHeight);
+		//console.log(document.getElementById("movementGrid").clientHeight);
