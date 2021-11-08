@@ -459,6 +459,10 @@ VERY LOW: rework how locations are read and stored.
 					//console.log(x+" has been removed.")
 					delete inventory[x];
 					continue;
+				}else if(inventory[x]==NaN){
+					console.error("value of "+x+" was equal to NaN, removing...")
+					delete inventory[x];
+					continue;//rest will break if we don't restart.
 				}//string.endsWith()
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1){
