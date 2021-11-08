@@ -85,7 +85,10 @@ function dropLoot(Dropper){
                 console.log(temp);
                 continue;//skip it.
             }else{
-                return [x,Math.floor(Math.random()*temp[x][1])+1]
+                console.log(temp[x][1]);
+                let temp = Math.floor(Math.random()*temp[x][1])+1;
+                console.log(temp);
+                return [x,temp];
             }
         } else {
             chance-temp[x][0]

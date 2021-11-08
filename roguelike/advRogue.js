@@ -249,7 +249,7 @@ VERY LOW: rework how locations are read and stored.
 		function covering(){
 			let styler = document.getElementById("sCover").style;
 			let opac = parseFloat(styler.opacity)+.01;
-			styler.style.opacity = opac;
+			styler.opacity = opac;
 			if(opac >= 1){
 				clearInterval(interv);
 				return;
