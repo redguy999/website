@@ -9,7 +9,7 @@ VERY LOW: rework how locations are read and stored.
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
-		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet"];//array containing the name of every item that is equipable.
+		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet","rock flail"];//array containing the name of every item that is equipable.
 		const useable = ["potion"];//array containing the name of every item that is usable
 		const inventory = {
 			
@@ -27,38 +27,34 @@ VERY LOW: rework how locations are read and stored.
 			head:{
 				name:"empty",
 			},
-			equipEquipment:function(equipment){//equipment is a string, TODO: rework it to accept an array.
-				/*debugger*/;
-				let temp=itemStats[equipment];
-				if(temp["slot"]=="2Hands"){//have to hardcode the 2 hand equip
-					if(this.offHand.name!="empty"||this.mainHand.name!="empty"){
-						return;//something is already equiped
-					}
-					this.mainHand=itemStats.getStats(equipment);
-					this.offHand["name"]="FULL";
-				} else {//reworked so that it only needs to check for
-					if(this[temp["slot"]]==undefined){//if someone codes wrong.
-						console.error("ERROR: attempted to equip "+equipment+" to notexistant slot: "+temp["slot"]+".")
-						return;//code will break since the slot value is invalid.
-					}
-					if(this[temp["slot"]].name!="empty"){
-						return;//something is already equiped
-					}
-					this[temp["slot"]]=itemStats.getStats(equipment);
-				}
-				inventory[equipment]-=1;
-				TtC("You equip the "+equipment);
-				displayInvent();
-				displayEquipment();
-				player.updateStats();
-			},
 		};
-		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
-			//this could be turned into a nested for in loops, but a dictonary object might be required
-			for(x in equipment){
-				if(x=="equipEquipment"){
-					continue;//its trying to read the function
+		function equipEquipment(equiping){//equipment is a string, TODO: rework it to accept an array.
+			let temp=itemStats[equiping];
+			if(temp["slot"]=="2Hands"){//have to hardcode the 2 hand equip
+				if(equipment.offHand.name!="empty"||equipment.mainHand.name!="empty"){
+					return;//something is already equiped
 				}
+				equipment.mainHand=itemStats.getStats(equiping);
+				equipment.offHand["name"]="FULL";
+			} else {//reworked so that it only needs to check for
+				if(equipment[temp["slot"]]==undefined){//if someone codes wrong.
+					console.error("ERROR: attempted to equip "+equiping+" to notexistant slot: "+temp["slot"]+".")
+					return;//code will break since the slot value is invalid.
+				}
+				if(equipment[temp["slot"]].name!="empty"){
+					return;//something is already equiped
+				}
+				equipment[temp["slot"]]=itemStats.getStats(equiping);
+			}
+			inventory[equiping]-=1;
+			TtC("You equip the "+equiping);
+			displayInvent();
+			displayEquipment();
+			player.updateStats();
+		}
+		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
+
+			for(x in equipment){
 				let equipDisplay=document.getElementById(x + " slot");
 				equipDisplay.innerHTML="";//need to clear it.
 				if(equipment[x].name=="empty"){
@@ -263,7 +259,6 @@ VERY LOW: rework how locations are read and stored.
                 iList[i]["location"]=null;
             }
             walls.splice(0,walls.length-1);//probably don't need to, but just in case.
-            //Mogrid.innerHTML="";//empty the grid.
 			displayInvent();//so that the inventory display actually clears.
             player.updateStats();//since equipment was cleared, this should reset to default stats.
             player.health=100;//should be a full heal.
@@ -378,7 +373,7 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function GEFL(){//get enemy from list
 			let temp = enemies[Math.floor(Math.random()*enemies.length)];//finds a random enemy in the array enemies, which contains every enemy.
-			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))
+			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense));
 			return temp.color;
 		}
 		function GIFL(){//get item from list
@@ -411,7 +406,6 @@ VERY LOW: rework how locations are read and stored.
 			} catch {
 
 			}
-			//console.log(inventory);
 		}
 		function equipItem(item){
 			try{//incase equipConstructors gets removed.
@@ -421,8 +415,7 @@ VERY LOW: rework how locations are read and stored.
 					console.log(item)
 					return;//early exit since rest of code would break otherwise.
 				}
-				//console.log(itemStats[item]);
-				equipment.equipEquipment(item);
+				equipEquipment(item);
 			} catch {
 				console.error("couldn't find equipConstructors.js");
 				return;
@@ -444,22 +437,16 @@ VERY LOW: rework how locations are read and stored.
 				return;
 			}
 		}
-		//new enemy("Goblin",10,1,0)
-		//new enemy("Armored goblin",15,5,3)
 		const eList = [];
-		//console.log(eList[1]["health"])//displays the health of the second enemy in the array.
-		//eList objects being constructed inside the array is only temporary, that will be moved.
 		const iList = [new treasure(null),new treasure(null),new treasure(null),new treasure(null),new treasure(null),new treasure(null)];
 		const inDis= document.getElementById("inventDisplay");
     	function displayInvent(){
-			///*debugger*/;
 			inDis.innerHTML = "";
     		for (x in inventory){
-				if(inventory[x]<=0){
-					//console.log(x+" has been removed.")
+				if(inventory[x]<=0){//there shouldn't be a negative amount of an item, but there can be less than 0 of an item.
 					delete inventory[x];
 					continue;
-				}else if(inventory[x]==NaN){
+				}else if(inventory[x]==NaN){//null check
 					console.error("value of "+x+" was equal to NaN, removing...")
 					delete inventory[x];
 					continue;//rest will break if we don't restart.
@@ -505,7 +492,7 @@ VERY LOW: rework how locations are read and stored.
 			let temp = placementInWall(corrdinate)
 			if(temp){}else{return;}//this works
 			for(x in enemies){
-				if(enemies[x]["name"].toLowerCase()==eName.toLowerCase()){//the if statement works
+				if(String(enemies[x].name).toLowerCase()==eName.toLowerCase()){//the if statement works
 					temp=enemies[x];
 					eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
 					let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
@@ -576,4 +563,3 @@ VERY LOW: rework how locations are read and stored.
 			healthDis.innerHTML = player.health;
 			MhealthDis.innerHTML = player.Mhealth;
 		}
-		//console.log(document.getElementById("movementGrid").clientHeight);
