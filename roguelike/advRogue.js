@@ -453,7 +453,7 @@ VERY LOW: rework how locations are read and stored.
 				}//string.endsWith()
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' "+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
@@ -461,7 +461,7 @@ VERY LOW: rework how locations are read and stored.
 					}
 				}else{
 					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id='"+x+"' draggable='true' class='E' "+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id='"+x+"' draggable='true' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
