@@ -17,7 +17,7 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,//might wanna rework something so this looks better.
         slot:"offHand",
     },
-    missingFail:{
+    missingFail:{//fail test
         name:"missingFail",
     },
     'chest plate':{
