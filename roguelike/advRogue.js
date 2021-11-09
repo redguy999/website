@@ -47,7 +47,7 @@ VERY LOW: rework how locations are read and stored.
 				equipment[temp["slot"]]=itemStats.getStats(equiping);
 			}
 			inventory[equiping]-=1;
-			TtC("You equip the "+equiping);
+			TtC("You equip the "+equiping+".");
 			displayInvent();
 			displayEquipment();
 			player.updateStats();
@@ -126,7 +126,7 @@ VERY LOW: rework how locations are read and stored.
 				this.attack = attack; //number
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
-				this.hurt = function(damg){
+				this.hurt = function(damg,retal=true){
 					let temp = 0;
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
@@ -153,7 +153,9 @@ VERY LOW: rework how locations are read and stored.
 						return;//need to early return because otherwise attack runs.
 					}
 					//TODO: add a way to skip attacking the player in case they're not being attacked.
-					this.fight();
+					if(retal==true){
+						this.fight();
+					}
 				}
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
@@ -180,7 +182,7 @@ VERY LOW: rework how locations are read and stored.
 					if(this.attack==0){
 						return;//early exit in case the enemy can't attack.
 					}
-					player.hurtPlayer(this.attack);
+						player.hurtPlayer(this.attack);
 				}
 			}
 		}
@@ -423,14 +425,14 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function useItem(item){
 			try{
-				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){
+				if((typeof(comsumableStats[item])=="undefined")||(typeof(comsumableStats[item])!="object")){
 					console.error("attempted to use a nonexistant/unuseable item.");
 					console.log("invalid item entry:")
 					console.log(item)
 				}
 				inventory[item]-=1;
 				TtC("You use the "+item+".");
-				itemStats.useItem(item);
+				comsumableStats.useItem(item);
 				displayInvent();
 			} catch {
 				console.error("couldn't find equipConstructors.js");
@@ -455,22 +457,22 @@ VERY LOW: rework how locations are read and stored.
 					if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\'class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
 					}
 				}else{
 					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id='"+x+"' draggable='true' class='E' >"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"<br>";
 					}
 				}
       		}
     	}
-		// ondrop="drop(event)" ondragover="allowDrop(event)" dragleave="rmOutline('equipmentArea')" DragEnter="addOutline('equipmentArea','#00F')"
+		//Code for drag and drop play
 		var cParent=null;
 		var dragged//string, what is being dragged, at least it should be.
 		document.addEventListener("drag", function(event) {
@@ -480,7 +482,7 @@ VERY LOW: rework how locations are read and stored.
 			// prevent default to allow drop
 			event.preventDefault();//NO DAMN CLUE WHY THIS SHOULD BE NEEDED BUT APPEARENTLY IT IS!
 		}, false);
-		document.addEventListener("dragstart", function( event ) {
+		document.addEventListener("dragstart", function(event) {
 			// store a ref. on the dragged elem
 			dragged = event.target.id;
 		}, false);
@@ -489,6 +491,12 @@ VERY LOW: rework how locations are read and stored.
 			if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
 				document.getElementById("equipmentArea").style.boxShadow = "none";
 			}
+			for(let i=0;i<eList.length;i++){
+				if(eList[i]["location"]==event.target.id){
+					document.getElementById(event.target.id).style.boxShadow = "none";
+					break;
+            	}
+            }
 		}, false);
 		document.addEventListener("dragenter", function( event ) {
 			// highlight potential drop target when the draggable element enters it
@@ -496,15 +504,27 @@ VERY LOW: rework how locations are read and stored.
 			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
 				document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
 			}
+			for(let i=0;i<eList.length;i++){
+				if(eList[i]["location"]==event.target.id){
+					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #F00";
+					break;
+            	}
+            }
 		}, false);
 		document.addEventListener("drop", function( event ) {
 			// prevent default action (open as link for some elements)
 			event.preventDefault();
 			document.getElementById("equipmentArea").style.boxShadow = "none";
-			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea") {
+			if (event.target.id == "equipmentArea") {
 				equipItem(dragged);
 				document.getElementById("equipmentArea").style.boxShadow = "none";
 			}
+			for(let i=0;i<eList.length;i++){
+				if(eList[i]["location"]==event.target.id){
+					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #F00";
+					break;
+            	}
+            }
 		}, false);
 
 		const conDis=document.getElementById("console")

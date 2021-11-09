@@ -1,54 +1,12 @@
 //JS class constructors for items.
-const itemStats={//should only be looked into when something is added to equipment.
-    sword:{
-        name:"sword",//we need these cause it makes some things easier.
-        slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
-        attack:1,
-        defense:1,
-    },
-    spear:{
-        name:"spear",//TODO: move this so that the name property is just the name of this object.
-        slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
-        attack:2,
-    },
-    shield:{
-        name:"shield",
-        defense:1,
-        Mhealth:10,//might wanna rework something so this looks better.
-        slot:"offHand",
-    },
-    missingFail:{//fail test
-        name:"missingFail",
-    },
-    'chest plate':{
-        name:"chest plate",
-        defense:1,
-        Mhealth:20,
-        slot:"chest",
-    },
-    helmet:{
-        name:"helmet",
-        defense:1,
-        Mhealth:10,
-        slot:"head",
-    },
-    "rock helmet":{
-        name:"rock helmet",
-        defense:2,
-        Mhealth:20,
-        slot:"head",
-    },
-    "rock flail":{
-        name:"rock flail",
-        attack:5,
-        slot:"mainHand",
-    },
+const comsumableStats={
     potion:{//might need to make this its own class if we ever do custom potions.
-        name:"potion",//leave name since its helpful, and we might need it.
         deal:-10,//deal (damage), negative Values mean healing.
     },
-    useItem:function(item,target="self"){//default target for this function is yourself/the player. can't be used to target an enemy currently.
-        //TODO: move this out of the object.
+    spear:{//throw it at people
+        deal:5,
+    },
+    useItem:function(item,target=playerLoc){//default target for this function is yourself/the player.
         let temp={};
         for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
             if(x=="name"){
@@ -57,11 +15,56 @@ const itemStats={//should only be looked into when something is added to equipme
             temp[x]=this[item][x];
         }
         if(typeof(temp["deal"])!="undefined"){//might change this to a for loop that reads all the items in an array, which corrispond to all possible affects.
-            if(target=="self"){
+            if(target==playerLoc){
                 player.hurtPlayer(temp["deal"]);
+            } else {
+                for(let i=0;i<eList.length;i++){
+                    if(eList[i]["location"]==target){
+                        eList[i].hurt(player.attack);
+                        break;
+                    }
+                }
             }
         }//TODO: add more affects.
         //function returns nothing.
+    },
+};
+const itemStats={//should only be looked into when something is added to equipment.
+    sword:{
+        slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
+        attack:1,
+        defense:1,
+    },
+    spear:{
+        slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
+        attack:2,
+    },
+    shield:{
+        defense:1,
+        Mhealth:10,//might wanna rework something so this looks better.
+        slot:"offHand",
+    },
+    missingFail:{//fail test, should never be found in game, and is only to test that the null checks for bad code work.
+        name:"missingFail",
+    },
+    'chest plate':{
+        defense:1,
+        Mhealth:20,
+        slot:"chest",
+    },
+    helmet:{
+        defense:1,
+        Mhealth:10,
+        slot:"head",
+    },
+    "rock helmet":{
+        defense:2,
+        Mhealth:20,
+        slot:"head",
+    },
+    "rock flail":{
+        attack:5,
+        slot:"mainHand",
     },
     getStats:function(iTe){
         let temp = {
@@ -70,6 +73,8 @@ const itemStats={//should only be looked into when something is added to equipme
         for(let x in this[iTe]){//we have to do this since we can't edit the orginial objects.
             if(x=="slot"){
                 continue;//they're not (valid) stats
+            } else if(itemAffects.indexOf(x)!=-1){
+                continue;//stat for using it as an item.
             }
             temp[x]=this[iTe][x];
         }
