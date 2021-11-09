@@ -6,7 +6,7 @@ var startPoint = "1,1"
 var exitPoint = "2,2"
 var cordsAdjStart = [];//array of strings.
 var walls = [];
-var level = 4;//not player level.
+var level = 1;//not player level.
 /*
 debugger;
 //this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
