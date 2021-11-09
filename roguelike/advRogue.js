@@ -710,3 +710,10 @@ VERY LOW: rework how locations are read and stored.
 			//these shall always run, otherwise stuff doesn't display properly
 			updateInfo();
 		}
+		const shopDis = document.getElementById("shopDisplay")
+		function openShop(){//sets the display so that the shop works correctly.
+			Mogrid.childNodes.style.display = "none";
+			shopDis.style.display = "inital"
+			shopDis.style.zIndex = "10";
+			//intinalize shop exchange
+		}

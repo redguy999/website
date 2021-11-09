@@ -226,7 +226,10 @@ function interact(){
         level++;
         nextLevel();
         return;
-    } 
+    } else if(playerLoc==shop){
+        openShop();
+        return;
+    }
     try{//since the functions are not all together, this will stop working if it is removed.
     if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
         collectOrCombat();
