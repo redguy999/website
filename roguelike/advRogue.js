@@ -451,9 +451,9 @@ VERY LOW: rework how locations are read and stored.
 				}//string.endsWith()
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' class='G' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='G' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					}else if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='E' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\'class='U' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
@@ -461,9 +461,9 @@ VERY LOW: rework how locations are read and stored.
 					}
 				}else{
 					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' class='G' >"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' onClick='equipItem(\""+x+"\")' class='G' >"+inventory[x] + " " + x+"</span><br>";
 					}else if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' class='E' >"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' onClick='equipItem(\""+x+"\")' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='U' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
