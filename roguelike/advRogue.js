@@ -457,7 +457,7 @@ VERY LOW: rework how locations are read and stored.
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\'class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
-						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
+						inDis.innerHTML += "<span>"+inventory[x] + " " + x+"s</span><br>";
 					}
 				}else{
 					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
@@ -467,7 +467,7 @@ VERY LOW: rework how locations are read and stored.
 					} else if(useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
-						inDis.innerHTML += inventory[x] + " " + x+"<br>";
+						inDis.innerHTML += "<span>"+inventory[x] + " " + x+"</span><br>";
 					}
 				}
       		}
@@ -710,10 +710,26 @@ VERY LOW: rework how locations are read and stored.
 			//these shall always run, otherwise stuff doesn't display properly
 			updateInfo();
 		}
+		var shopLoc = "0,0"
 		const shopDis = document.getElementById("shopDisplay")
 		function openShop(){//sets the display so that the shop works correctly.
-			Mogrid.childNodes.style.display = "none";
+			let temp = Mogrid.childNodes
+			for(x in temp){
+				if(!isNaN(parseInt(x))){
+					temp[x].style.visibility = "hidden";//we have to set them to hidden otherwise they might end up out of order
+				}
+			}
 			shopDis.style.display = "inital"
-			shopDis.style.zIndex = "10";
-			//intinalize shop exchange
+			shopDis.style.zIndex = "20";//bring in front of the grid
+			//intinalize the rest of the shop
+		}
+		function closeShop(){
+			shopDis.style.display = "none"
+			shopDis.style.zIndex = "-1";
+			let temp = Mogrid.childNodes
+			for(x in temp){
+				if(!isNaN(parseInt(x))){//because for some reason x can sometimes does not match an index.
+					temp[x].style.visibility = "visible";//we have to set them to hidden otherwise they might end up out of order
+				}
+			}
 		}

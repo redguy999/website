@@ -226,7 +226,7 @@ function interact(){
         level++;
         nextLevel();
         return;
-    } else if(playerLoc==shop){
+    } else if(playerLoc==shopLoc){
         openShop();
         return;
     }
