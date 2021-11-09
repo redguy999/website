@@ -1,12 +1,12 @@
 //begin code for the grid and such.
 const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-let hT = 8//number of columns of tiles, AKA the max x value.
+let hT = 9//number of columns of tiles, AKA the max x value.
 let wT = 10	//number of rows of tiles, AKA the max y value.
-var startPoint = "8,1"
-var exitPoint = "8,8"
+var startPoint = "1,1"
+var exitPoint = "2,2"
 var cordsAdjStart = [];//array of strings.
 var walls = [];
-var level = 1;//not player level.
+var level = 4;//not player level.
 /*
 debugger;
 //this pauses the website in chrome when "pause on exceptions is active." which can be set in the sources tab.
@@ -40,9 +40,13 @@ function startGame() {//start, end, finally walls.
 }
 function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
     clearGrid();
-    mkStartPoint();
-    mkExitPoint();
-    mkWalls();
+    if(level==5){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
+        scriptedFloor()
+    }else{//so that it doesn't random place over our set placement.
+        mkStartPoint();
+        mkExitPoint();
+        mkWalls();
+    }
     if (!oldPather()) {
         nextLevel();//exit unreachable, rerolling.
         return;

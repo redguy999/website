@@ -1,8 +1,8 @@
 //FILE START!
 /*TODO: stuff to do list:
 URGENT:
-HIGH:
-MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time)
+HIGH: make it so that you can't throw through walls.
+MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time) & how much equipment you get.
 LOW: rework attack functions (defense formula, wording, a few other things.), overhaul/refactor how equipment is equiped.
 VERY LOW: rework how locations are read and stored.
 		*/
@@ -657,4 +657,53 @@ VERY LOW: rework how locations are read and stored.
 		function updateHealth(){//we only need to update this when the player is hurt
 			healthDis.innerHTML = player.health;
 			MhealthDis.innerHTML = player.Mhealth;
+		}
+		function scriptedFloor(){//for floors we want to force a layout for.
+			eList.splice(0,eList.length);//clear eList.
+			entLocs = [];//clear entLocs
+			if(level==5){
+				startPoint="1,10"
+				playerLoc=startPoint;
+				resetLocDisplay();
+				setBGColor(startPoint,"green")
+				exitPoint="9,10"
+				setBGColor(exitPoint,"red");
+				walls = [];
+				//below makes the walls.
+				for(let i = 1;i<10;i++){
+					walls.push(i+",1");
+				}
+				for(let i=6;i<=8;i++){
+					for(let z=10;z>4;z--){
+						walls.push(i+","+z)
+					}
+				}
+				for(let i=3;i<=10;i++){
+					walls.push("2,"+i);
+				}
+				for(let i=4;i<=9;i++){
+					for(let z=2;z<=3;z++){
+						walls.push(i+","+z)
+					}
+				}
+				for(let i=3;i<=5;i++){
+					walls.push(i+",10");
+				}
+				for(let i=4;i<=8;i++){
+					walls.push("4,"+i);
+				}
+				setBGColor(walls, "black")//makes the walls visible.
+				//below is for the item.
+				iList[0]["location"] = "8,4"
+				iList[0]["contents"] = "gold coin";
+				iList[0]["amount"] = 50;
+				entLocs.push(iList[0]["location"])//need to do this otherwise code will break.
+				setBGColor(iList[0]["location"],"gold")//makes treasure visible
+				//and now the enemy
+				let temp = enemies[1]//should be the armored goblin
+				eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))
+				eList[0]["location"]="7,4"//i would have had it find the goblin in the list, but we already cleared this earlier.
+				entLocs.push(eList[0]["location"]);//adds it to this array.
+				setBGColor(eList[0]["location"],temp.color);//colors the tile
+			}
 		}
