@@ -495,28 +495,44 @@ VERY LOW: rework how locations are read and stored.
 		}, false);
 		document.addEventListener("dragleave", function( event ) {
 			// reset background of potential drop target when the draggable element leaves it
-			if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
-				document.getElementById("equipmentArea").style.boxShadow = "none";
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
+					document.getElementById("equipmentArea").style.boxShadow = "none";
+				}
 			}
-			for(let i=0;i<eList.length;i++){
-				if(eList[i]["location"]==event.target.id){
+			if(useA[1]){
+				if(event.target.id==playerLoc){
 					document.getElementById(event.target.id).style.boxShadow = "none";
-					break;
-            	}
-            }
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						document.getElementById(event.target.id).style.boxShadow = "none";
+						break;
+					}
+				}
+			}
 		}, false);
 		document.addEventListener("dragenter", function( event ) {//gonna refractor this.
 			// highlight potential drop target when the draggable element enters it
 			cParent=event.target.parentNode.id;//drag enter runs before drag leave.
-			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
-				document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
+					document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
+				}
 			}
-			for(let i=0;i<eList.length;i++){
-				if(eList[i]["location"]==event.target.id){
-					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #FFA500";
-					break;
-            	}
-            }
+			if(useA[1]){
+				if(event.target.id==playerLoc){
+					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #00FF00";
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #FFA500";
+						break;
+					}
+				}
+			}
 		}, false);
 		document.addEventListener("drop", function( event ) {
 			// prevent default action (open as link for some elements)
