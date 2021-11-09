@@ -3,7 +3,7 @@ const comsumableStats={
     potion:{//might need to make this its own class if we ever do custom potions.
         deal:-10,//deal (damage), negative Values mean healing.
     },
-    spear:{//throw it at people
+    spear:{//throw it at enemies
         deal:5,
     },//might rework this somewhat to add descriptions.
     useItem:function(item,target){//default target for this function is yourself/the player, but that default is set elsewhere.

@@ -706,4 +706,7 @@ VERY LOW: rework how locations are read and stored.
 				entLocs.push(eList[0]["location"]);//adds it to this array.
 				setBGColor(eList[0]["location"],temp.color);//colors the tile
 			}
+
+			//these shall always run, otherwise stuff doesn't display properly
+			updateInfo();
 		}

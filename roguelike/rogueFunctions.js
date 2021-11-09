@@ -42,12 +42,13 @@ function nextLevel() {//this may be called for reasons other than that the level
     clearGrid();
     if(level==5){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
         scriptedFloor()
-    }else{//so that it doesn't random place over our set placement.
-        mkStartPoint();
-        mkExitPoint();
-        mkWalls();
-    }
+        return;
+    }//so that it doesn't random place over our set placement.
+    mkStartPoint();
+    mkExitPoint();
+    mkWalls();
     if (!oldPather()) {
+        console.log("rerolling...")
         nextLevel();//exit unreachable, rerolling.
         return;
     }
@@ -221,7 +222,7 @@ function keyPress() {
 }
 function interact(){
     if(playerLoc==exitPoint){
-        alert("you found the exit");
+        TtC("you found the exit");
         level++;
         nextLevel();
         return;
