@@ -1,8 +1,8 @@
 //FILE START!
 /*TODO: stuff to do list:
 URGENT:
-HIGH:
-MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time)
+HIGH: make it so that you can't throw through walls.
+MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time) & how much equipment you get.
 LOW: rework attack functions (defense formula, wording, a few other things.), overhaul/refactor how equipment is equiped.
 VERY LOW: rework how locations are read and stored.
 		*/
@@ -10,7 +10,7 @@ VERY LOW: rework how locations are read and stored.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
 		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet","rock flail"];//array containing the name of every item that is equipable.
-		const useable = ["potion"];//array containing the name of every item that is usable
+		const useable = ["potion","spear"];//array containing the name of every item that is usable
 		const inventory = {
 			
 		}
@@ -47,13 +47,12 @@ VERY LOW: rework how locations are read and stored.
 				equipment[temp["slot"]]=itemStats.getStats(equiping);
 			}
 			inventory[equiping]-=1;
-			TtC("You equip the "+equiping);
+			TtC("You equip the "+equiping+".");
 			displayInvent();
 			displayEquipment();
 			player.updateStats();
 		}
-		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
-
+		function displayEquipment(){//makes the equipment display display equipment.
 			for(x in equipment){
 				let equipDisplay=document.getElementById(x + " slot");
 				equipDisplay.innerHTML="";//need to clear it.
@@ -93,7 +92,7 @@ VERY LOW: rework how locations are read and stored.
 			}else{
 				inventory[temp]+=1;
 			}
-			TtC("You unequip the "+temp);
+			TtC("You unequip the "+temp+".");
 			displayInvent();
 			displayEquipment();
 			player.updateStats();
@@ -126,13 +125,13 @@ VERY LOW: rework how locations are read and stored.
 				this.attack = attack; //number
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
-				this.hurt = function(damg){
+				this.hurt = function(damg,retal=true){//retal is short for retaliate.
 					let temp = 0;
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
 						TtC("The "+this.name+"'s armor completely protects them from harm!")
-						this.fight();//skip to attack
+						if(retal==true){this.fight();}//skip to attack
 						return;//nothing else to do.
 					}
 					} else{
@@ -152,8 +151,7 @@ VERY LOW: rework how locations are read and stored.
 						this.dead()
 						return;//need to early return because otherwise attack runs.
 					}
-					//TODO: add a way to skip attacking the player in case they're not being attacked.
-					this.fight();
+					if(retal==true){this.fight();}
 				}
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
@@ -180,7 +178,7 @@ VERY LOW: rework how locations are read and stored.
 					if(this.attack==0){
 						return;//early exit in case the enemy can't attack.
 					}
-					player.hurtPlayer(this.attack);
+						player.hurtPlayer(this.attack);
 				}
 			}
 		}
@@ -421,16 +419,16 @@ VERY LOW: rework how locations are read and stored.
 				return;
 			}
 		}
-		function useItem(item){
+		function useItem(item,victim=playerLoc){
 			try{
-				if((typeof(itemStats[item])=="undefined")||(typeof(itemStats[item])!="object")){
+				if((typeof(comsumableStats[item])=="undefined")||(typeof(comsumableStats[item])!="object")){
 					console.error("attempted to use a nonexistant/unuseable item.");
 					console.log("invalid item entry:")
 					console.log(item)
 				}
 				inventory[item]-=1;
-				TtC("You use the "+item+".");
-				itemStats.useItem(item);
+				//TtC("You use the "+item+"."); //moved to next function.
+				comsumableStats.useItem(item,victim);
 				displayInvent();
 			} catch {
 				console.error("couldn't find equipConstructors.js");
@@ -450,26 +448,123 @@ VERY LOW: rework how locations are read and stored.
 					console.error("value of "+x+" was equal to NaN, removing...")
 					delete inventory[x];
 					continue;//rest will break if we don't restart.
-				}//string.endsWith()
+				}
 				if(inventory[x]!=1){
-					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' class='G' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
+					}else if(equipable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' class='E' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\'class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
 					}
 				}else{
-					if(equipable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='E' onClick='equipItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' onClick='equipItem(\""+x+"\")' class='G' >"+inventory[x] + " " + x+"</span><br>";
+					}else if(equipable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' onClick='equipItem(\""+x+"\")' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"<br>";
 					}
 				}
       		}
     	}
+		//Code for drag and drop play
+		var cParent=null;
+		var dragged//string, what is being dragged, at least it should be.
+		var useA = [false,false]//[true,false] means the item is equipable, but not usable; [false,true] is usable, but not equipable.
+		document.addEventListener("drag", function(event) {}, false);
+		document.addEventListener("dragover", function( event ) {event.preventDefault();}, false);//!!DO NOT DELETE THIS
+		document.addEventListener("dragstart", function(event) {
+			// store a ref. on the dragged elem
+			dragged = event.target.id;
+			let temp = event.target.className;
+			if(temp=="G"){//i won't need this when i refractor this.
+				useA = [true,true];//usable and equipable.
+			} else if(temp=="U"){
+				useA = [false,true];
+			} else if(temp=="E"){
+				useA = [true,false];
+			} else {
+				useA = [false,false];
+				console.error("item was dragged without being able to do anything.")
+			}
+		}, false);
+		document.addEventListener("dragleave", function( event ) {
+			// reset background of potential drop target when the draggable element leaves it
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
+					document.getElementById("equipmentArea").style.boxShadow = "none";
+				}
+			}
+			if(useA[1]){
+				if(event.target.id==playerLoc){
+					document.getElementById(event.target.id).style.boxShadow = "none";
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						document.getElementById(event.target.id).style.boxShadow = "none";
+						break;
+					}
+				}
+			}
+		}, false);
+		document.addEventListener("dragenter", function( event ) {//gonna refractor this.
+			// highlight potential drop target when the draggable element enters it
+			cParent=event.target.parentNode.id;//drag enter runs before drag leave.
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
+					document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
+				}
+			}
+			if(useA[1]){
+				if(event.target.id==playerLoc){
+					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #00FF00";
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #FFA500";
+						break;
+					}
+				}
+			}
+		}, false);
+		document.addEventListener("drop", function( event ) {
+			// prevent default action (open as link for some elements)
+			event.preventDefault();
+			let temp;
+			if(event.target.id==""){
+				temp = "InfoDisplay"//force it to a valid element so that...
+			} else {
+				temp = event.target.id;
+			}
+			document.getElementById(temp).style.boxShadow = "none";//...this line doesn't error.
+			document.getElementById("equipmentArea").style.boxShadow = "none";
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea") {
+					equipItem(dragged);
+					return;
+				}
+			}
+			if(useA[1]){
+				if(event.target.id==playerLoc){
+					useItem(dragged);
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						useItem(dragged,event.target.id);
+						break;
+					}
+				}
+			}
+		}, false);
+
 		const conDis=document.getElementById("console")
 		function TtC(string){//Text to Console; adds text to the console.
 			conDis.innerHTML+=string;
@@ -562,4 +657,56 @@ VERY LOW: rework how locations are read and stored.
 		function updateHealth(){//we only need to update this when the player is hurt
 			healthDis.innerHTML = player.health;
 			MhealthDis.innerHTML = player.Mhealth;
+		}
+		function scriptedFloor(){//for floors we want to force a layout for.
+			eList.splice(0,eList.length);//clear eList.
+			entLocs = [];//clear entLocs
+			if(level==5){
+				startPoint="1,10"
+				playerLoc=startPoint;
+				resetLocDisplay();
+				setBGColor(startPoint,"green")
+				exitPoint="9,10"
+				setBGColor(exitPoint,"red");
+				walls = [];
+				//below makes the walls.
+				for(let i = 1;i<10;i++){
+					walls.push(i+",1");
+				}
+				for(let i=6;i<=8;i++){
+					for(let z=10;z>4;z--){
+						walls.push(i+","+z)
+					}
+				}
+				for(let i=3;i<=10;i++){
+					walls.push("2,"+i);
+				}
+				for(let i=4;i<=9;i++){
+					for(let z=2;z<=3;z++){
+						walls.push(i+","+z)
+					}
+				}
+				for(let i=3;i<=5;i++){
+					walls.push(i+",10");
+				}
+				for(let i=4;i<=8;i++){
+					walls.push("4,"+i);
+				}
+				setBGColor(walls, "black")//makes the walls visible.
+				//below is for the item.
+				iList[0]["location"] = "8,4"
+				iList[0]["contents"] = "gold coin";
+				iList[0]["amount"] = 50;
+				entLocs.push(iList[0]["location"])//need to do this otherwise code will break.
+				setBGColor(iList[0]["location"],"gold")//makes treasure visible
+				//and now the enemy
+				let temp = enemies[1]//should be the armored goblin
+				eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))
+				eList[0]["location"]="7,4"//i would have had it find the goblin in the list, but we already cleared this earlier.
+				entLocs.push(eList[0]["location"]);//adds it to this array.
+				setBGColor(eList[0]["location"],temp.color);//colors the tile
+			}
+
+			//these shall always run, otherwise stuff doesn't display properly
+			updateInfo();
 		}

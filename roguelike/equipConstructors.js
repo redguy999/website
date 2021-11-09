@@ -1,72 +1,74 @@
 //JS class constructors for items.
+const comsumableStats={
+    potion:{//might need to make this its own class if we ever do custom potions.
+        deal:-10,//deal (damage), negative Values mean healing.
+    },
+    spear:{//throw it at enemies
+        deal:5,
+    },//might rework this somewhat to add descriptions.
+    useItem:function(item,target){//default target for this function is yourself/the player, but that default is set elsewhere.
+        let temp={};
+        for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
+            temp[x]=this[item][x];
+        }
+        if(typeof(temp["deal"])!="undefined"){//might change this to a for loop that reads all the items in an array, which corrispond to all possible affects.
+            if(target==playerLoc){
+                TtC("You use the "+item+" on yourself.")
+                player.hurtPlayer(temp["deal"]);
+            } else {
+                for(let i=0;i<eList.length;i++){
+                    if(eList[i]["location"]==target){
+                        TtC("You use the "+item+" on "+eList[i].name+".");
+                        eList[i].hurt(temp["deal"],false);
+                        break;
+                    }
+                }
+            }
+        }//TODO: add more affects.
+        //function returns nothing.
+    },
+};
 const itemStats={//should only be looked into when something is added to equipment.
     sword:{
-        name:"sword",//we need these cause it makes some things easier.
         slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
         attack:1,
         defense:1,
     },
     spear:{
-        name:"spear",//TODO: move this so that the name property is just the name of this object.
         slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
         attack:2,
     },
     shield:{
-        name:"shield",
         defense:1,
         Mhealth:10,//might wanna rework something so this looks better.
         slot:"offHand",
     },
-    missingFail:{//fail test
+    missingFail:{//fail test, should never be found in game, and is only to test that the null checks for bad code work.
         name:"missingFail",
     },
     'chest plate':{
-        name:"chest plate",
         defense:1,
         Mhealth:20,
         slot:"chest",
     },
     helmet:{
-        name:"helmet",
         defense:1,
         Mhealth:10,
         slot:"head",
     },
     "rock helmet":{
-        name:"rock helmet",
         defense:2,
         Mhealth:20,
         slot:"head",
     },
     "rock flail":{
-        name:"rock flail",
         attack:5,
         slot:"mainHand",
-    },
-    potion:{//might need to make this its own class if we ever do custom potions.
-        name:"potion",//leave name since its helpful, and we might need it.
-        deal:-10,//deal (damage), negative Values mean healing.
-    },
-    useItem:function(item,target="self"){//default target for this function is yourself/the player. can't be used to target an enemy currently.
-        //TODO: move this out of the object.
-        let temp={};
-        for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
-            if(x=="name"){
-                continue;//they're not (valid) stats
-            }
-            temp[x]=this[item][x];
-        }
-        if(typeof(temp["deal"])!="undefined"){//might change this to a for loop that reads all the items in an array, which corrispond to all possible affects.
-            if(target=="self"){
-                player.hurtPlayer(temp["deal"]);
-            }
-        }//TODO: add more affects.
-        //function returns nothing.
     },
     getStats:function(iTe){
         let temp = {
         };
-        //debugger;
+        temp.name = iTe;
         for(let x in this[iTe]){//we have to do this since we can't edit the orginial objects.
             if(x=="slot"){
                 continue;//they're not (valid) stats
@@ -84,8 +86,8 @@ const enemies = [
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
     {"gold coin":[50,5],},//goblin,
-    {spear:[30,1],shield:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
-    {"rock flail":[25,1],"gold coin":[100,100]},//25% chance to drop a flail, otherwise, will drop coins.
+    {spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
+    {"rock flail":[25,1],"gold coin":[100,100]},//25% chance to drop a flail, otherwise, should drop coins.
 ];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
     let temp;

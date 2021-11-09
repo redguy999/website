@@ -1,9 +1,9 @@
 //begin code for the grid and such.
 const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-let hT = 8//number of columns of tiles, AKA the max x value.
+let hT = 9//number of columns of tiles, AKA the max x value.
 let wT = 10	//number of rows of tiles, AKA the max y value.
-var startPoint = "8,1"
-var exitPoint = "8,8"
+var startPoint = "1,1"
+var exitPoint = "2,2"
 var cordsAdjStart = [];//array of strings.
 var walls = [];
 var level = 1;//not player level.
@@ -40,10 +40,15 @@ function startGame() {//start, end, finally walls.
 }
 function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
     clearGrid();
+    if(level==5){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
+        scriptedFloor()
+        return;
+    }//so that it doesn't random place over our set placement.
     mkStartPoint();
     mkExitPoint();
     mkWalls();
     if (!oldPather()) {
+        console.log("rerolling...")
         nextLevel();//exit unreachable, rerolling.
         return;
     }
@@ -141,13 +146,6 @@ function clearLocDisplay(){
 function resetLocDisplay() {
     clearLocDisplay()
     document.getElementById(playerLoc).innerHTML = "X";
-    // try{
-    //     for(let i=0;i<eList.length;i++){
-    //         document.getElementById(eList[i]["location"]).innerHTML = eList[i]["name"];
-    //     }
-    // } catch {
-    //     console.log("can't read it.")
-    // }
 }
 function setBGColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
     if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
@@ -224,7 +222,7 @@ function keyPress() {
 }
 function interact(){
     if(playerLoc==exitPoint){
-        alert("you found the exit");
+        TtC("you found the exit");
         level++;
         nextLevel();
         return;
