@@ -455,7 +455,7 @@ VERY LOW: rework how locations are read and stored.
 					}else if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='E' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\'class='U' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\'class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
 					}
@@ -465,7 +465,7 @@ VERY LOW: rework how locations are read and stored.
 					}else if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' onClick='equipItem(\""+x+"\")' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' class='U' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='U' onClick='useItem(\""+x+"\",playerLoc)' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"<br>";
 					}
