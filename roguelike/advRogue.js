@@ -448,7 +448,7 @@ VERY LOW: rework how locations are read and stored.
 					console.error("value of "+x+" was equal to NaN, removing...")
 					delete inventory[x];
 					continue;//rest will break if we don't restart.
-				}//string.endsWith()
+				}
 				if(inventory[x]!=1){
 					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='G' onClick='equipItem(\""+x+"\")' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
