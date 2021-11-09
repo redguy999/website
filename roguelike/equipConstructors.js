@@ -86,8 +86,8 @@ const enemies = [
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
     {"gold coin":[50,5],},//goblin,
-    {spear:[30,1],shield:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
-    {"rock flail":[25,1],"gold coin":[100,100]},//25% chance to drop a flail, otherwise, will drop coins.
+    {spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
+    {"rock flail":[25,1],"gold coin":[100,100]},//25% chance to drop a flail, otherwise, should drop coins.
 ];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
     let temp;
