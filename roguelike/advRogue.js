@@ -10,7 +10,7 @@ VERY LOW: rework how locations are read and stored.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
 		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
 		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet","rock flail"];//array containing the name of every item that is equipable.
-		const useable = ["potion"];//array containing the name of every item that is usable
+		const useable = ["potion","spear"];//array containing the name of every item that is usable
 		const inventory = {
 			
 		}
@@ -52,8 +52,7 @@ VERY LOW: rework how locations are read and stored.
 			displayEquipment();
 			player.updateStats();
 		}
-		function displayEquipment(){//this needs overhauled if we want to add more slots. for in should help.
-
+		function displayEquipment(){//makes the equipment display display equipment.
 			for(x in equipment){
 				let equipDisplay=document.getElementById(x + " slot");
 				equipDisplay.innerHTML="";//need to clear it.
@@ -93,7 +92,7 @@ VERY LOW: rework how locations are read and stored.
 			}else{
 				inventory[temp]+=1;
 			}
-			TtC("You unequip the "+temp);
+			TtC("You unequip the "+temp+".");
 			displayInvent();
 			displayEquipment();
 			player.updateStats();
@@ -126,13 +125,13 @@ VERY LOW: rework how locations are read and stored.
 				this.attack = attack; //number
 				this.defense = defense; //number
 				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
-				this.hurt = function(damg,retal=true){
+				this.hurt = function(damg,retal=true){//retal is short for retaliate.
 					let temp = 0;
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
 					temp = Math.ceil(damg-(this.defense/2))//current defense calucation formula, will likely change it.
 					if(temp<=0){
 						TtC("The "+this.name+"'s armor completely protects them from harm!")
-						this.fight();//skip to attack
+						if(retal==true){this.fight();}//skip to attack
 						return;//nothing else to do.
 					}
 					} else{
@@ -152,10 +151,7 @@ VERY LOW: rework how locations are read and stored.
 						this.dead()
 						return;//need to early return because otherwise attack runs.
 					}
-					//TODO: add a way to skip attacking the player in case they're not being attacked.
-					if(retal==true){
-						this.fight();
-					}
+					if(retal==true){this.fight();}
 				}
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
@@ -423,7 +419,7 @@ VERY LOW: rework how locations are read and stored.
 				return;
 			}
 		}
-		function useItem(item){
+		function useItem(item,victim=playerLoc){
 			try{
 				if((typeof(comsumableStats[item])=="undefined")||(typeof(comsumableStats[item])!="object")){
 					console.error("attempted to use a nonexistant/unuseable item.");
@@ -431,8 +427,8 @@ VERY LOW: rework how locations are read and stored.
 					console.log(item)
 				}
 				inventory[item]-=1;
-				TtC("You use the "+item+".");
-				comsumableStats.useItem(item);
+				//TtC("You use the "+item+"."); //moved to next function.
+				comsumableStats.useItem(item,victim);
 				displayInvent();
 			} catch {
 				console.error("couldn't find equipConstructors.js");
@@ -454,18 +450,22 @@ VERY LOW: rework how locations are read and stored.
 					continue;//rest will break if we don't restart.
 				}//string.endsWith()
 				if(inventory[x]!=1){
-					if(equipable.indexOf(x)!=-1){
+					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' class='G' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
+					}else if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' class='E' draggable='true' >"+inventory[x] + " " + x+"s</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\'class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"s</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\'class='U' draggable='true'>"+inventory[x] + " " + x+"s</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"s<br>";
 					}
 				}else{
-					if(equipable.indexOf(x)!=-1){
+					if(equipable.indexOf(x)!=-1&&useable.indexOf(x)!=-1){
+						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' class='G' >"+inventory[x] + " " + x+"</span><br>";
+					}else if(equipable.indexOf(x)!=-1){
 						inDis.innerHTML += "<span id=\'"+x+"\' draggable='true' class='E' >"+inventory[x] + " " + x+"</span><br>";
 					} else if(useable.indexOf(x)!=-1){
-						inDis.innerHTML += "<span id=\'"+x+"\' class='U' onClick='useItem(\""+x+"\")'>"+inventory[x] + " " + x+"</span><br>";
+						inDis.innerHTML += "<span id=\'"+x+"\' class='U' draggable='true'>"+inventory[x] + " " + x+"</span><br>";
 					} else {
 						inDis.innerHTML += inventory[x] + " " + x+"<br>";
 					}
@@ -475,16 +475,23 @@ VERY LOW: rework how locations are read and stored.
 		//Code for drag and drop play
 		var cParent=null;
 		var dragged//string, what is being dragged, at least it should be.
-		document.addEventListener("drag", function(event) {
-
-		}, false);
-		document.addEventListener("dragover", function( event ) {
-			// prevent default to allow drop
-			event.preventDefault();//NO DAMN CLUE WHY THIS SHOULD BE NEEDED BUT APPEARENTLY IT IS!
-		}, false);
+		var useA = [false,false]//[true,false] means the item is equipable, but not usable; [false,true] is usable, but not equipable.
+		document.addEventListener("drag", function(event) {}, false);
+		document.addEventListener("dragover", function( event ) {event.preventDefault();}, false);//!!DO NOT DELETE THIS
 		document.addEventListener("dragstart", function(event) {
 			// store a ref. on the dragged elem
 			dragged = event.target.id;
+			let temp = event.target.className;
+			if(temp=="G"){//i won't need this when i refractor this.
+				useA = [true,true];//usable and equipable.
+			} else if(temp=="U"){
+				useA = [false,true];
+			} else if(temp=="E"){
+				useA = [true,false];
+			} else {
+				useA = [false,false];
+				console.error("item was dragged without being able to do anything.")
+			}
 		}, false);
 		document.addEventListener("dragleave", function( event ) {
 			// reset background of potential drop target when the draggable element leaves it
@@ -498,7 +505,7 @@ VERY LOW: rework how locations are read and stored.
             	}
             }
 		}, false);
-		document.addEventListener("dragenter", function( event ) {
+		document.addEventListener("dragenter", function( event ) {//gonna refractor this.
 			// highlight potential drop target when the draggable element enters it
 			cParent=event.target.parentNode.id;//drag enter runs before drag leave.
 			if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
@@ -506,7 +513,7 @@ VERY LOW: rework how locations are read and stored.
 			}
 			for(let i=0;i<eList.length;i++){
 				if(eList[i]["location"]==event.target.id){
-					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #F00";
+					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #FFA500";
 					break;
             	}
             }
@@ -514,17 +521,32 @@ VERY LOW: rework how locations are read and stored.
 		document.addEventListener("drop", function( event ) {
 			// prevent default action (open as link for some elements)
 			event.preventDefault();
-			document.getElementById("equipmentArea").style.boxShadow = "none";
-			if (event.target.id == "equipmentArea") {
-				equipItem(dragged);
-				document.getElementById("equipmentArea").style.boxShadow = "none";
+			let temp;
+			if(event.target.id==""){
+				temp = "InfoDisplay"//force it to a valid element so that...
+			} else {
+				temp = event.target.id;
 			}
-			for(let i=0;i<eList.length;i++){
-				if(eList[i]["location"]==event.target.id){
-					document.getElementById(event.target.id).style.boxShadow = "inset 0 0 2px 2px #F00";
-					break;
-            	}
-            }
+			document.getElementById(temp).style.boxShadow = "none";//...this line doesn't error.
+			document.getElementById("equipmentArea").style.boxShadow = "none";
+			if(useA[0]){
+				if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea") {
+					equipItem(dragged);
+					return;
+				}
+			}
+			if(useA[1]){
+				if(event.target.id==playerLoc){
+					useItem(dragged);
+					return;
+				}
+				for(let i=0;i<eList.length;i++){
+					if(eList[i]["location"]==event.target.id){
+						useItem(dragged,event.target.id);
+						break;
+					}
+				}
+			}
 		}, false);
 
 		const conDis=document.getElementById("console")

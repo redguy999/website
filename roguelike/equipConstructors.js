@@ -5,22 +5,21 @@ const comsumableStats={
     },
     spear:{//throw it at people
         deal:5,
-    },
-    useItem:function(item,target=playerLoc){//default target for this function is yourself/the player.
+    },//might rework this somewhat to add descriptions.
+    useItem:function(item,target){//default target for this function is yourself/the player, but that default is set elsewhere.
         let temp={};
         for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
-            if(x=="name"){
-                continue;//they're not (valid) stats
-            }
             temp[x]=this[item][x];
         }
         if(typeof(temp["deal"])!="undefined"){//might change this to a for loop that reads all the items in an array, which corrispond to all possible affects.
             if(target==playerLoc){
+                TtC("You use the "+item+" on yourself.")
                 player.hurtPlayer(temp["deal"]);
             } else {
                 for(let i=0;i<eList.length;i++){
                     if(eList[i]["location"]==target){
-                        eList[i].hurt(player.attack);
+                        TtC("You use the "+item+" on "+eList[i].name+".");
+                        eList[i].hurt(temp["deal"],false);
                         break;
                     }
                 }
@@ -69,12 +68,10 @@ const itemStats={//should only be looked into when something is added to equipme
     getStats:function(iTe){
         let temp = {
         };
-        //debugger;
+        temp.name = iTe;
         for(let x in this[iTe]){//we have to do this since we can't edit the orginial objects.
             if(x=="slot"){
                 continue;//they're not (valid) stats
-            } else if(itemAffects.indexOf(x)!=-1){
-                continue;//stat for using it as an item.
             }
             temp[x]=this[iTe][x];
         }
