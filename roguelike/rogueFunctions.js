@@ -108,7 +108,7 @@ function mkStartPoint() {// makes enterance
 }
 function mkExitPoint() {//makes exit
     let temp = getCorrdInGrid();
-    while (temp == startPoint) {
+    while (temp == startPoint) {//so that start and exit aren't the same.
         temp = getCorrdInGrid();
     }
     exitPoint = temp;
@@ -163,6 +163,27 @@ function setBGColor(tiles, color) {//sets background colors; color must be a str
         }
     } else if (typeof (tiles) == "string") {
         document.getElementById(tiles).style.backgroundColor = color;
+    } else {
+        throw "invalid input for parameter: tile(s)";
+        return;
+    }
+}
+function setBrColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
+    if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
+        return;
+    }
+    if (typeof (color) == "undefined") {
+        color = "white"//i hope this works.
+    } else if (typeof (color) != "string") {
+        throw "invalid input for parameter: color";
+        return;
+    }
+    if (typeof (tiles) == "object") {//arrays are objects
+        for (let i = 0; i < tiles.length; i++) {//assumes that all entries are strings.
+            document.getElementById(tiles[i]).style.borderColor = color;
+        }
+    } else if (typeof (tiles) == "string") {
+        document.getElementById(tiles).style.borderColor = color;
     } else {
         throw "invalid input for parameter: tile(s)";
         return;
@@ -226,7 +247,10 @@ function interact(){
         level++;
         nextLevel();
         return;
-    } 
+    } else if(playerLoc==shopLoc){
+        openShop();
+        return;
+    }
     try{//since the functions are not all together, this will stop working if it is removed.
     if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
         collectOrCombat();

@@ -79,25 +79,13 @@ const itemStats={//should only be looked into when something is added to equipme
     }
 }
 const enemies = [
-    {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"orange"},//color is only for displaying where the enemy is.
-    {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"darkgreen"},
-    {name:"Rock golem",Mhealth:"30",attack:"4",defense:"4",color:"grey"},
+    {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"#0A0",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
+    {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"darkgreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
+    {name:"Rock golem",Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
 ];
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
-const lootTable = [//loot table is an array of objects, each index of the array will match the enemy is corresponds to in the enemies array. 
-    {"gold coin":[50,5],},//goblin,
-    {spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]},//armored goblin has a 30% chance of dropping one spear, and a 20% chance of dropping one shield.
-    {"rock flail":[25,1],"gold coin":[100,100]},//25% chance to drop a flail, otherwise, should drop coins.
-];//this will probably need overhauled/moved to enemies at some point but it works for now.
 function dropLoot(Dropper){
-    let temp;
-    for(x in enemies){
-        if(enemies[x].name==Dropper){
-            temp=x;//x should be an int since its interating through an array.
-            break;
-        }
-    }
-    temp=lootTable[temp];//need to grab this.
+    temp=Dropper;//Dropper is the loot table.
     let chance = 100;
     for(x in temp){//enemies can only currently drop a single type of item currently
         let RNG = Math.floor(Math.random()*(chance))+1;
@@ -106,7 +94,7 @@ function dropLoot(Dropper){
         if(RNG<temp[x][0]){
             if(temp[x][1]==1){
                 return [x,1];
-            }else if(temp[x][1]==0){//this shouldn't ever be true
+            }else if(temp[x][1]==0){//this shouldn't ever be true, unless someone codes badly
                 console.error("drop value invalid for: " +x);
                 console.log(temp);
                 continue;//skip it.
