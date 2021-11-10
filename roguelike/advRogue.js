@@ -374,7 +374,7 @@ VERY LOW: rework how locations are read and stored.
 			let temp;
 			for(x in enemyChance){
 				if(level<=x){
-					temp = enemyChance(x);
+					temp = enemyChance[x];
 					break;
 				}
 			}
