@@ -44,6 +44,8 @@
 			}
 			#equipmentArea{
 				position: absolute; left: 85vw; top: 38vh;
+				z-index: 50;
+				background-color: rgba(255,255,255,0);
 				width:14vw;
 				height:38vh;
 				border: 1px solid black;
@@ -58,6 +60,10 @@
 			.U:hover{
 				font-weight: bold;
 				color:Orange;
+			}
+			.G:hover{
+				font-weight: bold;
+				color:lightgreen;
 			}
 			#statDisplay{
 				position: absolute; right: 85vw; top: 0;
@@ -87,6 +93,26 @@
 				text-align: left;
 				overflow-x: hidden;
   				overflow-y: auto;
+			}
+			#equipmentArea>h3,p {
+  				margin-block-start:0;
+				margin-block-end:0;
+			}/*box-shadow:inset 0px 0px 0px 10px #f00;
+			*/
+			#shopDisplay{
+				position:absolute;
+				display:none;
+				top:1px;
+				left:0;
+				right:0;
+				margin-top:0;
+				margin:auto;
+				max-width:99vw;
+				width:70vw;
+				max-height:98vh;
+				height: 76vh;
+				background-color: brown;
+				z-index: -1;
 			}
 			/*#twoOverThree{
 				position:absolute;
@@ -140,7 +166,6 @@
 			</div>
 		</div>
 		<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
-		<div id="gameBoard" style="display:none;">
 		<div id="statDisplay">
 			<h1>Stats:</h1>
 			HP: <span id="health"></span>/<span id="Mhealth"></span><br>
@@ -155,6 +180,9 @@
 		<div id="movementGrid">
 
 		</div>
+		<div id="shopDisplay">
+
+		</div>
 		<div id="inventBorder">
 			<h1>Items:</h1>
 			<p id="inventDisplay">
@@ -162,15 +190,18 @@
 			</p>
 		</div>
 		<div id="equipmentArea">
-			<!--keep it like this, when i tried to change it to just the div it broke and i couldn't fix it. had to rollback to a working version.-->
 			<h1>Equipment:</h1>
-			<p id="equipDisplay">
-
-			</p>
+			<h4>Main hand slot:</h4>
+			<p id="mainHand slot"></p>
+			<h4>Off hand slot:</h4><!--this mess will need updated when more slots are added.-->
+			<p id="offHand slot"></p><br>
+			<h4>Chest slot:</h4><!--TODO: rework this.-->
+			<p id="chest slot"></p><br>
+			<h4>Head slot:</h4>
+			<p id="head slot"></p><br>
 		</div>
 		<div id="console">
 			
-		</div>
 		</div>
 		<div id="sCover" style="position:absolute;top:0;z-index:-10;width: 100%;background-color:black;height:100%;margin:0;opacity:0;"></div>
 	</body>
