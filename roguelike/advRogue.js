@@ -376,9 +376,10 @@ VERY LOW: rework how locations are read and stored.
 				if(level<=x){
 					temp = enemyChance[x];
 					break;
-				}else{
-					temp = enemyChance["Final"];
 				}
+			}
+			if(temp===undefined){
+				temp = enemyChance["Final"];
 			}
 			for(x in temp){
 				arrayT.push(x);//adds every enemy in the list to the array.
