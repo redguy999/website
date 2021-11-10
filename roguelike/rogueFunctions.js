@@ -108,7 +108,7 @@ function mkStartPoint() {// makes enterance
 }
 function mkExitPoint() {//makes exit
     let temp = getCorrdInGrid();
-    while (temp == startPoint) {
+    while (temp == startPoint) {//so that start and exit aren't the same.
         temp = getCorrdInGrid();
     }
     exitPoint = temp;

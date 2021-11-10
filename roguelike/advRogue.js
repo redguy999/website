@@ -3,7 +3,7 @@
 URGENT:
 HIGH: make it so that you can't throw through walls.
 MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time) & how much equipment you get.
-LOW: rework attack functions (defense formula, wording, a few other things.), overhaul/refactor how equipment is equiped.
+LOW: rework attack functions (defense formula, wording, a few other things.), work on the shop.
 VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
@@ -373,7 +373,7 @@ VERY LOW: rework how locations are read and stored.
 			let temp = enemies[Math.floor(Math.random()*enemies.length)];//finds a random enemy in the array enemies, which contains every enemy.
 			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense,temp.table));
 			return temp.color;
-		}
+		}//this will need to be overhauled if i want to make it get harder as time goes on.
 		function GIFL(){//get item from list
 			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 		}//this function will need to be completely reworked if i want to have drops get better as time goes on.
