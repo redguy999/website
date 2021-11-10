@@ -79,7 +79,7 @@ const itemStats={//should only be looked into when something is added to equipme
     }
 }
 const enemies = {//name is needed here, cause of how the indices work for arrays.
-    "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"#0A0",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
+    "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
     "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkgreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
     "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
 };
