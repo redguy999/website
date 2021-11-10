@@ -376,6 +376,8 @@ VERY LOW: rework how locations are read and stored.
 				if(level<=x){
 					temp = enemyChance[x];
 					break;
+				}else{
+					temp = enemyChance["Final"];
 				}
 			}
 			for(x in temp){
