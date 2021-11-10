@@ -381,9 +381,9 @@ VERY LOW: rework how locations are read and stored.
 			for(x in temp){
 				arrayT.push(x);//adds every enemy in the list to the array.
 			}//still don't have it so that it factors the chance in properly.
-			let RNG = Math.floor(Math.random()*(100))+1;
+			let RNG = Math.floor(Math.random()*100)+1; 	
 			let hold;
-			for(x in arrayT){
+			for(x in temp){//this is kinda complex, if you don't understand what i'm doing, ask me.
 				if(RNG<=temp[x]){
 					hold = x
 					break;

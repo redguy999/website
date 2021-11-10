@@ -97,8 +97,6 @@ function dropLoot(Dropper){
     temp=Dropper;//Dropper is the loot table.
     for(x in temp){//enemies can only currently drop a single type of item currently
         let RNG = Math.floor(Math.random()*(100))+1;
-        console.log(x);
-        console.log(RNG);
         if(RNG<temp[x][0]){
             if(temp[x][1]==1){
                 return [x,1];
