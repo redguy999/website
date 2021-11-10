@@ -168,6 +168,27 @@ function setBGColor(tiles, color) {//sets background colors; color must be a str
         return;
     }
 }
+function setBrColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
+    if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
+        return;
+    }
+    if (typeof (color) == "undefined") {
+        color = "white"//i hope this works.
+    } else if (typeof (color) != "string") {
+        throw "invalid input for parameter: color";
+        return;
+    }
+    if (typeof (tiles) == "object") {//arrays are objects
+        for (let i = 0; i < tiles.length; i++) {//assumes that all entries are strings.
+            document.getElementById(tiles[i]).style.borderColor = color;
+        }
+    } else if (typeof (tiles) == "string") {
+        document.getElementById(tiles).style.borderColor = color;
+    } else {
+        throw "invalid input for parameter: tile(s)";
+        return;
+    }
+}
 function CVM(corrdin) {//check valid move
     for (let i = 0; i < walls.length; i++) {
         if (walls[i] == corrdin) {

@@ -117,14 +117,14 @@ VERY LOW: rework how locations are read and stored.
 			}
 		}
 		class enemy{
-			constructor(name,Mhealth,attack,defense,special=null){
+			constructor(name,Mhealth,attack,defense,table){
 				this.name = name;//string
 				this.location = location;//string
 				this.Mhealth = Mhealth;//number
 				this.health = Mhealth; //health starts equal to max health.
 				this.attack = attack; //number
 				this.defense = defense; //number
-				this.special = special;//no clue what this would be. maybe a map. its optional anyway.
+				this.table = table;
 				this.hurt = function(damg,retal=true){//retal is short for retaliate.
 					let temp = 0;
 					if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
@@ -156,7 +156,7 @@ VERY LOW: rework how locations are read and stored.
 				this.dead = function(){
 					TtC(this.name+" has been defeated.");
                     try{
-						let temp = dropLoot(this.name);
+						let temp = dropLoot(this.table);
 						if(temp===null){//drop nothing
 
 						}else{
@@ -371,7 +371,7 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function GEFL(){//get enemy from list
 			let temp = enemies[Math.floor(Math.random()*enemies.length)];//finds a random enemy in the array enemies, which contains every enemy.
-			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense));
+			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense,temp.table));
 			return temp.color;
 		}
 		function GIFL(){//get item from list
@@ -538,8 +538,8 @@ VERY LOW: rework how locations are read and stored.
 			// prevent default action (open as link for some elements)
 			event.preventDefault();
 			let temp;
-			if(event.target.id==""){
-				temp = "InfoDisplay"//force it to a valid element so that...
+			if(event.target.id==""){//if its not a valid id..
+				temp = "InfoDisplay"//...force it to a valid id so that...
 			} else {
 				temp = event.target.id;
 			}
@@ -665,7 +665,7 @@ VERY LOW: rework how locations are read and stored.
 				startPoint="1,10"
 				playerLoc=startPoint;
 				resetLocDisplay();
-				setBGColor(startPoint,"green")
+				setBGColor(startPoint,"lightGreen")
 				exitPoint="9,10"
 				setBGColor(exitPoint,"red");
 				walls = [];
@@ -719,7 +719,7 @@ VERY LOW: rework how locations are read and stored.
 					temp[x].style.visibility = "hidden";//we have to set them to hidden otherwise they might end up out of order
 				}
 			}
-			shopDis.style.display = "inital"
+			shopDis.style.display = "block"
 			shopDis.style.zIndex = "20";//bring in front of the grid
 			//intinalize the rest of the shop
 		}
@@ -729,7 +729,7 @@ VERY LOW: rework how locations are read and stored.
 			let temp = Mogrid.childNodes
 			for(x in temp){
 				if(!isNaN(parseInt(x))){//because for some reason x can sometimes does not match an index.
-					temp[x].style.visibility = "visible";//we have to set them to hidden otherwise they might end up out of order
+					temp[x].style.visibility = "visible";
 				}
 			}
 		}
