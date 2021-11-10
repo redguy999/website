@@ -370,8 +370,20 @@ VERY LOW: rework how locations are read and stored.
 			}
 		}
 		function GEFL(){//get enemy from list
-			let temp = enemies[Math.floor(Math.random()*enemies.length)];//finds a random enemy in the array enemies, which contains every enemy.
-			eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense,temp.table));
+			let arrayT = [];//this will hold all the enemy names
+			let temp;
+			for(x in enemyChance){
+				if(level<=x){
+					temp = enemyChance(x);
+					break;
+				}
+			}
+			for(x in temp){
+				arrayT.push(x);//adds every enemy in the list to the array.
+			}//still don't have it so that it factors the chance in properly.
+			let hold = arrayT[Math.floor(Math.random()*arrayT.length)];//finds a random enemy in the array enemies, which contains every enemy.
+			temp = enemies[hold];
+			eList.push(new enemy(hold,temp.Mhealth,temp.attack,temp.defense,temp.table));
 			return temp.color;
 		}//this will need to be overhauled if i want to make it get harder as time goes on.
 		function GIFL(){//get item from list
@@ -700,8 +712,8 @@ VERY LOW: rework how locations are read and stored.
 				entLocs.push(iList[0]["location"])//need to do this otherwise code will break.
 				setBGColor(iList[0]["location"],"gold")//makes treasure visible
 				//and now the enemy
-				let temp = enemies[1]//should be the armored goblin
-				eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))
+				let temp = enemies["Armored goblin"]//should be the armored goblin
+				eList.push(new enemy("Armored goblin",temp.Mhealth,temp.attack,temp.defense,temp.table))
 				eList[0]["location"]="7,4"//i would have had it find the goblin in the list, but we already cleared this earlier.
 				entLocs.push(eList[0]["location"]);//adds it to this array.
 				setBGColor(eList[0]["location"],temp.color);//colors the tile

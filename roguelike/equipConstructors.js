@@ -78,11 +78,20 @@ const itemStats={//should only be looked into when something is added to equipme
         return temp;
     }
 }
-const enemies = [
-    {name:"Goblin",Mhealth:"10",attack:"1",defense:"0",color:"#0A0",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
-    {name:"Armored goblin",Mhealth:"15",attack:"2",defense:"3",color:"darkgreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
-    {name:"Rock golem",Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
-];
+const enemies = {//name is needed here, cause of how the indices work for arrays.
+    "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"#0A0",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
+    "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkgreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
+    "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
+};
+const enemyChance = {//contains the chances of enemies spawning on a certain range of floors.
+    5:{"Goblin":90,"Armored goblin":10},//spawn chance for floors 1-5
+    10:{"Armored goblin":25,"Goblin":75},//spawn chance for floors 6-10
+    20:{"Goblin":50,"Armored goblin":50},//spawn chance 11-20
+    30:{"Goblin":20,"Armored goblin":70,"Rock golem":10},
+    40:{"Goblin":1,"Armored goblin":74,"Rock golem":25},//sum of all the numbers in an object need to be equal to 100
+    50:{"Armored goblin":50,"Rock golem":50},//41-50
+    Final:{"Armored goblin":20,"Rock golem":80},//Final is for when the player gets to a floor beyond the defined range
+};
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 function dropLoot(Dropper){
     temp=Dropper;//Dropper is the loot table.
