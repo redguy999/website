@@ -95,9 +95,8 @@ const enemyChance = {//contains the chances of enemies spawning on a certain ran
 //{name:"None",Mhealth:"0",attack:"0",defense:"0",color:"orange"}, //this is the framework
 function dropLoot(Dropper){
     temp=Dropper;//Dropper is the loot table.
-    let chance = 100;
     for(x in temp){//enemies can only currently drop a single type of item currently
-        let RNG = Math.floor(Math.random()*(chance))+1;
+        let RNG = Math.floor(Math.random()*(100))+1;
         console.log(x);
         console.log(RNG);
         if(RNG<temp[x][0]){

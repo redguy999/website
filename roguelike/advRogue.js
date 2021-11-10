@@ -381,8 +381,17 @@ VERY LOW: rework how locations are read and stored.
 			for(x in temp){
 				arrayT.push(x);//adds every enemy in the list to the array.
 			}//still don't have it so that it factors the chance in properly.
-			let hold = arrayT[Math.floor(Math.random()*arrayT.length)];//finds a random enemy in the array enemies, which contains every enemy.
-			temp = enemies[hold];
+			let RNG = Math.floor(Math.random()*(100))+1;
+			let hold;
+			for(x in arrayT){
+				if(RNG<=temp[x]){
+					hold = x
+					break;
+				}else{
+					RNG-=temp[x]
+				}
+			}//this shouldn't error, since RNG will between or equal to 1-100
+			temp = enemies[hold];//this will error if the for in loop fails.
 			eList.push(new enemy(hold,temp.Mhealth,temp.attack,temp.defense,temp.table));
 			return temp.color;
 		}//this will need to be overhauled if i want to make it get harder as time goes on.
