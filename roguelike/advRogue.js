@@ -792,5 +792,5 @@ VERY LOW: rework how locations are read and stored.
 					}
 				}
 			}
-			console.log(temp);
+			return (temp);
 		}
