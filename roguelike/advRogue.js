@@ -414,7 +414,6 @@ VERY LOW: rework how locations are read and stored.
 					temp.push(x);//add the item a certain amount of items in accordance with the rarity value.
 				}
 			}
-			debugger;
 			return temp[Math.floor(Math.random()*temp.length)];//then get a random item from the rarity weighted list.
 		}
 		function collectOrCombat(){//too lazy to change the name even if have of it isn't here.
@@ -772,4 +771,26 @@ VERY LOW: rework how locations are read and stored.
 					temp[x].style.visibility = "visible";
 				}
 			}
+		}
+		function ChanceTestItem(){
+			let store=[];
+			for(let i=0;i<100;i++){
+				store.push(GIFL());
+			}
+			let temp={};
+			for(x in AllItems){
+				let val = store.indexOf(x);
+				if(val==-1){
+					continue;//value not found.
+				}
+				temp[x]=0;
+			}
+			for(x in temp){
+				for(let i=0; i<store.length;i++){
+					if(store[i]==x){
+						temp[x]++;
+					}
+				}
+			}
+			console.log(temp);
 		}
