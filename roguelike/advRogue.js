@@ -784,9 +784,7 @@ VERY LOW: rework how locations are read and stored.
 					continue;//value not found.
 				}
 				temp[x]=0;
-			}
-			for(x in temp){
-				for(let i=0; i<store.length;i++){
+				for(let i=val; i<store.length;i++){
 					if(store[i]==x){
 						temp[x]++;
 					}
