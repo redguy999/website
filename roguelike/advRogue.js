@@ -8,7 +8,11 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = ["gold coin","sword","shield","spear","chest plate","helmet","potion"];//array contaning the name of every (findable) item possible.
+		const AllItems = {"gold coin":[5,15],"potion":[4,10],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
+		//the chance of getting 5 gold coins is the same as the chance as getting 
+		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
+		//see GIFL for more details on what the rarity value for each property does.
+		//An object contaning the name and rarity, and amount of every (findable) item possible.
 		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet","rock flail"];//array containing the name of every item that is equipable.
 		const useable = ["potion","spear"];//array containing the name of every item that is usable
 		const inventory = {
@@ -339,11 +343,16 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function placeItems(){
 			entLocs = [];//clear entLocs
-			let RNG = Math.floor(Math.random()*(iList.length-1))+1;//1-3 items per floor if iList is length 3
+			let RNG = Math.floor(Math.random()*(iList.length))+1;//1-3 items per floor if iList is length 3
 			for(i=0;i<RNG;i++){//should set all the items.
-				iList[i]["contents"] = GIFL();
-				iList[i]["amount"] = Math.floor(Math.random()*3+1);//need to rework so you can get a lot of coins and not a lot of weapons.
-				let temp = getCorrdInGrid();
+				let temp=GIFL();
+				iList[i]["contents"] = temp
+				if(AllItems[temp][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
+					iList[i]["amount"] = 1;
+				} else{
+					iList[i]["amount"] = Math.floor(Math.random()*(AllItems[temp][1]))+1;//should work.
+				}
+				temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
 					temp  = getCorrdInGrid();
 				}
@@ -399,8 +408,15 @@ VERY LOW: rework how locations are read and stored.
 			return temp.color;
 		}//this will need to be overhauled if i want to make it get harder as time goes on.
 		function GIFL(){//get item from list
-			return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
-		}//this function will need to be completely reworked if i want to have drops get better as time goes on.
+			let temp = []
+			for(x in AllItems){//for every item in AllItems
+				for(let i=0;i<AllItems[x][0];i++){//get the rarity, then...
+					temp.push(x);//add the item a certain amount of items in accordance with the rarity value.
+				}
+			}
+			debugger;
+			return temp[Math.floor(Math.random()*temp.length)];//then get a random item from the rarity weighted list.
+		}
 		function collectOrCombat(){//too lazy to change the name even if have of it isn't here.
 			for(let i=0;i<iList.length;i++){
 				if(iList[i]["location"]==playerLoc){
