@@ -94,7 +94,7 @@ function makeGrid() {//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING
 function addCorrdinates() {//was used for debugging, currently useless.
     for (y = 1; y <= wT; y++) {
         for (x = 1; x <= hT; x++) {
-            document.getElementById(x + "," + y).innerHTML = "(" + x + "," + y + ")"
+            document.getElementById(x + "," + y).innerHTML = "(" + x + "," + y + ")";
         }
     }
 }//for making stuff appear on the grid.
@@ -116,7 +116,7 @@ function mkExitPoint() {//makes exit
 }
 function mkWalls() {
     walls = [];
-    for (i = 0; i < Math.floor(Math.random() * (wT * hT)) + 5; i++) {
+    for (i = 0; i < Math.floor(Math.random()*(wT*hT))+10; i++) {
         walls.push(getCorrdInGrid());
     }
     //debugger;

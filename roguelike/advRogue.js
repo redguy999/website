@@ -8,7 +8,7 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = {"gold coin":[5,15],"potion":[4,10],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
+		const AllItems = {"gold coin":[5,15],"potion":[4,5],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
 		//the chance of getting 5 gold coins is the same as the chance as getting 
 		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
 		//see GIFL for more details on what the rarity value for each property does.
@@ -749,8 +749,8 @@ VERY LOW: rework how locations are read and stored.
 			//these shall always run, otherwise stuff doesn't display properly
 			updateInfo();
 		}
-		var shopLoc = "0,0"
-		const shopDis = document.getElementById("shopDisplay")
+		var shopLoc = "0,0";
+		const shopDis = document.getElementById("shopDisplay");
 		function openShop(){//sets the display so that the shop works correctly.
 			let temp = Mogrid.childNodes
 			for(x in temp){
@@ -758,7 +758,7 @@ VERY LOW: rework how locations are read and stored.
 					temp[x].style.visibility = "hidden";//we have to set them to hidden otherwise they might end up out of order
 				}
 			}
-			shopDis.style.display = "block"
+			shopDis.style.display = "block";
 			shopDis.style.zIndex = "20";//bring in front of the grid
 			//intinalize the rest of the shop
 		}
@@ -771,24 +771,4 @@ VERY LOW: rework how locations are read and stored.
 					temp[x].style.visibility = "visible";
 				}
 			}
-		}
-		function ChanceTestItem(){
-			let store=[];
-			for(let i=0;i<100;i++){
-				store.push(GIFL());
-			}
-			let temp={};
-			for(x in AllItems){
-				let val = store.indexOf(x);
-				if(val==-1){
-					continue;//value not found.
-				}
-				temp[x]=0;
-				for(let i=val; i<store.length;i++){
-					if(store[i]==x){
-						temp[x]++;
-					}
-				}
-			}
-			return (temp);
 		}
