@@ -5,7 +5,7 @@ let wT = 10	//number of rows of tiles, AKA the max y value.
 var startPoint = "1,1"
 var exitPoint = "2,2"
 var cordsAdjStart = [];//array of strings.
-var walls = ["1,1"];
+var walls = [];
 var level = 1;//not player level.
 /*
 debugger;
@@ -220,7 +220,7 @@ function cardAdj(corra) {//gets corrdinates that are cardinally adjecent to a gi
     return temp;//returns array
 }
 //for the player
-var playerLoc = "1,1"//for bebugging purposes we need this it to be a valid.
+var playerLoc = "1,1"//might move this to the player object, but it works here.
 function keyPress() {
     key = window.event.keyCode;
     if (key == 32) {
@@ -245,7 +245,7 @@ function keyPress() {
     resetLocDisplay()
 }
 function interact(){
-    if(playerLoc==exitPoint){
+    if(playerLoc==exitPoint){//if player is on the exit.
         TtC("you found the exit");
         level++;
         nextLevel();
