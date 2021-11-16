@@ -1,9 +1,9 @@
 //FILE START!
 /*TODO: stuff to do list:
 URGENT:
-HIGH: make it so that you can't throw through walls.
-MEDIUM: optimism everything. Rework enemy spawns (so that it gets harder over time) & how much equipment you get.
-LOW: rework attack functions (defense formula, wording, a few other things.), work on the shop.
+HIGH: make it so that you can't throw spears through walls.
+MEDIUM: optimism everything, work on the shop.
+LOW: rework attack functions (defense formula, wording, a few other things.)
 VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
@@ -343,7 +343,7 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function placeItems(){
 			entLocs = [];//clear entLocs
-			let RNG = Math.floor(Math.random()*(iList.length))+1;//1-3 items per floor if iList is length 3
+			let RNG = Math.floor(Math.random()*(iList.length+1));
 			for(i=0;i<RNG;i++){//should set all the items.
 				let temp=GIFL();
 				iList[i]["contents"] = temp
@@ -363,7 +363,7 @@ VERY LOW: rework how locations are read and stored.
 			placeEnemies();
 		}
 		function placeEnemies(){//
-			let RNG = Math.floor(Math.random()*6);//0-5 if random*6
+			let RNG = Math.floor(Math.random()*5)+1;//set to 1-5
 			eList.splice(0,eList.length);//clear eList
 			//TODO: rework the RNG formulas so that it becomes harder as you get to lower floors.
 			for(let i=0;i<RNG;i++){
