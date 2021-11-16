@@ -133,7 +133,14 @@
 
 		</div>
 		<div id="shopDisplay">
-
+			<label for="buy">What would you like to buy?</label>
+			<select name="buy" onchange="addToCart(value)" id="shopInvent"><!--value = the item selected.-->
+				<!--JS will make the option tags for us.-->
+			</select>
+			<div id="cart"></div><!--this will contain what we want to buy-->
+			<div id="sellBox"></div><!--drag stuff here to try to sell it-->
+			<button id="confirmBuy"></button>
+			<button id="confirmSell"></button>
 		</div>
 		<div id="inventBorder">
 			<h1>Items:</h1>

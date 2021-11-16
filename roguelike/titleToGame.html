@@ -181,15 +181,13 @@
 		</div>
 		<div id="shopDisplay">
 			<label for="buy">What would you like to buy?</label>
-			<select name="buy" id="cars">
-				<option value="volvo">Volvo</option>
-				<option value="saab">Saab</option>
-				<option value="mercedes">Mercedes</option>
-				<option value="audi">Audi</option>
+			<select name="buy" onchange="addToCart(value)" id="shopInvent"><!--value = the item selected.-->
+				<!--JS will make the option tags for us.-->
 			</select>
-			<div id="shopInvent"></div>
-			<div id="sellBox"></div>
-			<button></button>
+			<div id="cart"></div><!--this will contain what we want to buy-->
+			<div id="sellBox"></div><!--drag stuff here to try to sell it-->
+			<button id="confirmBuy"></button>
+			<button id="confirmSell"></button>
 		</div>
 		<div id="inventBorder">
 			<h1>Items:</h1>
