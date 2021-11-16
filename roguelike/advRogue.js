@@ -343,7 +343,7 @@ VERY LOW: rework how locations are read and stored.
 		}
 		function placeItems(){
 			entLocs = [];//clear entLocs
-			let RNG = Math.floor(Math.random()*(iList.length+1));
+			let RNG = Math.floor(Math.random()*(iList.length));
 			for(i=0;i<RNG;i++){//should set all the items.
 				let temp=GIFL();
 				iList[i]["contents"] = temp
@@ -532,10 +532,10 @@ VERY LOW: rework how locations are read and stored.
 				console.error("item was dragged without being able to do anything.")
 			}
 		}, false);
-		document.addEventListener("dragleave", function( event ) {
+		document.addEventListener("dragleave", function( event ) {//event is the element that was left.
 			// reset background of potential drop target when the draggable element leaves it
 			if(useA[0]){
-				if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, should still display the outline when in a child element of equipmentArea.
+				if (event.target.id == "equipmentArea"&&cParent!="equipmentArea"){//this doesn't quite work properly, outline sometimes doesn't disappear when leaving.
 					document.getElementById("equipmentArea").style.boxShadow = "none";
 				}
 			}
@@ -556,7 +556,7 @@ VERY LOW: rework how locations are read and stored.
 			// highlight potential drop target when the draggable element enters it
 			cParent=event.target.parentNode.id;//drag enter runs before drag leave.
 			if(useA[0]){
-				if (event.target.id == "equipmentArea"||event.target.parentNode.id=="equipmentArea"){
+				if (event.target.id == "equipmentArea"||cParent=="equipmentArea"){
 					document.getElementById("equipmentArea").style.boxShadow = "inset 0 0 2px 2px #00F";
 				}
 			}
@@ -572,7 +572,7 @@ VERY LOW: rework how locations are read and stored.
 					}
 				}
 			}
-		}, false);
+		}, false);//i don't know what this false thing does but don't touch it.
 		document.addEventListener("drop", function( event ) {
 			// prevent default action (open as link for some elements)
 			event.preventDefault();
