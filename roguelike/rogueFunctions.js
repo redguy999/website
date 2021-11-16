@@ -5,7 +5,7 @@ let wT = 10	//number of rows of tiles, AKA the max y value.
 var startPoint = "1,1"
 var exitPoint = "2,2"
 var cordsAdjStart = [];//array of strings.
-var walls = [];
+var walls = ["1,1"];
 var level = 1;//not player level.
 /*
 debugger;
@@ -119,15 +119,18 @@ function mkWalls() {
     for (i = 0; i < Math.floor(Math.random()*(wT*hT))+10; i++) {
         walls.push(getCorrdInGrid());
     }
-    //debugger;
-    walls = Array.from(new Set(walls));
-    while (walls.length <= 20) {//adds more walls if theres too few walls.
+    walls = Array.from(new Set(walls));//removes repeated entries
+    while (walls.length <= 15) {//adds more walls if theres too few walls.
         walls.push(getCorrdInGrid())//should add the item to the end of the list.
     }
-    for(let i = 0;i<walls.length;i++){
-        if (walls[i] == startPoint || walls[i] == exitPoint) {
-            walls.splice(i,1);
-        }
+    //debugger;
+    let temp = walls.indexOf(startPoint)//is there a wall cordinate that is the same as the startPoint?
+    if(temp!=-1){//if there isn't, temp will be -1
+        walls.splice(temp,1);//if there is, remove it.
+    }
+    temp = walls.indexOf(exitPoint)
+    if(temp!=-1){
+        walls.splice(temp,1)
     }
     setBGColor(walls, "black")
 }

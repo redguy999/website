@@ -752,23 +752,15 @@ VERY LOW: rework how locations are read and stored.
 		var shopLoc = "0,0";
 		const shopDis = document.getElementById("shopDisplay");
 		function openShop(){//sets the display so that the shop works correctly.
-			let temp = Mogrid.childNodes
-			for(x in temp){
-				if(!isNaN(parseInt(x))){
-					temp[x].style.visibility = "hidden";//we have to set them to hidden otherwise they might end up out of order
-				}
-			}
+			Mogrid.style.visibility = "hidden";
 			shopDis.style.display = "block";
 			shopDis.style.zIndex = "20";//bring in front of the grid
 			//intinalize the rest of the shop
+			
 		}
 		function closeShop(){
 			shopDis.style.display = "none"
 			shopDis.style.zIndex = "-1";
-			let temp = Mogrid.childNodes
-			for(x in temp){
-				if(!isNaN(parseInt(x))){//because for some reason x can sometimes does not match an index.
-					temp[x].style.visibility = "visible";
-				}
-			}
+			Mogrid.style.visibility = "visible";
+			//the unintinalize the shop?
 		}
