@@ -753,13 +753,13 @@ VERY LOW: rework how locations are read and stored.
 		const shopDis = document.getElementById("shopDisplay");
 		function openShop(){//sets the display so that the shop works correctly.
 			Mogrid.style.visibility = "hidden";
-			shopDis.style.display = "block";
+			shopDis.style.visibility = "visible";
 			shopDis.style.zIndex = "20";//bring in front of the grid
 			//intinalize the rest of the shop
 			
 		}
 		function closeShop(){
-			shopDis.style.display = "none"
+			shopDis.style.visibility = "hidden"
 			shopDis.style.zIndex = "-1";
 			Mogrid.style.visibility = "visible";
 			//the unintinalize the shop?
