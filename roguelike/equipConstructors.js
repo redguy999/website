@@ -56,11 +56,6 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,
         slot:"head",
     },
-    "rock helmet":{
-        defense:2,
-        Mhealth:20,
-        slot:"head",
-    },
     "rock flail":{
         attack:5,
         slot:"mainHand",

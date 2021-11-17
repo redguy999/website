@@ -227,11 +227,14 @@ const shopItemValues={//contains the value of how many coins you'll get if you S
     shield:25,
     sword:20,
     potion:5,
-    chestplate:35,
+    "chest plate":35,
     helmet:30,
-    rockFlail:75,
+    "rock flail":100,
 }//if an item is not on the list, it can't be sold to the shop.
 const prices={//holds the prices that an item is to be sold to you at.
+
+}
+const cartHold={
 
 }
 function openShop(){//sets the display so that the shop works correctly.
@@ -246,24 +249,23 @@ function openShop(){//sets the display so that the shop works correctly.
     shopInven.spear = 10;
     //finished giving items to the shop
     var rate = Number.parseFloat((Math.random()*3)+1).toPrecision(2);//should always yeild a number between 1-4 (excluding 6), that can have a digit in the tenths place.
+    console.log(rate);
     for(x in shopInven){//for every item in the shop inventory
-        prices[x]= shopItemValues[x]*rate;//find its value and multiple it by the rate
+        prices[x]= Math.ceil(shopItemValues[x]*rate);//find its value and multiple it by the rate, then round up.
     }//we don't need to do all of the values since we won't need to do math on them.
     addToShelf()
 }
-function addToShelf(){//adds the items to the dropDownMenu
-    sInventDis.innerHTML="<option id='standard' value='null'>select an option:</option>"//clears the dropDown menu and adds the default option to the list
+function addToShelf(){//adds the items to the Menu
+    sInventDis.innerHTML=""
     for(x in shopInven){//adds every item in the shop inventory
-        sInventDis.innerHTML+="<option id="+x+" value='"+x+"'>"+x+"</option>";//ID is needed for when we need to remove stuff from the menu.
-    }
+        sInventDis.innerHTML+="<div id='"+x+"' style='display:grid;grid-template-columns:50% 50%;'><span class='onShelf' onClick='addToCart(\""+x+"\")'>"+x+"</span><span>"+prices[x]+"g</span></div>";//ID is needed for when we need to remove stuff from the menu.
+    }//<span id="item" onClick="addToCart('item')">item</span><br>
 }
 const cart = document.getElementById("cart");
 function addToCart(val){//add items to the cart, these items will be sold to the player once they confirm the purchase.
-    if(val=="null"){
-        return;//they selected the default option, which can't be sold.
-    }
-    console.log(val);
-    cart.innerHTML+=""
+    document.getElementById(val).remove();//this doesn't work on IE but i doubt that anyone who would play this would use that
+    carHold[val]=prices[val]
+    cart.innerHTML+="<div class='cartItem' id="+val+"><span style='color:red;'onClick='returnToCart(\""+val+"\")'>remove?</span><div style='color:white;'>"+val+"</div><span><input type='number' min='1' max='"+shopInven[val]+"'placeholder='1'></input></span></div>";
 }
 function closeShop(){
     shopDis.style.visibility = "hidden"
