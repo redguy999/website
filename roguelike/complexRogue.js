@@ -214,14 +214,56 @@ function scriptedFloor(){//for floors we want to force a layout for.
     //these shall always run, otherwise stuff doesn't display properly
     updateInfo();
 }
+//shop functions:
 var shopLoc = "0,0";
 const shopDis = document.getElementById("shopDisplay");
+const sInventDis = document.getElementById("shopInvent");//short for shop inventory display
+const shopInven = {//what the shop has in stock, and how much of it.
+
+}
+const shopItemValues={//contains the value of how many coins you'll get if you SELL this item to the shop, items are sold to you at a higher price.
+    //format = itemName:Value; value is always a number, itemName is a string.
+    spear:10,
+    shield:25,
+    sword:20,
+    potion:5,
+    chestplate:35,
+    helmet:30,
+    rockFlail:75,
+}//if an item is not on the list, it can't be sold to the shop.
+const prices={//holds the prices that an item is to be sold to you at.
+
+}
 function openShop(){//sets the display so that the shop works correctly.
     Mogrid.style.visibility = "hidden";
     shopDis.style.visibility = "visible";
     shopDis.style.zIndex = "20";//bring in front of the grid
     //intinalize the rest of the shop
-    
+    shopInven.potion = 10;
+    shopInven["chest plate"] = 1;
+    shopInven["shield"] = 1;
+    shopInven.sword = 1;
+    shopInven.spear = 10;
+    //finished giving items to the shop
+    var rate = Number.parseFloat((Math.random()*3)+1).toPrecision(2);//should always yeild a number between 1-4 (excluding 6), that can have a digit in the tenths place.
+    for(x in shopInven){//for every item in the shop inventory
+        prices[x]= shopItemValues[x]*rate;//find its value and multiple it by the rate
+    }//we don't need to do all of the values since we won't need to do math on them.
+    addToShelf()
+}
+function addToShelf(){//adds the items to the dropDownMenu
+    sInventDis.innerHTML="<option id='standard' value='null'>select an option:</option>"//clears the dropDown menu and adds the default option to the list
+    for(x in shopInven){//adds every item in the shop inventory
+        sInventDis.innerHTML+="<option id="+x+" value='"+x+"'>"+x+"</option>";//ID is needed for when we need to remove stuff from the menu.
+    }
+}
+const cart = document.getElementById("cart");
+function addToCart(val){//add items to the cart, these items will be sold to the player once they confirm the purchase.
+    if(val=="null"){
+        return;//they selected the default option, which can't be sold.
+    }
+    console.log(val);
+    cart.innerHTML+=""
 }
 function closeShop(){
     shopDis.style.visibility = "hidden"

@@ -228,8 +228,8 @@ function keyPress() {
         return;//we don't need to do math on the location.
     }
     let temp = switchMovement(playerLoc, key);
-    if (temp == null) {
-        return;//invalid movement.
+    if (CVM(temp)) {
+        return;//can't move to that tile
     }
     try{
         for(let i=0;i<eList.length;i++){
@@ -287,11 +287,8 @@ function switchMovement(Corrd, key) {//movement function, returns a string, or n
             break;
         default:
             //invalid input for key
-            return null;
+            return Corrd;//return orginial corrdinate
         //just have it return corrd so it doesn't break.
-    }
-    if (CVM(temp.toString())) {
-        return null;//impossible location.
     }
     return temp.toString();;//returns corrdinate as string
 }
