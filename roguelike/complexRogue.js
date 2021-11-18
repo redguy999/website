@@ -335,5 +335,3 @@ function updateProfit(){
     }
     sellProfit.innerHTML=hold+"g";
 }
-forceAddItem("spear",10)
-openShop()
