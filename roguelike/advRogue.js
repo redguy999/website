@@ -1,7 +1,7 @@
 //FILE START!
 /*TODO: stuff to do list:
 URGENT:
-HIGH: make it so that you can't throw spears through walls.
+HIGH: make it so that you can't throw spears through walls. optimism display inventory.
 MEDIUM: optimism everything, work on the shop.
 LOW: rework attack functions (defense formula, wording, a few other things.)
 VERY LOW: rework how locations are read and stored.

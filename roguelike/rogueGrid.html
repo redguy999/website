@@ -116,7 +116,7 @@
 				background-color: brown;
 				z-index: -1;
 				grid-template-columns: 50% 50%;
-				grid-template-rows: 15% 35% 35% 15%;
+				grid-template-rows: 15% 30% 30% 15% 10%;
 			}
 			#shopDisplay>div{
 				padding:10%;
@@ -147,16 +147,17 @@
 
 		</div>
 		<div id="shopDisplay">
-			<span style="text-align:center; padding-top:10%;"><!--so that the grid formats correctly.-->
+			<span style="text-align:center;padding-top: 3%;"><!--so that the grid formats correctly.-->
 				What would you like to buy?<br>
-				<div id="shopInvent" style="text-align: center;overflow-x: hidden;overflow-y: auto;width:50%;height:4vh;border:black solid 1px;margin:auto;margin-top:0;">
+				<div id="shopInvent" style="text-align: center;overflow-x: hidden;overflow-y: auto;width:50%;height:8vh;border:black solid 1px;margin:auto;margin-top:0;">
 					<span id="item" onClick="addToCart('item')">item</span><br>
 				</div>
 			</span>
-			<div style="grid-column: 2;grid-row-start: 1; grid-row-end:4;"><div id="sellBox" style="width:100%;height:100%;background-color: black;"></div></div><!--drag stuff here to try to sell it-->
+			<div style="grid-column: 2;grid-row-start: 1; grid-row-end:4;"><div id="sellBox" ondrop="AddtoSell(dragged)" style="width:100%;height:100%;background-color: black;"></div></div><!--drag stuff here to try to sell it-->
 			<div style="grid-column: 1;grid-row-start: 2; grid-row-end:4;"><div id="cart" style="width:100%;height:100%;background-color: black;"></div></div><!--this will contain what we want to buy-->
-			<div style="padding-top:0"><div id="amountB"></div><button id="confirmBuy">Buy items in cart?</button></div>
-			<div style="padding-top:0"><div id="amountS"></div><button id="confirmSell">Sell given items?</button></div>
+			<div style="padding-top:0"><div id="amountB"></div><div id="profitLose">0g</div><button id="confirmBuy">Buy items in cart?</button></div>
+			<div style="padding-top:0"><div id="amountS"></div><div id="sellProfit">0g</div><button id="confirmSell">Sell given items?</button></div>
+			<div style="grid-area: 5/1/6/2;"><button style="color:red;font-style:bold;"onClick="closeShop()">Exit shop</button></div>
 		</div>
 		<div id="inventBorder">
 			<h1>Items:</h1>
