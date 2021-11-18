@@ -265,7 +265,7 @@ const cart = document.getElementById("cart");
 function addToCart(val){//add items to the cart, these items will be sold to the player once they confirm the purchase.
     document.getElementById(val).remove();//this doesn't work on IE but i doubt that anyone who would play this would use that
     carHold[val]=prices[val]
-    cart.innerHTML+="<div class='cartItem' id="+val+"><span style='color:red;'onClick='returnToCart(\""+val+"\")'>remove?</span><div style='color:white;'>"+val+"</div><span><input type='number' min='1' max='"+shopInven[val]+"'placeholder='1'></input></span></div>";
+    cart.innerHTML+="<div class='cartItem' id="+val+"><span style='color:red;font-weight:bold;'onClick='returnToCart(\""+val+"\")'>X</span><div style='color:white;'>"+val+"</div><span><input type='number' min='1' max='"+shopInven[val]+"'placeholder='1'></input></span></div>";
 }
 function closeShop(){
     shopDis.style.visibility = "hidden"
