@@ -1,9 +1,22 @@
 //!!undefined === false
-const currency = "";
-const everySingleItem = {
+var currency = "";
+const everySingleItem = {//we can't do this til the item drops are overhaulxw, again. might have this be a part of that overhaul
 	"gold coin":{
 		currency:true,//for the item that we want to be the currency
 	},
+    /*"rock":{//testing
+        findable:[5,10],
+    },
+    "arrow":{//testing
+        findable:[5,5],
+        equip:{
+            slot:"mainHand",
+            attack:1,
+        },
+        use:{
+            deal:3,
+        },
+    },
     /* formating:
 	findableItem:{
 		findable:[rarity,amount],
@@ -29,24 +42,31 @@ const everySingleItem = {
 	},
 	//continue for every item.*/
 }
-function seteveryItems(){
+function seteveryItem(){//running this will create the items (in the above object) and place them properly in the correct locations 
 	for(x in everySingleItem){
 		let iM = everySingleItem[x]//makes it easier to call
         if(iM["currency"]){
             currency=x;
         }
         if(iM["findable"]){
-            AToFind(iM["findable"],x);
+            AllItems[x]=iM["findable"];
         }
 		if(iM['use']){//this will be false if undefined
-			//push to "useable"  array
-            //then function call to add the item and stats to 'comsumableStats' 
+            useable.push(x);
+            comsumableStats[x]={};
+            let temp = comsumableStats[x]
+            for(A in iM['use']){
+                temp[A]=iM['use'][A];
+            }
 		}
         if(iM['equip']){
-            //push to "equipable" array
+            equipable.push(x)
+            itemStats[x]={};
+            let temp = itemStats[x];
+            for(A in iM['equip']){
+                temp[A]=iM['equip'][A];
+            }
+            //add the item and stats to "itemStats"
         }
 	}
-}
-function AToFind(props,name){//props is an array, name is a string.
-    allItems[name]=props;
 }

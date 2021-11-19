@@ -9,7 +9,7 @@ function forceAddItem(item,amount){//for admin use only
 }
 function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are strings.
     let temp = placementInWall(corrdinate)
-    if(temp){}else{return;}//this works
+    if(!temp){return;}//this works
     for(x in enemies){
         if(String(enemies[x].name).toLowerCase()==eName.toLowerCase()){//the if statement works
             temp=enemies[x];
