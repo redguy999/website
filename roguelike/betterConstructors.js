@@ -4,8 +4,10 @@ const everySingleItem = {
 	"gold coin":{
 		currency:true,//for the item that we want to be the currency
 	},
+    /* formating:
 	findableItem:{
-		findable:true,//just don’t list this if false
+		findable:[rarity,amount],
+        //if it isn't findable, just don't list the property. also i might change this back to a boolean and make something like what i did for the lootTable.
 	},
 	equipableItemName:{
 		equip:{
@@ -25,7 +27,7 @@ const everySingleItem = {
 
         },
 	},
-	//continue for every item.
+	//continue for every item.*/
 }
 function seteveryItems(){
 	for(x in everySingleItem){
@@ -34,7 +36,7 @@ function seteveryItems(){
             currency=x;
         }
         if(iM["findable"]){
-            //push to the "AllItems" array
+            AToFind(iM["findable"],x);
         }
 		if(iM['use']){//this will be false if undefined
 			//push to "useable"  array
@@ -44,4 +46,7 @@ function seteveryItems(){
             //push to "equipable" array
         }
 	}
+}
+function AToFind(props,name){//props is an array, name is a string.
+    allItems[name]=props;
 }

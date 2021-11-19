@@ -108,7 +108,7 @@ function mkStartPoint() {// makes enterance
 }
 function mkExitPoint() {//makes exit
     let temp = getCorrdInGrid();
-    while (temp == startPoint) {//so that start and exit aren't the same.
+    while (temp == startPoint||cordsAdjStart.indexOf(temp)!=-1) {//so that the exit isn't near the start.
         temp = getCorrdInGrid();
     }
     exitPoint = temp;
