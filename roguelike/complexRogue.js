@@ -163,53 +163,74 @@ document.addEventListener("drop", function( event ) {
 }, false);
 const slBox = document.getElementById("sellBox")
 //other complex stuff
+function MPE(enem,locat){//manually place enemy
+    let temp = enemies[enem]//should be the armored goblin
+    eList.push(new enemy(enem,temp.Mhealth,temp.attack,temp.defense,temp.table))
+    let lI = eList.length-1;//hopefully this works.
+    eList[lI]["location"]=locat//i would have had it find the goblin in the list, but we already cleared this earlier.
+    entLocs.push(eList[lI]["location"]);//adds it to this array.
+    setBGColor(eList[lI]["location"],temp.color);//colors the tile
+}
+function MPI(corrd,item,amount){//manually place item, assumes the item it is placing is the last item in the array
+    let lI = iList.length-1;//hopefully this works.
+    iList[lI]["location"] = corrd;
+    iList[lI]["contents"] = item;
+    iList[lI]["amount"] = amount;
+    entLocs.push(iList[lI]["location"]);
+    setBGColor(iList[lI]["location"],"gold");
+}
+function MPS(sg){//manually place start
+    startPoint=sg
+    playerLoc=startPoint;
+    resetLocDisplay();
+    setBGColor(startPoint,"lightGreen")
+}
+function MPEn(stri){//manually place end
+    exitPoint=stri
+    setBGColor(exitPoint,"red");
+}
+function MPW(arr){//manually place walls
+    for(x in arr){//in JS, x is the indices, not the values.
+        walls.push(arr[x]);
+    }
+    setBGColor(walls,"black");
+}
 function scriptedFloor(){//for floors we want to force a layout for.
     eList.splice(0,eList.length);//clear eList.
     entLocs = [];//clear entLocs
+    walls = [];
     if(level==5){
-        startPoint="1,10"
-        playerLoc=startPoint;
-        resetLocDisplay();
-        setBGColor(startPoint,"lightGreen")
-        exitPoint="9,10"
-        setBGColor(exitPoint,"red");
-        walls = [];
+        MPS("1,10");
+        MPEn("9,10")
         //below makes the walls.
+        let temp=[];
         for(let i = 1;i<10;i++){
-            walls.push(i+",1");
+            temp.push(i+",1");
         }
         for(let i=6;i<=8;i++){
             for(let z=10;z>4;z--){
-                walls.push(i+","+z)
+                temp.push(i+","+z)
             }
         }
         for(let i=3;i<=10;i++){
-            walls.push("2,"+i);
+            temp.push("2,"+i);
         }
         for(let i=4;i<=9;i++){
             for(let z=2;z<=3;z++){
-                walls.push(i+","+z)
+                temp.push(i+","+z)
             }
         }
         for(let i=3;i<=5;i++){
-            walls.push(i+",10");
+            temp.push(i+",10");
         }
         for(let i=4;i<=8;i++){
-            walls.push("4,"+i);
+            temp.push("4,"+i);
         }
-        setBGColor(walls, "black")//makes the walls visible.
+        MPW(temp);
         //below is for the item.
-        iList[0]["location"] = "8,4"
-        iList[0]["contents"] = "gold coin";
-        iList[0]["amount"] = 50;
-        entLocs.push(iList[0]["location"])//need to do this otherwise code will break.
-        setBGColor(iList[0]["location"],"gold")//makes treasure visible
+        MPI("8,4","gold coin",50)
         //and now the enemy
-        let temp = enemies["Armored goblin"]//should be the armored goblin
-        eList.push(new enemy("Armored goblin",temp.Mhealth,temp.attack,temp.defense,temp.table))
-        eList[0]["location"]="7,4"//i would have had it find the goblin in the list, but we already cleared this earlier.
-        entLocs.push(eList[0]["location"]);//adds it to this array.
-        setBGColor(eList[0]["location"],temp.color);//colors the tile
+        MPE("Armored goblin","7,4")
     }
 
     //these shall always run, otherwise stuff doesn't display properly

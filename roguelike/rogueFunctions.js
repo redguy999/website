@@ -306,8 +306,8 @@ function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to wo
             let tempCorrd = checkCorrds[t];
             for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
                 let holdT = switchMovement(tempCorrd, i);
-                if (holdT == null) {
-                    continue;
+                if(CVM(holdT)){
+                    continue;//move invalid.
                 } else {
                     newCorrds.push(holdT);
                 }
