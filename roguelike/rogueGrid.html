@@ -155,8 +155,8 @@
 			</span>
 			<div style="grid-area:1/2/4/2;"><div id="sellBox" ondrop="AddtoSell(dragged)" style="width:100%;height:100%;background-color: black;"></div></div><!--drag stuff here to try to sell it-->
 			<div style="grid-area:2/1/4/1;"><div id="cart" style="width:100%;height:100%;background-color: black;"></div></div><!--this will contain what we want to buy-->
-			<div style="padding-top:0"><div id="amountB"></div><div id="profitLose">0g</div><button id="confirmBuy">Buy items in cart?</button></div>
-			<div style="padding-top:0"><div id="amountS"></div><div id="sellProfit">0g</div><button id="confirmSell">Sell given items?</button></div>
+			<div style="padding-top:0"><div id="amountB"></div><div id="profitLose">0g</div><button onClick="buyItems()" id="confirmBuy">Buy items in cart?</button></div>
+			<div style="padding-top:0"><div id="amountS"></div><div id="sellProfit">0g</div><button onClick="mkProfit()" id="confirmSell">Sell given items?</button></div>
 			<div style="padding:0%;grid-row-start:5;grid-row-end:6;grid-column-start:1;grid-column-end: 3;"><button style="color:red;font-style:bold;"onClick="closeShop()">Exit shop</button></div>
 			<!--do NOT touch the style of the last grid item here, i have no clue why its style works, but it does, so don't touch it.-->
 		</div>

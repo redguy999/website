@@ -198,7 +198,7 @@ function MPW(arr){//manually place walls
 function scriptedFloor(){//for floors we want to force a layout for.
     eList.splice(0,eList.length);//clear eList.
     entLocs = [];//clear entLocs
-    walls = [];
+    walls = [];//clear walls
     if(level==5){
         MPS("1,10");
         MPEn("9,10")
@@ -237,6 +237,7 @@ function scriptedFloor(){//for floors we want to force a layout for.
     updateInfo();
 }
 //shop functions:
+//TODO: figure out how the hell this works, cause i'm not sure how this works.
 var shopLoc = "0,0";
 const shopDis = document.getElementById("shopDisplay");
 const sInventDis = document.getElementById("shopInvent");//short for shop inventory display
@@ -256,7 +257,7 @@ const shopItemValues={//contains the value of how many coins you'll get if you S
 const prices={//holds the prices that an item is to be sold to you at.
 
 }
-const cartHold={
+const cartHold={//what you're trying to buy.
 
 }
 function openShop(){//sets the display so that the shop works correctly.
@@ -281,22 +282,34 @@ function addToShelf(){//adds the items to the Menu
     sInventDis.innerHTML=""
     for(x in shopInven){//adds every item in the shop inventory
         sInventDis.innerHTML+="<div id='"+x+"H' style='display:grid;grid-template-columns:50% 50%;'><span class='onShelf' onClick='addToCart(\""+x+"\")'>"+x+"</span><span>"+prices[x]+"g</span></div>";//ID is needed for when we need to remove stuff from the menu.
-    }//<span id="item" onClick="addToCart('item')">item</span><br>
+    }
 }
 const cart = document.getElementById("cart");
 function addToCart(val){//add items to the cart, these items will be sold to the player once they confirm the purchase.
     document.getElementById(val+"H").remove();//this doesn't work on IE but i doubt that anyone who will play this would use that
-    cartHold[val]=prices[val]
+    cartHold[val]=1//this is how much is being bought
     cart.innerHTML+="<div class='cartItem' id='"+val+"B'><span style='color:red;font-weight:bold;'onClick='returnToCart(\""+val+"\")'>X</span><div style='color:white;'>"+val+"</div><span><input type='number' onchange='updatePrice()' min='1' max='"+shopInven[val]+"'placeholder='1'></input></span></div>";
     updatePrice()
 }
 function closeShop(){
+    cart.innerHTML=""
+    sInventDis.innerHTML=""
+    slBox.innerHTML=""
+    for(x in cartHold){
+        delete cartHold[x]
+    }
+    for(x in selling){
+        delete selling[x]
+    }
+    for(x in shopInven){
+        delete shopInven[x]
+    }
     shopDis.style.visibility = "hidden"
     shopDis.style.zIndex = "-1";
     Mogrid.style.visibility = "visible";
-    //the unintinalize the shop?
+    //the unintinalize the shop
 }
-const selling = {//property format: `itemInBox:amount`
+const selling = {//property format: `itemInBox:amount` THIS IS FOR SELLING STUFF
     
 }
 const spendAmount = document.getElementById("profitLose")
@@ -305,12 +318,12 @@ function updatePrice(){
     let hold = 0;
     for (i = 0; i < temp.length; i++) {
         let item = temp[i].id;
-        item = item.slice(0,item.length-1)//returns all but the last index, which is what we need.
+        item = item.slice(0,item.length-1)//the ID has an extra character which is needed for IDing, but is otherwise unhelpful, this removes it.
         let tele = temp[i].lastChild.childNodes[0].value//finds and gets the input tag.
         if(!tele){//this is true if value is empty, which can happen when this is called from "AddtoSell"
             tele=1;
         }
-        selling[item]=tele
+        cartHold[item]=tele;
         hold+=tele*prices[item];
     }
     if(isNaN(hold)){//in case i did something wrong.
@@ -325,8 +338,8 @@ function returnToCart(item){
     updatePrice()
 }
 function AddtoSell(item){
-    if(selling[item]==0||selling[item]===undefined){
-        return;//without this, you could see multiple of the same item simulatously, which could be exploited to sell infinite items.
+    if(selling[item]!==undefined){//should only be true if the item is already in the box
+        return;//without this, you could sell multiple of the same item simulatously, which could be exploited to sell infinite items.
     }
     slBox.innerHTML+="<div class='cartItem' id='"+item+"S'><span style='color:red;font-weight:bold;' onClick='returnToInvent(\""+item+"\")'>X</span><div style='color:white;'>"+item+"</div><span><input type='number' min='1' onchange='updateProfit()' max='"+inventory[item]+"'placeholder='1'></input></span></div>"
     selling[item]=1;
@@ -336,6 +349,48 @@ function returnToInvent(ret){
     delete selling[ret];
     document.getElementById(ret+"S").remove();//delete the item from the display
     updateProfit();
+}
+function buyItems(){
+    let temp=parseInt(spendAmount.innerHTML);//the text is the price, and should be correct always.
+    if(temp>inventory["gold coin"]){
+        TtC("You don't have enough money.")
+        return;
+    }
+    inventory["gold coin"]-=temp;
+    for(x in cartHold){
+        if(inventory[x]===undefined){//"===" is a strict check, and will not auto match the variable types before comparing
+            inventory[x]=cartHold[x];
+        } else{
+            inventory[x]+=cartHold[x];//attempting to do this while inventory[x] is undefined cause a NaN to appear.
+        }
+        shopInven[x]-=cartHold[x];
+        if(shopInven[x]==0){
+            delete shopInven[x];//if none of it exists, get rid of it.
+        }
+        delete cartHold[x];//empty the cart
+    }
+    displayInvent();
+    cart.innerHTML=""//clear the cart display
+    spendAmount.innerHTML="0g"
+    addToShelf();//reset the shop inventory display
+}
+function mkProfit(){
+    let temp=parseInt(sellProfit.innerHTML);//the text is the price, and should be correct always.
+    if(inventory["gold coin"]===undefined){
+        inventory["gold coin"]=temp;
+    } else {
+        inventory["gold coin"]+=temp;
+    }
+    for(x in selling){
+        inventory[x]-=selling[x];
+        if(inventory[x]==0){
+            delete inventory[x];//if none of it exists, get rid of it.
+        }
+        delete selling[x];//empty the cart
+    }
+    displayInvent();
+    slBox.innerHTML=""//clear the sellbox display
+    sellProfit.innerHTML="0g"
 }
 const sellProfit = document.getElementById("sellProfit")
 function updateProfit(){
