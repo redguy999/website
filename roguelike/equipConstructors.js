@@ -56,6 +56,11 @@ const itemStats={//should only be looked into when something is added to equipme
         Mhealth:10,
         slot:"head",
     },
+    "rock helmet":{
+        defense:2,
+        Mhealth:20,
+        slot:"head",
+    },
     "rock flail":{
         attack:5,
         slot:"mainHand",
@@ -73,9 +78,9 @@ const itemStats={//should only be looked into when something is added to equipme
         return temp;
     }
 }
-const enemies = {//name is needed here, cause of how the indices work for arrays.
+const enemies = {//name is needed here, cause of how the indices work for objects.
     "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
-    "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkgreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
+    "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkolivegreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
     "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
 };
 const enemyChance = {//contains the chances of enemies spawning on a certain range of floors.
