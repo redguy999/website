@@ -79,9 +79,9 @@ const itemStats={//should only be looked into when something is added to equipme
     }
 }
 const enemies = {//name is needed here, cause of how the indices work for objects.
-    "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,5],}},//color is only for displaying where the enemy is.
-    "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkolivegreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,15]}},
-    "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,100]}},
+    "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,2],}},//color is only for displaying where the enemy is.
+    "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkolivegreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,5]}},
+    "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,50]}},
 };
 const enemyChance = {//contains the chances of enemies spawning on a certain range of floors.
     5:{"Goblin":90,"Armored goblin":10},//spawn chance for floors 1-5
@@ -102,12 +102,10 @@ function dropLoot(Dropper){
                 return [x,1];
             }else if(temp[x][1]==0){//this shouldn't ever be true, unless someone codes badly
                 console.error("drop value invalid for: " +x);
-                console.log(temp);
                 continue;//skip it.
             }else{
                 console.log(temp[x][1]);
                 let RNT = Math.floor(Math.random()*temp[x][1])+1;
-                console.log(RNT);
                 return [x,RNT];
             }
         }
