@@ -195,11 +195,12 @@ function MPW(arr){//manually place walls
     }
     setBGColor(walls,"black");
 }
+const sLevels = [10]
 function scriptedFloor(){//for floors we want to force a layout for.
     eList.splice(0,eList.length);//clear eList.
     entLocs = [];//clear entLocs
     walls = [];//clear walls
-    if(level==5){
+    if(level==10){
         MPS("1,10");
         MPEn("9,10")
         //below makes the walls.
@@ -231,8 +232,11 @@ function scriptedFloor(){//for floors we want to force a layout for.
         MPI("8,4","gold coin",50)
         //and now the enemy
         MPE("Armored goblin","7,4")
+    } else if(level==5){
+        //golem chases you while you scramble towards the exit,
+    } else {
+        console.error("scripted floor got called for an unscripted floor")
     }
-
     //these shall always run, otherwise stuff doesn't display properly
     updateInfo();
 }

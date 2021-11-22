@@ -40,7 +40,7 @@ function startGame() {//start, end, finally walls.
 }
 function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
     clearGrid();
-    if(level==5){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
+    if(sLevels.indexOf(level)!=1){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
         scriptedFloor()
         return;
     }//so that it doesn't random place over our set placement.
@@ -48,7 +48,6 @@ function nextLevel() {//this may be called for reasons other than that the level
     mkExitPoint();
     mkWalls();
     if (!oldPather()) {
-        console.log("rerolling...")
         nextLevel();//exit unreachable, rerolling.
         return;
     }
@@ -250,19 +249,11 @@ function interact(){
         level++;
         nextLevel();
         return;
-    } else if(playerLoc==shopLoc){
-        openShop();
-        return;
-    }
-    try{//since the functions are not all together, this will stop working if it is removed.
-    if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
+    }else if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
         collectOrCombat();
     }
-    } finally {
-
-    }
 }
-function switchMovement(Corrd, key) {//movement function, returns a string, or null if corrd is invalid.
+function switchMovement(Corrd, key) {//movement function, returns a string
     let temp;//incase the result becomes invalid, we need to return the orginial input.
     if (typeof (Corrd) == "string") {
         temp = Corrd.split(",");
@@ -282,12 +273,12 @@ function switchMovement(Corrd, key) {//movement function, returns a string, or n
         case 38:
             temp[1] = temp[1] - 1;//up
             break;
-        case 37:
+        case 37://javascript can only do subtraction with numbers, so it will auto cor
             temp[0] = temp[0] - 1;//left
             break;
         default:
             //invalid input for key
-            return Corrd;//return orginial corrdinate
+            return Corrd.toString();//return orginial corrdinate
         //just have it return corrd so it doesn't break.
     }
     return temp.toString();;//returns corrdinate as string
