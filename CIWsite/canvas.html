@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canvas nonsense.</title>
+<style>
+</style>
+</head>
+<body onload="resizeCanvas()">
+<h1>Messing with Canvas</h1><hr>
+<button onclick="resizeCanvas()">Resize the canvas?</button>
+<button onclick="reAlign()">Change canvas alignment?</button>
+<button onClick="lineTo()">Draw a line to (specify point).</button>
+<button onClick="resetPath()">Reset cursor to top-left corner.</button>
+<br>
+<div id="alignment"style="display: flex;justify-content: center;"><!--so that the canvas appears in the middle-->
+<canvas id="PaintCanvas" style="border: solid black 1px;"></canvas><!--annoyingly-->
+</div>
+<br><hr>
+<script>
+const canv = document.getElementById("PaintCanvas");
+const aligning = document.getElementById("alignment").style;
+const paint = canv.getContext("2d");
+debugger;
+paint.moveTo(0,0);
+paint.lineTo(200,100);
+paint.stroke();
+function lineTo(){
+    let Xcor = prompt("Enter X corrdinate.");
+    let Ycor = prompt("Enter Y corrdinate.");
+    try{
+        paint.lineTo(Number(Xcor),Number(Ycor))
+    } catch{
+        alert("Invalid entry for a corrdinate.")
+    }
+    paint.moveTo(0,0);
+}
+function resetPath(){
+    paint.beginPath();
+}
+function resizeCanvas(){
+    let temp = document.body.clientWidth;
+    temp=temp*.75;//get half the width of the body
+    canv.width=temp;
+    canv.height=temp/2;
+}
+function reAlign(){
+    while(true){
+    let ans = prompt("Align canvas: 'left', 'right' or 'center'? (or 'cancel' to not change it.)" );
+    switch(ans){
+        case "left":
+            aligning.justifyContent="left";
+            break;
+        case "right":
+            aligning.justifyContent="right";
+            break;
+        case "center":
+            aligning.justifyContent="center";
+            break;
+        case "cancel":
+            break;
+    }
+    alert("please answer the question.");
+    }
+    paint = canv.getContext("2d");
+}
 
+</script>
+<footer id="vLinks"></footer><script>/*for the footer*/var loc = window.location.href;var linkStr ='<a href="http://validator.w3.org/check?uri=' +loc +'">\n<strong> HTML </strong> Valid! </a> |' +' <a href="http://jigsaw.w3.org/css-validator/validator?uri=' +loc + '?profile=css3">\n<strong> CSS </strong> Valid! </a>';var footer = document.getElementById("vLinks");footer.innerHTML = linkStr;</script>
+</body>
+</html>
