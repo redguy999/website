@@ -364,9 +364,9 @@ function buyItems(){
     inventory["gold coin"]-=temp;
     for(x in cartHold){
         if(inventory[x]===undefined){//"===" is a strict check, and will not auto match the variable types before comparing
-            inventory[x]=cartHold[x];
+            inventory[x]=Number(cartHold[x]);
         } else{
-            inventory[x]+=cartHold[x];//attempting to do this while inventory[x] is undefined cause a NaN to appear.
+            inventory[x]+=Number(cartHold[x]);//attempting to do this while inventory[x] is undefined cause a NaN to appear.
         }
         shopInven[x]-=cartHold[x];
         if(shopInven[x]==0){
