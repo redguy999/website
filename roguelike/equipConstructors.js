@@ -163,7 +163,6 @@ function GEFL(){//get enemy from list
 }//this will need to be overhauled if i want to make it get harder as time goes on.*/
 
 function eGIFL(){//get item from list
-    //debugger;
     let temp;
     for(x in itemChance){
         if(level<=x){
@@ -181,7 +180,6 @@ function eGIFL(){//get item from list
             arrayT.push(x);//add the item a certain amount of items in accordance with the rarity value.
         }
     }
-    //debugger;
     let hold =arrayT[Math.floor(Math.random()*arrayT.length)];
     if(temp[hold][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
         return [hold,1];
