@@ -11,9 +11,9 @@ function forcePlaceEnemy(eName,corrdinate){//admin function; both parameters are
     let temp = placementInWall(corrdinate)
     if(!temp){return;}//this works
     for(x in enemies){
-        if(String(enemies[x].name).toLowerCase()==eName.toLowerCase()){//the if statement works
+        if(String(x).toLowerCase()==eName.toLowerCase()){//the if statement works
             temp=enemies[x];
-            eList.push(new enemy(temp.name,temp.Mhealth,temp.attack,temp.defense))//adds it to the end of the array, which is important for the next part.
+            eList.push(new enemy(x,temp.Mhealth,temp.attack,temp.defense,temp.table))//adds it to the end of the array, which is important for the next part.
             let LI = eList.length-1;//gets last index of array, which should be the newly added enemy.
             eList[LI]["location"]=corrdinate;//i accidently had this as "==" not "="
             entLocs.push(corrdinate);
@@ -382,9 +382,9 @@ function buyItems(){
 function mkProfit(){
     let temp=parseInt(sellProfit.innerHTML);//the text is the price, and should be correct always.
     if(inventory["gold coin"]===undefined){
-        inventory["gold coin"]=temp;
+        inventory["gold coin"]=Number(temp);
     } else {
-        inventory["gold coin"]+=temp;
+        inventory["gold coin"]+=Number(temp);
     }
     for(x in selling){
         inventory[x]-=selling[x];

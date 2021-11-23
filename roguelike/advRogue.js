@@ -345,7 +345,7 @@ VERY LOW: rework how locations are read and stored.
 			entLocs = [];//clear entLocs
 			let RNG = Math.floor(Math.random()*(iList.length));
 			for(i=0;i<RNG;i++){//should set all the items.
-				let temp=GIFL();
+				let temp=GIFL();//REWORK THIS ONCE THE NEW GIFL IS DONE
 				iList[i]["contents"] = temp
 				if(AllItems[temp][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
 					iList[i]["amount"] = 1;

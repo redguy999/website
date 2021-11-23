@@ -2,7 +2,7 @@
 var currency = "";
 const everySingleItem = {//we can't do this til the item drops are overhaulxw, again. might have this be a part of that overhaul
 	"gold coin":{
-		currency:true,//for the item that we want to be the currency
+		currency:true,//for the item that we want to be the currency, currently, this does nothing.
 	},
     /*"rock":{//testing
         findable:[5,10],

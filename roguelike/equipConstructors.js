@@ -81,7 +81,7 @@ const itemStats={//should only be looked into when something is added to equipme
 const enemies = {//name is needed here, cause of how the indices work for objects.
     "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,2],}},//color is only for displaying where the enemy is.
     "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkolivegreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,5]}},
-    "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[25,1],"gold coin":[100,50]}},
+    "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[50,1],"gold coin":[100,50]}},
 };
 const enemyChance = {//contains the chances of enemies spawning on a certain range of floors.
     5:{"Goblin":90,"Armored goblin":10},//spawn chance for floors 1-5
@@ -121,3 +121,72 @@ class equiped{
         this.special = special;
     }
 }
+const itemChance={//array: rarity (5 is most common), max amount
+    5:{"gold coin":[5,3],sword:[3,1],spear:[4,2],potion:[4,2],},//floors 1-5
+    10:{"gold coin":[5,5],"shield":[3,1],sword:[3,1],spear:[4,2],potion:[4,3],},//floors 6-10
+    20:{"gold coin":[5,10],"shield":[3,1],sword:[4,1],spear:[4,4],"chest plate":[3,1],helmet:[3,1],potion:[4,5]},
+    /*30:{},
+    40:{},
+    50:{},*/
+    Final:{"gold coin":[5,20],"shield":[3,1],sword:[4,1],spear:[4,8],"chest plate":[3,1],helmet:[3,1],potion:[4,10]},
+}
+/*
+function GEFL(){//get enemy from list
+    let arrayT = [];//this will hold all the enemy names
+    let temp;
+    for(x in enemyChance){
+        if(level<=x){
+            temp = enemyChance[x];
+            break;
+        }
+    }
+    if(temp===undefined){
+        temp = enemyChance["Final"];
+    }
+    //temp is an object this point forward
+    for(x in temp){
+        arrayT.push(x);//adds every enemy in the list to the array.
+    }
+    let RNG = Math.floor(Math.random()*100)+1; 	
+    let hold;
+    for(x in temp){//this is kinda complex, if you don't understand what i'm doing, ask me.
+        if(RNG<=temp[x]){
+            hold = x
+            break;
+        }else{
+            RNG-=temp[x]
+        }
+    }//this shouldn't error, since RNG will between or equal to 1-100
+    temp = enemies[hold];//this will error if the for in loop fails.
+    eList.push(new enemy(hold,temp.Mhealth,temp.attack,temp.defense,temp.table));
+    return temp.color;
+}//this will need to be overhauled if i want to make it get harder as time goes on.*/
+
+function eGIFL(){//get item from list
+    //debugger;
+    let temp;
+    for(x in itemChance){
+        if(level<=x){
+            temp = itemChance[x];
+            break;
+        }
+    }
+    if(temp===undefined){
+        temp = itemChance["Final"];
+    }
+    //temp is object going foward
+    let arrayT = [];
+    for(x in temp){
+        for(let i=0;i<temp[x][0];i++){//get the rarity, then...
+            arrayT.push(x);//add the item a certain amount of items in accordance with the rarity value.
+        }
+    }
+    //debugger;
+    let hold =arrayT[Math.floor(Math.random()*arrayT.length)];
+    if(temp[hold][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
+        return [hold,1];
+    } else{
+        temp = Math.floor(Math.random()*(temp[hold][1]))+1;//should work.
+        return [hold,temp];
+    }
+}//*/
