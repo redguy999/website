@@ -275,7 +275,7 @@ function openShop(){//sets the display so that the shop works correctly.
     shopInven.sword = 1;
     shopInven.spear = 10;
     //finished giving items to the shop
-    var rate = Number.parseFloat((Math.random()*3)+1).toPrecision(2);//should always yeild a number between 1-4 (excluding 6), that can have a digit in the tenths place.
+    var rate = Number.parseFloat((Math.random()*2.5)+1).toPrecision(2);//should always yeild a number between 1-4 (excluding 6), that can have a digit in the tenths place.
     console.log(rate);
     for(x in shopInven){//for every item in the shop inventory
         prices[x]= Math.ceil(shopItemValues[x]*rate);//find its value and multiple it by the rate, then round up.
@@ -311,7 +311,8 @@ function closeShop(){
     shopDis.style.visibility = "hidden"
     shopDis.style.zIndex = "-1";
     Mogrid.style.visibility = "visible";
-    //the unintinalize the shop
+    level++;
+    nextLevel();
 }
 const selling = {//property format: `itemInBox:amount` THIS IS FOR SELLING STUFF
     

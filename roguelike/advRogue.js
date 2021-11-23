@@ -8,7 +8,7 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = {"gold coin":[5,15],"potion":[4,5],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
+		const AllItems = {"gold coin":[5,10],"potion":[4,5],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
 		//the chance of getting 5 gold coins is the same as the chance as getting 
 		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
 		//see GIFL for more details on what the rarity value for each property does.

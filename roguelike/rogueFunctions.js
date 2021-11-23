@@ -40,7 +40,7 @@ function startGame() {//start, end, finally walls.
 }
 function nextLevel() {//this may be called for reasons other than that the level was completed, so put the level counter in interact.
     clearGrid();
-    if(sLevels.indexOf(level)!=1){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
+    if(sLevels.indexOf(level)!=-1){//might rework this, but all we need to check is if the level counter is equal to a level we're trying to force a layout for.
         scriptedFloor()
         return;
     }//so that it doesn't random place over our set placement.
@@ -246,8 +246,12 @@ function keyPress() {
 function interact(){
     if(playerLoc==exitPoint){//if player is on the exit.
         TtC("you found the exit");
-        level++;
-        nextLevel();
+        if(level%10==0){//i believe this should work.
+            openShop()
+        } else {
+            level++;
+            nextLevel();
+        }
         return;
     }else if(entLocs.indexOf(playerLoc)!=-1){//player is on a tile that is shared by either an enemy or item
         collectOrCombat();
