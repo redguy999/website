@@ -186,7 +186,6 @@ VERY LOW: rework how locations are read and stored.
 				}
 			}
 		}
-        const thisWin = window.self
         function playerDead(){
 			player.health=0;
 			updateHealth();//set health to Zero and display it.
@@ -208,8 +207,7 @@ VERY LOW: rework how locations are read and stored.
 						clearVars();
 						document.body.onkeydown = function(){keyPress()};
 						try{
-							returnToTile();
-							unCover();
+							window.href="titleToGame.html"
 						}catch{
 							console.error("tileScreen does not exist, restarting...");
 							startGame();
