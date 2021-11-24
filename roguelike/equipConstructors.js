@@ -1,11 +1,7 @@
 //JS class constructors for items.
 const comsumableStats={
-    potion:{//might need to make this its own class if we ever do custom potions.
-        deal:-10,//deal (damage), negative Values mean healing.
-    },
-    spear:{//throw it at enemies
-        deal:5,
-    },//might rework this somewhat to add descriptions.
+
+    
     useItem:function(item,target){//default target for this function is yourself/the player, but that default is set elsewhere.
         let temp={};
         for(let x in this[item]){//we have to do this since we can't edit the orginial objects.
@@ -29,42 +25,7 @@ const comsumableStats={
     },
 };
 const itemStats={//should only be looked into when something is added to equipment.
-    sword:{
-        slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
-        attack:1,
-        defense:1,
-    },
-    spear:{
-        slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
-        attack:2,
-    },
-    shield:{
-        defense:1,
-        Mhealth:10,//might wanna rework something so this looks better.
-        slot:"offHand",
-    },
-    missingFail:{//fail test, should never be found in game, and is only to test that the null checks for bad code work.
-        name:"missingFail",
-    },
-    'chest plate':{
-        defense:1,
-        Mhealth:20,
-        slot:"chest",
-    },
-    helmet:{
-        defense:1,
-        Mhealth:10,
-        slot:"head",
-    },
-    "rock helmet":{
-        defense:2,
-        Mhealth:20,
-        slot:"head",
-    },
-    "rock flail":{
-        attack:5,
-        slot:"mainHand",
-    },
+    
     getStats:function(iTe){
         let temp = {
         };
@@ -122,13 +83,10 @@ class equiped{
     }
 }
 const itemChance={//array: rarity (5 is most common), max amount
-    5:{"gold coin":[5,3],sword:[3,1],spear:[4,2],potion:[4,2],},//floors 1-5
-    10:{"gold coin":[5,5],"shield":[3,1],sword:[3,1],spear:[4,2],potion:[4,3],},//floors 6-10
-    20:{"gold coin":[5,10],"shield":[3,1],sword:[4,1],spear:[4,4],"chest plate":[3,1],helmet:[3,1],potion:[4,5]},
-    /*30:{},
-    40:{},
-    50:{},*/
-    Final:{"gold coin":[5,20],"shield":[3,1],sword:[4,1],spear:[4,8],"chest plate":[3,1],helmet:[3,1],potion:[4,10]},
+    5:{},//floors 1-5
+    10:{},//floors 6-10
+    20:{},
+    Final:{},//for floors beyond the bounds.
 }
 /*
 function GEFL(){//get enemy from list

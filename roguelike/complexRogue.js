@@ -250,13 +250,8 @@ const shopInven = {//what the shop has in stock, and how much of it.
 }
 const shopItemValues={//contains the value of how many coins you'll get if you SELL this item to the shop, items are sold to you at a higher price.
     //format = itemName:Value; value is always a number, itemName is a string.
-    spear:10,
-    shield:25,
-    sword:20,
-    potion:5,
-    "chest plate":35,
-    helmet:30,
-    "rock flail":100,
+    //values were moved to betterConstructors
+
 }//if an item is not on the list, it can't be sold to the shop.
 const prices={//holds the prices that an item is to be sold to you at.
 
