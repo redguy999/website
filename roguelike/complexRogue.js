@@ -242,7 +242,6 @@ function scriptedFloor(){//for floors we want to force a layout for.
 }
 //shop functions:
 //TODO: figure out how the hell this works, cause i'm not sure how this works.
-var shopLoc = "0,0";
 const shopDis = document.getElementById("shopDisplay");
 const sInventDis = document.getElementById("shopInvent");//short for shop inventory display
 const shopInven = {//what the shop has in stock, and how much of it.
@@ -269,6 +268,7 @@ function openShop(){//sets the display so that the shop works correctly.
     shopInven["shield"] = 1;
     shopInven.sword = 1;
     shopInven.spear = 10;
+    document.body.onkeydown = function(){};
     //finished giving items to the shop
     var rate = Number.parseFloat((Math.random()*2.5)+1).toPrecision(2);//should always yeild a number between 1-4 (excluding 6), that can have a digit in the tenths place.
     console.log(rate);
@@ -291,6 +291,7 @@ function addToCart(val){//add items to the cart, these items will be sold to the
     updatePrice()
 }
 function closeShop(){
+    document.body.onkeydown = function(){keyPress()};
     cart.innerHTML=""
     sInventDis.innerHTML=""
     slBox.innerHTML=""
@@ -352,7 +353,7 @@ function returnToInvent(ret){
 }
 function buyItems(){
     let temp=parseInt(spendAmount.innerHTML);//the text is the price, and should be correct always.
-    if(temp>inventory["gold coin"]){
+    if(temp>inventory["gold coin"]||!inventory["gold coin"]){//!undefined is true, since undefinied is a falsy.
         TtC("You don't have enough money.")
         return;
     }
@@ -405,9 +406,6 @@ function updateProfit(){
         }
         selling[item]=tele
         hold+=tele*shopItemValues[item];
-    }
-    if(isNaN(hold)){//in case i did something wrong.
-        hold = parseInt(sellProfit);
     }
     sellProfit.innerHTML=hold+"g";
 }

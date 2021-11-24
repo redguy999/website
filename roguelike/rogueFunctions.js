@@ -22,7 +22,7 @@ corrdinates test:
     for(let i=0;i<10;i++){let temp = getCorrdInGrid();console.log(temp);setBGColor(temp,"blue");}
 */
 function startGame() {//start, end, finally walls.
-    Mogrid.innerHTML="";//empty the grid, in case theres stuff in there already. somehow.
+    Mogrid.innerHTML="";//empty the grid, in case theres stuff in there already.
     if(AllItems.length==0){
         seteveryItem();
     }
@@ -127,11 +127,11 @@ function mkWalls() {
     }
     //debugger;
     let temp = walls.indexOf(startPoint)//is there a wall cordinate that is the same as the startPoint?
-    if(walls.indexOf(startPoint)!=-1){//if there isn't, temp will be -1
+    if(temp!=-1){//if there isn't, temp will be -1
         walls.splice(temp,1);//if there is, remove it.
     }
     temp = walls.indexOf(exitPoint)
-    if(walls.indexOf(exitPoint)!=-1){
+    if(temp!=-1){
         walls.splice(temp,1)
     }
     setBGColor(walls, "black")
@@ -248,7 +248,7 @@ function keyPress() {
 }
 function interact(){
     if(playerLoc==exitPoint){//if player is on the exit.
-        TtC("you found the exit");
+        TtC("you found the exit.");
         if(level%10==0){//i believe this should work.
             openShop()
         } else {

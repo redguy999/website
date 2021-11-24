@@ -1,7 +1,6 @@
 //JS class constructors for items.
 const comsumableStats={
 
-    
     useItem:function(item,target){//default target for this function is yourself/the player, but that default is set elsewhere.
         let temp={};
         for(let x in this[item]){//we have to do this since we can't edit the orginial objects.

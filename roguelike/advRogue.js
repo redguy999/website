@@ -8,7 +8,7 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = [];//might be deprecated, since we don't need this anymore for item spawns.
+		const AllItems = [];//might remove at some point, since we don't need this anymore for item spawns.
 		//the chance of getting 5 gold coins is the same as the chance as getting 
 		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
 		//see GIFL for more details on what the rarity value for each property does.
@@ -206,7 +206,7 @@ VERY LOW: rework how locations are read and stored.
 						clearVars();
 						document.body.onkeydown = function(){keyPress()};
 						try{
-							window.href="titleToGame.html"
+              				location.href="titleToGame.html"
 						}catch{
 							console.error("tileScreen does not exist, restarting...");
 							startGame();
@@ -342,7 +342,7 @@ VERY LOW: rework how locations are read and stored.
 			entLocs = [];//clear entLocs
 			let RNG = Math.floor(Math.random()*(iList.length));
 			for(i=0;i<RNG;i++){//should set all the items.
-				let temp=eGIFL();//REWORK THIS ONCE THE NEW GIFL IS DONE
+				let temp=eGIFL();
 				iList[i]["contents"] = temp[0];
 				iList[i]["amount"] = temp[1];
 				temp = getCorrdInGrid();

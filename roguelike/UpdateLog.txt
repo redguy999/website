@@ -1,0 +1,20 @@
+Version 0.1.1 starting point
+  made game
+  made shop
+  made title page
+  added death
+  made version log
+Known bugs
+  if you buy something that would set your coins to 0 then it gives you infinite money
+  spears can be thrown diagionaly though wall gaps
+
+Version 0.1.2 Bugs B'Gone
+  squashed the bug that gave you infinite money
+
+Version 0.1.3 item overhauling:
+    - Reworks how items are stored (in the code), making it easier to edit.
+    - Makes it so that certain items can only be found on or after certain floors
+    - Adds a missing period to the message for going to another floor.
+    - Fixes a glitch where you could still move and interact while in the shop.
+    Bug list:
+        - items can be thrown through walls
