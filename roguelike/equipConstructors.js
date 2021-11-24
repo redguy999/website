@@ -125,9 +125,6 @@ const itemChance={//array: rarity (5 is most common), max amount
     5:{"gold coin":[5,3],sword:[3,1],spear:[4,2],potion:[4,2],},//floors 1-5
     10:{"gold coin":[5,5],"shield":[3,1],sword:[3,1],spear:[4,2],potion:[4,3],},//floors 6-10
     20:{"gold coin":[5,10],"shield":[3,1],sword:[4,1],spear:[4,4],"chest plate":[3,1],helmet:[3,1],potion:[4,5]},
-    /*30:{},
-    40:{},
-    50:{},*/
     Final:{"gold coin":[5,20],"shield":[3,1],sword:[4,1],spear:[4,8],"chest plate":[3,1],helmet:[3,1],potion:[4,10]},
 }
 /*
