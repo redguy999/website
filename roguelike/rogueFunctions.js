@@ -23,7 +23,9 @@ corrdinates test:
 */
 function startGame() {//start, end, finally walls.
     Mogrid.innerHTML="";//empty the grid, in case theres stuff in there already. somehow.
-    seteveryItem()
+    if(AllItems.length==0){
+        seteveryItem();
+    }
     makeGrid();
     mkStartPoint();
     mkExitPoint();
@@ -125,11 +127,11 @@ function mkWalls() {
     }
     //debugger;
     let temp = walls.indexOf(startPoint)//is there a wall cordinate that is the same as the startPoint?
-    if(temp!=-1){//if there isn't, temp will be -1
+    if(walls.indexOf(startPoint)!=-1){//if there isn't, temp will be -1
         walls.splice(temp,1);//if there is, remove it.
     }
     temp = walls.indexOf(exitPoint)
-    if(temp!=-1){
+    if(walls.indexOf(exitPoint)!=-1){
         walls.splice(temp,1)
     }
     setBGColor(walls, "black")

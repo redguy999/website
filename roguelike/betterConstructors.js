@@ -3,6 +3,7 @@ var currency = "";
 const everySingleItem = {//we can't do this til the item drops are overhaulxw, again. might have this be a part of that overhaul
 	"gold coin":{
 		currency:true,//for the item that we want to be the currency, currently, this does nothing.
+        //this doesn't need the value property since it can't be sold.
         findable:{
                 5:[5,3],//theres most certainly a better way to do this, but this is how it shall be for now.
                 10:[5,5],
@@ -13,6 +14,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
                 Final:[5,20],}
 	},
     sword:{
+        value:20,
         equip:{
             slot:"mainHand",//NEEDS TO MATCH THE SLOTS IN THE EQUIPMENT OBJECT
             attack:1,
@@ -29,6 +31,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         },
     },
     spear:{
+        value:10,
         equip:{
             slot:"2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
             attack:2,
@@ -47,6 +50,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         }
     },
     potion:{
+        value:5,
         use:{
             deal:-10,
         },
@@ -61,6 +65,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         }
     },
     shield:{
+        value:25,
         equip:{
             defense:1,
             Mhealth:10,//might wanna rework something so this looks better.
@@ -77,6 +82,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         },
     },
     'chest plate':{
+        value:35,
         equip:{
             defense:1,
             Mhealth:20,
@@ -91,6 +97,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         },
     },
     helmet:{
+        value:30,
         findable:{
             10:[3,1],
             20:[3,1],
@@ -105,7 +112,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
             slot:"head",
         }
     },
-    "rock helmet":{
+    "rock helmet":{//i'm not sure when we why i added this, but its here so i'll keep it.
         equip:{
             defense:2,
             Mhealth:20,
@@ -113,6 +120,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         },
     },
     "rock flail":{
+        value:100,
         equip:{
             attack:5,
             slot:"mainHand",
@@ -125,6 +133,8 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
         //if it isn't findable, just don't list the property. also i might change this back to a boolean and make something like what i did for the lootTable.
 	},
 	equipableItemName:{
+        'value':[Number]
+        //if it is useable or equipable, it must be given a value, otherwise errors will accord at the shop.
 		equip:{
 			// [INSERT EQUIPMENT VALUES HERE]
         },
@@ -145,13 +155,16 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
 	//continue for every item.*/
 }
 function seteveryItem(){//running this will create the items (in the above object) and place them properly in the correct locations 
-	for(x in everySingleItem){
+	for(x in everySingleItem){//x = item name
 		let iM = everySingleItem[x]//makes it easier to call
+        if(iM["value"]){
+            shopItemValues[x]=iM["value"];
+        }
         if(iM["currency"]){//this does nothing for the moment.
             currency=x;
         }
         if(iM["findable"]){//makes the item findable, and adds it to the itemChance table
-            AllItems.push(x)
+            // AllItems.push(x)
             let temp = everySingleItem[x]["findable"]//we need this information
             for(A in temp){//x will be a number, or string for 'final'
                 if(!itemChance[A]){//if undefined, then this is true.
@@ -180,4 +193,5 @@ function seteveryItem(){//running this will create the items (in the above objec
             }
         }
 	}
+    AllItems[0]=1;//this is so that we can do a quick check so that we don't have to run this again.
 }

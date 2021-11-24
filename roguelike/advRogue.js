@@ -8,13 +8,13 @@ VERY LOW: rework how locations are read and stored.
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = {"gold coin":[5,10],"potion":[4,5],"sword":[3,1],"shield":[3,1],"spear":[4,3],"chest plate":[3,1],"helmet":[3,1],};
+		const AllItems = [];//might be deprecated, since we don't need this anymore for item spawns.
 		//the chance of getting 5 gold coins is the same as the chance as getting 
 		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
 		//see GIFL for more details on what the rarity value for each property does.
 		//An object contaning the name and rarity, and amount of every (findable) item possible.
-		const equipable = ["sword","shield","spear","chest plate","helmet","missingFail","rock helmet","rock flail"];//array containing the name of every item that is equipable.
-		const useable = ["potion","spear"];//array containing the name of every item that is usable
+		const equipable = [];//array containing the name of every item that is equipable.
+		const useable = [];//array containing the name of every item that is usable
 		const inventory = {
 			
 		}
@@ -192,7 +192,6 @@ VERY LOW: rework how locations are read and stored.
             TtC("<span style='position:relative;background-color:black;color:white;Z-index:110;'>You have died.</span>");
 			document.getElementById("sCover").style.zIndex="100";//bring it to the front so everything you can click can not be used.
 			document.body.onkeydown = function(){};//empty the function
-            //code for if we want a game over screen and still able to view what the player has would need to be placed above.
 			setTimeout(coverScreen,2000);
 			setTimeout(function(){
 				while(true){//gonna rework this so that you can answer with the alerts.
@@ -343,13 +342,9 @@ VERY LOW: rework how locations are read and stored.
 			entLocs = [];//clear entLocs
 			let RNG = Math.floor(Math.random()*(iList.length));
 			for(i=0;i<RNG;i++){//should set all the items.
-				let temp=GIFL();//REWORK THIS ONCE THE NEW GIFL IS DONE
-				iList[i]["contents"] = temp
-				if(AllItems[temp][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
-					iList[i]["amount"] = 1;
-				} else{
-					iList[i]["amount"] = Math.floor(Math.random()*(AllItems[temp][1]))+1;//should work.
-				}
+				let temp=eGIFL();//REWORK THIS ONCE THE NEW GIFL IS DONE
+				iList[i]["contents"] = temp[0];
+				iList[i]["amount"] = temp[1];
 				temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
 					temp  = getCorrdInGrid();
