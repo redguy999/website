@@ -49,7 +49,7 @@ function seteveryItem(){//running this will create the items (in the above objec
             currency=x;
         }
         if(iM["findable"]){
-            AllItems[x]=iM["findable"];
+            AllItems[x]=iM["findable"];//REWORK! this doesn't work since the item rework.
         }
 		if(iM['use']){//this will be false if undefined
             useable.push(x);
