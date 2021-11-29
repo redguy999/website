@@ -16,11 +16,12 @@ Version 0.1.3 item overhauling:
     - Makes it so that certain items can only be found on or after certain floors
     - Adds a missing period to the message for going to another floor.
     - Fixes a glitch where you could still move and interact while in the shop.
-    Bug list:
-        - consumables can be thrown through walls
+
+Version 0.1.4 Walls are solid:
+    - Makes it so that you can no longer throw spears and such through walls.
+    - Makes unreachable tiles into walls.
 
     TODO:
-        Fill in unreachable tiles.
-        Make findable property just an array.
-        make the player to enemy pathing better.
+        Make findable property just a single array.
+        make the player to enemy pathing (for when you use an enemy) better.
   

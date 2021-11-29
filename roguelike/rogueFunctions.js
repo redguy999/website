@@ -122,7 +122,7 @@ function mkWalls() {
         walls.push(getCorrdInGrid());
     }
     walls = Array.from(new Set(walls));//removes repeated entries
-    while (walls.length <= 15) {//adds more walls if theres too few walls.
+    while (walls.length <= 20) {//adds more walls if theres too few walls.
         walls.push(getCorrdInGrid())//should add the item to the end of the list.
     }
     //debugger;
@@ -293,17 +293,18 @@ function switchMovement(Corrd, key) {//movement function, returns a string
 //debugger;//something here isn't working, for some reason.
 function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to work.
     //console.log("pather begins")
+    var Reached = false;
     let newCorrds = [];//must be blank.
     var checkCorrds = [startPoint];//start is always valid, since it is the beginning corrdinate.
-    const validCorrds = new Set([]);
+    const validCorrds = new Set();
     for (let i = 0; i < wT * hT / 2; i++) {
         if (typeof (checkCorrds[0]) == "undefined") {//first entry doesn't exist meaning the array is empty
-            return false;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
+            break;//no more valid moves, since all possible tiles reachable from the start have been checked for the exit
         }
         for (let t = 0; t < checkCorrds.length; t++) {
             let tempCorrd = checkCorrds[t];
             for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
-                let holdT = switchMovement(tempCorrd, i);
+                let holdT = switchMovement(tempCorrd, i);//this is kinda bad but it works.
                 if(CVM(holdT)){
                     continue;//move invalid.
                 } else {
@@ -313,7 +314,7 @@ function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to wo
         }//end of checkcorrds.length for loop
         for (let i = 0; i < newCorrds.length; i++) {
             if (newCorrds[i] == exitPoint) {//if one of the newCorrds is on the exitPoint, then the exit is reachable.
-                return true;//exit is reachable from start
+                Reached=true;//exit is reachable from start
             }
         }
         for (let i = 0; i < checkCorrds.length; i++) {//adds all of checkCorrds to valid corrdinates
@@ -329,5 +330,25 @@ function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to wo
             }
         }//this for loop removes any corrds that were already checked.
     }//if it can't find the end point by the end of this, the end point is unreachable.
-    return false; //not able to reach the end.
+    if(Reached){//if reached is true, AKA, the end can be reached.
+        let allCorrds = [];
+        for(y=1;y<=wT;y++){
+            for(x=1;x<=hT;x++){
+                allCorrds.push(x+","+y);
+            }
+        }
+        for(x of walls){//x = a value in walls not an index of the values.
+            allCorrds.splice(allCorrds.indexOf(x),1)//indexOf will always be true since walls is a subset of allCorrds
+        }
+        for(x of validCorrds){//for in doesn't work with a set, it seems.
+            allCorrds.splice(allCorrds.indexOf(x),1)//removes a found space from allCorrds
+        }
+        for(x of allCorrds){
+            console.log(x);
+            walls.push(x);
+            setBGColor(x,"black");
+        }
+    }
+    console.log("finished pathfinder.")
+    return Reached;
 }
