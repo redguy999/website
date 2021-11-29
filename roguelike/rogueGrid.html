@@ -127,6 +127,19 @@
 				margin-left: 1%;
 				margin-left: 1%;
 			}
+			#shadowing{
+				border: 1px double black;
+				position:absolute;
+				top:1px;
+				left:0;
+				right:0;
+				margin-top:0;
+				margin:auto;
+				max-width:99vw;
+				width:70vw;
+				max-height:98vh;
+				height: 76vh;
+			}
 		</style>
 	</head>
 	<!--due to how the Grid tiles are styled, changing the size of the grid div will not break the tiles.-->
@@ -159,6 +172,9 @@
 			<div style="padding:0%;grid-row-start:5;grid-row-end:6;grid-column-start:1;grid-column-end: 3;"><button style="color:red;font-style:bold;"onClick="closeShop()">Exit shop</button></div>
 			<!--do NOT touch the style of the last grid item here, i have no clue why its style works, but it does, so don't touch it.-->
 		</div>
+		<canvas id="shadowing" width="500" height="500"><!--width and hieght here are for drawing, not for the actual size.-->
+
+		</canvas>
 		<div id="inventBorder">
 			<h1>Items:</h1>
 			<p id="inventDisplay">
@@ -183,4 +199,28 @@
 	</body>
 	<script src="rogueFunctions.js"></script><script src="equipConstructors.js"></script><script src="advRogue.js"></script><script src="complexRogue.js"></script><script src="betterConstructors.js"></script>
 	<script src="DistanceCalc.js"></script>
+	<script>
+		const canv= document.getElementById("shadowing")
+		const paint = canv.getContext("2d")
+		var rowWid;
+		var ColumnWid;
+		function drawVisCircle(){
+			paint.fillStyle="black";
+			let temp = playerLoc.split(",");
+			let tempY = ColumnWid*temp[1]-ColumnWid/2;
+			let tempX = rowWid*temp[0]-rowWid/2;	
+			console.log(tempX)
+			console.log(tempY)
+			paint.beginPath();
+			paint.clearRect(500,0,-500,500);
+			paint.arc(tempX,tempY,60,0,2*Math.PI)//the last 2 are the start and end angles.
+			paint.rect(500, 0, -500, 500);
+			paint.fill();
+		}
+		function getRows(){
+			rowWid=canv.width/parseFloat(Mogrid.style.gridTemplateRows);
+			ColumnWid=canv.height/parseFloat(Mogrid.style.gridTemplateColumns);
+			drawVisCircle()
+		}
+	</script>
 </html>

@@ -40,8 +40,8 @@ function ActualpathToTarget(tar) {
     }
     //directional check end
     let tempCorrd = playerLoc;
-    while(true){
-        if(tempCorrd==tar){
+    while (true) {
+        if (tempCorrd == tar) {
             //console.log("reached target.");
             return true;
         }
@@ -49,13 +49,13 @@ function ActualpathToTarget(tar) {
         for (x of moveArr) {
             temp.push(x(tempCorrd));
         }
-        let hold =[calcHypo(temp[0], tar),calcHypo(temp[1], tar)];
-        if(hold[0]<hold[1]){
+        let hold = [calcHypo(temp[0], tar), calcHypo(temp[1], tar)];
+        if (hold[0] < hold[1]) {
             tempCorrd = temp[0];
         } else {
             tempCorrd = temp[1];
         }
-        if(walls.indexOf(tempCorrd)!=-1){//is it in a wall?
+        if (walls.indexOf(tempCorrd) != -1) {//is it in a wall?
             //console.log("hit a wall.");
             return false;
         }

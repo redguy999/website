@@ -1,6 +1,6 @@
 //begin code for the grid and such.
 const Mogrid = document.getElementById("movementGrid"); //shouldn't change
-let hT = 9//number of columns of tiles, AKA the max x value.
+let hT = 10//number of columns of tiles, AKA the max x value.
 let wT = 10	//number of rows of tiles, AKA the max y value.
 var startPoint = "1,1"
 var exitPoint = "2,2"
@@ -27,6 +27,7 @@ function startGame() {//start, end, finally walls.
         seteveryItem();
     }
     makeGrid();
+    getRows()
     mkStartPoint();
     mkExitPoint();
     mkWalls();
