@@ -18,10 +18,11 @@ Version 0.1.3 item overhauling:
     - Fixes a glitch where you could still move and interact while in the shop.
 
 Version 0.1.4 Walls are solid:
-    - Makes it so that you can no longer throw spears and such through walls.
+    - Consumables can no longer be thrown through walls.
     - Makes unreachable tiles into walls.
+    - Minor Grammar fixes.
 
     TODO:
         Make findable property just a single array.
-        make the player to enemy pathing (for when you use an enemy) better.
+        make the player to enemy pathing (for when you use a consumbable) better.
   
