@@ -155,7 +155,11 @@ document.addEventListener("drop", function( event ) {
         }
         for(let i=0;i<eList.length;i++){
             if(eList[i]["location"]==event.target.id){
-                useItem(dragged,event.target.id);
+                if(ActualpathToTarget(event.target.id)){
+                    useItem(dragged,event.target.id);
+                }else{
+                    TtC("The target is obscured by the walls!")
+                }
                 break;
             }
         }

@@ -1,10 +1,6 @@
 //FILE START!
 /*TODO: stuff to do list:
-URGENT:
-HIGH: make it so that you can't throw spears through walls. optimism display inventory.
-MEDIUM: optimism everything, work on the shop.
-LOW: rework attack functions (defense formula, wording, a few other things.)
-VERY LOW: rework how locations are read and stored.
+moved to changelog
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
@@ -109,9 +105,9 @@ VERY LOW: rework how locations are read and stored.
 				//this.locked = locked;//unused
 				this.getItem = function(){
 					if(this.amount==1){
-						TtC("you found a "+this.contents+".")
+						TtC("You found a "+this.contents+".")
 					}else{
-						TtC("you found "+this.amount+" "+this.contents+"s.");//change this to log at the bottom console
+						TtC("You found "+this.amount+" "+this.contents+"s.");//change this to log at the bottom console
 					}
 					setBGColor(this.location,"white");
 					entLocs.splice(entLocs.indexOf(this.location),1);
@@ -285,9 +281,9 @@ VERY LOW: rework how locations are read and stored.
 					}
 					this.health-=temp;
 					if(temp>0){
-						TtC("you take "+temp+" damage!");
+						TtC("You take "+temp+" damage!");
 					} else{
-						TtC("you heal "+(-temp)+" health.");//TODO: reword this.
+						TtC("You heal "+(-temp)+" health.");//TODO: reword this.
 					}
 					if(this.health>this.Mhealth){//this function can be used for healing, so we need to check for this edge case.
 						this.health=this.Mhealth;

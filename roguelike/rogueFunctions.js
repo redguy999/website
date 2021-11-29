@@ -248,7 +248,7 @@ function keyPress() {
 }
 function interact(){
     if(playerLoc==exitPoint){//if player is on the exit.
-        TtC("you found the exit.");
+        TtC("You found the exit.");
         if(level%10==0){//i believe this should work.
             openShop()
         } else {
