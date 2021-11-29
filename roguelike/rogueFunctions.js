@@ -27,7 +27,7 @@ function startGame() {//start, end, finally walls.
         seteveryItem();
     }
     makeGrid();
-    getRows()
+    //getRows();
     mkStartPoint();
     mkExitPoint();
     mkWalls();
