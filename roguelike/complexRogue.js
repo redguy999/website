@@ -194,9 +194,7 @@ function MPEn(stri) {//manually place end
     setBGColor(exitPoint, "red");
 }
 function MPW(arr) {//manually place walls
-    for (x in arr) {//in JS, x is the indices, not the values.
-        walls.push(arr[x]);
-    }
+    walls=walls.concat(arr);
     setBGColor(walls, "black");
 }
 const sLevels = [10]
@@ -217,6 +215,7 @@ function scriptedFloor() {//for floors we want to force a layout for.
                 temp.push(i + "," + z)
             }
         }
+        
         for (let i = 3; i <= 10; i++) {
             temp.push("2," + i);
         }
@@ -231,9 +230,9 @@ function scriptedFloor() {//for floors we want to force a layout for.
         for (let i = 4; i <= 8; i++) {
             temp.push("4," + i);
         }
-        for(let i=1;i<=10;i++){
-            temp.push(i+",10");
-        }
+        // for(let i=1;i<=10;i++){
+        //     temp.push(i+",10");
+        // }
         MPW(temp);
         //below is for the item.
         MPI("8,4", "gold coin", 50)

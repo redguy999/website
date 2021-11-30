@@ -22,7 +22,9 @@ Version 0.1.4 Walls are solid:
     - Makes unreachable tiles into walls.
     - Minor Grammar fixes.
 
+Version 0.1.5 behind the scenes simplifcation:
+    - Reworks the item constructors to be much simpler.
+    
     TODO:
-        Make findable property just a single array.
         make the player to enemy pathing (for when you use a consumbable) better.
   

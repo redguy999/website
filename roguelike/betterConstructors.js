@@ -4,7 +4,9 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
     "gold coin": {
         currency: true,//for the item that we want to be the currency, currently, this does nothing.
         //this doesn't need the value property since it can't be sold.
-        findable:[5,10]
+        findable:[5,function(){
+            return Math.floor(.3*level+2.4)
+        }],
     },
     sword: {
         value: 20,
@@ -25,7 +27,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
             deal: 5,
         },
         findable:[4,function(){
-            return Math.floor(level/2);
+            return Math.floor(Math.sqrt(level*2));
         },2]
     },
     
