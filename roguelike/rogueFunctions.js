@@ -27,8 +27,8 @@ function startGame() {//start, end, finally walls.
         seteveryItem();
     }
     makeGrid();
-    //getRows();
     mkStartPoint();
+    //getRows();
     mkExitPoint();
     mkWalls();
     displayEquipment();//need to run it here so it displays the console correctly
@@ -49,6 +49,7 @@ function nextLevel() {//this may be called for reasons other than that the level
         return;
     }//so that it doesn't random place over our set placement.
     mkStartPoint();
+    //drawVisCircle();
     mkExitPoint();
     mkWalls();
     if (!oldPather()) {
