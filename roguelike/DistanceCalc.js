@@ -62,3 +62,63 @@ function ActualpathToTarget(tar) {
         //setBGColor(tempCorrd,"blue");
     }
 }
+//below is for making the betterConstructors findable into just a single array. I'll move this to equipConstructors later.
+const itemConstructing = {
+    start: {//for when to add an item to allItems
+
+    },
+    end: {//for when to remove an item from allItems
+
+    },
+    info: {//other information.
+
+    },
+}
+function setConstructing(name, arr) {//name is a string, arr is the an array
+    //findable format: [rarity,maxAmount,start,end] last 2 are optional.
+    if (arr[2]) {//this will be false if it is undefinied, and also 0, which is important if you want it to always be findable until a certain floor.
+        itemConstructing.start[name] = arr[2]
+    } else {//by default an item can be found on the first floor.
+        itemConstructing.info[name] = arr.splice(0, 2);//this will be an array
+    }
+    if (arr[3]) {
+        itemConstructing.end[name] = arr[3]
+    }
+}
+function updateConstructors() {
+    let temp = itemConstructing.start
+    var hold=[,];
+    for (x in temp) {//for setting allItems property values.
+        if(temp[x]<=level){
+            let ack = everySingleItem[x].findable//grabs the information
+            itemConstructing.info[x]=ack.splice(0,2)//adds it to the info subobject.
+            delete temp[x]; 
+            //get rid of the start information since we no longer need that, also cause it would cause errors if we kept it.
+        }
+    }
+    temp = itemConstructing.end
+    for (x in temp) {//for setting allItems property values.
+        if (temp[x] <= level) {//
+            console.log()
+            delete temp[x];//get rid of the end information since we no longer need it.
+            delete AllItems[x];//remove it from possible treasure object
+            delete itemConstructing.info[x];//remove it from info, since we no longer need that info.
+        }
+    }
+    temp = itemConstructing.info
+    for (x in temp) {//for setting allItems property values.
+        if (typeof (temp[x][1]) == "function") {//for amount
+            hold[1] = temp[x][1]();
+        } else {
+            hold[1] = temp[x][1];
+        }
+        if (typeof (temp[x][0]) == "function") {//for rarity
+            hold[0] = temp[x][0]();//if its a function, get it to return the value.
+        } else {
+            hold[0] = temp[x][0];
+        }
+        AllItems[x] = hold;
+        //empty hold:
+        hold = [, ]
+    }
+}

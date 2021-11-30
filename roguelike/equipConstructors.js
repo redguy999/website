@@ -42,7 +42,7 @@ const enemies = {//name is needed here, cause of how the indices work for object
     "Goblin":{Mhealth:"10",attack:"1",defense:"0",color:"green",table:{"gold coin":[50,2],}},//color is only for displaying where the enemy is.
     "Armored goblin":{Mhealth:"15",attack:"2",defense:"3",color:"darkolivegreen",table:{spear:[30,1],shield:[20,1],sword:[20,1],"gold coin":[50,5]}},
     "Rock golem":{Mhealth:"30",attack:"4",defense:"4",color:"grey",table:{"rock flail":[50,1],"gold coin":[100,50]}},
-};
+};//TODO: change enemy spawning to match how item spawning works. 
 const enemyChance = {//contains the chances of enemies spawning on a certain range of floors.
     5:{"Goblin":90,"Armored goblin":10},//spawn chance for floors 1-5
     10:{"Armored goblin":25,"Goblin":75},//spawn chance for floors 6-10
@@ -81,45 +81,13 @@ class equiped{
         this.special = special;
     }
 }
-const itemChance={//array: rarity (5 is most common), max amount
+const itemChance={//TODO: remove.
     5:{},//floors 1-5
     10:{},//floors 6-10
     20:{},
     Final:{},//for floors beyond the bounds.
 }
-/*
-function GEFL(){//get enemy from list
-    let arrayT = [];//this will hold all the enemy names
-    let temp;
-    for(x in enemyChance){
-        if(level<=x){
-            temp = enemyChance[x];
-            break;
-        }
-    }
-    if(temp===undefined){
-        temp = enemyChance["Final"];
-    }
-    //temp is an object this point forward
-    for(x in temp){
-        arrayT.push(x);//adds every enemy in the list to the array.
-    }
-    let RNG = Math.floor(Math.random()*100)+1; 	
-    let hold;
-    for(x in temp){//this is kinda complex, if you don't understand what i'm doing, ask me.
-        if(RNG<=temp[x]){
-            hold = x
-            break;
-        }else{
-            RNG-=temp[x]
-        }
-    }//this shouldn't error, since RNG will between or equal to 1-100
-    temp = enemies[hold];//this will error if the for in loop fails.
-    eList.push(new enemy(hold,temp.Mhealth,temp.attack,temp.defense,temp.table));
-    return temp.color;
-}//this will need to be overhauled if i want to make it get harder as time goes on.*/
-
-function eGIFL(){//get item from list
+function eGIFL(){//TODO: remove.
     let temp;
     for(x in itemChance){
         if(level<=x){

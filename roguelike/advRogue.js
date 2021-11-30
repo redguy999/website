@@ -4,7 +4,7 @@ moved to changelog
 		*/
 		//items are gonna need overhauled at some point.
 		var entLocs = []//each entry will be a corrdinate string. Entries will be where the location of all the enemies and items are.  
-		const AllItems = [];//might remove at some point, since we don't need this anymore for item spawns.
+		const AllItems = {};//might remove at some point, since we don't need this anymore for item spawns.
 		//the chance of getting 5 gold coins is the same as the chance as getting 
 		//rarites in ascending order: basic=5, common=4, uncommon=3, rare=2, legendary=1. property value format: [rarity,max amount]
 		//see GIFL for more details on what the rarity value for each property does.
@@ -328,6 +328,7 @@ moved to changelog
 		//classes above, objects and functions below:
 		function mkOtherStuff(){
 			placeItems();
+			placeEnemies();
 			updateStatistics();
 			updateInfo();
 		}
@@ -338,9 +339,13 @@ moved to changelog
 			entLocs = [];//clear entLocs
 			let RNG = Math.floor(Math.random()*(iList.length));
 			for(i=0;i<RNG;i++){//should set all the items.
-				let temp=eGIFL();
-				iList[i]["contents"] = temp[0];
-				iList[i]["amount"] = temp[1];
+				let temp=GIFL();//we're back here.
+				iList[i]["contents"] = temp
+				if(AllItems[temp][1]==1){//no need to do math, just do a quick check then skip the math if it succeeds.
+					iList[i]["amount"] = 1;
+				} else{
+					iList[i]["amount"] = Math.floor(Math.random()*(AllItems[temp][1]))+1;//should work.
+				}
 				temp = getCorrdInGrid();
 				while(temp==startPoint||temp==exitPoint||walls.indexOf(temp)!=-1||entLocs.indexOf(temp)!=-1){
 					temp  = getCorrdInGrid();
@@ -349,7 +354,6 @@ moved to changelog
 				entLocs.push(temp);
 				setBGColor(temp,"gold");
 			}
-			placeEnemies();
 		}
 		function placeEnemies(){//
 			let RNG = Math.floor(Math.random()*5)+1;//set to 1-5

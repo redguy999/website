@@ -4,15 +4,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
     "gold coin": {
         currency: true,//for the item that we want to be the currency, currently, this does nothing.
         //this doesn't need the value property since it can't be sold.
-        findable: {
-            5: [5, 3],//theres most certainly a better way to do this, but this is how it shall be for now.
-            10: [5, 5],
-            20: [5, 10],
-            30: [5, 12],
-            40: [5, 15],
-            50: [5, 17],
-            Final: [5, 20],
-        }
+        findable:[5,10]
     },
     sword: {
         value: 20,
@@ -21,49 +13,30 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
             attack: 1,
             defense: 1,
         },
-        findable: {
-            5: [3, 1],
-            10: [3, 1],
-            20: [3, 1],
-            30: [3, 1],
-            40: [3, 1],
-            50: [3, 1],
-            Final: [3, 1],
-        },
+        findable: [3,1,2]//rarity:3 maxAmount: 1, first findable floor: 5;
     },
     spear: {
         value: 10,
         equip: {
             slot: "2Hands",//TODO: make slot an array so i don't have to hard code for 2Hands
-            attack: 2,
+            attack: 3,
         },
         use: {
             deal: 5,
         },
-        findable: {
-            5: [4, 2],
-            10: [4, 2],
-            20: [4, 3],
-            30: [4, 4],
-            40: [4, 6],
-            50: [4, 7],
-            Final: [4, 8],
-        }
+        findable:[4,function(){
+            return Math.floor(level/2);
+        },2]
     },
+    
     potion: {
         value: 5,
         use: {
             deal: -10,
         },
-        findable: {
-            5: [4, 2],
-            10: [4, 3],
-            20: [4, 4],
-            30: [4, 5],
-            40: [4, 6],
-            50: [4, 7],
-            Final: [4, 8],
-        }
+        findable: [4,function(){
+            return Math.floor(level*.1)+2
+        }]
     },
     shield: {
         value: 25,
@@ -72,15 +45,7 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
             Mhealth: 10,//might wanna rework something so this looks better.
             slot: "offHand",
         },
-        findable: {
-            5: [3, 1],
-            10: [3, 1],
-            20: [3, 1],
-            30: [3, 1],
-            40: [3, 1],
-            50: [3, 1],
-            Final: [3, 1],
-        },
+        findable:[3,1,5]//rarity, maxAmount, first floor it can be found on.
     },
     'chest plate': {
         value: 35,
@@ -89,24 +54,11 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
             Mhealth: 20,
             slot: "chest",
         },
-        findable: {
-            20: [3, 1],
-            30: [3, 1],
-            40: [3, 1],
-            50: [3, 1],
-            Final: [3, 1],
-        },
+        findable:[3,1,10]
     },
     helmet: {
         value: 30,
-        findable: {
-            10: [3, 1],
-            20: [3, 1],
-            30: [3, 1],
-            40: [3, 1],
-            50: [3, 1],
-            Final: [3, 1],
-        },
+        findable: [3,1,5],
         equip: {
             defense: 1,
             Mhealth: 10,
@@ -129,9 +81,8 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
     },
     /* formating:
     findableItem:{
-        findable:{floorNum:[rarity,amount],
-                floorNum2:[rarity,amount],}
-        //if it isn't findable, just don't list the property. also i might change this back to a boolean and make something like what i did for the lootTable.
+        [SEE SWORD]
+        //if it isn't findable, just don't list the property
     },
     equipableItemName:{
         'value':[Number]
@@ -156,6 +107,8 @@ const everySingleItem = {//we can't do this til the item drops are overhaulxw, a
     //continue for every item.*/
 }
 function seteveryItem() {//running this will create the items (in the above object) and place them properly in the correct locations 
+    useable.splice(0,useable.length)
+    equipable.splice(0,equipable.length)
     for (x in everySingleItem) {//x = item name
         let iM = everySingleItem[x]//makes it easier to call
         if (iM["value"]) {
@@ -165,15 +118,7 @@ function seteveryItem() {//running this will create the items (in the above obje
             currency = x;
         }
         if (iM["findable"]) {//makes the item findable, and adds it to the itemChance table
-            // AllItems.push(x)
-            let temp = everySingleItem[x]["findable"]//we need this information
-            for (A in temp) {//x will be a number, or string for 'final'
-                if (!itemChance[A]) {//if undefined, then this is true.
-                    console.log("entry not found.")
-                    itemChance[A] = {};
-                }
-                itemChance[A][x] = temp[A];
-            }
+            setConstructing(x,iM["findable"])
         }
         if (iM['use']) {//this will be false if undefined
             //adds it to the useable array, and also adds its stats to the consumeable stats object.
@@ -194,5 +139,5 @@ function seteveryItem() {//running this will create the items (in the above obje
             }
         }
     }
-    AllItems[0] = 1;//this is so that we can do a quick check so that we don't have to run this again.
+    updateConstructors();
 }

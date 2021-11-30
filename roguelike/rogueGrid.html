@@ -207,13 +207,9 @@
 		function drawVisCircle(){
 			paint.fillStyle="black";
 			let temp = playerLoc.split(",");
-			let tempY = ColumnWid*temp[1]-ColumnWid/2;
-			let tempX = rowWid*temp[0]-rowWid/2;	
-			console.log(tempX);
-			console.log(tempY);
 			paint.beginPath();
 			paint.clearRect(500,0,-500,500);
-			paint.arc(tempX,tempY,60,0,2*Math.PI);//the last 2 are the start and end angles.
+			paint.arc(rowWid*temp[0]-rowWid/2,ColumnWid*temp[1]-ColumnWid/2,50,0,2*Math.PI);//the last 2 are the start and end angles.
 			paint.rect(500, 0, -500, 500);
 			paint.fill();
 		}

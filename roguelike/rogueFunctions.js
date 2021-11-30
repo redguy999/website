@@ -23,9 +23,7 @@ corrdinates test:
 */
 function startGame() {//start, end, finally walls.
     Mogrid.innerHTML="";//empty the grid, in case theres stuff in there already.
-    if(AllItems.length==0){
-        seteveryItem();
-    }
+    seteveryItem();
     makeGrid();
     mkStartPoint();
     //getRows();
@@ -49,6 +47,11 @@ function nextLevel() {//this may be called for reasons other than that the level
         return;
     }//so that it doesn't random place over our set placement.
     mkStartPoint();
+    if(level==1){
+        seteveryItem();
+    }else{
+        updateConstructors();
+    }
     //drawVisCircle();
     mkExitPoint();
     mkWalls();
