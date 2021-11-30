@@ -346,11 +346,9 @@ function oldPather() {//DO NOT TOUCH, i forgot how this works but it seems to wo
             allCorrds.splice(allCorrds.indexOf(x),1)//removes a found space from allCorrds
         }
         for(x of allCorrds){
-            console.log(x);
             walls.push(x);
             setBGColor(x,"black");
         }
     }
-    console.log("finished pathfinder.")
     return Reached;
 }
