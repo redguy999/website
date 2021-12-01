@@ -26,7 +26,7 @@ function startGame() {//start, end, finally walls.
     seteveryItem();
     makeGrid();
     mkStartPoint();
-    //getRows();
+    getRows();
     mkExitPoint();
     mkWalls();
     displayEquipment();//need to run it here so it displays the console correctly
@@ -52,7 +52,7 @@ function nextLevel() {//this may be called for reasons other than that the level
     }else{
         updateConstructors();
     }
-    //drawVisCircle();
+    drawVisCircle();
     mkExitPoint();
     mkWalls();
     if (!oldPather()) {
@@ -154,6 +154,7 @@ function clearLocDisplay(){
     }
 }
 function resetLocDisplay() {
+    drawVisCircle();
     clearLocDisplay()
     document.getElementById(playerLoc).innerHTML = "X";
 }

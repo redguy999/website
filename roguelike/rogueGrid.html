@@ -203,19 +203,21 @@
 		const canv= document.getElementById("shadowing")
 		const paint = canv.getContext("2d")
 		var rowWid;
-		var ColumnWid;
+		var columnWid;
 		function drawVisCircle(){
 			paint.fillStyle="black";
 			let temp = playerLoc.split(",");
+			let tempY = rowWid*temp[1]-rowWid/2;
+			let tempX = columnWid*temp[0]-columnWid/2;	
 			paint.beginPath();
 			paint.clearRect(500,0,-500,500);
-			paint.arc(rowWid*temp[0]-rowWid/2,ColumnWid*temp[1]-ColumnWid/2,50,0,2*Math.PI);//the last 2 are the start and end angles.
+			paint.arc(tempX,tempY,60,0,2*Math.PI);//the last 2 are the start and end angles.
 			paint.rect(500, 0, -500, 500);
 			paint.fill();
 		}
 		function getRows(){
 			rowWid=canv.width/wT;
-			ColumnWid=canv.height/hT;
+			columnWid=canv.height/hT;
 			drawVisCircle();
 		}
 	</script>
