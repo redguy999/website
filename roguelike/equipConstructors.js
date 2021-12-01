@@ -64,7 +64,6 @@ function dropLoot(Dropper){
                 console.error("drop value invalid for: " +x);
                 continue;//skip it.
             }else{
-                console.log(temp[x][1]);
                 let RNT = Math.floor(Math.random()*temp[x][1])+1;
                 return [x,RNT];
             }

@@ -26,7 +26,6 @@ function startGame() {//start, end, finally walls.
     seteveryItem();
     makeGrid();
     mkStartPoint();
-    getRows();
     mkExitPoint();
     mkWalls();
     displayEquipment();//need to run it here so it displays the console correctly
@@ -90,6 +89,7 @@ function makeGrid() {//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING
             Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="' + x + "," + y + '"></div>');
         }
     }
+    getRows();//run this here.
 }
 /*to loop through every tiles, copy the nested for loops below:
     for(y=1;y<=wT;y++){

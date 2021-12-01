@@ -204,6 +204,7 @@
 		const paint = canv.getContext("2d")
 		var rowWid;
 		var columnWid;
+		var VRM= 1; //visibilty radius multipler
 		function drawVisCircle(){
 			paint.fillStyle="black";
 			let temp = playerLoc.split(",");
@@ -211,14 +212,21 @@
 			let tempX = columnWid*temp[0]-columnWid/2;	
 			paint.beginPath();
 			paint.clearRect(500,0,-500,500);
-			paint.arc(tempX,tempY,60,0,2*Math.PI);//the last 2 are the start and end angles.
+			//gradiant code starts
+			var grad = paint.createRadialGradient(tempX,tempY,30*VRM,tempX,tempY,60*VRM)
+			grad.addColorStop("0","rgba(255,255,255,0)")
+			grad.addColorStop("1","rgba(0,0,0,1")
+			paint.fillStyle=grad
+			//gradiant code ends.
 			paint.rect(500, 0, -500, 500);
 			paint.fill();
+		}
+		function clearCanvas(){
+			paint.clearRect(500,0,-500,500);
 		}
 		function getRows(){
 			rowWid=canv.width/wT;
 			columnWid=canv.height/hT;
-			drawVisCircle();
-		}
+		}//run getRows() only once, but it must be ran before drawVis
 	</script>
-</html>
+</html>	
