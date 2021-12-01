@@ -205,7 +205,7 @@
 		var rowWid;
 		var columnWid;
 		var VRM= 1; //visibilty radius multipler
-		function drawVisCircle(){
+		function drawVisCircle(){//draws the visibilty circle
 			paint.fillStyle="black";
 			let temp = playerLoc.split(",");
 			let tempY = rowWid*temp[1]-rowWid/2;
@@ -214,14 +214,14 @@
 			paint.clearRect(500,0,-500,500);
 			//gradiant code starts
 			var grad = paint.createRadialGradient(tempX,tempY,30*VRM,tempX,tempY,60*VRM)
-			grad.addColorStop("0","rgba(255,255,255,0)")
+			grad.addColorStop("0","rgba(0,0,0,0)")
 			grad.addColorStop("1","rgba(0,0,0,1")
 			paint.fillStyle=grad
 			//gradiant code ends.
 			paint.rect(500, 0, -500, 500);
 			paint.fill();
 		}
-		function clearCanvas(){
+		function clearCanvas(){//for removing the cover
 			paint.clearRect(500,0,-500,500);
 		}
 		function getRows(){
