@@ -27,6 +27,7 @@ function startGame() {//start, end, finally walls.
     makeGrid();
     mkStartPoint();
     mkExitPoint();
+    //getRows();//run this here.
     mkWalls();
     displayEquipment();//need to run it here so it displays the console correctly
     if (!oldPather()) {
@@ -51,7 +52,7 @@ function nextLevel() {//this may be called for reasons other than that the level
     }else{
         updateConstructors();
     }
-    drawVisCircle();
+    //drawVisCircle();
     mkExitPoint();
     mkWalls();
     if (!oldPather()) {
@@ -89,7 +90,6 @@ function makeGrid() {//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING
             Mogrid.innerHTML = Mogrid.innerHTML + ('<div id="' + x + "," + y + '"></div>');
         }
     }
-    getRows();//run this here.
 }
 /*to loop through every tiles, copy the nested for loops below:
     for(y=1;y<=wT;y++){
@@ -154,7 +154,7 @@ function clearLocDisplay(){
     }
 }
 function resetLocDisplay() {
-    drawVisCircle();
+    //drawVisCircle();
     clearLocDisplay()
     document.getElementById(playerLoc).innerHTML = "X";
 }
