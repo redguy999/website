@@ -17,47 +17,14 @@
     <ol>
         <li>Chapter one (no excirse)</li>
         <li><span id="a"onclick="exercise1()">Chapter two</span></li>
+        <li>Chapter three</li>
     </ol>
     <hr>
     <footer id="vLinks"></footer>
     <script>/*for the footer*/var loc = window.location.href; var linkStr = '<a href="http://validator.w3.org/check?uri=' + loc + '">\n<strong> HTML </strong> Valid! </a> |' + ' <a href="http://jigsaw.w3.org/css-validator/validator?uri=' + loc + '?profile=css3">\n<strong> CSS </strong> Valid! </a>'; var footer = document.getElementById("vLinks"); footer.innerHTML = linkStr;</script>
-    <script src="">
-        function exercise1() {
-            document.getElementById("a")["innerHTML"]="Chapter two (check console)"
-            console.log("logging triangle:")
-            var Hold = ""
-            for (let i = 0; i < 7; i++) {
-                Hold += "#";
-                console.log(Hold);
-            }
-            Hold = ""
-            console.log("logging FizzBuzz")
-            for (let i = 1; i <= 100; i++) {
-                Hold = ""//clear it
-                if (i % 3 === 0) {
-                    Hold += "Fizz";
-                }
-                if (i % 5 === 0) {
-                    Hold += "Buzz";
-                }
-                if (!Hold) {//will be true if Hold is an empty string.
-                    Hold = i;
-                }
-                console.log(Hold)
-            }
-            Hold = "";
-            for (let x = 0; x < 8; x++) {
-                for (let y = 0; y < 8; y++) {
-                    if ((y+x)%2===0) {//true if y is even (except maybe if y is negative but we aren't dealing with those.)
-                        Hold += " "
-                    } else {
-                        Hold += "#"
-                    }
-                }
-                Hold += "\n"
-            }
-            console.log(Hold)
-        }
+    <script src="chap2.js"></script>
+    <script>
+
     </script>
 </body>
 
