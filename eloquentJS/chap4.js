@@ -1,10 +1,17 @@
 function exercise3(){
-    document.getElementById("c")["innerHTML"]+=" (check console)"
-    function range(start,end,step=1){//both parameters are numbers, second must be the bigger number.
+    document.getElementById("c")["innerHTML"]= "Chapter four (check console)"
+    /*function range(start,end,step=1){
         var valuRange = []
-        for(i=start;i<=end;i+=step){
-            valuRange.push(i)
+        if(start<end){
+            for(i=start;i<=end;i+=step){
+                valuRange.push(i)
+            }
+        } else {
+            for(i=start;i>=end;i+=step){
+                valuRange.push(i)
+            }
         }
+
         return valuRange
     }
     function sum(numArr){//parameter must be an array
@@ -16,8 +23,30 @@ function exercise3(){
     }   
     console.log(sum(range(1,10)));
     console.log(range(1, 10));
-    console.log(range(5, 2, -1));
-    function arrayToList(arr){
+    console.log(range(5, 2, -1));*/
+    function reverseArray(arr){
+        var hold = [];
+        for(let i=arr.length-1;i>=0;i--){
+            hold.push(arr[i]);
+        }
+        return hold;
+    }
+    function reverseArrayInPlace(ref){
+        var hold = [];//have to use this otherwise we try to write to what we're reading.
+        for(let x of ref){
+            hold.push(x);//in case i mess up but it might not be needed.
+        }
+        ref.splice(0,ref.length)
+        for(let i = hold.length-1;i>=0;i--){
+            ref.splice(ref.length,0,hold[i])
+        }
+        return ref;
+    }
+    console.log(reverseArray(["A","B","C"]))
+    let arrayValue = [1,2,3,4,5]
+    reverseArrayInPlace(arrayValue)
+    console.log(arrayValue)
+    /*function arrayToList(arr){
         var List={}
         for(x of arr){
             var reff = List//get the list
@@ -80,5 +109,5 @@ function exercise3(){
     let obj = {here: {is: "an"}, object: 2};
     console.log(deepEqual(obj, obj));
     console.log(deepEqual(obj, {here: 1, object: 2}));
-    console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
+    console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));*/
 }

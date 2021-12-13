@@ -45,7 +45,7 @@ function countChar(str,match){
 }
 // console.log(countChar("kakkerlak", "k"));
 function exercise2(){
-    document.getElementById("b")["innerHTML"]+=" (check console)"
+    document.getElementById("b")["innerHTML"]="Chapter three (check console)"
     console.log(minOf(0,10,1,-10,1111111,9999999))
     console.log(isEven(50));
     console.log(isEven(75));
