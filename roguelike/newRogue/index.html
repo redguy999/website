@@ -1,0 +1,19 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+       <div id="abc"></div> 
+    </body>
+</html>
+<script>
+    let a=document.getElementById("abc").style
+    function test(){
+        console.log(typeof(a.color))
+        console.log(a.color)
+        console.log(!!a.color)
+    }
+    test()//prints "'string','',false"
+    a.color="blue"
+    test()//prints "'string','blue','true'"
+</script>

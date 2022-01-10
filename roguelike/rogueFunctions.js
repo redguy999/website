@@ -76,7 +76,7 @@ function makeGrid() {//DO NOT TOUCH THIS FUNCTION, OR YOU MIGHT BREAK EVERYTHING
     let temp = "";//
     let size = 100 / wT;
     for (i = 0; i < wT; i++) {
-        temp = temp + size + "% ";//this and the next one is so that none of the tiles change size when the X moves to it.
+        temp += size + "% ";//this and the next one is so that none of the tiles change size when the X moves to it.
     }
     document.getElementById("movementGrid").style.gridTemplateRows = temp;
     temp = "";
