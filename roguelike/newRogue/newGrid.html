@@ -57,89 +57,10 @@
     </head>
     <body>
         <div id="displayGrid" class="gScreen">
-            <div id="1-1"></div>
         </div>
         <canvas width='1000' height='1000' class="gScreen" style="border:green 1px double;z-index:50;"></canvas>
         <div id="actionGrid" class="gScreen">
-            <div id="1,1"></div>
         </div>
     </body>
 </html>
-<script>
-    const dGrid=document.getElementById("displayGrid")
-    const aGrid=document.getElementById("actionGrid")
-    const gridObj={}//While this could be an array, the 0th index would mess everything up.
-    //might remove gridObj
-    rows=4
-    columns=6
-    function mkGrid(){
-        aGrid.innerHTML=""
-        dGrid.innerHTML=""//clears the grids, in case theres anything in them.
-        let rowing = 100/rows
-        let coling = 100/columns
-        for(let y=1;y<=rows;y++){//creates all the divs.
-            aGrid.style.gridTemplateRows+=rowing+"% "
-            dGrid.style.gridTemplateRows+=rowing+"% "//also sets the grid templates correctly
-            for(let x=1;x<=columns;x++){
-                if(y==1){
-                    aGrid.style.gridTemplateColumns+=coling+"% "
-                    dGrid.style.gridTemplateColumns+=coling+"% "
-                }
-                dGrid.innerHTML+="<div id='"+x+"-"+y+"'></div>"
-                aGrid.innerHTML+="<div id='"+x+","+y+"'></div>"
-            }
-        }
-        for(let i=1;i<=columns;i++){//the colums and rows have to be created in the reverse order, so we can't do this while making the divs.
-            gridObj[i]={}
-        }
-        for(x in gridObj){
-            for(let i=1;i<=rows;i++){
-                gridObj[x][i]=""//holds hrefs for enemies and items, or if it is a wall.
-            }
-        }
-    }//ids for divs in the display grid are "X-Y" while the action grid divs are "X,Y"
-    mkGrid();
-    mkWalls();
-    console.log(gridObj);
-    //mk start, end, and walls functions, also the random corrdinate function.
-    function ranCorrd(){//returns array,
-        return [Math.floor(Math.random()*columns)+1,Math.floor(Math.random()*rows)+1]
-    }
-    function mkWalls(){
-        var hold=[];
-        do{
-            let temp=arrToDCord(ranCorrd());//its an array for now.
-            if(hold.indexOf(temp)!=-1){
-                continue;
-            } else {
-                hold.push(temp);
-            }
-        }
-        while(hold.length<10)
-        for(corrd of hold){
-            document.getElementById(corrd).style.backgroundColor="black"
-            corrd=dCordToArr(corrd);
-            gridObj[corrd[0]][corrd[1]]="wall";
-        }
-        console.log(hold);
-    }
-    //converting action corrd strings, to display corrd strings, to arrays, and back.
-    function aCordToArr(corrd){//string
-        return corrd.split(",");
-    }
-    function dCordToArr(corrd){//string
-        return corrd.split("-");
-    }
-    function dCordToACord(corrd){//string
-       return corrd.replace('-',",");
-    }
-    function aCordToDCord(corrd){//string
-        return corrd.replace(',',"-");
-    }
-    function arrToACord(corrd){//corrd.length=2
-        return corrd.join(",");
-    }
-    function arrToDCord(corrd){//corrd.length=2
-        return corrd.join("-");
-    }
-</script>
+<script src="overhualed.js"></script>
