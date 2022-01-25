@@ -2,8 +2,8 @@ const dGrid=document.getElementById("displayGrid")
 const aGrid=document.getElementById("actionGrid")
 const gridObj={}//While this could be an array, the 0th index would mess everything up.
 //might remove gridObj
-rows=7
-columns=8
+rows=10
+columns=10
 playerLoc="1,1"
 start()
 function start(){
@@ -12,7 +12,7 @@ function start(){
     mkWalls();
     setStart();
     setExit();
-    resetLocDisplay()
+    // resetLocDisplay()
 }
 function setStart(){
     let temp=ranArrCorrd();
@@ -27,11 +27,13 @@ function setStart(){
     playerLoc=temp[0]+","+temp[1];
 }
 function setExit(){
+    var a = 1
+    debugger;
 do{
     var temp=ranArrCorrd()
     var href = gridObj[temp[0]][temp[1]]
-}while(href.dis.style||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
-//href.dis.style will be false if nothing is there and the background color isn't set.
+}while(href.dis.style.backgroundColor||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
+//href.dis.style will be false if nothing is there, which should accord if the background color isn't set.
 //playerLoc is being used as a standin for the start point, since they should be the same at this time
     href.dis.style.backgroundColor="red";
 }
@@ -46,15 +48,15 @@ return temp;//returns array
 function keyPress() {
     key = window.event.keyCode;
     if (key == 32) {
-        interact();
+        //interact();
         return;//we don't need to do math on the location.
     }
     let temp = switchMovement(playerLoc, key);//need to run the .split here otherwise everything gets messed up.
     try{
-    let href = gridObj[temp[0]][temp[1]]
+    var href = gridObj[temp[0]][temp[1]]
     }catch(err){
         if(err=TypeError){
-            throw "Player likely attempted to move to an invalid location, if such this error is intentional"
+            throw "Player likely attempted to move to an invalid location, if such this error is intentional."
         } else {
             throw err.message
         }
@@ -86,12 +88,11 @@ function resetLocDisplay() {
 function switchMovement(Corrd, key) {//movement function, returns a string
 let temp;//incase the result becomes invalid, we need to return the orginial input.
 if (typeof (Corrd) == "string") {
-    temp = Corrd.split(",");
+    Corrd = Corrd.split(",");
 } else if (typeof (Corrd) != "object") {//this else if is mostly for debugging purposes.
     throw "invalid parameter for Corrd.";
-} else {//neither "if" will be true if corrd is an array, which is good.
-    temp = Corrd;
 }
+    temp = Corrd;
 switch (key) {//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
     case 40:
         temp[1] = Number(temp[1]) + 1;//down
