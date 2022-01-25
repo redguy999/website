@@ -12,6 +12,7 @@ function start(){
     mkWalls();
     setStart();
     setExit();
+    resetLocDisplay()
 }
 function setStart(){
     let temp=ranArrCorrd();
@@ -29,7 +30,8 @@ function setExit(){
 do{
     var temp=ranArrCorrd()
     var href = gridObj[temp[0]][temp[1]]
-}while(href.content||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
+}while(href.dis.style||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
+//href.dis.style will be false if nothing is there and the background color isn't set.
 //playerLoc is being used as a standin for the start point, since they should be the same at this time
     href.dis.style.backgroundColor="red";
 }
@@ -47,9 +49,17 @@ function keyPress() {
         interact();
         return;//we don't need to do math on the location.
     }
-    let temp = switchMovement(playerLoc, key);
+    let temp = switchMovement(playerLoc, key);//need to run the .split here otherwise everything gets messed up.
+    try{
     let href = gridObj[temp[0]][temp[1]]
-    while(href.content) {//
+    }catch(err){
+        if(err=TypeError){
+            throw "Player likely attempted to move to an invalid location, if such this error is intentional"
+        } else {
+            throw err.message
+        }
+    }
+    while(href.content) {//this line errors if the player attempts to move to an invalid
         if(href.content.health){//does the tile contain an enemy?
             //yes it does
             //INSERT ATTACKING ENEMY HERE.
@@ -58,12 +68,12 @@ function keyPress() {
         }
         return;//can't move to that tile
     }
-    playerLoc = temp;
+    playerLoc = temp.toString();
     resetLocDisplay()
 }
 function clearLocDisplay(){
-    for (y = 1; y <= wT; y++) {
-        for (x = 1; x <= hT; x++) {
+    for (y = 1; y <= rows; y++) {
+        for (x = 1; x <= columns; x++) {
             document.getElementById(x + "," + y).innerHTML = "";
         }
     }
@@ -97,7 +107,7 @@ switch (key) {//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is re
         break;
     default:
         //invalid input for key
-        return temp//return orginial corrdinate
+        return Corrd//return orginial corrdinate
     //just have it return corrd so it doesn't break.
 }
     return temp//returns new corrdinate as array
@@ -151,8 +161,9 @@ function mkWalls(){
     }
     while(hold.length<10)
     for(corrd of hold){
-        document.getElementById(corrd).style.backgroundColor="black"
-        gridObj[corrd[0]][corrd[1]].content="wall";
+        let href=gridObj[corrd[0]][corrd[1]]
+        href.dis.style.backgroundColor="black"
+        href.content="wall";
     }
     console.log(hold);
 }
