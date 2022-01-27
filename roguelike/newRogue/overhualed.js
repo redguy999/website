@@ -15,41 +15,38 @@ function start(){
     // resetLocDisplay()
 }
 function setStart(){
-    let temp=ranArrCorrd();
-    console.log(temp);
-    let href = gridObj[temp[0]][temp[1]]
-    while(href.content){//Does the tile already have something on it?
-        //if so, reroll start.
-        temp=ranArrCorrd();
-        href = gridObj[temp[0]][temp[1]];
-    }
+    do{
+        var href=getCorrdHref(ranArrCorrd())
+    }while(href.content)//causes the do statement to repeat if the tile has something on it already.
     href.dis.style.backgroundColor="green";
     playerLoc=temp[0]+","+temp[1];
 }
 function setExit(){
-    var a = 1
-    debugger;
 do{
-    var temp=ranArrCorrd()
-    var href = gridObj[temp[0]][temp[1]]
+    var href = getCorrdHref(ranArrCorrd())
 }while(href.dis.style.backgroundColor||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
 //href.dis.style will be false if nothing is there, which should accord if the background color isn't set.
 //playerLoc is being used as a standin for the start point, since they should be the same at this time
     href.dis.style.backgroundColor="red";
 }
 function cardAdj(corra) {//gets corrdinates that are cardinally adjecent to a given point.
-let temp = [];
+var temp = [];
 for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
     temp.push(switchMovement(corra, i));
     //console.log(temp);
 }
 return temp;//returns array
 }
+function getCorrdHref(cor){
+    if(typeof(cor)=="string"){//we were given a string corrdinate, but need an array to do this properly.
+        cor=cor.split(",");
+    }
+    return gridObj[cor[0]][cor[1]];
+}
 function interact(){
-    var hold = playerLoc.split(",")
-    var href = gridObj[hold[0]][hold[1]]
+    var href = getCorrdHref(playerLoc);
     //code for getting treasure goes here.
-    if(href.dis.style.backgroundColor="red"){
+    if(href.dis.style.backgroundColor="red"){//is the background of the current tile red?
         //go to next floor.
     }
 }
@@ -59,17 +56,16 @@ function keyPress() {
         interact();
         return;//we don't need to do math on the location.
     }
-    let temp = switchMovement(playerLoc, key);//need to run the .split here otherwise everything gets messed up.
     try{
-    var href = gridObj[temp[0]][temp[1]]
+    var href = getCorrdHref(switchMovement(playerLoc, key))//this line errors if the player attempts to move to a location outside of the grid, which is fine.
     }catch(err){
         if(err=TypeError){
-            throw "Player likely attempted to move to an invalid location, if such this error is intentional."
+            throw "Player likely attempted to move to an invalid location, if that is the case such this error is intentional."
         } else {
             throw err.message
         }
     }
-    while(href.content) {//this line errors if the player attempts to move to an invalid
+    while(href.content) {
         if(href.content.health){//does the tile contain an enemy?
             //yes it does
             //INSERT ATTACKING ENEMY HERE.
