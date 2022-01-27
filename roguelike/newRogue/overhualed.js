@@ -12,7 +12,7 @@ function start(){
     mkWalls();
     setStart();
     setExit();
-    // resetLocDisplay()
+    resetLocDisplay()
 }
 function setStart(){
     do{
@@ -24,7 +24,7 @@ function setStart(){
 function setExit(){
 do{
     var href = getCorrdHref(ranArrCorrd())
-}while(href.dis.style.backgroundColor||cardAdj(playerLoc).indexOf(temp.toString())!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
+}while(href.dis.style.backgroundColor||cardAdj(playerLoc).indexOf(href.loc)!=-1)//TODO: get rid of the latter part of this and have the pathfinder make sure they aren't too close.
 //href.dis.style will be false if nothing is there, which should accord if the background color isn't set.
 //playerLoc is being used as a standin for the start point, since they should be the same at this time
     href.dis.style.backgroundColor="red";
@@ -74,7 +74,7 @@ function keyPress() {
         }
         return;//can't move to that tile
     }
-    playerLoc = temp.toString();
+    playerLoc = href.loc;
     resetLocDisplay()
 }
 function clearLocDisplay(){
