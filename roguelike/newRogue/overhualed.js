@@ -45,10 +45,18 @@ for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates card
 }
 return temp;//returns array
 }
+function interact(){
+    var hold = playerLoc.split(",")
+    var href = gridObj[hold[0]][hold[1]]
+    //code for getting treasure goes here.
+    if(href.dis.style.backgroundColor="red"){
+        //go to next floor.
+    }
+}
 function keyPress() {
     key = window.event.keyCode;
     if (key == 32) {
-        //interact();
+        interact();
         return;//we don't need to do math on the location.
     }
     let temp = switchMovement(playerLoc, key);//need to run the .split here otherwise everything gets messed up.
