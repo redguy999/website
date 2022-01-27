@@ -19,7 +19,7 @@ function setStart(){
         var href=getCorrdHref(ranArrCorrd())
     }while(href.content)//causes the do statement to repeat if the tile has something on it already.
     href.dis.style.backgroundColor="green";
-    playerLoc=temp[0]+","+temp[1];
+    playerLoc=href.loc;
 }
 function setExit(){
 do{
@@ -142,7 +142,8 @@ function mkGrid(){
             gridObj[x][i]={
                 "dis":document.getElementById("d"+x+","+i),
                 'act':document.getElementById(x+","+i),
-                'content':""
+                'content':"",
+                'loc':x+","+i,
             }
         }
     }
