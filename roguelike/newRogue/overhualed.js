@@ -14,6 +14,54 @@ function start(){
     setExit();
     resetLocDisplay()
 }
+function nextLevel(){
+    clearGrid()
+    mkWalls();
+    setStart();
+    setExit();
+    resetLocDisplay();
+}
+function clearGrid(){
+    for(let x in gridObj){
+        for(let y in x){
+            y.dis.style.backgroundColor="";//clears the background color
+            y.content=""
+            //act isn't really used by the code currently.
+            //loc is effectively a constant, setting it WILL break the code.
+        }
+    }
+}
+function mkGrid(){//!!VERY IMPORTANT
+    aGrid.innerHTML=""
+    dGrid.innerHTML=""//clears the grids, in case theres anything in them.
+    let rowing = 100/rows
+    let coling = 100/columns
+    for(let y=1;y<=rows;y++){//creates all the divs.
+        aGrid.style.gridTemplateRows+=rowing+"% "
+        dGrid.style.gridTemplateRows+=rowing+"% "//also sets the grid templates correctly
+        for(let x=1;x<=columns;x++){
+            if(y==1){
+                aGrid.style.gridTemplateColumns+=coling+"% "
+                dGrid.style.gridTemplateColumns+=coling+"% "
+            }
+            dGrid.innerHTML+="<div id='d"+x+","+y+"'></div>"
+            aGrid.innerHTML+="<div id='"+x+","+y+"'></div>"
+        }
+    }
+    for(let i=1;i<=columns;i++){//the colums and rows have to be created in the reverse order, so we can't do this while making the divs.
+        gridObj[i]={}
+    }
+    for(x in gridObj){
+        for(let i=1;i<=rows;i++){
+            gridObj[x][i]={
+                "dis":document.getElementById("d"+x+","+i),
+                'act':document.getElementById(x+","+i),
+                'content':"",//should either be a string or an enemy object or an item object
+                'loc':x+","+i,//so that the corrdinate is easily accessible
+            }
+        }
+    }
+}
 function setStart(){
     do{
         var href=getCorrdHref(ranArrCorrd())
@@ -47,7 +95,7 @@ function interact(){
     var href = getCorrdHref(playerLoc);
     //code for getting treasure goes here.
     if(href.dis.style.backgroundColor="red"){//is the background of the current tile red?
-        //go to next floor.
+        nextLevel()
     }
 }
 function keyPress() {
@@ -60,7 +108,7 @@ function keyPress() {
     var href = getCorrdHref(switchMovement(playerLoc, key))//this line errors if the player attempts to move to a location outside of the grid, which is fine.
     }catch(err){
         if(err=TypeError){
-            throw "Player likely attempted to move to an invalid location, if that is the case such this error is intentional."
+            throw "Player likely attempted to move to an out of bounds location, if that is the case such this error is intentional."
         } else {
             throw err.message
         }
@@ -69,9 +117,10 @@ function keyPress() {
         if(href.content.health){//does the tile contain an enemy?
             //yes it does
             //INSERT ATTACKING ENEMY HERE.
-        } else if(typeof(href.content)=="object"){//if its not an enemy, but it is an object the only  thing it could be is an item/treasure.
+        } else if(typeof(href.content)=="object"){//if its not an enemy, but it is an object it must be a(n) item/treasure.
             break;//exits the while loop so we can still move.
         }
+        //if the tile contains something, but it isn't either an enemy or an item
         return;//can't move to that tile
     }
     playerLoc = href.loc;
@@ -117,37 +166,6 @@ switch (key) {//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is re
 }
     return temp//returns new corrdinate as array
 }
-function mkGrid(){
-    aGrid.innerHTML=""
-    dGrid.innerHTML=""//clears the grids, in case theres anything in them.
-    let rowing = 100/rows
-    let coling = 100/columns
-    for(let y=1;y<=rows;y++){//creates all the divs.
-        aGrid.style.gridTemplateRows+=rowing+"% "
-        dGrid.style.gridTemplateRows+=rowing+"% "//also sets the grid templates correctly
-        for(let x=1;x<=columns;x++){
-            if(y==1){
-                aGrid.style.gridTemplateColumns+=coling+"% "
-                dGrid.style.gridTemplateColumns+=coling+"% "
-            }
-            dGrid.innerHTML+="<div id='d"+x+","+y+"'></div>"
-            aGrid.innerHTML+="<div id='"+x+","+y+"'></div>"
-        }
-    }
-    for(let i=1;i<=columns;i++){//the colums and rows have to be created in the reverse order, so we can't do this while making the divs.
-        gridObj[i]={}
-    }
-    for(x in gridObj){
-        for(let i=1;i<=rows;i++){
-            gridObj[x][i]={
-                "dis":document.getElementById("d"+x+","+i),
-                'act':document.getElementById(x+","+i),
-                'content':"",
-                'loc':x+","+i,
-            }
-        }
-    }
-}//ids for divs in the display grid are "X-Y" while the action grid divs are "X,Y"
 //mk start, end, and walls functions, also the random corrdinate function.
 function ranArrCorrd(){//returns array,
     return [Math.floor(Math.random()*columns)+1,Math.floor(Math.random()*rows)+1]
