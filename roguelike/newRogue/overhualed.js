@@ -14,7 +14,7 @@ function start(){
     resetLocDisplay()
 }
 function nextLevel(){
-    clearGrid()
+    clearGrid();
     mkWalls();
     setStart();
     setExit();
