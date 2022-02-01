@@ -11,3 +11,5 @@
 //         3
 //         } else {
 //         invite = "Sorry, we're at capacity."; }
+
+//make sure variable names are easy to understand
