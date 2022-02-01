@@ -2,13 +2,12 @@ const dGrid=document.getElementById("displayGrid")
 const aGrid=document.getElementById("actionGrid")
 const gridObj={}//While this could be an array, the 0th index would mess everything up.
 //might remove gridObj
-rows=10
-columns=10
-playerLoc="1,1"
+const rows=9
+const columns=8
+var playerLoc="1,1"
 start()
 function start(){
     mkGrid();
-    console.log(gridObj);
     mkWalls();
     setStart();
     setExit();
@@ -23,9 +22,9 @@ function nextLevel(){
 }
 function clearGrid(){
     for(let x in gridObj){
-        for(let y in x){
-            y.dis.style.backgroundColor="";//clears the background color
-            y.content=""
+        for(let y in gridObj[x]){
+            gridObj[x][y].dis.style.backgroundColor="";//clears the background color
+            gridObj[x][y].content=""
             //act isn't really used by the code currently.
             //loc is effectively a constant, setting it WILL break the code.
         }
@@ -89,12 +88,12 @@ function getCorrdHref(cor){
     if(typeof(cor)=="string"){//we were given a string corrdinate, but need an array to do this properly.
         cor=cor.split(",");
     }
-    return gridObj[cor[0]][cor[1]];
+    return gridObj[cor[0]][cor[1]];//this line can error if the player attempts to move out of bounds, which is fine.
 }
 function interact(){
     var href = getCorrdHref(playerLoc);
     //code for getting treasure goes here.
-    if(href.dis.style.backgroundColor="red"){//is the background of the current tile red?
+    if(href.dis.style.backgroundColor=="red"){//is the background of the current tile red? (AKA, is it the exit?)
         nextLevel()
     }
 }
