@@ -80,7 +80,6 @@ function cardAdj(corra) {//gets corrdinates that are cardinally adjecent to a gi
 var temp = [];
 for (let i = 37; i <= 40; i++) {//use this for state to get all corrdinates cardinally adjecent to a point.
     temp.push(switchMovement(corra, i));
-    //console.log(temp);
 }
 return temp;//returns array
 }
@@ -188,5 +187,4 @@ function mkWalls(){
             href.dis.style.backgroundColor="black"
             href.content="wall";
         }
-    console.log(hold);
 }
