@@ -183,10 +183,10 @@ function mkWalls(){
         }
     }
     while(hold.length<10)
-    for(corrd of hold){
-        let href=gridObj[corrd[0]][corrd[1]]
-        href.dis.style.backgroundColor="black"
-        href.content="wall";
-    }
+        for(corrd of hold){
+            let href=gridObj[corrd[0]][corrd[1]]
+            href.dis.style.backgroundColor="black"
+            href.content="wall";
+        }
     console.log(hold);
 }
