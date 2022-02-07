@@ -30,6 +30,15 @@ function clearGrid(){
         }
     }
 }
+function isArray(Arr){
+    if(typeof(Arr)!="object"){
+        return false//its not even an object
+    }
+    if("length" in Object.keys(Arr)){
+        return true
+    }
+    return false
+}
 function mkGrid(){//!!VERY IMPORTANT
     aGrid.innerHTML=""
     dGrid.innerHTML=""//clears the grids, in case theres anything in them.

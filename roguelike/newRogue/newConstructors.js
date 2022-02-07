@@ -13,19 +13,21 @@ function pickEnemy(){
 }
 function placeEnemies(){
     var href = getCorrdHref(ranArrCorrd())
-    let Enemy = pickEnemy()
-    href.dis.style.backgroundColor=enemies[Enemy].color;
+    let name = pickEnemy()
+    let eHold = enemies[name]
+    href.dis.style.backgroundColor=eHold.color;
+    href.content=new enemy(name,eHold.hp,eHold.atk,eHold.def,href)
     //href.content=new 
 }
 class enemy{
-    constructor(name,Mhealth,attack,defense,table){
+    constructor(name,Mhealth,attack,defense,ref,table=null){
         this.name = name;//string
-        this.location = location;//string
+        this.location = ref;//So it can delete itself when it needs to.
         this.Mhealth = Mhealth;//number
         this.health = Mhealth; //health starts equal to max health.
         this.attack = attack; //number
         this.defense = defense; //number
-        this.table = table;
+        this.table = table;//currently unused.
         this.hurt = function(damg,retal=true){//retal is short for retaliate.
             let temp = 0;
             if(damg>0){//if damage is negative, ignore defense, since it is likely healing.
@@ -54,27 +56,26 @@ class enemy{
             }
             if(retal==true){this.fight();}
         }
-        // this.dead = function(){
-        //     TtC(this.name+" has been defeated.");
-        //     try{
-        //         let temp = dropLoot(this.table);
-        //         if(temp===null){//drop nothing
+        this.dead = function(){
+            TtC(this.name+" has been defeated.");
+            this.location.dis.style.backgroundColor="";
+            if(table){//hasn't been ported yet.
+                // let temp = dropLoot(this.table);
+                // if(temp===null){//drop nothing
 
-        //         }else{
-        //             if(temp[1]>1){
-        //                 TtC("The "+this.name+" dropped: "+temp[1]+" "+temp[0]+"s.")
-        //             } else{
-        //                 TtC("The "+this.name+" dropped: one "+temp[0]+".")//TODO: merge this and the temp = string one.
-        //             }
-        //             addToInventory(temp);//addToInventory can convert this to the proper format.
-        //         }
-        //     } catch {
-        //         console.error("ERROR: function, dropLoot failed.")
-        //     }
-        //     setBGColor(this.location,"white");
-        //     entLocs.splice(entLocs.indexOf(this.location),1);
-        //     this.location = null;
-        // }
+                // }else{
+                //     if(temp[1]>1){
+                //         TtC("The "+this.name+" dropped: "+temp[1]+" "+temp[0]+"s.")
+                //     } else{
+                //         TtC("The "+this.name+" dropped: one "+temp[0]+".")//TODO: merge this and the temp = string one.
+                //     }
+                //     addToInventory(temp);//addToInventory can convert this to the proper format.
+                // }
+            } else {
+                //console.error("ERROR: function, dropLoot failed.")
+            }
+            removeEnemy(this.location)
+        }
         this.fight = function(){//might make it able to attack anyone.
             if(this.attack==0){
                 return;//early exit in case the enemy can't attack.
@@ -82,6 +83,9 @@ class enemy{
                 player.hurtPlayer(this.attack);
         }
     }
+}
+function removeEnemy(loc){
+    loc.content="";
 }
 //above is enemy code, the rest is below
 function mkOtherStuff(){
