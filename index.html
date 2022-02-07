@@ -8,18 +8,22 @@
         body {
             background-color: lightblue;
         }
-        #gridFormat{
+
+        #gridFormat {
             display: grid;
             grid-template-columns: auto;
             margin: 0 30%;
-            text-align:center;
+            text-align: center;
         }
+
         a {
             padding: 1px;
         }
-        ul{
-            padding:0
+
+        ul {
+            padding: 0
         }
+
         a:not(#resume):hover {
             background-color: aqua;
             color: green;
@@ -44,13 +48,15 @@
             background-color: black;
             color: rgb(0, 255, 0);
         }
+
         #resume {
             text-shadow: 1px 1px 10px black;
             /*I want it to look like an h3 tag but the margin is weird if i do otherwise.*/
-            font-size: 1.17em; 
+            font-size: 1.17em;
             font-weight: bold;
         }
-        #resume:hover{
+
+        #resume:hover {
             text-shadow: 1px 1px 2px black;
         }
     </style>
@@ -58,23 +64,23 @@
 
 <body>
     <div id="gridFormat">
-    <div>
-        <h2>Portfolio</h2><br>
+        <div>
+            <h2>Portfolio</h2><br>
             <a id="resume" href=Resume/resume.html>Resume</a>
-    </div>
-    <div>
-        <h2>Additional work</h2><br>
+        </div>
+        <div>
+            <h2>Additional work</h2><br>
             <a href="roguelike/">badly made roguelike</a><br>
             <a href="CIWsite/index.html">CIW lessons</a>
-    </div>
-    <div>
-        <h2>Old Works:</h2><br>
+        </div>
+        <div>
+            <h2>Old Works:</h2><br>
             <a href="eloquentJS/index.html">Eloquent Javascript (OLD)</a><br>
             <a href="terminal/terminal.html"><span id="terminal">Terminal (OLD)</span></a>
+        </div>
+        <footer id="vLinks"></footer>
+        <script>/*for the footer*/var loc = window.location.href; var linkStr = '<a href="http://validator.w3.org/check?uri=' + loc + '">\n<strong> HTML </strong> Valid! </a> |' + ' <a href="http://jigsaw.w3.org/css-validator/validator?uri=' + loc + '?profile=css3">\n<strong> CSS </strong> Valid! </a>'; var footer = document.getElementById("vLinks"); footer.innerHTML = linkStr;</script>
     </div>
-    </div>
-    <footer id="vLinks"></footer>
-    <script>/*for the footer*/var loc = window.location.href; var linkStr = '<a href="http://validator.w3.org/check?uri=' + loc + '">\n<strong> HTML </strong> Valid! </a> |' + ' <a href="http://jigsaw.w3.org/css-validator/validator?uri=' + loc + '?profile=css3">\n<strong> CSS </strong> Valid! </a>'; var footer = document.getElementById("vLinks"); footer.innerHTML = linkStr;</script>
 </body>
 
 </html>
