@@ -17,7 +17,9 @@
         a {
             padding: 1px;
         }
-
+        ul{
+            padding:0
+        }
         a:hover {
             background-color: aqua;
             color: green;
@@ -44,7 +46,7 @@
         }
 
         #resume {
-            text-shadow: black;
+            text-shadow: 1px 1px 10px black;
         }
     </style>
 </head>
@@ -53,23 +55,17 @@
     <div id="gridFormat">
     <div>
         <h2>Portfolio</h2><br>
-        <ul>
-            <li id="resume"><a href=Resume/resume.html>Resume</a></li>
-        </ul>
+            <h3 id="resume"><a href=Resume/resume.html>Resume</a></h3>
     </div>
     <div>
         <h2>Additional work</h2><br>
-        <ul>
-            <li><a href="roguelike/">badly made roguelike</a></li>
-            <li><a href="CIWsite/index.html">CIW lessons</a></li>
-        </ul>
+            <a href="roguelike/">badly made roguelike</a><br>
+            <a href="CIWsite/index.html">CIW lessons</a>
     </div>
     <div>
         <h2>Old Works:</h2><br>
-        <ul>
-            <li><a href="eloquentJS/index.html">Eloquent Javascript (OLD)</a></li>
-            <li><a href="terminal/terminal.html"><span id="terminal">Terminal (OLD)</span></a></li>
-        </ul>
+            <a href="eloquentJS/index.html">Eloquent Javascript (OLD)</a><br>
+            <a href="terminal/terminal.html"><span id="terminal">Terminal (OLD)</span></a>
     </div>
     </div>
     <footer id="vLinks"></footer>
