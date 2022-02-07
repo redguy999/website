@@ -20,7 +20,7 @@
         ul{
             padding:0
         }
-        a:hover {
+        a:not(#resume):hover {
             background-color: aqua;
             color: green;
             border: dashed black 1px;
@@ -44,9 +44,14 @@
             background-color: black;
             color: rgb(0, 255, 0);
         }
-
         #resume {
             text-shadow: 1px 1px 10px black;
+            /*I want it to look like an h3 tag but the margin is weird if i do otherwise.*/
+            font-size: 1.17em; 
+            font-weight: bold;
+        }
+        #resume:hover{
+            text-shadow: 1px 1px 2px black;
         }
     </style>
 </head>
@@ -55,7 +60,7 @@
     <div id="gridFormat">
     <div>
         <h2>Portfolio</h2><br>
-            <h3 id="resume"><a href=Resume/resume.html>Resume</a></h3>
+            <a id="resume" href=Resume/resume.html>Resume</a>
     </div>
     <div>
         <h2>Additional work</h2><br>
