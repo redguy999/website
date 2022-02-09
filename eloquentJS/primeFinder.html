@@ -45,9 +45,9 @@ function init() {
     } else if (Math.floor(n)!=n){//this can only be true if the number is a decimal.
         output.innerHTML = n + " is a decimal number, but only natural numbers greater than 1 can be prime, please enter a natural number."
     } else if (n==0){
-        output.innerHTML = n + " is zero, which has an insufficent amount of factors to be prime, please enter a natural number greater than one."
+        output.innerHTML = n + " is too small to be prime, please enter a natural number greater than one."
     } else if(n==1){
-        output.innerHTML = n + " is one, which has an insufficent amount of factors to be prime, please enter a natural number greater than one."
+        output.innerHTML = n + " is too small to be prime, please enter a natural number greater than one."
     }
     let val = 2;
     let maxPossible = Math.sqrt(n);
