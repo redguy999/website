@@ -74,7 +74,7 @@ class enemy {
             } else {
                 //console.error("ERROR: function, dropLoot failed.")
             }
-            removeEnemy(this.location)
+            emptyTile(this.location);//there might be erroring unless this is made an async function.
         }
         this.fight = function () {//might make it able to attack anyone.
             if (this.attack == 0) {
@@ -84,7 +84,7 @@ class enemy {
         }
     }
 }
-function removeEnemy(loc) {
+function emptyTile(loc) {//might need to be made async so it doesn't bug the hell out of the program.
     loc.content = "";
 }
 //above is enemy code, the rest is below
@@ -94,4 +94,5 @@ function mkOtherStuff() {
 }
 function placeItems() {
     let href = getCorrdHref(ranArrCorrd())
+
 }
