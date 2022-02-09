@@ -40,12 +40,15 @@ function init() {
   button.onclick = function() {
     n = input.value;
     if(n<0){//this is only true if the number is negative
-        output.innerHTML = n + "is negative, but negative numbers can not be prime, please enter a positive number."
+        output.innerHTML = n + " is negative, but only natural numbers greater than 1 can be prime, please enter a natural number."
         return;
     } else if (Math.floor(n)!=n){//this can only be true if the number is a decimal.
-        
+        output.innerHTML = n + " is a decimal number, but only natural numbers greater than 1 can be prime, please enter a natural number."
+    } else if (n==0){
+        output.innerHTML = n + " is zero, which has an insufficent amount of factors to be prime, please enter a natural number greater than one."
+    } else if(n==1){
+        output.innerHTML = n + " is one, which has an insufficent amount of factors to be prime, please enter a natural number greater than one."
     }
-    var result;
     let val = 2;
     let maxPossible = Math.sqrt(n);
     while (val <= maxPossible) {
@@ -56,14 +59,6 @@ function init() {
       val++; 
     }
     output.innerHTML = "Your number, " + n + ", is prime.";
-    // if (result===null) {
-    //     result = "Your number is negative"
-    // } else if(result){
-    //     result = "Your number, " + n + ", is prime.";
-    // }else {
-    //   result = "Your number, " + n + ", is not prime.";
-    // }
-    output.innerHTML = result;
   }
 }
 
