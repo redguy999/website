@@ -20,6 +20,7 @@ const enemies = {
         color: "grey" /*table:{"rock flail":[50,1],"gold coin":[100,50]}*/,
     },
 };
+const AllItems = ["gold coin","sword","shield","spear"]
 function pickEnemy() {
     let hold = [];
     for (x in enemies) {
@@ -121,6 +122,33 @@ function mkOtherStuff() {
     //placeEnemies();
     placeItems();
 }
+const items = [ ]
 function placeItems() {
-    let href = getCorrdHref(ranArrCorrd());
+    var href;
+    var hold = Math.floor(Math.random()+1)*3
+    for(i=0;i<hold;i++){
+        do{
+            href = getCorrdHref(ranArrCorrd());
+        }
+        while(href.content || href.dis.style.backgroundColor)
+        href.content = new treasure(GIFL(),2,href)//TODO: replace 2 with the actual amount function.
+    }
+}
+function GIFL(){//get item from list
+    return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
+}
+class treasure{
+    constructor(cont,amount,loc){
+        this.contents = cont;//string or an object, figure that out at some point.
+        this.amount = amount;
+        this.location = loc;
+        this.getItem = function(){
+            if(this.amount==1){
+                alert("you found a "+this.contents+".")
+            }else{
+                alert("you found some "+this.contents+"s.");//change this to log at the bottom console
+            }
+            addToInventory(this.contents,this.amount);
+        }
+    }
 }
