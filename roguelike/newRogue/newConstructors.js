@@ -116,6 +116,7 @@ class enemy {
 function emptyTile(loc) {
     //might need to be made async so it doesn't bug the hell out of the program.
     loc.content = "";
+    loc.dis.style.backgroundColor="";
 }
 //above is enemy code, the rest is below
 function mkOtherStuff() {
@@ -134,7 +135,7 @@ function placeItems() {
         href.content = new treasure(GIFL(),2,href)//TODO: replace 2 with the actual amount function.
     }
 }
-function GIFL(){//get item from list
+function GIFL(){//get item from list THIS IS THE OLD FUNCTION WHICH IS BEING USED FOR TESTING.
     return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 }
 class treasure{
