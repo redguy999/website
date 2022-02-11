@@ -133,6 +133,8 @@ function placeItems() {
         }
         while(href.content || href.dis.style.backgroundColor)
         href.content = new treasure(GIFL(),2,href)//TODO: replace 2 with the actual amount function.
+        href.dis.style.backgroundColor = "gold"
+        console.log(href.content)
     }
 }
 function GIFL(){//get item from list THIS IS THE OLD FUNCTION WHICH IS BEING USED FOR TESTING.
@@ -140,16 +142,40 @@ function GIFL(){//get item from list THIS IS THE OLD FUNCTION WHICH IS BEING USE
 }
 class treasure{
     constructor(cont,amount,loc){
-        this.contents = cont;//string or an object, figure that out at some point.
+        this.contents = cont;//string
         this.amount = amount;
-        this.location = loc;
+        this.location = loc;//grid object ref
         this.getItem = function(){
             if(this.amount==1){
                 alert("you found a "+this.contents+".")
             }else{
                 alert("you found some "+this.contents+"s.");//change this to log at the bottom console
             }
-            addToInventory(this.contents,this.amount);
+            addToInventory(this.contents,this.amount);  
+            emptyTile(this.location)
         }
     }
+}
+const inventory = {
+			
+}
+function addToInventory(item,amount=1){//self explainitory
+    if(typeof(item)=="object"){
+        amount=item[1];
+        item=item[0];
+    } 
+    if(typeof(item)!="string"){
+        console.error("ERROR: invalid type for argument 'item', type should be string or array.")
+        return;//can't work with an invalid variable type.
+    }
+    if(inventory[item]){//this check will be false if its undefined or 0
+        inventory[item]=amount;
+    }else{
+    inventory[item]+=amount;
+    }
+    // try{//We already know how to make the inventory work, we're only testing to see if getting the items work correctly.
+    //     displayInvent()
+    // } catch {
+
+    // }
 }

@@ -5,13 +5,17 @@ const gridObj = {}//While this could be an array, the 0th index would mess every
 const rows = 9
 const columns = 8
 var playerLoc = "1,1"
-start()
 function start() {
     mkGrid();
     mkWalls();
     setStart();
     setExit();
     resetLocDisplay()
+    try{
+        mkOtherStuff()
+    } catch {
+        throw "Couldn't find item/enemy functions."
+    }
 }
 function nextLevel() {
     clearGrid();
@@ -19,6 +23,11 @@ function nextLevel() {
     setStart();
     setExit();
     resetLocDisplay();
+    try{
+        mkOtherStuff()
+    } catch {
+        throw "Couldn't find item/enemy functions."
+    }
 }
 function clearGrid() {
     for (let x in gridObj) {
@@ -103,6 +112,8 @@ function interact() {
     //code for getting treasure goes here.
     if (href.dis.style.backgroundColor == "red") {//is the background of the current tile red? (AKA, is it the exit?)
         nextLevel()
+    } else if(href.dis.style.backgroundColor=="gold") {
+        href.content.getItem();
     }
 }
 function keyPress() {
