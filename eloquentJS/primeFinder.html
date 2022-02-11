@@ -40,10 +40,10 @@ function init() {
   button.onclick = function() {
     n = input.value;
     if(n<0){//this is only true if the number is negative
-        output.innerHTML = n + " is negative, but only natural numbers greater than 1 can be prime, please enter a natural number."
+        output.innerHTML = n + " is negative, however only natural numbers greater than 1 can be prime, please enter a natural number."
         return;
     } else if (Math.floor(n)!=n){//this can only be true if the number is a decimal.
-        output.innerHTML = n + " is a decimal number, but only natural numbers greater than 1 can be prime, please enter a natural number."
+        output.innerHTML = n + " is a decimal number, however only natural numbers greater than 1 can be prime, please enter a natural number."
     } else if (n==0){
         output.innerHTML = n + " is too small to be prime, please enter a natural number greater than one."
     } else if(n==1){
