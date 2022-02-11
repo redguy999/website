@@ -168,7 +168,7 @@ function addToInventory(item,amount=1){//self explainitory
         console.error("ERROR: invalid type for argument 'item', type should be string or array.")
         return;//can't work with an invalid variable type.
     }
-    if(inventory[item]){//this check will be false if its undefined or 0
+    if(inventory[item]){//this check will be false if its undefined or 0, for the former this is needed, for the latter it doesn't matter.
         inventory[item]=amount;
     }else{
     inventory[item]+=amount;
