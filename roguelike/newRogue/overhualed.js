@@ -191,6 +191,10 @@ function ranArrCorrd() {//returns array,
 function ranStrCorrd() {
     return Math.floor(Math.random() * columns) + 1 + "," + Math.floor(Math.random() * rows) + 1;
 }
+function setWall(ref){
+    ref.dis.style.backgroundColor = "black"
+    ref.content = "wall";
+}
 function mkWalls() {
     var hold = [];
     do {
@@ -203,8 +207,7 @@ function mkWalls() {
     }
     while (hold.length < 10)
     for (corrd of hold) {
-        let href = gridObj[corrd[0]][corrd[1]]
-        href.dis.style.backgroundColor = "black"
-        href.content = "wall";
+        let href = gridObj[corrd[0]][corrd[1]];
+        setWall(ref);
     }
 }

@@ -109,7 +109,7 @@ class enemy {
             if (this.attack == 0) {
                 return; //early exit in case the enemy can't attack.
             }
-            player.hurtPlayer(this.attack);
+            //player.hurtPlayer(this.attack);//hasn't been ported yet.
         };
     }
 }
