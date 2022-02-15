@@ -156,7 +156,7 @@ class treasure{
         }
     }
 }
-const inventory = {
+const inventory = {//player's inventory.
 			
 }
 function addToInventory(item,amount=1){//self explainitory
