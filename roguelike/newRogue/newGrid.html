@@ -172,9 +172,58 @@
 </head>
 
 <body onkeydown="keyPress()" onload="start()">
+	<div id="statDisplay">
+		<h1>Stats:</h1>
+		HP: <span id="health"></span>/<span id="Mhealth"></span><br>
+		attack: <span id="attack"></span><br>
+		defense: <span id="defense"></span>
+		<!--not adding special here since we still haven't added that.-->
+	</div>
+	<div id="InfoDisplay">
+		<h1>Info:</h1>
+		Floor: <span id="levelDis"></span>
+	</div>
 	<div id="displayGrid" class="gScreen"></div>
 	<canvas width="1000" height="1000" class="gScreen" style="border: green 1px double; z-index: 50"></canvas>
 	<div id="actionGrid" class="gScreen"></div>
+	<div id="shopDisplay">
+		<span style="text-align:center;padding-top: 3%;"><!--so that the grid formats correctly.-->
+			What would you like to buy?<br>
+			<div id="shopInvent" style="text-align: center;overflow-x: hidden;overflow-y: auto;width:50%;height:8vh;border:black solid 1px;margin:auto;margin-top:0;">
+				<span id="item" onClick="addToCart('item')">item</span><br>
+			</div>
+		</span>
+		<div style="grid-area:1/2/4/2;"><div id="sellBox" ondrop="AddtoSell(dragged)" style="width:100%;height:100%;background-color: black;"></div></div><!--drag stuff here to try to sell it-->
+		<div style="grid-area:2/1/4/1;"><div id="cart" style="width:100%;height:100%;background-color: black;"></div></div><!--this will contain what we want to buy-->
+		<div style="padding-top:0"><div id="amountB"></div><div id="profitLose">0g</div><button onClick="buyItems()" id="confirmBuy">Buy items in cart?</button></div>
+		<div style="padding-top:0"><div id="amountS"></div><div id="sellProfit">0g</div><button onClick="mkProfit()" id="confirmSell">Sell given items?</button></div>
+		<div style="padding:0%;grid-row-start:5;grid-row-end:6;grid-column-start:1;grid-column-end: 3;"><button style="color:red;font-style:bold;"onClick="closeShop()">Exit shop</button></div>
+		<!--do NOT touch the style of the last grid item here, i have no clue why its style works, but it does, so don't touch it.-->
+	</div>
+	<!--canvas id="shadowing" width="500" height="500">
+
+	</canvas--><!--Width and hieght are for the javascript drawing, not the actual size.-->
+	<div id="inventBorder">
+		<h1>Items:</h1>
+		<p id="inventDisplay">
+		
+		</p>
+	</div>
+	<div id="equipmentArea">
+		<h1>Equipment:</h1>
+		<h4>Main hand slot:</h4>
+		<p id="mainHand slot"></p>
+		<h4>Off hand slot:</h4><!--this mess will need updated when more slots are added.-->
+		<p id="offHand slot"></p><br>
+		<h4>Chest slot:</h4><!--TODO: rework this.-->
+		<p id="chest slot"></p><br>
+		<h4>Head slot:</h4>
+		<p id="head slot"></p><br>
+	</div>
+	<div id="console">
+		
+	</div>
+	<div id="sCover" style="position:absolute;top:0;z-index:-10;width: 100%;background-color:black;height:100%;margin:0;opacity:0;"></div>
 </body>
 
 </html>
