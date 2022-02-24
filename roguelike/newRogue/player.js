@@ -7,6 +7,9 @@ const player = {//could probably move the location variable here but that would 
     Mhealth: 100,
     health: 100,
     special: null,//null means none
+    inventory:{
+        
+    },
     hurtPlayer: function (damg) {//this could be its own function but its easier to call the variables here.
         //defense and special attribute checks go here.
         //debugger;
@@ -66,7 +69,7 @@ const player = {//could probably move the location variable here but that would 
         }
         updateStatistics();
     },
-    forceKill: function () {
+    forceKill: function () {//debug function for game over screen.
         this.health=0;
         this.death();
     },

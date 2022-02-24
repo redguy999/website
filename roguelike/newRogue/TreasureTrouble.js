@@ -1,3 +1,4 @@
+//these put the enemies and items on the board, see Constructors files for where the enemies and item information is.
 function pickEnemy() {
     let hold = [];
     for (x in enemies) {
