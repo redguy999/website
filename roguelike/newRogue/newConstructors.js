@@ -137,7 +137,7 @@ function placeItems() {
         console.log(href.content)
     }
 }
-function GIFL(){//get item from list THIS IS THE OLD FUNCTION WHICH IS BEING USED FOR TESTING.
+function GIFL(){//get item from list !!THIS IS THE OLD FUNCTION WHICH IS BEING USED FOR TESTING.
     return AllItems[Math.floor(Math.random()*(AllItems.length))];//this won't need changed if the length of AllItems changes.
 }
 class treasure{
@@ -152,7 +152,7 @@ class treasure{
                 alert("you found some "+this.contents+"s.");//change this to log at the bottom console
             }
             addToInventory(this.contents,this.amount);  
-            emptyTile(this.location)
+            emptyTile(this.location)//JS is fine with this.
         }
     }
 }
