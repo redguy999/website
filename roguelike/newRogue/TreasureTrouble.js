@@ -16,15 +16,14 @@ function placeEnemies() {
     href.content = new enemy(name, eHold.hp, eHold.atk, eHold.def, href);
     //href.content=new
 }
-function emptyTile(loc) {
-    //might need to be made async so it doesn't bug the hell out of the program.
+function emptyTile(loc) {//loc is the ref to the element
     loc.content = "";
     loc.dis.style.backgroundColor="";
 }
 //above is enemy code, the rest is below
 function mkOtherStuff() {
-    //placeEnemies();
-    placeItems();
+    placeEnemies();
+    //placeItems();
 }
 function placeItems() {//!!TODO: update this to the version the stable is using.
     var href;
