@@ -13,8 +13,11 @@ function start() {
     resetLocDisplay()
     try{
         mkOtherStuff()
-    } catch {
-        throw "Couldn't find item/enemy functions."
+    } catch (err){
+        if(err==undefined){
+            throw "Couldn't find item/enemy functions."
+        }
+        throw err;
     }
 }
 function nextLevel() {
@@ -207,7 +210,7 @@ function mkWalls() {
     }
     while (hold.length < 10)
     for (corrd of hold) {
-        let href = gridObj[corrd[0]][corrd[1]];
+        let ref = gridObj[corrd[0]][corrd[1]];
         setWall(ref);
     }
 }

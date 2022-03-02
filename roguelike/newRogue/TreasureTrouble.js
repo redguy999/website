@@ -22,8 +22,8 @@ function emptyTile(loc) {//loc is the ref to the element
 }
 //above is enemy code, the rest is below
 function mkOtherStuff() {
-    placeEnemies();
-    //placeItems();
+    //placeEnemies();
+    placeItems();
 }
 function placeItems() {//!!TODO: update this to the version the stable is using.
     var href;
