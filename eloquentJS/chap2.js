@@ -1,7 +1,7 @@
 function exercise1() {
-    document.getElementById("a")["innerHTML"]="Chapter two (check console)"
-    console.log("logging triangle:")
-    var Hold = ""
+    document.getElementById("a")["innerHTML"]="Chapter two (check console)";
+    console.log("logging triangle:");
+    var Hold = "";
     for (let i = 0; i < 7; i++) {
         Hold += "#";
         console.log(Hold);
