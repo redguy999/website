@@ -30,7 +30,13 @@ function clearGrid() {
     }
 }
 function setBGColor(tiles, color) {//sets background colors; color must be a string.
-    //Tiles can be:
+    /*Tiles can be: 
+    - A single object cordinate
+    - An array of object corrdinates
+    - A single string cordinate
+    - An array of string cordinates
+    - A single array cordinate.
+    */
     if (tiles == null) {//Sanity check in case something stupid happens.
         return;
     }
@@ -41,31 +47,41 @@ function setBGColor(tiles, color) {//sets background colors; color must be a str
         return;
     }
     if (typeof (tiles) == "object") {//arrays are objects
-        if(isArray(tiles)){
+        if(isArray(tiles)){//Figure out if it is an array.
             if(typeof(tiles[0])=="object"){
                 //tiles is an array of object corrdinates
-                for(cord in tiles){
-                    cord.dis.style.backgroundColor = color;
+                for(let i in tiles){
+                    tiles[i].dis.style.backgroundColor = color;
                 }
             } else {
                 //tiles is either an array cordinate, or a list of string cordinates.
-                if(tiles[0])
+                if(tiles[0].split(",")==tiles[0]){//True if tiles is an array cordinate.
+                    tiles=getCorrdHref(tiles);
+                }else{
+                    //tiles is an array of string cordinates.
+                    for(let i in tiles){
+                        getCorrdHref(tiles[i]).dis.style.backgroundColor = color
+                    }
+                    return
+                }
             }
         } else{
             //tiles is single object cordinate
+            //do nothing
         }
-    } else if (typeof (tiles) == "string") {
-        getCorrdHref(tiles).dis.style.backgroundColor = color;
-    } else {
+    } else if (typeof (tiles) == "string") { //true if tiles is single string cordinate.
+        tiles=getCorrdHref(tiles);
+    } else {//For debugging purposes.
         throw "invalid input for parameter: tile(s)";
         return;
     }
+    tiles.dis.style.backgroundColor = color;//for most conditions this will work.
 }
 function isArray(Arr) {
     if (typeof (Arr) != "object") {
         return false//its not even an object
     }
-    if ("length" in Object.keys(Arr)) {
+    if ("length" in Object.keys(Arr)) {//the for of loop can't be used due to how errors work in javascipt, this is the next best thing.
         return true
     }
     return false
