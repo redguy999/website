@@ -22,10 +22,9 @@ function nextLevel() {
 function clearGrid() {
     for (let x in gridObj) {
         for (let y in gridObj[x]) {
-            gridObj[x][y].dis.style.backgroundColor = "";//clears the background color
+            gridObj[x][y].dis.style.backgroundColor = "";//clears the background color, don't use setBGColor as white is different than blank.
             gridObj[x][y].content = ""
             //act isn't really used by the code currently.
-            //loc is effectively a constant, setting it WILL break the code.
         }
     }
 }
@@ -40,7 +39,7 @@ function setBGColor(tiles, color) {//sets background colors; color must be a str
     if (tiles == null) {//Sanity check in case something stupid happens.
         return;
     }
-    if (typeof (color) == "undefined") {
+    if (typeof (color) == "undefined") {//assume white, if its not doing
         color = "white"//i hope this works.
     } else if (typeof (color) != "string") {
         throw "invalid input for parameter: color";
