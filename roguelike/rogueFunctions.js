@@ -179,7 +179,7 @@ function setBGColor(tiles, color) {//sets background colors; color must be a str
         return;
     }
 }
-function setBrColor(tiles, color) {//sets background colors; color must be a string, tiles must be a string or an array.
+function setBrColor(tiles, color) {//sets border colors, not used.
     if (tiles == null) {//early exit in case something goes wrong. was likely only possible because of debugging.
         return;
     }

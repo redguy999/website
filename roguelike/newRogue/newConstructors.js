@@ -20,7 +20,6 @@ const enemies = {
         color: "grey" /*table:{"rock flail":[50,1],"gold coin":[100,50]}*/,
     },
 };
-const AllItems = []
 class enemy {
     constructor(name, Mhealth, attack, defense, ref, table = null) {
         this.name = name; //string
@@ -85,7 +84,7 @@ class enemy {
             } else {
                 //console.error("ERROR: function, dropLoot failed.")
             }
-            emptyTile(this.location); //there might be erroring unless this is made an async function.
+            emptyTile(this.location); //This works, don't press our luck by adding any code after this.
         };
         this.fight = function () {
             //might make it able to attack anyone.

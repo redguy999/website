@@ -1,3 +1,4 @@
+//This File is just a thing I made when i was messing about with local storage, I probably won't be doing anything.
 function storageCheck(){
     if(typeof(Storage) !== "undefined"){
         

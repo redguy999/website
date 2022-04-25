@@ -11,14 +11,6 @@ function start() {
     setStart();
     setExit();
     resetLocDisplay()
-    try{
-        mkOtherStuff()
-    } catch (err){
-        if(err==undefined){
-            throw "Couldn't find item/enemy functions."
-        }
-        throw err;
-    }
 }
 function nextLevel() {
     clearGrid();
@@ -26,11 +18,6 @@ function nextLevel() {
     setStart();
     setExit();
     resetLocDisplay();
-    try{
-        mkOtherStuff()
-    } catch {
-        throw "Couldn't find item/enemy functions."
-    }
 }
 function clearGrid() {
     for (let x in gridObj) {
@@ -40,6 +27,38 @@ function clearGrid() {
             //act isn't really used by the code currently.
             //loc is effectively a constant, setting it WILL break the code.
         }
+    }
+}
+function setBGColor(tiles, color) {//sets background colors; color must be a string.
+    //Tiles can be:
+    if (tiles == null) {//Sanity check in case something stupid happens.
+        return;
+    }
+    if (typeof (color) == "undefined") {
+        color = "white"//i hope this works.
+    } else if (typeof (color) != "string") {
+        throw "invalid input for parameter: color";
+        return;
+    }
+    if (typeof (tiles) == "object") {//arrays are objects
+        if(isArray(tiles)){
+            if(typeof(tiles[0])=="object"){
+                //tiles is an array of object corrdinates
+                for(cord in tiles){
+                    cord.dis.style.backgroundColor = color;
+                }
+            } else {
+                //tiles is either an array cordinate, or a list of string cordinates.
+                if(tiles[0])
+            }
+        } else{
+            //tiles is single object cordinate
+        }
+    } else if (typeof (tiles) == "string") {
+        getCorrdHref(tiles).dis.style.backgroundColor = color;
+    } else {
+        throw "invalid input for parameter: tile(s)";
+        return;
     }
 }
 function isArray(Arr) {
