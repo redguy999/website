@@ -39,11 +39,29 @@
                 </p>
                 <p> 
                     <label for="known">What technologies do you know?</label><br>
-                    <textarea name="knownTechs" id="known"></textarea>
+                    <textarea name="knownTechs" id="known" rows="3"cols="50"></textarea>
                 </p>
                 <p>
                     <label for="num">Age of user: </label>
                     <input type="number" name="age" min="1" max="100" id="num" />
+                </p>
+                <p>
+                    <h4>Why are you registering?</h4>
+                    <ul id="reason">
+                        <li>
+                            <label for="customer">I am a new WeCorp customer</label>
+                            <input type="radio" id="customer" name="purpose" value="customer"></input>
+                        </li><li>
+                            <label for="affiliate">I am an Affiliate of WeCorp</label>
+                            <input type="radio" id="affiliate" name="purpose" value="customer"></input>
+                        </li><li>
+                            <label for="apply">I wish to apply for a job at WeCorp</label>
+                            <input type="radio" id="apply" name="purpose" value="customer"></input>
+                        </li><li>
+                            <label for="work">I have a job at WeCorp, but do not have an account</label>
+                            <input type="radio" id="work" name="purpose" value="customer"></input>
+                        </li>
+                    </ul>
                 </p>
             </fieldset>
         </form>
