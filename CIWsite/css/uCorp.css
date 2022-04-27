@@ -9,6 +9,11 @@ article {
 padding: 10px;
 }
 
+form{
+    border: 1px solid blue;
+    display:inline-block;
+    width:95%;
+}
 body {
 font-family: arial;
 font-size: 85%;
@@ -32,6 +37,10 @@ h1 {
 text-shadow: 3px 3px 3px #888888;
 margin-top: 5px; 
 margin-bottom: 0px; 
+}
+
+legend{
+text-shadow: 3px 3px 3px #888888;
 }
 
 header {
