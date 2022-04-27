@@ -21,7 +21,8 @@
         }
 
         ul {
-            padding: 0
+            padding: 0;
+            display:inline-block;
         }
 
         a:not(#resume):hover {
@@ -62,24 +63,38 @@
         #gridFormat>div>h2{
             margin-bottom:1%
         }
+        .part{
+            border:1px grey solid;
+            margin-bottom:5%;
+            padding-bottom:5%;
+        }
+        li{
+            list-style-type:"-";
+        }
     </style>
 </head>
 
 <body>
     <div id="gridFormat">
-        <div>
+        <div class="part">
             <h2>Portfolio</h2><br>
-            <a id="resume" href=Resume/resume.html>Resume</a>
+            <ul>
+            <li><a id="resume" href=Resume/resume.html>Resume</a></li>
+            </ul>
         </div>
-        <div>
+        <div class="part">
             <h2>Current projects:</h2><br>
-            <a href="roguelike/">badly made roguelike</a><br>
-            <a href="CIWsite/index.html">CIW lessons</a>
+            <ul>
+            <li><a href="roguelike/">badly made roguelike</a></li>
+            <li><a href="CIWsite/index.html">CIW lessons</a></li>
+            </ul>
         </div>
-        <div>
+        <div class="part">
             <h2>Old Works:</h2><br>
-            <a href="eloquentJS/index.html">Eloquent Javascript (OLD)</a><br>
-            <a href="terminal/terminal.html"><span id="terminal">Terminal (OLD)</span></a>
+            <ul>
+            <li><a href="eloquentJS/index.html">Eloquent Javascript (OLD)</a></li>
+            <li><a href="terminal/terminal.html"><span id="terminal">Terminal (OLD)</span></a></li>
+            </ul>
         </div>
     </div>
     <footer id="vLinks"></footer>
