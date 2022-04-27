@@ -9,11 +9,6 @@ article {
 padding: 10px;
 }
 
-form{
-    border: 1px solid blue;
-    display:inline-block;
-    width:95%;
-}
 body {
 font-family: arial;
 font-size: 85%;
