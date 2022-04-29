@@ -78,6 +78,9 @@ border-radius: 5px;
 text-decoration: none;
 box-shadow: 5px 5px 5px #888888;
 }
+li{
+    padding:5px 0%;
+}
 #reason{
     list-style-type:none;
 }
