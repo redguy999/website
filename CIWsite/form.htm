@@ -2,7 +2,7 @@
 <html>
 <head>
     <style>
-        .hiddenForms{
+        .hiddenForms>*{
             display:none;
         }
     </style>
@@ -64,7 +64,7 @@
                         </li>
                     </ul>
                 </p>
-                <p id="customerForm" class="hiddenForms">
+                <div id="customerForm" class="hiddenForms">
                     <ul>
                         <li>
                             <label for="customerUser">Please enter a username:</label>
@@ -74,8 +74,8 @@
                             <input type="password" id="customerPass" name="customerPass"></input>
                         </li>
                     </ul>
-                </p>
-                <p id="affiliateForm" class="hiddenForms">
+                </div>
+                <div id="affiliateForm" class="hiddenForms">
                     <ul>
                         <li>
                             <label for="employer">Please enter the name of the organization you work for.</label>
@@ -90,8 +90,8 @@
                             <input type="password" id="affiliatePass" name="affiliatePass"></input>
                         </li>
                     </ul>
-                </p>
-                <p id="applyForm" class="hiddenForms">
+                </div>
+                <div id="applyForm" class="hiddenForms">
                     <ul>
                     <li>
                         <label for="known">What technologies do you know?</label><br>
@@ -106,8 +106,8 @@
                         <input type="password" id="applicantPass" name="applicantPass"></input>
                     </li>
                     </ul>
-                </p>
-                <p id="workForm" class="hiddenForms">
+                </div>
+                <div id="workForm" class="hiddenForms">
                     <ul>
                         <li>
                             <label for="employeeID">Please enter your employee ID number:</label>
@@ -122,7 +122,7 @@
                             <input type="password" id="employeePass" name="employeePass"></input>
                         </li>
                     </ul>
-                </p>
+                </div>
                 <p>
                     <label for="agreement">I agree to the terms and conditions</label>
                     <input type="checkbox" id="agreement" name="argeement" value="agreement">
