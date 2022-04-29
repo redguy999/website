@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .hiddenForms{
+            display:none;
+        }
+    </style>
 <meta charset="utf-8"/>
 <meta name="Description" content="Sample Website for learning HTML5 and CSS3" />
 <link rel="stylesheet" href="css/uCorp.css" />
@@ -59,35 +64,64 @@
                         </li>
                     </ul>
                 </p>
-                <p id="customerForm" style="display:none">
-                    <label for="customerUser">Please enter a username:</label>
-                    <input type="text" id="customerUser" name="customerUser"></input>
-                    <label for="customerPass">Please enter a password:</label>
-                    <input type="password" id="customerPass" name="customerPass"></input>
+                <p id="customerForm" class="hiddenForms">
+                    <ul>
+                        <li>
+                            <label for="customerUser">Please enter a username:</label>
+                            <input type="text" id="customerUser" name="customerUser"></input>
+                        </li><li>
+                            <label for="customerPass">Please enter a password:</label>
+                            <input type="password" id="customerPass" name="customerPass"></input>
+                        </li>
+                    </ul>
                 </p>
-                <p id="affiliateForm" style="display:none">
-                    <label for="employer">Please enter the name of the organization you work for.</label>
-                    <input type="text" id="employer" name="employer"></input>
-                    <label for="affiliateUser">Please enter a username:</label>
-                    <input type="text" id="affiliateUser" name="affiliateUser"></input>
-                    <label for="affiliatePass">Please enter a password:</label>
-                    <input type="password" id="affiliatePass" name="affiliatePass"></input>
+                <p id="affiliateForm" class="hiddenForms">
+                    <ul>
+                        <li>
+                            <label for="employer">Please enter the name of the organization you work for.</label>
+                            <input type="text" id="employer" name="employer"></input>
+                        </li>
+                        <li>
+                            <label for="affiliateUser">Please enter a username:</label>
+                            <input type="text" id="affiliateUser" name="affiliateUser"></input>
+                        </li>
+                        <li>
+                            <label for="affiliatePass">Please enter a password:</label>
+                            <input type="password" id="affiliatePass" name="affiliatePass"></input>
+                        </li>
+                    </ul>
                 </p>
-                <p id="applyForm" style="display:none">
-                    <label for="known">What technologies do you know?</label><br>
-                    <textarea name="knownTechs" id="known" rows="3"cols="50"></textarea>
-                    <label for="applicantUser">Please enter a username:</label>
-                    <input type="text" id="applicantUser" name="applicantUser"></input>
-                    <label for="applicantPass">Please enter a password:</label>
-                    <input type="password" id="applicantPass" name="applicantPass"></input>
+                <p id="applyForm" class="hiddenForms">
+                    <ul>
+                    <li>
+                        <label for="known">What technologies do you know?</label><br>
+                        <textarea name="knownTechs" id="known" rows="3"cols="50"></textarea>
+                    </li>
+                    <li>
+                        <label for="applicantUser">Please enter a username:</label>
+                        <input type="text" id="applicantUser" name="applicantUser"></input>
+                    </li>
+                    <li>
+                        <label for="applicantPass">Please enter a password:</label>
+                        <input type="password" id="applicantPass" name="applicantPass"></input>
+                    </li>
+                    </ul>
                 </p>
-                <p id="workForm" style="display:none">
-                    <label for="employeeID">Please enter your employee ID number:</label>
-                    <input type="password" id="employeeID" name="employeeID"></input>
-                    <label for="employeeUser">Please enter a username:</label>
-                    <input type="text" id="employeeUser" name="employeeUser"></input>
-                    <label for="employeePass">Please enter a password:</label>
-                    <input type="password" id="employeePass" name="employeePass"></input>
+                <p id="workForm" class="hiddenForms">
+                    <ul>
+                        <li>
+                            <label for="employeeID">Please enter your employee ID number:</label>
+                            <input type="password" id="employeeID" name="employeeID"></input>
+                        </li>
+                        <li>
+                            <label for="employeeUser">Please enter a username:</label>
+                            <input type="text" id="employeeUser" name="employeeUser"></input>
+                        </li>
+                        <li>
+                            <label for="employeePass">Please enter a password:</label>
+                            <input type="password" id="employeePass" name="employeePass"></input>
+                        </li>
+                    </ul>
                 </p>
                 <p>
                     <label for="agreement">I agree to the terms and conditions</label>
@@ -102,12 +136,11 @@
     function formAppear(val){
         debugger;
         //hide all forms.
-        document.getElementById("customerForm").style.display="none";
-        document.getElementById("affiliateForm").style.display="none";
-        document.getElementById("applyForm").style.display="none";
-        document.getElementById("workForm").style.display="none";
+        for(elem of document.getElementsByClassName("hiddenForms")){
+            elem.style.display="none"
+        }
         //then make the one we want visible visible.
-        document.getElementById(val+"Form").style.display="inital";
+        document.getElementById(val+"Form").style.display="initial";
     }
 </script>
 <footer id="vLinks">
