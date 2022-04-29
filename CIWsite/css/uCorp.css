@@ -84,3 +84,6 @@ li{
 ul{
     list-style-type:none;
 }
+.hiddenForms{
+    display:none;
+}
