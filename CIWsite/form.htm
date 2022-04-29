@@ -50,16 +50,16 @@
                     <ul id="reason">
                         <li>
                             <label for="customer">I am a new WeCorp customer</label>
-                            <input type="radio" id="customer" name="purpose" value="customer"></input>
+                            <input type="radio" id="customer" name="purpose" value="customer" onchange="formAppear(this.value)"></input>
                         </li><li>
                             <label for="affiliate">I am an Affiliate of WeCorp</label>
-                            <input type="radio" id="affiliate" name="purpose" value="affiliate"></input>
+                            <input type="radio" id="affiliate" name="purpose" value="affiliate" onchange="formAppear(this.value)"></input>
                         </li><li>
                             <label for="apply">I wish to apply for a job at WeCorp</label>
-                            <input type="radio" id="apply" name="purpose" value="apply"></input>
+                            <input type="radio" id="apply" name="purpose" value="apply" onchange="formAppear(this.value)"></input>
                         </li><li>
                             <label for="work">I have a job at WeCorp, but do not have an account</label>
-                            <input type="radio" id="work" name="purpose" value="work"></input>
+                            <input type="radio" id="work" name="purpose" value="work" onchange="formAppear(this.value)"></input>
                         </li>
                     </ul>
                 </p>
@@ -68,13 +68,13 @@
                     <input type="checkbox" id="agreement" name="argeement" value="agreement">
                     <a href="agreement.txt" target="_blank" rel="noreferrer noopener">(click here to view the terms and conditions)</a>
                 </p>
-                <p id="customerForm">
+                <p id="customerForm" style="display:none">
                     <label for="customerUser">Please enter a username:</label>
                     <input type="text" id="customerUser" name="customerUser"></input>
                     <label for="customerPass">Please enter a password:</label>
                     <input type="password" id="customerPass" name="customerPass"></input>
                 </p>
-                <p id="affiliateForm">
+                <p id="affiliateForm" style="display:none">
                     <label for="employer">Please enter the name of the organization you work for.</label>
                     <input type="text" id="employer" name="employer"></input>
                     <label for="affiliateUser">Please enter a username:</label>
@@ -82,13 +82,13 @@
                     <label for="affiliatePass">Please enter a password:</label>
                     <input type="password" id="affiliatePass" name="affiliatePass"></input>
                 </p>
-                <p id="applyForm">
+                <p id="applyForm" style="display:none">
                     <label for="applicantUser">Please enter a username:</label>
                     <input type="text" id="applicantUser" name="applicantUser"></input>
                     <label for="applicantPass">Please enter a password:</label>
                     <input type="password" id="applicantPass" name="applicantPass"></input>
                 </p>
-                <p id="workForm">
+                <p id="workForm" style="display:none">
                     <label for="employeeID">Please enter your employee ID number:</label>
                     <input type="password" id="employeeID" name="employeeID"></input>
                     <label for="employeeUser">Please enter a username:</label>
@@ -101,11 +101,15 @@
     </article>
 </section> 
 <script>
-    const custForm=document.getElementById("customerForm")
-    const affilForm=document.getElementById("affiliateForm")
-    const applicatForm=document.getElementById("applyForm")
-    const workForm=document.getElementById("workForm")
-
+    function formAppear(val){
+        //hide all  forms.
+        document.getElementById("customerForm").style.display="none";
+        document.getElementById("affiliateForm").style.display="none";
+        document.getElementById("applyForm").style.display="none";
+        document.getElementById("workForm").style.display="none";
+        //then make the one we want visible visible.
+        document.getElementById(val+"Form").style.display="inital";
+    }
 </script>
 <footer id="vLinks">
 </footer>
