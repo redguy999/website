@@ -59,11 +59,6 @@
                         </li>
                     </ul>
                 </p>
-                <p>
-                    <label for="agreement">I agree to the terms and conditions</label>
-                    <input type="checkbox" id="agreement" name="argeement" value="agreement">
-                    <a href="agreement.txt" target="_blank" rel="noreferrer noopener">(click here to view the terms and conditions)</a>
-                </p>
                 <p id="customerForm" style="display:none">
                     <label for="customerUser">Please enter a username:</label>
                     <input type="text" id="customerUser" name="customerUser"></input>
@@ -94,13 +89,19 @@
                     <label for="employeePass">Please enter a password:</label>
                     <input type="password" id="employeePass" name="employeePass"></input>
                 </p>
+                <p>
+                    <label for="agreement">I agree to the terms and conditions</label>
+                    <input type="checkbox" id="agreement" name="argeement" value="agreement">
+                    <a href="agreement.txt" target="_blank" rel="noreferrer noopener">(click here to view the terms and conditions)</a>
+                </p>
             </fieldset>
         </form>
     </article>
 </section> 
 <script>
     function formAppear(val){
-        //hide all  forms.
+        debugger;
+        //hide all forms.
         document.getElementById("customerForm").style.display="none";
         document.getElementById("affiliateForm").style.display="none";
         document.getElementById("applyForm").style.display="none";
