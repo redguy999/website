@@ -74,7 +74,6 @@ function placeStart(){//makes the start tile and places the player on it.
     while(getTile(startTile).content)//this is true if there is something in the tile.
     setBGColor(startTile,"LightGreen")
     setPlayerLoc(startTile,playerLoc)//playerLoc is only important when going to the next level.
-    playerLoc=startTile
 }
 function mkEnd(){//makes the exit tile.
     var exitTile
@@ -128,14 +127,15 @@ function arrToStr(cord) {//turns a cordinate string into an array.
 //player stuff start
 function setPlayerLoc(newTile,old){//sets the player icon to the correct location
     //old is an optional argument, but both must be strings if given.
+    if(old){//true if something is given for old
+        let oldLoc = getTile(old)
+        oldLoc.act.innerHTML=""
+        oldLoc.content = ""
+       }
     let newLoc = getTile(newTile)
     newLoc.act.innerHTML="X"
     newLoc.content = "Player"//Not sure if this is needed this.
-   if(old){//true if something is given for old
-    let oldLoc = getTile(old)
-    oldLoc.act.innerHTML=""
-    oldLoc.content = ""
-   }
+    playerLoc=newTile
 }
 var playerLoc = "1,1"
 const playerStats = {
@@ -169,6 +169,44 @@ function keyPress(){
         interact();
         return;//we don't need to do math on the location.
     }
-    
+    var newTile=moveByKey(key,playerLoc)
+    if(!doesTileExist(newTile)){
+        return//can't move to a nonexistant tile.
+    }
+    if(!isTileEmpty(newTile)){//an error will accord if the 2 if statements are combined.
+        //TODO: check if the the newTile has an enemy, attack if if it does.
+        return //Even if we attack an enemy, we don't move.
+    }
+    setPlayerLoc(newTile,playerLoc)
+}
+function moveByKey(code,tile){
+    let temp;//incase the result becomes invalid, we need to be able to return the original value.
+    if (typeof (tile) == "string") {
+        temp = tile.split(",");
+    } else if (typeof (tile) != "object") {//this else if is mostly for debugging purposes.
+        throw "invalid parameter for Corrd.";
+        return null;//invalid input.
+    } else {//neither "if" will be true if corrd is a string or an array.
+        temp = tile;
+    }
+    switch (code) {//!!DO NOT EDIT, THIS WORKS CORRECTLY; copying the equations is recommended, however.
+        case 40:
+            temp[1] = Number(temp[1]) + 1;//down
+            break;
+        case 39://the Number() in the first 2 cases is so that 1+1!=11
+            temp[0] = Number(temp[0]) + 1;//right
+            break;
+        case 38:
+            temp[1] = temp[1] - 1;//up
+            break;
+        case 37://javascript can only do subtraction with numbers, so it will auto cor
+            temp[0] = temp[0] - 1;//left
+            break;
+        default:
+            //invalid input for key
+            return tile.toString();//return orginial corrdinate
+        //just have it return corrd so it doesn't break.
+    }
+    return temp.toString();;//returns corrdinate as string
 }
 //movement functions end
