@@ -72,7 +72,7 @@ function placeStart(){//makes the start tile and places the player on it.
         startTile=getRandomCord()
     }
     while(getTile(startTile).content)//this is true if there is something in the tile.
-    setBGColor(startTile,"green")
+    setBGColor(startTile,"LightGreen")
     setPlayerLoc(startTile,playerLoc)//playerLoc is only important when going to the next level.
     playerLoc=startTile
 }
@@ -145,3 +145,30 @@ const inventory = {
 
 }
 //player stuff end
+//movement functions start
+function isTileEmpty(cord){//returns true if the tile is empty.
+    if(getTile(cord).content){
+        return false
+    }
+    return true
+}
+function doesTileExist(cord){//returns false if the tile does not exist/is out of bounds
+    //cord can either be a string or a cordinate array.
+    var tile = cord
+    if(typeof(cord)!="object"){
+        tile = cord.split(",")
+    }
+    if(tile[0]>columns || tile[1]>rows || tile[0]<1 || tile[1]<1){
+        return false;
+    }
+    return true;
+}
+function keyPress(){
+    key = window.event.keyCode;
+    if (key == 32) {//32 is the space bar
+        interact();
+        return;//we don't need to do math on the location.
+    }
+    
+}
+//movement functions end
