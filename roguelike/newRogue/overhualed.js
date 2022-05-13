@@ -53,6 +53,13 @@ function start() {
     placeStart()
     mkEnd()
 }
+//next Level function
+function nextLevel(){
+    clearGrid()
+    mkWalls()
+    placeStart()
+    mkEnd()
+}
 
 //functions that put stuff on the grid (start)
 function mkWalls() {
@@ -100,6 +107,14 @@ function setBGColor(tiles, color) {//sets the background color of a tile
     } else {
         throw "invalid input for parameter: tile(s)";
         return;
+    }
+}
+function clearGrid(){
+    for(x in gridObj){
+        for(y in gridObj[x]){
+            setBGColor(`${x},${y}`)
+            getTile(`${x},${y}`).content = ""
+        }
     }
 }
 //functions that put stuff on the grid (end)
@@ -175,6 +190,7 @@ function keyPress(){
     }
     if(!isTileEmpty(newTile)){//an error will accord if the 2 if statements are combined.
         //TODO: check if the the newTile has an enemy, attack if if it does.
+        //TODO: check if the newTile has a treasure, if it does, continue with the moving.
         return //Even if we attack an enemy, we don't move.
     }
     setPlayerLoc(newTile,playerLoc)
@@ -209,4 +225,13 @@ function moveByKey(code,tile){
     }
     return temp.toString();;//returns corrdinate as string
 }
+function interact(){
+    if(getTile(playerLoc).dis.style.backgroundColor=="red"){
+        nextLevel()
+    }
+}
 //movement functions end
+
+//stat functions start
+
+//stat functions end
