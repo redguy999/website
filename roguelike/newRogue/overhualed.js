@@ -153,11 +153,42 @@ function setPlayerLoc(newTile,old){//sets the player icon to the correct locatio
     playerLoc=newTile
 }
 var playerLoc = "1,1"
-const playerStats = {
-
+const playerStats={
+    maxHealth:100,
+    health:100,
+    attack:1,
+    defense:0
+}
+function displayStats(){
+    for(stat in playerStats){
+        document.getElementById(stat).innerHTML=playerStats[stat];
+    }
 }
 const inventory = {
 
+}
+function addItemToInventory(item,amount=1){//for when adding an item to the inventory
+    if(!inventory[item]){//true if the item is not in the inventory, or if there are zero of the item.
+        //In either case, its fine.
+        inventory[item]=amount;
+    } else {
+        inventory[item]+=amount;
+    }
+}
+function sanitizeInventory(){
+    for(item in inventory){
+        if(!inventory[item]){//if item value is undefined, zero, or NaN, this is true.
+            delete inventory[item];//remove invalid values.
+        }
+        //do nothing if the item's value is valid
+    }
+}
+function reduceAmountOfItem(item,amount){//call this for when removing an amount of an item.
+    //amount should be positive.
+    inventory[item]-=amount;
+    if(!inventory[item] ||inventory[item]<=0){//remove item if it is invalid or zero.
+        delete inventory[item];
+    }
 }
 //player stuff end
 //movement functions start
@@ -231,7 +262,3 @@ function interact(){
     }
 }
 //movement functions end
-
-//stat functions start
-
-//stat functions end
