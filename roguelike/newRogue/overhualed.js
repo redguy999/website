@@ -68,7 +68,7 @@ function nextLevel(){
     placeTreasure()
 }
 
-//functions that put stuff on the grid (start)
+//grid functions (start)
 function mkWalls() {
     var walls = []
     for (let i = 0; i < getIntegerInRange(rows*columns,20); i++) {
@@ -89,14 +89,14 @@ function placeStart(){//makes the start tile and places the player on it.
     setBGColor(startTile,"LightGreen")
     setPlayerLoc(startTile,playerLoc)//playerLoc is only important when going to the next level.
 }
-var endTile = "2,2"
+var endTile = "2,2"//literally only need this for the pathfinder
 function mkEnd(){//makes the exit tile.
     var exitTile
     do{
         exitTile=getRandomCord()
     }
     while(getTile(exitTile).content || exitTile==playerLoc)//this is true if there is something in the tile.
-    endTile=exitTile//litterally only need this for the pathfinder
+    endTile=exitTile
     setBGColor(exitTile,"red")
 }
 function setBGColor(tiles, color) {//sets the background color of a tile
@@ -126,7 +126,7 @@ function clearGrid(){
         }
     }
 }
-//functions that put stuff on the grid (end)
+//grid functions     (end)
 
 //random functions start
 function getIntegerInRange(max, min = 0) {//returns an integer between max & min (inclusive)
