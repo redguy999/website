@@ -60,12 +60,11 @@ function nextLevel(){
     mkWalls()
     placeStart()
     mkEnd()
-    /*
     if(!pathFinder()){//pathFinder returns true if it found the exit.
         console.log("exit cannot be reached, rerolling...")
         nextLevel()
         return;
-    }*/
+    }
     placeTreasure()
 }
 
@@ -90,12 +89,14 @@ function placeStart(){//makes the start tile and places the player on it.
     setBGColor(startTile,"LightGreen")
     setPlayerLoc(startTile,playerLoc)//playerLoc is only important when going to the next level.
 }
+var endTile = "2,2"
 function mkEnd(){//makes the exit tile.
     var exitTile
     do{
         exitTile=getRandomCord()
     }
     while(getTile(exitTile).content || exitTile==playerLoc)//this is true if there is something in the tile.
+    endTile=exitTile//litterally only need this for the pathfinder
     setBGColor(exitTile,"red")
 }
 function setBGColor(tiles, color) {//sets the background color of a tile
@@ -355,7 +356,8 @@ function getFindableItem(){
 //Enemy functions end
 
 //pathFinder function (so that we know we can reach the exit.)
-function pathFinder(){
+function pathFinder(){//this works.
+    //TODO: make it make unreachable tiles turn into walls; make the end have to be a certain distance away from the start.
     /*
     how this is suppose to work: all cordinates in "oldValidTiles" are checked, and every new valid Tile found after
     that is given to "newValidTiles", once all tiles in "oldValidTiles" are checked, all entries in "oldValidTiles"
@@ -385,11 +387,9 @@ function pathFinder(){
                 newValidTiles.delete(cord)
             }
         })//remove invalid tiles.
-        newValidTiles.forEach(function(cord){
-            if(getTile(cord).dis.style.backgroundColor=="red"){//this is the exit.
-                return true;
-            }
-        })//check if we have reached the exit.
+        if(newValidTiles.has(endTile)){
+            return true;
+        }//check if we have reached the exit.
         oldValidTiles.forEach(function(oldCord){
             allValidTiles.add(oldCord)
         })
@@ -398,6 +398,8 @@ function pathFinder(){
             oldValidTiles.add(cord)
         })
     }
-    debugger;
+    if(allValidTiles.has(endTile)){
+        return true;
+    }//double check if we have reached the exit.
     return false
 }
