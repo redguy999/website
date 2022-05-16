@@ -48,17 +48,24 @@ function getTile(cord) {//returns the JS object for a specifc tile.
 
 //start function
 function start() {
-    mkGrid()
-    mkWalls()
-    placeStart()
-    mkEnd()
+    displayStats();
+    mkGrid();
+    mkWalls();
+    placeStart();
+    mkEnd();
 }
 //next Level function
 function nextLevel(){
     clearGrid()
     mkWalls()
-    placeStart()
-    mkEnd()
+    try{
+        placeTreasure()
+    }catch{
+        console.error("Something went wrong.")
+    }finally{//we want the start and end to be placed even if the enemies and items fail to place.
+        placeStart()
+        mkEnd()
+    }
 }
 
 //functions that put stuff on the grid (start)
@@ -128,6 +135,9 @@ function getRandomCord(){
     let Y = getIntegerInRange(rows,1);
     return `${X},${Y}`
 }
+function getRandomTile(){
+    return getTile(getRandomCord())
+}
 //random functions end
 
 //cordinate conversion start
@@ -191,6 +201,7 @@ function reduceAmountOfItem(item,amount){//call this for when removing an amount
     }
 }
 //player stuff end
+
 //movement functions start
 function isTileEmpty(cord){//returns true if the tile is empty.
     if(getTile(cord).content){
@@ -262,3 +273,43 @@ function interact(){
     }
 }
 //movement functions end
+
+//treasure functions start
+class chest{
+    constructor(contents,amount){
+        //the chest is placed into the gribObj, so we don't need to have it track its location.
+        this.content=contents;
+        this.amount=amount;
+        this.getItem = function(){
+            //insert code for telling the player what they got here.
+            addItemToInventory(this.content,this.amount)
+        }
+    }
+}
+
+const findableItems={
+    sword:1,//number is the max amount that can be found.
+    shield:1,//TODO: add rarity back.
+    chestPlate:1,
+    spear:2
+}
+function openChest(cord){//cord is a cordinate.
+    setBGColor(cord)
+    let tile=getTile(cord)
+    tile.content.getItem()
+    tile.content=""
+}
+function placeTreasure(){
+    amount = getIntegerInRange(3)
+    for(let i=0;i<amount;i++){
+        tile=getRandomTile()
+        tile.content = new chest()
+    }
+}
+function getFindableItem(){
+    console.log(Object.keys(findableItems))
+}
+//treasure functions end.
+//Enemy functions start
+
+//Enemy functions end
