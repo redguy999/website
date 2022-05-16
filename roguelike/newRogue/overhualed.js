@@ -1,3 +1,4 @@
+
 const dGrid = document.getElementById("displayGrid")
 const aGrid = document.getElementById("actionGrid")
 const gridObj = {}//While this could be an array, the 0th index would mess everything up.
@@ -48,30 +49,30 @@ function getTile(cord) {//returns the JS object for a specifc tile.
 
 //start function
 function start() {
+    displayFloor()
     displayStats();
     mkGrid();
-    mkWalls();
-    placeStart();
-    mkEnd();
+    nextLevel();
 }
 //next Level function
 function nextLevel(){
     clearGrid()
     mkWalls()
-    try{
-        placeTreasure()
-    }catch{
-        console.error("Something went wrong.")
-    }finally{//we want the start and end to be placed even if the enemies and items fail to place.
-        placeStart()
-        mkEnd()
-    }
+    placeStart()
+    mkEnd()
+    /*
+    if(!pathFinder()){//pathFinder returns true if it found the exit.
+        console.log("exit cannot be reached, rerolling...")
+        nextLevel()
+        return;
+    }*/
+    placeTreasure()
 }
 
 //functions that put stuff on the grid (start)
 function mkWalls() {
     var walls = []
-    for (let i = 0; i < getIntegerInRange(rows*columns,1); i++) {
+    for (let i = 0; i < getIntegerInRange(rows*columns,20); i++) {
         walls.push(getRandomCord())
     }
     walls.forEach(function(cordin){
@@ -94,7 +95,7 @@ function mkEnd(){//makes the exit tile.
     do{
         exitTile=getRandomCord()
     }
-    while(getTile(exitTile).content)//this is true if there is something in the tile.
+    while(getTile(exitTile).content || exitTile==playerLoc)//this is true if there is something in the tile.
     setBGColor(exitTile,"red")
 }
 function setBGColor(tiles, color) {//sets the background color of a tile
@@ -155,11 +156,11 @@ function setPlayerLoc(newTile,old){//sets the player icon to the correct locatio
     if(old){//true if something is given for old
         let oldLoc = getTile(old)
         oldLoc.act.innerHTML=""
-        oldLoc.content = ""
+        //oldLoc.content = ""
        }
     let newLoc = getTile(newTile)
     newLoc.act.innerHTML="X"
-    newLoc.content = "Player"//Not sure if this is needed this.
+    //newLoc.content = "Player"//Causes items to fail.
     playerLoc=newTile
 }
 var playerLoc = "1,1"
@@ -184,6 +185,7 @@ function addItemToInventory(item,amount=1){//for when adding an item to the inve
     } else {
         inventory[item]+=amount;
     }
+    updateInventoryDisplay()
 }
 function sanitizeInventory(){
     for(item in inventory){
@@ -192,13 +194,30 @@ function sanitizeInventory(){
         }
         //do nothing if the item's value is valid
     }
+    updateInventoryDisplay()
 }
 function reduceAmountOfItem(item,amount){//call this for when removing an amount of an item.
     //amount should be positive.
     inventory[item]-=amount;
-    if(!inventory[item] ||inventory[item]<=0){//remove item if it is invalid or zero.
+    if(!inventory[item] ||inventory[item]<0){//remove item if it is invalid or zero.
         delete inventory[item];
     }
+    updateInventoryDisplay()
+}
+const inventoryDisplay=document.getElementById("inventoryDisplay")
+function updateInventoryDisplay(){
+    inventoryDisplay.innerHTML=""//clear it.
+    for(item in inventory){
+        if(inventory[item]>1){//plurals
+            inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
+        } else {
+            inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}</div>`;
+        }
+    }
+}
+var floor = 1
+function displayFloor(){
+    document.getElementById("floorDisplay").innerHTML=floor
 }
 //player stuff end
 
@@ -227,12 +246,17 @@ function keyPress(){
         return;//we don't need to do math on the location.
     }
     var newTile=moveByKey(key,playerLoc)
+    if(newTile==playerLoc){//true if player didn't move
+        return
+    }
     if(!doesTileExist(newTile)){
         return//can't move to a nonexistant tile.
     }
     if(!isTileEmpty(newTile)){//an error will accord if the 2 if statements are combined.
         //TODO: check if the the newTile has an enemy, attack if if it does.
-        //TODO: check if the newTile has a treasure, if it does, continue with the moving.
+        if(getTile(newTile).content.amount){//true if the tile contains an item.
+            setPlayerLoc(newTile,playerLoc)
+        }
         return //Even if we attack an enemy, we don't move.
     }
     setPlayerLoc(newTile,playerLoc)
@@ -257,7 +281,7 @@ function moveByKey(code,tile){
         case 38:
             temp[1] = temp[1] - 1;//up
             break;
-        case 37://javascript can only do subtraction with numbers, so it will auto cor
+        case 37://javascript can only do subtraction with numbers
             temp[0] = temp[0] - 1;//left
             break;
         default:
@@ -268,17 +292,22 @@ function moveByKey(code,tile){
     return temp.toString();;//returns corrdinate as string
 }
 function interact(){
-    if(getTile(playerLoc).dis.style.backgroundColor=="red"){
+    var playertile=getTile(playerLoc)
+    if(playertile.dis.style.backgroundColor=="red"){
+        floor++
+        displayFloor()
         nextLevel()
+    } else if(playertile.content.amount){//true if there is an item there.
+        openChest(playertile.loc)
     }
 }
 //movement functions end
 
 //treasure functions start
 class chest{
-    constructor(contents,amount){
+    constructor(content,amount){
         //the chest is placed into the gribObj, so we don't need to have it track its location.
-        this.content=contents;
+        this.content=content;
         this.amount=amount;
         this.getItem = function(){
             //insert code for telling the player what they got here.
@@ -290,7 +319,7 @@ class chest{
 const findableItems={
     sword:1,//number is the max amount that can be found.
     shield:1,//TODO: add rarity back.
-    chestPlate:1,
+    "chest plate":1,
     spear:2
 }
 function openChest(cord){//cord is a cordinate.
@@ -300,16 +329,75 @@ function openChest(cord){//cord is a cordinate.
     tile.content=""
 }
 function placeTreasure(){
-    amount = getIntegerInRange(3)
-    for(let i=0;i<amount;i++){
-        tile=getRandomTile()
-        tile.content = new chest()
+    var num = getIntegerInRange(3)
+    for(let i=0;i<num;i++){
+        var tile
+        do{
+            tile=getRandomTile()
+        }
+        while(tile.content||tile.loc==playerLoc||tile.dis.style.backgroundColor=="red")//true if the tile contains something already.
+        //latter statement is so that we don't place an item on the exit.
+        let item = getFindableItem()
+        let amount = getIntegerInRange(findableItems[item],1)
+        tile.content = new chest(item,amount)
+        setBGColor(tile.loc,"yellow")
     }
 }
 function getFindableItem(){
-    console.log(Object.keys(findableItems))
+    let items= Object.keys(findableItems)
+    let amount = items.length
+    return items[getIntegerInRange(amount-1)]
 }
 //treasure functions end.
+
 //Enemy functions start
 
 //Enemy functions end
+
+//pathFinder function (so that we know we can reach the exit.)
+function pathFinder(){
+    /*
+    how this is suppose to work: all cordinates in "oldValidTiles" are checked, and every new valid Tile found after
+    that is given to "newValidTiles", once all tiles in "oldValidTiles" are checked, all entries in "oldValidTiles"
+    are moved to "allValidTiles" and all tiles in "newValidTiles" are moved to "oldValidTiles"
+    if a tile in "newValidTiles" is also in "allValidTiles", remove it from the array.
+    */
+    var allValidTiles= new Set()
+    var oldValidTiles= new Set()
+    oldValidTiles.add(playerLoc)
+    var newValidTiles = new Set()
+    const moves = [37,38,39,40]
+    while(true){
+        var tileHold = new Set()
+        if(oldValidTiles.size===0){//no new tiles to check
+            break
+        }
+        
+        for(space of oldValidTiles){
+            for(offset of moves){
+                tileHold.add(moveByKey(offset,space))
+            }
+        }//Gets new tiles
+        newValidTiles = tileHold
+        newValidTiles.forEach(function(cord){
+            if(!doesTileExist(cord)||!isTileEmpty(cord)||allValidTiles.has(cord)){
+                //the has statement is true if that tile has already been checked.
+                newValidTiles.delete(cord)
+            }
+        })//remove invalid tiles.
+        newValidTiles.forEach(function(cord){
+            if(getTile(cord).dis.style.backgroundColor=="red"){//this is the exit.
+                return true;
+            }
+        })//check if we have reached the exit.
+        oldValidTiles.forEach(function(oldCord){
+            allValidTiles.add(oldCord)
+        })
+        oldValidTiles= new Set()
+        newValidTiles.forEach(function(cord){
+            oldValidTiles.add(cord)
+        })
+    }
+    debugger;
+    return false
+}
