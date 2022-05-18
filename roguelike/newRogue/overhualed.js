@@ -66,6 +66,9 @@ function nextLevel(){
         return;
     }
     placeTreasure()
+    
+    //The following line will error if canvas.js is removed:
+    drawVisCircle()
 }
 
 //grid functions (start)
@@ -163,13 +166,17 @@ function setPlayerLoc(newTile,old){//sets the player icon to the correct locatio
     newLoc.act.innerHTML="X"
     //newLoc.content = "Player"//Causes items to fail.
     playerLoc=newTile
+    drawVisCircle()
 }
 var playerLoc = "1,1"
 const playerStats={
     maxHealth:100,
     health:100,
     attack:1,
-    defense:0
+    defense:0,
+    hurt:function(dmg){
+        
+    }
 }
 function displayStats(){
     for(stat in playerStats){
@@ -352,7 +359,18 @@ function getFindableItem(){
 //treasure functions end.
 
 //Enemy functions start
+class Enemy{
+    constructor(atk=1,def=0,hp=10,name="slime"){
+        this.attack=atk
+        this.defense=def
+        this.maxHealth=hp
+        this.health=hp
+        this.name=name
+        this.hurt=function(dmg){
 
+        }
+    }
+}
 //Enemy functions end
 
 //pathFinder function (so that we know we can reach the exit.)
