@@ -270,7 +270,7 @@ function keyPress(){
         if(getTile(newTile).content.amount){//true if the tile contains an item.
             setPlayerLoc(newTile,playerLoc)
         } else if(getTile(newTile).content.health){//if it is an enemy, it must have more than 1 health.
-            death=getTile(newTile).content.hurt()
+            death=getTile(newTile).content.hurt(playerStats.attack)
             if(death){
                 setBGColor(newTile)
                 getTile(newTile).content="";
