@@ -66,7 +66,7 @@ function nextLevel(){
         return;
     }
     placeTreasure()
-    
+    placeEnemies()
     //The following line will error if canvas.js is removed:
     drawVisCircle()
 }
@@ -174,9 +174,14 @@ const playerStats={
     health:100,
     attack:1,
     defense:0,
-    hurt:function(dmg){
-        
+}
+function playerHurt(dmg){
+    dmg-=playerStats.defense
+    playerStats.health-=dmg;
+    if(playerStats.health<=0){
+        //player death code.
     }
+    displayStats()
 }
 function displayStats(){
     for(stat in playerStats){
@@ -264,6 +269,12 @@ function keyPress(){
         //TODO: check if the the newTile has an enemy, attack if if it does.
         if(getTile(newTile).content.amount){//true if the tile contains an item.
             setPlayerLoc(newTile,playerLoc)
+        } else if(getTile(newTile).content.health){//if it is an enemy, it must have more than 1 health.
+            death=getTile(newTile).content.hurt()
+            if(death){
+                setBGColor(newTile)
+                getTile(newTile).content="";
+            }
         }
         return //Even if we attack an enemy, we don't move.
     }
@@ -367,9 +378,73 @@ class Enemy{
         this.health=hp
         this.name=name
         this.hurt=function(dmg){
-
+            dmg-=this.defense
+            if(dmg>0){
+                //took damage
+            }else{
+                //healed
+            }
+            this.hp-=dmg;//not sure if this works.
+            if(this.hp<=0){//for death code.
+                return true;
+            }
+            //TODO: add check for if a counter attack should accord.
+            if(this.attack>0){//no need to attack if you can't to damage.
+                playerHurt(this.attack)
+            }
+            console.log(this.health)
         }
     }
+}
+const allEnemies={
+    slime:{
+        attack:1,
+        defense:0,
+        health:15,
+        color:"99FF99"
+    },
+    goblin:{
+        attack:1,
+        defense:1,
+        health:20,
+        color:"green"
+    },
+    "Fake wall":{
+        attack:0,
+        defense:3,
+        health:5,
+        color:"black"
+    },
+}
+function placeEnemies(){
+    var num = getIntegerInRange(3)
+    for(let i=0;i<num;i++){
+        var tile
+        do{
+            tile=getRandomTile()
+        }
+        while(tile.content||tile.loc==playerLoc||tile.dis.style.backgroundColor=="red")//true if the tile contains something already.
+        //latter statement is so that we don't place an item on the exit.
+        let enemy = getRandomEnemy()
+        tile.content = new Enemy(enemy.attack,enemy.defense,enemy.health,enemy.name)
+        setBGColor(tile.loc,enemy.color)
+        console.log(enemy.name)
+        console.log(tile.loc)
+    }
+}
+function getRandomEnemy(){
+    var list = []
+    for(enemy in allEnemies){
+        list.push(enemy)
+    }
+    var enemy = getIntegerInRange(list.length-1);
+    enemy = list[enemy];//gets a random enemy.
+    var objecting = {}
+    objecting.name = enemy
+    for(prop in allEnemies[enemy]){
+        objecting[prop]=allEnemies[enemy][prop]
+    }
+    return objecting
 }
 //Enemy functions end
 
