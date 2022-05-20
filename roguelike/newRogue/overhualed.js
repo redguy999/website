@@ -379,12 +379,16 @@ class Enemy{
         this.name=name
         this.hurt=function(dmg){
             dmg-=this.defense
+            debugger;
             if(dmg>0){
                 //took damage
             }else{
                 //healed
             }
-            this.hp-=dmg;//not sure if this works.
+            this.health-=dmg;//not sure if this works.
+            if(this.health>this.maxHealth){
+                this.health=this.maxHealth;
+            }
             if(this.hp<=0){//for death code.
                 return true;
             }
