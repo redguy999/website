@@ -379,7 +379,6 @@ class Enemy{
         this.name=name
         this.hurt=function(dmg){
             dmg-=this.defense
-            debugger;
             if(dmg>0){
                 //took damage
             }else{
@@ -389,7 +388,7 @@ class Enemy{
             if(this.health>this.maxHealth){
                 this.health=this.maxHealth;
             }
-            if(this.hp<=0){//for death code.
+            if(this.health<=0){//for death code.
                 return true;
             }
             //TODO: add check for if a counter attack should accord.
