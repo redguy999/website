@@ -413,7 +413,7 @@ const allEnemies={
         attack:0,
         defense:3,
         health:5,
-        color:"black"
+        color:"010101"
     },
 }
 function placeEnemies(){
