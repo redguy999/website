@@ -336,7 +336,7 @@ class chest{
     }
 }
 
-const findableItems={
+const findableItems={//don't update this, update everyItem in equipment.js
     sword:1,//number is the max amount that can be found.
     shield:1,//TODO: add rarity back.
     "chest plate":1,
@@ -460,16 +460,24 @@ const equipment={
     },
     "Off hand":{
 
-    }
+    },
+    "Torso":{
+
+    },
+    "Head":{
+
+    },
 }
 const equipDisplay = document.getElementById("equipmentArea");
 function setUpEquipmentDisplay(){//only needs run at the beginning, or if we need to change the slots avaible for some reason.
     equipDisplay.innerHTML = "<h1>Equipment</h1>"//implictly clears the display, which it should.
     for(let slot in equipment){
-        equipDisplay.innerHTML+=`<h4>${slot}:</h4> <p id="${slot}"></p><br>`
+        equipment[slot].name="empty"//default value.
+        equipDisplay.innerHTML+=`<h4>${slot}:</h4> <p id="${slot}"></p>${equipment[slot].name}<br>`
     }
 }
 //equipment code end
+
 //pathFinder function (so that we know we can reach the exit.)
 function pathFinder(){//this works.
     //TODO: make it make unreachable tiles turn into walls; make the end have to be a certain distance away from the start.
