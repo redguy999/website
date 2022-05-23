@@ -49,6 +49,7 @@ function getTile(cord) {//returns the JS object for a specifc tile.
 
 //start function
 function start() {
+    setUpEquipmentDisplay()
     displayFloor()
     displayStats();
     mkGrid();
@@ -459,6 +460,13 @@ const equipment={
     },
     "Off hand":{
 
+    }
+}
+const equipDisplay = document.getElementById("equipmentArea");
+function setUpEquipmentDisplay(){//only needs run at the beginning, or if we need to change the slots avaible for some reason.
+    equipDisplay.innerHTML = "<h1>Equipment</h1>"//implictly clears the display, which it should.
+    for(let slot in equipment){
+        equipDisplay.innerHTML+=`<h4>${slot}:</h4> <p id="${slot}"></p><br>`
     }
 }
 //equipment code end
