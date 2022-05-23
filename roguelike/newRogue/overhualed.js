@@ -410,7 +410,7 @@ const allEnemies={
         attack:1,
         defense:1,
         health:20,
-        color:"green"
+        color:"ForestGreen"
     },
     "Fake wall":{
         attack:0,
@@ -451,6 +451,17 @@ function getRandomEnemy(){
 }
 //Enemy functions end
 
+//equipment code start
+const equipment={
+    //equipment slots should be named as they shall appear.
+    "Main hand":{
+
+    },
+    "Off hand":{
+
+    }
+}
+//equipment code end
 //pathFinder function (so that we know we can reach the exit.)
 function pathFinder(){//this works.
     //TODO: make it make unreachable tiles turn into walls; make the end have to be a certain distance away from the start.
