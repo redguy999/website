@@ -89,7 +89,7 @@ function placeStart(){//makes the start tile and places the player on it.
         startTile=getRandomCord()
     }
     while(getTile(startTile).content)//this is true if there is something in the tile.
-    setBGColor(startTile,"LightGreen")
+    //setBGColor(startTile,"LightGreen")//this was mostly for testing anyway.
     setPlayerLoc(startTile,playerLoc)//playerLoc is only important when going to the next level.
 }
 var endTile = "2,2"//literally only need this for the pathfinder
@@ -414,9 +414,9 @@ const allEnemies={
     },
     "Fake wall":{
         attack:0,
-        defense:3,
+        defense:1,
         health:5,
-        color:"010101"
+        color:"010101"//the difference from a normal is imperceptible.
     },
 }
 function placeEnemies(){
