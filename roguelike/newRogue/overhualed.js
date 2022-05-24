@@ -476,6 +476,37 @@ function setUpEquipmentDisplay(){//only needs run at the beginning, or if we nee
         equipDisplay.innerHTML+=`<h4>${slot}:</h4> <p id="${slot}"></p>${equipment[slot].name}<br>`
     }
 }
+const equipStats={
+
+}
+const useStats={
+    
+}
+function equipItem(item){
+    var slots=equipStats[item].slot
+    if(typeof(slots)=="string"){
+        //check for slot being empty
+        if(equipment[slots].name){
+            return //already have something equiped there.
+        }
+        equipment[slots]=equipStats[item]//note, equipment slots will have access to the slots property, we'll have to make them ignore it.
+        equipment[slots].name=item
+    } else{
+        var flag = true
+        for(let slot in slots){//slot check
+            if(equipment[slot].name){
+                return //already have something equiped there.
+            }
+        }
+        for(let slot in slots){//can't add it til we already have checked all the slots
+            if(flag){
+                equipment[slot]=equipStats[item]
+                flag=false
+            }
+            equipment[slot].name=`(${item})`
+        }
+    }
+}
 //equipment code end
 
 //pathFinder function (so that we know we can reach the exit.)

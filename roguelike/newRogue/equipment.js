@@ -34,3 +34,18 @@ const everyItem={
         }
     },
 }
+function setUpItems(){
+    for(let item in everyItem){
+        let props = everyItem[item]
+        if(props.find){//true if it is findable.
+            findableItems[item]=props.find
+            findableItems[item].name=item
+        }
+        if(props.equip){
+            equipStats[item]=props.equip
+        }
+        if(props.use){
+            useStats[item]=props.use
+        }
+    }
+}
