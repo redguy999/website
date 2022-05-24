@@ -482,6 +482,19 @@ const equipStats={
 const useStats={
     
 }
+function unequip(slots){//I'll probably redo this once I actually get to work on this.
+    if(typeof(slots)=="string"){
+        equipment[slots]={
+            "name":"",
+        }
+    }else{
+        for(slot in slots){
+            equipment[slot]={
+                "name":"",
+            }
+        }
+    }
+}
 function equipItem(item){
     var slots=equipStats[item].slot
     if(typeof(slots)=="string"){
@@ -489,7 +502,7 @@ function equipItem(item){
         if(equipment[slots].name){
             return //already have something equiped there.
         }
-        equipment[slots]=equipStats[item]//note, equipment slots will have access to the slots property, we'll have to make them ignore it.
+        equipment[slots]=equipStats[item]//note, equipment slots will have access to the slots, i'll have to figure out how to handle that.
         equipment[slots].name=item
     } else{
         var flag = true
