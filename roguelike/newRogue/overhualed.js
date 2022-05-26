@@ -54,6 +54,11 @@ function start() {
     displayStats();
     mkGrid();
     nextLevel();
+    try{
+        setUpItems()
+    }catch{
+        alert("Something went wrong while trying to set up the items, please report this to a developer.")
+    }
 }
 //next Level function
 function nextLevel(){
@@ -201,16 +206,16 @@ function addItemToInventory(item,amount=1){//for when adding an item to the inve
     }
     updateInventoryDisplay()
 }
-function sanitizeInventory(){
+function sanitizeInventory(){//not sure i'll ever need this.
     for(item in inventory){
-        if(!inventory[item]){//if item value is undefined, zero, or NaN, this is true.
+        if(!inventory[item]||inventory[item]<0){//if item value is undefined, zero, or NaN, this is true.
             delete inventory[item];//remove invalid values.
         }
         //do nothing if the item's value is valid
     }
     updateInventoryDisplay()
 }
-function reduceAmountOfItem(item,amount){//call this for when removing an amount of an item.
+function reduceAmountOfItem(item,amount=1){//call this for when removing an amount of an item.
     //amount should be positive.
     inventory[item]-=amount;
     if(!inventory[item] ||inventory[item]<0){//remove item if it is invalid or zero.
@@ -222,6 +227,7 @@ const inventoryDisplay=document.getElementById("inventoryDisplay")
 function updateInventoryDisplay(){
     inventoryDisplay.innerHTML=""//clear it.
     for(item in inventory){
+
         if(inventory[item]>1){//plurals
             inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
         } else {
@@ -472,9 +478,10 @@ const equipDisplay = document.getElementById("equipmentArea");
 function setUpEquipmentDisplay(){//only needs run at the beginning, or if we need to change the slots avaible for some reason.
     equipDisplay.innerHTML = "<h1>Equipment</h1>"//implictly clears the display, which it should.
     for(let slot in equipment){
-        equipment[slot].name="empty"//default value.
+        equipment[slot].name=""//default value.
         equipDisplay.innerHTML+=`<h4>${slot}:</h4> <p id="${slot}"></p>${equipment[slot].name}<br>`
     }
+    updateEquipmentSlots()
 }
 const equipStats={
 
@@ -482,18 +489,21 @@ const equipStats={
 const useStats={
     
 }
-function unequip(slots){//I'll probably redo this once I actually get to work on this.
+function unequip(item){//I'll probably redo this once I actually get to work on this.
+    var slots=equipStats[item].slot
     if(typeof(slots)=="string"){
         equipment[slots]={
             "name":"",
         }
     }else{
-        for(slot in slots){
+        for(slot of slots){
             equipment[slot]={
                 "name":"",
             }
         }
     }
+    updateEquipmentSlots()
+    addItemToInventory(item)
 }
 function equipItem(item){
     var slots=equipStats[item].slot
@@ -506,17 +516,42 @@ function equipItem(item){
         equipment[slots].name=item
     } else{
         var flag = true
-        for(let slot in slots){//slot check
+        for(let slot of slots){//slot check
             if(equipment[slot].name){
                 return //already have something equiped there.
             }
         }
-        for(let slot in slots){//can't add it til we already have checked all the slots
+        var mainSlot
+        for(let slot of slots){//can't add it til we already have checked all the slots
             if(flag){
                 equipment[slot]=equipStats[item]
+                equipment[slot].name=item
+                mainSlot=slot
                 flag=false
+                continue
             }
-            equipment[slot].name=`(${item})`
+            equipment[slot].name=mainSlot
+        }
+    }
+    updateEquipmentSlots()
+    reduceAmountOfItem(item)
+}
+function updateEquipmentSlots(){
+    for(slot in equipment){
+        document.getElementById(slot).innerHTML=""
+        var slotRef=equipment[equipment[slot].name]
+        if(!equipment[slot].name){//true if the slot is empty.
+            document.getElementById(slot).innerHTML="empty"
+        } else if(slotRef){
+            document.getElementById(slot).innerHTML=`${slotRef.name}`
+        } else {
+            for(prop in equipment[slot]){
+                if(prop=="slot"){
+                    continue//skip this property.
+                }
+                document.getElementById(slot).innerHTML+=`${prop} : ${equipment[slot][prop]}<br>`
+            }
+            document.getElementById(slot).innerHTML+=`<span onClick="unequip('${equipment[slot].name}')">unequip?</span>`
         }
     }
 }
