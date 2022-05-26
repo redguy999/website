@@ -184,16 +184,13 @@ function playerHurt(dmg,heal=false){
     if(!heal){//ignore defense if healing.
         dmg-=playerStats.defense
     }
-    if(dmg==0){//no need to state 0 damage.
-        return;
-    }
     if(dmg>0){
         txtConsole(`You took ${dmg} damage.`)
         playerStats.health-=dmg;
         //took damage
     }else if(heal && dmg<0){//if the attack can heal
         txtConsole(`You healed ${-dmg} damage.`)
-        playerStats.health-=dmg;//
+        playerStats.health-=dmg;
         //healed
     } else { //if dmg=0 or (dmg < 0 and heal is false)
         txtConsole("Your armor protected you from harm!")
@@ -260,9 +257,9 @@ function updateInventoryDisplay(){
     for(item in inventory){
         if(equipStats[item]&&useStats[item]){
             if(inventory[item]>1){//plurals
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both">${inventory[item]} ${item}s</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both" draggable='true'>${inventory[item]} ${item}s</div>`;
             } else {
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both">${inventory[item]} ${item}</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both" draggable='true' >${inventory[item]} ${item}</div>`;
             }
         } else if(equipStats[item]){
             if(inventory[item]>1){//plurals
@@ -272,9 +269,9 @@ function updateInventoryDisplay(){
             }
         } else if(useStats[item]){
             if(inventory[item]>1){//plurals
-                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable">${inventory[item]} ${item}s</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable" draggable='true' >${inventory[item]} ${item}s</div>`;
             } else {
-                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable">${inventory[item]} ${item}</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable" draggable='true' >${inventory[item]} ${item}</div>`;
             }
         } else {
             if(inventory[item]>1){//plurals
@@ -435,10 +432,10 @@ class Enemy{
         this.health=hp
         this.name=name
         this.hurt=function(dmg,heal=false){
+            debugger;
             //heal arguement is for if the enemy is allowed to heal from the attack.
-            dmg-=this.defense
-            if(this.health>this.maxHealth){
-                this.health=this.maxHealth;
+            if(!heal){//ignore defense if healing.
+                dmg-=this.defense
             }
             if(dmg>0){
                 txtConsole(`The ${this.name} took ${dmg} damage.`)
@@ -454,6 +451,9 @@ class Enemy{
             if(this.health<=0){//for death code.
                 txtConsole(`The ${this.name} dies.`)
                 return true;//also prevents getting attacked again, which is intentional.
+            }
+            if(this.health>this.maxHealth){
+                this.health=this.maxHealth;
             }
             //TODO: add check for if a counter attack should accord.
             if(this.attack>0){//no need to attack if you can't to damage.
@@ -616,12 +616,17 @@ function updateEquipmentSlots(){
 //equipment code end
 
 //use item function
-function useItem(item,target=playerLoc){
+function useItem(item,target=playerLoc){//playerLoc is a cordinate.
     if(target==playerLoc){
         playerHurt(useStats[item],true)//This will need updated if an enemy that can't take damage from spears is added.
+    } else if(getTile(target).content.name){//is true if there is an enemy there.
+        getTile(target).content.hurt(useStats[item],true);
+        //might make useStats an object of methods.
     } else {
-        //code for using items on enemies.
+        txtConsole("Nothing there to use item on.")
+        return
     }
+    reduceAmountOfItem(item)
 }
 //pathFinder function (so that we know we can reach the exit.)
 function pathFinder(){//this works.

@@ -35,8 +35,16 @@ const everyItem={
         }
     },
     potion:{
+        find:2,
         use:-10,
-    }
+    },
+    helmet:{
+        find:1,
+        equip:{
+            slot:"Head",
+            defense:1
+        }
+    },
 }
 function setUpItems(){
     for(let item in everyItem){
