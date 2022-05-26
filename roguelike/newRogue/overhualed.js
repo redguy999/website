@@ -67,7 +67,6 @@ function nextLevel(){
     placeStart()
     mkEnd()
     if(!pathFinder()){//pathFinder returns true if it found the exit.
-        console.log("exit cannot be reached, rerolling...")
         nextLevel()
         return;
     }
@@ -181,11 +180,43 @@ const playerStats={
     attack:1,
     defense:0,
 }
-function playerHurt(dmg){
-    dmg-=playerStats.defense
-    playerStats.health-=dmg;
+function playerHurt(dmg,heal=false){
+    if(!heal){//ignore defense if healing.
+        dmg-=playerStats.defense
+    }
+    if(dmg==0){//no need to state 0 damage.
+        return;
+    }
+    if(dmg>0){
+        txtConsole(`You took ${dmg} damage.`)
+        playerStats.health-=dmg;
+        //took damage
+    }else if(heal && dmg<0){//if the attack can heal
+        txtConsole(`You healed ${-dmg} damage.`)
+        playerStats.health-=dmg;//
+        //healed
+    } else { //if dmg=0 or (dmg < 0 and heal is false)
+        txtConsole("Your armor protected you from harm!")
+    }
     if(playerStats.health<=0){
-        //player death code.
+        txtConsole(`<span style="color:white; background-color:black;">You died...</span>`)
+        //death code.
+    }
+    if(playerStats.health>playerStats.maxHealth){
+        this.health=this.maxHealth;
+    }
+    displayStats()
+}
+function updateStats(){
+    playerStats.maxHealth=100;
+    playerStats.attack=1;
+    playerStats.defense=0;
+    for(slot in equipment){
+        for(prop in equipment[slot]){
+            if(playerStats[prop]){//is prop a stat?
+                playerStats[prop]+=equipment[slot][prop]
+            }
+        }
     }
     displayStats()
 }
@@ -227,11 +258,30 @@ const inventoryDisplay=document.getElementById("inventoryDisplay")
 function updateInventoryDisplay(){
     inventoryDisplay.innerHTML=""//clear it.
     for(item in inventory){
-
-        if(inventory[item]>1){//plurals
-            inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
+        if(equipStats[item]&&useStats[item]){
+            if(inventory[item]>1){//plurals
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}s</div>`;
+            } else {
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}</div>`;
+            }
+        } else if(equipStats[item]){
+            if(inventory[item]>1){//plurals
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}s</div>`;
+            } else {
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}</div>`;
+            }
+        } else if(useStats[item]){
+            if(inventory[item]>1){//plurals
+                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
+            } else {
+                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}</div>`;
+            }
         } else {
-            inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}</div>`;
+            if(inventory[item]>1){//plurals
+                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
+            } else {
+                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}</div>`;
+            }
         }
     }
 }
@@ -384,25 +434,31 @@ class Enemy{
         this.maxHealth=hp
         this.health=hp
         this.name=name
-        this.hurt=function(dmg){
+        this.hurt=function(dmg,heal=false){
+            //heal arguement is for if the enemy is allowed to heal from the attack.
             dmg-=this.defense
-            if(dmg>0){
-                //took damage
-            }else{
-                //healed
-            }
-            this.health-=dmg;//not sure if this works.
             if(this.health>this.maxHealth){
                 this.health=this.maxHealth;
             }
+            if(dmg>0){
+                txtConsole(`The ${this.name} took ${dmg} damage.`)
+                this.health-=dmg;//not sure if this works.
+                //took damage
+            }else if(heal && dmg<0){//if the attack can heal
+                txtConsole(`The ${this.name} took ${dmg} damage.`)
+                this.health-=dmg;//
+                //healed
+            } else { //if dmg=0 or (dmg < 0 and heal is false)
+                txtConsole(`${this.name}'s defense is too high to harm!`)
+            }
             if(this.health<=0){//for death code.
-                return true;
+                txtConsole(`The ${this.name} dies.`)
+                return true;//also prevents getting attacked again, which is intentional.
             }
             //TODO: add check for if a counter attack should accord.
             if(this.attack>0){//no need to attack if you can't to damage.
                 playerHurt(this.attack)
             }
-            console.log(this.health)
         }
     }
 }
@@ -438,8 +494,6 @@ function placeEnemies(){
         let enemy = getRandomEnemy()
         tile.content = new Enemy(enemy.attack,enemy.defense,enemy.health,enemy.name)
         setBGColor(tile.loc,enemy.color)
-        console.log(enemy.name)
-        console.log(tile.loc)
     }
 }
 function getRandomEnemy(){
@@ -457,7 +511,10 @@ function getRandomEnemy(){
     return objecting
 }
 //Enemy functions end
-
+//text to console function
+function txtConsole(text){
+    document.getElementById("console").innerHTML+=`${text}<br>`
+}
 //equipment code start
 const equipment={
     //equipment slots should be named as they shall appear.
@@ -554,9 +611,18 @@ function updateEquipmentSlots(){
             document.getElementById(slot).innerHTML+=`<span onClick="unequip('${equipment[slot].name}')">unequip?</span>`
         }
     }
+    updateStats()
 }
 //equipment code end
 
+//use item function
+function useItem(item,target="player"){
+    if(target=="player"){
+        playerHurt(useStats[item])
+    } else {
+        //code for using items on enemies.
+    }
+}
 //pathFinder function (so that we know we can reach the exit.)
 function pathFinder(){//this works.
     //TODO: make it make unreachable tiles turn into walls; make the end have to be a certain distance away from the start.
