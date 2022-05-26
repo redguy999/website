@@ -8,6 +8,7 @@ const everyItem={
             //stat boost given when equiped.
             slot:"Main hand",//should be string or array, see spear for the latter.
             attack:1,
+            defense:1,
         }
     },
     "shield":{
@@ -33,6 +34,9 @@ const everyItem={
             attack:3
         }
     },
+    potion:{
+        use:-10,
+    }
 }
 function setUpItems(){
     for(let item in everyItem){

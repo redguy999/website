@@ -213,7 +213,7 @@ function updateStats(){
     playerStats.defense=0;
     for(slot in equipment){
         for(prop in equipment[slot]){
-            if(playerStats[prop]){//is prop a stat?
+            if(Object.keys(playerStats).includes(prop)){//is prop a stat?
                 playerStats[prop]+=equipment[slot][prop]
             }
         }
@@ -260,21 +260,21 @@ function updateInventoryDisplay(){
     for(item in inventory){
         if(equipStats[item]&&useStats[item]){
             if(inventory[item]>1){//plurals
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}s</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both">${inventory[item]} ${item}s</div>`;
             } else {
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="both">${inventory[item]} ${item}</div>`;
             }
         } else if(equipStats[item]){
             if(inventory[item]>1){//plurals
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}s</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="equipment">${inventory[item]} ${item}s</div>`;
             } else {
-                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')">${inventory[item]} ${item}</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="equipItem('${item}')" class="equipment">${inventory[item]} ${item}</div>`;
             }
         } else if(useStats[item]){
             if(inventory[item]>1){//plurals
-                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}s</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable">${inventory[item]} ${item}s</div>`;
             } else {
-                inventoryDisplay.innerHTML+= `<div>${inventory[item]} ${item}</div>`;
+                inventoryDisplay.innerHTML+= `<div onClick="useItem('${item}')" class="useable">${inventory[item]} ${item}</div>`;
             }
         } else {
             if(inventory[item]>1){//plurals
@@ -600,7 +600,7 @@ function updateEquipmentSlots(){
         if(!equipment[slot].name){//true if the slot is empty.
             document.getElementById(slot).innerHTML="empty"
         } else if(slotRef){
-            document.getElementById(slot).innerHTML=`${slotRef.name}`
+            document.getElementById(slot).innerHTML=`(${slotRef.name})`
         } else {
             for(prop in equipment[slot]){
                 if(prop=="slot"){
@@ -616,9 +616,9 @@ function updateEquipmentSlots(){
 //equipment code end
 
 //use item function
-function useItem(item,target="player"){
-    if(target=="player"){
-        playerHurt(useStats[item])
+function useItem(item,target=playerLoc){
+    if(target==playerLoc){
+        playerHurt(useStats[item],true)//This will need updated if an enemy that can't take damage from spears is added.
     } else {
         //code for using items on enemies.
     }
