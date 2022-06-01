@@ -478,7 +478,7 @@ const allEnemies={
         attack:0,
         defense:1,
         health:5,
-        color:"101010"//the difference from a normal is imperceptible.
+        color:"050505"//the difference from a normal is imperceptible.
     },
 }
 function placeEnemies(){
@@ -559,8 +559,8 @@ function unequip(item){//I'll probably redo this once I actually get to work on 
         }
     }else{
         for(slot of slots){
-            if(equipment[slots].special){
-                equipment[slots].special.unequip();
+            if(equipment[slot].special){
+                equipment[slot].special.unequip();
             }
             equipment[slot]={
                 "name":"",
@@ -616,6 +616,7 @@ function updateEquipmentSlots(){
                     continue//skip this property.
                 } else if(prop=="special"){
                     special = true
+                    continue
                 }
                 document.getElementById(slot).innerHTML+=`${prop} : ${equipment[slot][prop]}<br>`
             }
