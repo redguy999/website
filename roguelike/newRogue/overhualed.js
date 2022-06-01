@@ -200,7 +200,7 @@ function playerHurt(dmg,heal=false){
         //death code.
     }
     if(playerStats.health>playerStats.maxHealth){
-        this.health=this.maxHealth;
+        playerStats.health=playerStats.maxHealth;
     }
     displayStats()
 }
@@ -620,7 +620,7 @@ function updateEquipmentSlots(){
                 document.getElementById(slot).innerHTML+=`${prop} : ${equipment[slot][prop]}<br>`
             }
             if(special){//if the equipment has a special property, run this.
-                document.getElementById(slot).innerHTML+="special :"+equipment[slot].special.equip()+"<br>"//equip and unequip should both be functions.
+                document.getElementById(slot).innerHTML+="special : <br>"+equipment[slot].special.equip()+"<br>"//equip and unequip should both be functions.
                 //equip should return a value that will be a string that explains what it does.
             }
             document.getElementById(slot).innerHTML+=`<span onClick="unequip('${equipment[slot].name}')">unequip?</span>`
