@@ -45,6 +45,21 @@ const everyItem={
             defense:1
         }
     },
+    torch:{
+        find:1,
+        equip:{
+            slot:"Main hand",
+            special:{
+                equip:function(){
+                    VRM+=1;
+                    return "Lights up the area around you, increasing your range of vision."
+                },
+                unequip:function(){//should undo what equip does.
+                    VRM-=1;
+                }
+            }
+        },
+    }
 }
 function setUpItems(){
     for(let item in everyItem){

@@ -432,7 +432,6 @@ class Enemy{
         this.health=hp
         this.name=name
         this.hurt=function(dmg,heal=false){
-            debugger;
             //heal arguement is for if the enemy is allowed to heal from the attack.
             if(!heal){//ignore defense if healing.
                 dmg-=this.defense
@@ -479,7 +478,7 @@ const allEnemies={
         attack:0,
         defense:1,
         health:5,
-        color:"010101"//the difference from a normal is imperceptible.
+        color:"101010"//the difference from a normal is imperceptible.
     },
 }
 function placeEnemies(){
@@ -512,8 +511,11 @@ function getRandomEnemy(){
 }
 //Enemy functions end
 //text to console function
+const logger =document.getElementById("console") 
 function txtConsole(text){
-    document.getElementById("console").innerHTML+=`${text}<br>`
+    logger.innerHTML+=`${text}<br>`
+    logger.scrollTo(0,999999999999)//scrolls to the bottom of the console, first zero is horizontal scroll.
+    //there's probably a better way to do this.
 }
 //equipment code start
 const equipment={
@@ -549,11 +551,17 @@ const useStats={
 function unequip(item){//I'll probably redo this once I actually get to work on this.
     var slots=equipStats[item].slot
     if(typeof(slots)=="string"){
+        if(equipment[slots].special){
+            equipment[slots].special.unequip();
+        }
         equipment[slots]={
             "name":"",
         }
     }else{
         for(slot of slots){
+            if(equipment[slots].special){
+                equipment[slots].special.unequip();
+            }
             equipment[slot]={
                 "name":"",
             }
@@ -602,11 +610,18 @@ function updateEquipmentSlots(){
         } else if(slotRef){
             document.getElementById(slot).innerHTML=`(${slotRef.name})`
         } else {
+            var special = false
             for(prop in equipment[slot]){
                 if(prop=="slot"){
                     continue//skip this property.
+                } else if(prop=="special"){
+                    special = true
                 }
                 document.getElementById(slot).innerHTML+=`${prop} : ${equipment[slot][prop]}<br>`
+            }
+            if(special){//if the equipment has a special property, run this.
+                document.getElementById(slot).innerHTML+="special :"+equipment[slot].special.equip()+"<br>"//equip and unequip should both be functions.
+                //equip should return a value that will be a string that explains what it does.
             }
             document.getElementById(slot).innerHTML+=`<span onClick="unequip('${equipment[slot].name}')">unequip?</span>`
         }
